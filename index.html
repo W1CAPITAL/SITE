@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wone Capital | Análise de contratos e revisão de juros</title>
+  <meta name="description" content="Análise técnica de contratos de financiamento. Comparamos sua taxa com a média do Banco Central e orientamos sobre os caminhos possíveis, sem promessa de resultado.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0c1a3a;
+      --navy-mid: #1a2f5a;
+      --blue: #2563eb;
+      --blue-light: #3b82f6;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --gray-900: #0f172a;
+      --white: #ffffff;
+      --green: #059669;
+      --gold: #b45309;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--gray-900);
+      line-height: 1.6;
+      background: var(--white);
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      background: var(--navy);
+      color: #fbbf24;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: -0.03em;
+    }
+    .logo span { color: var(--gray-500); font-weight: 500; font-size: 0.95rem; }
+    nav { display: flex; gap: 28px; align-items: center; }
+    nav a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-700);
+    }
+    nav a:hover { color: var(--blue); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.15s, transform 0.1s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--navy-mid); }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--gray-200);
+      color: var(--gray-900);
+    }
+    .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+    .btn-lg { padding: 14px 28px; font-size: 1rem; }
+
+    .hero {
+      padding: 72px 0 64px;
+      background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero h1 {
+      font-size: 2.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 1.08rem;
+      color: var(--gray-700);
+      margin-bottom: 28px;
+      max-width: 480px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+    }
+    .hero-card h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--gray-500);
+      margin-bottom: 14px;
+    }
+    .hero-card ul { list-style: none; }
+    .hero-card li {
+      padding: 9px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.95rem;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .hero-card li:last-child { border-bottom: none; }
+    .check {
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    section { padding: 64px 0; }
+    .section-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      color: var(--gray-500);
+      margin-bottom: 40px;
+      max-width: 540px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .step {
+      background: var(--gray-50);
+      border-radius: 12px;
+      padding: 22px;
+      border: 1px solid var(--gray-100);
+    }
+    .step-num {
+      width: 30px;
+      height: 30px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+    .step h3 {
+      font-size: 0.98rem;
+      margin-bottom: 7px;
+      color: var(--navy);
+    }
+    .step p {
+      font-size: 0.88rem;
+      color: var(--gray-700);
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    .service {
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 26px;
+      background: var(--white);
+    }
+    .service h3 {
+      font-size: 1.12rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .service p {
+      font-size: 0.93rem;
+      color: var(--gray-700);
+      margin-bottom: 14px;
+    }
+    .service ul {
+      list-style: none;
+      font-size: 0.88rem;
+      color: var(--gray-700);
+    }
+    .service li {
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+    .service li::before {
+      content: "–";
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+    }
+
+    .systems {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .systems .section-title { color: var(--white); }
+    .systems .section-sub { color: rgba(255,255,255,0.7); }
+    .sys-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+    .sys-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 26px;
+    }
+    .sys-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 10px;
+    }
+    .sys-card p {
+      font-size: 0.93rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 12px;
+    }
+    .sys-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      background: rgba(37,99,235,0.25);
+      color: #93c5fd;
+      padding: 3px 9px;
+      border-radius: 5px;
+      margin-right: 5px;
+      margin-bottom: 4px;
+    }
+
+    .transparency { background: var(--gray-50); }
+    .trans-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .trans-box {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 26px;
+    }
+    .trans-box h3 {
+      font-size: 1.02rem;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .trans-box ul {
+      list-style: none;
+      font-size: 0.93rem;
+      color: var(--gray-700);
+    }
+    .trans-box li {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .trans-box li:last-child { border-bottom: none; }
+
+    .cta {
+      text-align: center;
+      padding: 72px 0;
+    }
+    .cta h2 {
+      font-size: 1.7rem;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .cta p {
+      color: var(--gray-700);
+      margin-bottom: 28px;
+      max-width: 460px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 460px;
+      margin: 0 auto;
+      box-shadow: 0 4px 24px rgba(15,23,42,0.06);
+      text-align: left;
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-group label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: var(--gray-700);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.94rem;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+    .form-note {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      margin-top: 12px;
+      line-height: 1.45;
+    }
+
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.72);
+      padding: 48px 0 28px;
+      font-size: 0.88rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 36px;
+    }
+    .footer-grid h4 {
+      color: var(--white);
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+    }
+    .footer-grid a {
+      display: block;
+      padding: 3px 0;
+      color: rgba(255,255,255,0.68);
+    }
+    .footer-grid a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .services { grid-template-columns: 1fr; }
+      .sys-grid { grid-template-columns: 1fr; }
+      .trans-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      nav { display: none; }
+      .hero h1 { font-size: 1.85rem; }
+    }
+    @media (max-width: 560px) {
+      .steps { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; }
+      .btn-lg { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">W</div>
+      Wone Capital
+    </a>
+    <nav>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#sistemas">Sistemas</a>
+      <a href="#transparencia">Transparência</a>
+      <a href="#contato" class="btn btn-primary">Solicitar análise</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <h1>Análise técnica do seu contrato de financiamento</h1>
+      <p>
+        Comparamos a taxa do seu contrato com a média oficial do Banco Central na data da contratação.
+        Você recebe um parecer escrito antes de decidir se avança ou não.
+        Sem promessa de resultado e sem surpresa de custos.
+      </p>
+      <div class="hero-actions">
+        <a href="#contato" class="btn btn-primary btn-lg">Solicitar análise gratuita</a>
+        <a href="#como-funciona" class="btn btn-outline btn-lg">Ver como funciona</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h3>O que você recebe</h3>
+      <ul>
+        <li><span class="check">✓</span> Comparação da sua taxa com a série histórica do Bacen</li>
+        <li><span class="check">✓</span> Parecer técnico em linguagem clara</li>
+        <li><span class="check">✓</span> Indicação dos caminhos possíveis (extrajudicial e judicial)</li>
+        <li><span class="check">✓</span> Explicação de custos e riscos antes de qualquer cobrança</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona">
+  <div class="container">
+    <h2 class="section-title">Como funciona</h2>
+    <p class="section-sub">Processo em quatro etapas. Você decide em cada ponto se continua ou não.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Envio do contrato</h3>
+        <p>Você envia o contrato de financiamento (ou a cédula de crédito). Preferencialmente o documento original ou cópia legível.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Análise técnica</h3>
+        <p>Usamos a taxa média oficial do Banco Central (séries SGS) da época da contratação e geramos um parecer objetivo.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Parecer e proposta</h3>
+        <p>Você recebe o resultado por escrito. Só então apresentamos as opções de serviço e os valores, com termo de ciência de riscos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Execução</h3>
+        <p>Se houver indício e você quiser avançar, seguimos com tentativa extrajudicial documentada. Judicial só com novo consentimento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="servicos">
+  <div class="container">
+    <h2 class="section-title">Serviços</h2>
+    <p class="section-sub">Três frentes claras. Cada uma com escopo e custo definidos antes do início.</p>
+    <div class="services">
+      <div class="service">
+        <h3>Diagnóstico</h3>
+        <p>Análise inicial do contrato e comparação com a taxa média do Bacen.</p>
+        <ul>
+          <li>Cálculo da taxa efetiva</li>
+          <li>Comparação com série oficial</li>
+          <li>Parecer escrito</li>
+          <li>Sem compromisso de continuidade</li>
+        </ul>
+      </div>
+      <div class="service">
+        <h3>Extrajudicial</h3>
+        <p>Tentativa formal de negociação com a instituição financeira, com documentação e acompanhamento.</p>
+        <ul>
+          <li>Notificação formal com protocolo</li>
+          <li>Acompanhamento por prazo definido</li>
+          <li>Relatórios periódicos ao cliente</li>
+          <li>Registro de toda a tratativa</li>
+        </ul>
+      </div>
+      <div class="service">
+        <h3>Apoio judicial</h3>
+        <p>Quando a via amigável não avança e existe base técnica. Sempre com advogado identificado e novo termo.</p>
+        <ul>
+          <li>Consentimento informado por escrito</li>
+          <li>Advogado responsável identificado</li>
+          <li>Acompanhamento de andamentos</li>
+          <li>Custas e riscos explicados previamente</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="systems" id="sistemas">
+  <div class="container">
+    <h2 class="section-title">Sistemas oficiais</h2>
+    <p class="section-sub">Ferramentas internas usadas no dia a dia para análise, gestão de leads e acompanhamento de carteira.</p>
+    <div class="sys-grid">
+      <div class="sys-card">
+        <h3>Leadcheck</h3>
+        <p>
+          Funil de captura e análise de contratos de financiamento de veículos.
+          Consulta a taxa média do Bacen, gera simulação de parcela e score de oportunidade, e prepara o pré-laudo.
+        </p>
+        <span class="sys-tag">Bacen SGS</span>
+        <span class="sys-tag">Pré-laudo</span>
+        <span class="sys-tag">Qualificação</span>
+      </div>
+      <div class="sys-card">
+        <h3>SyncCRM</h3>
+        <p>
+          Sistema de gestão de relacionamento e carteira. Controla status de cada caso, retornos ao cliente, documentos e histórico de atendimento.
+        </p>
+        <span class="sys-tag">Carteira</span>
+        <span class="sys-tag">Retornos</span>
+        <span class="sys-tag">Histórico</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="transparency" id="transparencia">
+  <div class="container">
+    <h2 class="section-title">Transparência</h2>
+    <p class="section-sub">O que fazemos e o que não fazemos. Preferimos ser claros desde o primeiro contato.</p>
+    <div class="trans-grid">
+      <div class="trans-box">
+        <h3>O que fazemos</h3>
+        <ul>
+          <li>Comparamos sua taxa com a média oficial do Banco Central</li>
+          <li>Entregamos parecer escrito antes de qualquer proposta de valor</li>
+          <li>Explicamos custos, prazos e riscos de forma objetiva</li>
+          <li>Registramos as tentativas de contato com a financeira</li>
+          <li>Só avançamos para a via judicial com novo termo assinado</li>
+        </ul>
+      </div>
+      <div class="trans-box">
+        <h3>O que não fazemos</h3>
+        <ul>
+          <li>Não prometemos redução garantida de juros ou de parcela</li>
+          <li>Não afirmamos que “a causa está ganha” ou que “já houve sentença”</li>
+          <li>Não cobramos por documentos que o próprio cliente obtém de graça (Registrato, e-CAC, extratos)</li>
+          <li>Não orientamos a suspender pagamento de parcelas sem formalização</li>
+          <li>Não guardamos senhas de gov.br ou de bancos do cliente</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contato">
+  <div class="container">
+    <h2>Solicite a análise do seu contrato</h2>
+    <p>
+      Envie os dados básicos. Entraremos em contato para receber o contrato e devolver o parecer técnico.
+      Sem compromisso de contratação.
+    </p>
+    <div class="form-card">
+      <form action="#" method="post" onsubmit="event.preventDefault(); alert('Formulário de exemplo. Em produção, conecte ao SyncCRM ou ao Leadcheck.');">
+        <div class="form-group">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" required placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label for="telefone">WhatsApp</label>
+          <input type="tel" id="telefone" name="telefone" required placeholder="(11) 99999-9999">
+        </div>
+        <div class="form-group">
+          <label for="tipo">Tipo de contrato</label>
+          <select id="tipo" name="tipo">
+            <option value="veiculo">Financiamento de veículo</option>
+            <option value="emprestimo">Empréstimo pessoal / consignado</option>
+            <option value="imovel">Financiamento imobiliário</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="obs">Observação (opcional)</label>
+          <textarea id="obs" name="obs" rows="3" placeholder="Ano do contrato, banco, ou qualquer detalhe relevante"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Enviar solicitação</button>
+        <p class="form-note">
+          Ao enviar, você concorda com o tratamento dos dados para contato e análise, nos termos da LGPD.
+          Não enviamos spam e não compartilhamos seus dados com terceiros para fins comerciais.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Wone Capital</h4>
+        <p style="margin-top:8px;line-height:1.5">
+          Assessoria focada em análise técnica de contratos de financiamento e orientação sobre revisão de cláusulas, com ênfase em transparência e documentação.
+        </p>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#sistemas">Sistemas</a>
+        <a href="#transparencia">Transparência</a>
+        <a href="#contato">Contato</a>
+      </div>
+      <div>
+        <h4>Sistemas</h4>
+        <a href="https://github.com/daviconcentrix-debug/Leadcheck" target="_blank" rel="noopener">Leadcheck</a>
+        <a href="https://github.com/daviconcentrix-debug/SyncCRM" target="_blank" rel="noopener">SyncCRM</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Wone Capital</span>
+      <span>Linguagem alinhada ao direito de informação clara e adequada (CDC)</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
