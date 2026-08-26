@@ -3,412 +3,524 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wone Capital | Análise de contratos e revisão de juros</title>
-  <meta name="description" content="Análise técnica de contratos de financiamento. Comparamos sua taxa com a média do Banco Central e orientamos sobre os caminhos possíveis, sem promessa de resultado.">
+  <title>Wone Capital | Análise de contratos e operação jurídica</title>
+  <meta name="description" content="Análise técnica de contratos de financiamento e operação de carteira jurídica. LexisPredict, Leadcheck e SyncCRM.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy: #0c1a3a;
-      --navy-mid: #1a2f5a;
-      --blue: #2563eb;
-      --blue-light: #3b82f6;
-      --gray-50: #f8fafc;
-      --gray-100: #f1f5f9;
-      --gray-200: #e2e8f0;
-      --gray-500: #64748b;
-      --gray-700: #334155;
-      --gray-900: #0f172a;
+      --bg: #0b1220;
+      --bg-soft: #111827;
+      --card: #151e2e;
+      --card-border: #1e2a3f;
+      --text: #e8eef7;
+      --muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-soft: #1d4ed8;
+      --gold: #f59e0b;
+      --green: #10b981;
       --white: #ffffff;
-      --green: #059669;
-      --gold: #b45309;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: var(--gray-900);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
-      background: var(--white);
+      -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; text-decoration: none; }
-    .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 
+    /* Header */
     header {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: var(--white);
-      border-bottom: 1px solid var(--gray-200);
+      z-index: 50;
+      background: rgba(11, 18, 32, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
     }
     .header-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 68px;
+      height: 64px;
     }
     .logo {
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: var(--navy);
-      letter-spacing: -0.02em;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
     }
     .logo-mark {
-      width: 36px;
-      height: 36px;
-      background: var(--navy);
-      color: #fbbf24;
-      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 1rem;
       font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: -0.03em;
+      color: #fff;
+      box-shadow: 0 0 0 1px rgba(59,130,246,0.3), 0 4px 12px rgba(37,99,235,0.25);
     }
-    .logo span { color: var(--gray-500); font-weight: 500; font-size: 0.95rem; }
-    nav { display: flex; gap: 28px; align-items: center; }
+    nav { display: flex; gap: 26px; align-items: center; }
     nav a {
       font-size: 0.9rem;
       font-weight: 500;
-      color: var(--gray-700);
+      color: var(--muted);
+      transition: color 0.15s;
     }
-    nav a:hover { color: var(--blue); }
+    nav a:hover { color: var(--white); }
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 20px;
-      border-radius: 8px;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 9px;
       font-weight: 600;
       font-size: 0.9rem;
-      transition: background 0.15s, transform 0.1s;
       border: none;
       cursor: pointer;
+      transition: all 0.15s;
     }
-    .btn:active { transform: scale(0.98); }
     .btn-primary {
-      background: var(--navy);
+      background: var(--accent);
       color: var(--white);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 4px 12px rgba(37,99,235,0.3);
     }
-    .btn-primary:hover { background: var(--navy-mid); }
-    .btn-outline {
+    .btn-primary:hover { background: #2563eb; }
+    .btn-ghost {
       background: transparent;
-      border: 1.5px solid var(--gray-200);
-      color: var(--gray-900);
+      border: 1px solid var(--card-border);
+      color: var(--text);
     }
-    .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
-    .btn-lg { padding: 14px 28px; font-size: 1rem; }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-lg { padding: 13px 24px; font-size: 0.95rem; }
 
+    /* Hero */
     .hero {
-      padding: 72px 0 64px;
-      background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+      padding: 80px 0 70px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%);
+      pointer-events: none;
     }
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.15fr 0.85fr;
       gap: 48px;
       align-items: center;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.25);
+      color: #93c5fd;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
     }
     .hero h1 {
-      font-size: 2.35rem;
+      font-size: 2.55rem;
       font-weight: 700;
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-      color: var(--navy);
+      line-height: 1.15;
+      letter-spacing: -0.035em;
       margin-bottom: 16px;
     }
-    .hero p {
+    .hero h1 span { color: #60a5fa; }
+    .hero-lead {
       font-size: 1.08rem;
-      color: var(--gray-700);
+      color: var(--muted);
+      max-width: 460px;
       margin-bottom: 28px;
-      max-width: 480px;
     }
     .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .hero-card {
-      background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
-    }
-    .hero-card h3 {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--gray-500);
-      margin-bottom: 14px;
-    }
-    .hero-card ul { list-style: none; }
-    .hero-card li {
-      padding: 9px 0;
-      border-bottom: 1px solid var(--gray-100);
-      font-size: 0.95rem;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-    .hero-card li:last-child { border-bottom: none; }
-    .check {
-      color: var(--green);
-      font-weight: 700;
-      flex-shrink: 0;
-    }
 
-    section { padding: 64px 0; }
-    .section-title {
-      font-size: 1.7rem;
+    /* Visual card */
+    .visual-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .visual-top {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+      padding: 28px 24px 36px;
+      position: relative;
+    }
+    .visual-top::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(to top, var(--card), transparent);
+    }
+    .visual-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
+    }
+    .visual-name {
+      font-size: 1.35rem;
       font-weight: 700;
-      color: var(--navy);
-      letter-spacing: -0.02em;
+      color: #fff;
+    }
+    .visual-body { padding: 8px 22px 22px; }
+    .visual-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.9rem;
+    }
+    .visual-row:last-child { border-bottom: none; }
+    .visual-row span:first-child { color: var(--muted); }
+    .visual-row strong { color: var(--text); font-weight: 600; }
+    .pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+    .pill-ok { background: rgba(16,185,129,0.15); color: #34d399; }
+    .pill-warn { background: rgba(245,158,11,0.15); color: #fbbf24; }
+
+    /* Sections */
+    section { padding: 70px 0; }
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
       margin-bottom: 12px;
     }
     .section-sub {
-      color: var(--gray-500);
+      color: var(--muted);
+      max-width: 520px;
       margin-bottom: 40px;
-      max-width: 540px;
+      font-size: 1.02rem;
     }
 
+    /* Steps */
     .steps {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 16px;
     }
     .step {
-      background: var(--gray-50);
-      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
       padding: 22px;
-      border: 1px solid var(--gray-100);
     }
     .step-num {
-      width: 30px;
-      height: 30px;
-      background: var(--navy);
-      color: var(--white);
-      border-radius: 7px;
+      width: 32px;
+      height: 32px;
+      background: rgba(59,130,246,0.15);
+      color: #60a5fa;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 0.85rem;
-      margin-bottom: 12px;
+      font-size: 0.9rem;
+      margin-bottom: 14px;
     }
     .step h3 {
-      font-size: 0.98rem;
-      margin-bottom: 7px;
-      color: var(--navy);
+      font-size: 1rem;
+      margin-bottom: 8px;
     }
     .step p {
       font-size: 0.88rem;
-      color: var(--gray-700);
+      color: var(--muted);
     }
 
+    /* Services */
     .services {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+      gap: 18px;
     }
     .service {
-      border: 1px solid var(--gray-200);
-      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
       padding: 26px;
-      background: var(--white);
+    }
+    .service-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(59,130,246,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 16px;
     }
     .service h3 {
-      font-size: 1.12rem;
-      color: var(--navy);
-      margin-bottom: 10px;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
     }
     .service p {
-      font-size: 0.93rem;
-      color: var(--gray-700);
+      font-size: 0.9rem;
+      color: var(--muted);
       margin-bottom: 14px;
     }
     .service ul {
       list-style: none;
-      font-size: 0.88rem;
-      color: var(--gray-700);
+      font-size: 0.86rem;
+      color: var(--muted);
     }
     .service li {
       padding: 4px 0;
-      padding-left: 16px;
+      padding-left: 14px;
       position: relative;
     }
     .service li::before {
       content: "–";
       position: absolute;
       left: 0;
-      color: var(--blue);
+      color: var(--accent);
     }
 
-    .systems {
-      background: var(--navy);
-      color: var(--white);
+    /* Systems - Lexis featured */
+    .systems-bg {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
     }
-    .systems .section-title { color: var(--white); }
-    .systems .section-sub { color: rgba(255,255,255,0.7); }
-    .sys-grid {
+    .lexis-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+      border: 1px solid #1e3a5f;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+      align-items: center;
     }
-    .sys-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      padding: 26px;
-    }
-    .sys-card h3 {
-      font-size: 1.08rem;
+    .lexis-hero h3 {
+      font-size: 1.4rem;
       margin-bottom: 10px;
     }
+    .lexis-hero p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+    .lexis-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .lexis-tag {
+      font-size: 0.75rem;
+      background: rgba(59,130,246,0.15);
+      color: #93c5fd;
+      padding: 5px 11px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .lexis-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .lexis-stat {
+      background: rgba(0,0,0,0.25);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .lexis-stat strong {
+      display: block;
+      font-size: 1.1rem;
+      color: #60a5fa;
+      margin-bottom: 2px;
+    }
+    .lexis-stat span {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .sys-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .sys-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .sys-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
     .sys-card p {
-      font-size: 0.93rem;
-      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      color: var(--muted);
       margin-bottom: 12px;
     }
-    .sys-tag {
-      display: inline-block;
-      font-size: 0.72rem;
-      background: rgba(37,99,235,0.25);
-      color: #93c5fd;
-      padding: 3px 9px;
-      border-radius: 5px;
-      margin-right: 5px;
-      margin-bottom: 4px;
-    }
 
-    .transparency { background: var(--gray-50); }
+    /* Transparency */
     .trans-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 28px;
+      gap: 18px;
     }
     .trans-box {
-      background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
       padding: 26px;
     }
     .trans-box h3 {
-      font-size: 1.02rem;
-      color: var(--navy);
-      margin-bottom: 12px;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .trans-box ul {
       list-style: none;
-      font-size: 0.93rem;
-      color: var(--gray-700);
+      font-size: 0.9rem;
+      color: var(--muted);
     }
     .trans-box li {
-      padding: 6px 0;
-      border-bottom: 1px solid var(--gray-100);
+      padding: 7px 0;
+      border-bottom: 1px solid var(--card-border);
     }
     .trans-box li:last-child { border-bottom: none; }
 
+    /* CTA */
     .cta {
       text-align: center;
-      padding: 72px 0;
+      padding: 80px 0;
     }
     .cta h2 {
       font-size: 1.7rem;
-      color: var(--navy);
       margin-bottom: 12px;
     }
     .cta p {
-      color: var(--gray-700);
-      margin-bottom: 28px;
-      max-width: 460px;
-      margin-left: auto;
-      margin-right: auto;
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0 auto 28px;
     }
-
     .form-card {
-      background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-radius: 12px;
-      padding: 30px;
-      max-width: 460px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px;
+      max-width: 440px;
       margin: 0 auto;
-      box-shadow: 0 4px 24px rgba(15,23,42,0.06);
       text-align: left;
     }
-    .form-group { margin-bottom: 15px; }
+    .form-group { margin-bottom: 14px; }
     .form-group label {
       display: block;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 500;
+      color: var(--muted);
       margin-bottom: 5px;
-      color: var(--gray-700);
     }
     .form-group input,
     .form-group select,
     .form-group textarea {
       width: 100%;
       padding: 11px 13px;
-      border: 1.5px solid var(--gray-200);
-      border-radius: 8px;
-      font-size: 0.94rem;
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: 9px;
+      color: var(--text);
+      font-size: 0.93rem;
       font-family: inherit;
     }
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
       outline: none;
-      border-color: var(--navy);
+      border-color: var(--accent);
     }
     .form-note {
-      font-size: 0.78rem;
-      color: var(--gray-500);
+      font-size: 0.76rem;
+      color: var(--muted);
       margin-top: 12px;
       line-height: 1.45;
     }
 
+    /* Footer */
     footer {
-      background: var(--navy);
-      color: rgba(255,255,255,0.72);
+      border-top: 1px solid var(--card-border);
       padding: 48px 0 28px;
+      color: var(--muted);
       font-size: 0.88rem;
     }
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.6fr 1fr 1fr;
+      grid-template-columns: 1.5fr 1fr 1fr;
       gap: 36px;
       margin-bottom: 36px;
     }
     .footer-grid h4 {
-      color: var(--white);
-      font-size: 0.92rem;
+      color: var(--text);
+      font-size: 0.9rem;
       margin-bottom: 12px;
     }
     .footer-grid a {
       display: block;
       padding: 3px 0;
-      color: rgba(255,255,255,0.68);
+      color: var(--muted);
     }
-    .footer-grid a:hover { color: var(--white); }
+    .footer-grid a:hover { color: var(--text); }
     .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 22px;
+      border-top: 1px solid var(--card-border);
+      padding-top: 20px;
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
     }
 
     @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .steps { grid-template-columns: 1fr 1fr; }
-      .services { grid-template-columns: 1fr; }
-      .sys-grid { grid-template-columns: 1fr; }
-      .trans-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
+      .hero-grid, .lexis-hero, .steps, .services, .sys-grid, .trans-grid, .footer-grid {
+        grid-template-columns: 1fr;
+      }
       nav { display: none; }
-      .hero h1 { font-size: 1.85rem; }
+      .hero h1 { font-size: 1.9rem; }
+      .lexis-stats { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 560px) {
       .steps { grid-template-columns: 1fr; }
@@ -438,53 +550,70 @@
 <section class="hero">
   <div class="container hero-grid">
     <div>
-      <h1>Análise técnica do seu contrato de financiamento</h1>
-      <p>
-        Comparamos a taxa do seu contrato com a média oficial do Banco Central na data da contratação.
-        Você recebe um parecer escrito antes de decidir se avança ou não.
-        Sem promessa de resultado e sem surpresa de custos.
+      <div class="hero-badge">Análise técnica · Bacen · Operação jurídica</div>
+      <h1>Análise de contratos e operação de carteira <span>sem promessa vazia</span></h1>
+      <p class="hero-lead">
+        Comparamos a taxa do seu contrato com a média oficial do Banco Central.
+        Você recebe o parecer por escrito antes de decidir.
+        Operação de processos feita no LexisPredict.
       </p>
       <div class="hero-actions">
-        <a href="#contato" class="btn btn-primary btn-lg">Solicitar análise gratuita</a>
-        <a href="#como-funciona" class="btn btn-outline btn-lg">Ver como funciona</a>
+        <a href="#contato" class="btn btn-primary btn-lg">Solicitar análise</a>
+        <a href="#sistemas" class="btn btn-ghost btn-lg">Ver sistemas</a>
       </div>
     </div>
-    <div class="hero-card">
-      <h3>O que você recebe</h3>
-      <ul>
-        <li><span class="check">✓</span> Comparação da sua taxa com a série histórica do Bacen</li>
-        <li><span class="check">✓</span> Parecer técnico em linguagem clara</li>
-        <li><span class="check">✓</span> Indicação dos caminhos possíveis (extrajudicial e judicial)</li>
-        <li><span class="check">✓</span> Explicação de custos e riscos antes de qualquer cobrança</li>
-      </ul>
+    <div class="visual-card">
+      <div class="visual-top">
+        <div class="visual-title">Sistema principal</div>
+        <div class="visual-name">LexisPredict</div>
+      </div>
+      <div class="visual-body">
+        <div class="visual-row">
+          <span>Carteira processual</span>
+          <strong>DataJud + DJEN</strong>
+        </div>
+        <div class="visual-row">
+          <span>Filas e prazos</span>
+          <span class="pill pill-ok">Ativo</span>
+        </div>
+        <div class="visual-row">
+          <span>Retorno ao cliente</span>
+          <span class="pill pill-ok">Rastreado</span>
+        </div>
+        <div class="visual-row">
+          <span>Relatório executivo</span>
+          <span class="pill pill-warn">Operacional</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="como-funciona">
   <div class="container">
+    <div class="section-label">Processo</div>
     <h2 class="section-title">Como funciona</h2>
-    <p class="section-sub">Processo em quatro etapas. Você decide em cada ponto se continua ou não.</p>
+    <p class="section-sub">Quatro etapas. Você decide em cada ponto se continua.</p>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <h3>Envio do contrato</h3>
-        <p>Você envia o contrato de financiamento (ou a cédula de crédito). Preferencialmente o documento original ou cópia legível.</p>
+        <p>Você envia o contrato ou a cédula de crédito. Preferência por documento legível.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <h3>Análise técnica</h3>
-        <p>Usamos a taxa média oficial do Banco Central (séries SGS) da época da contratação e geramos um parecer objetivo.</p>
+        <p>Comparamos a taxa com a série oficial do Bacen da data da contratação e geramos o parecer.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <h3>Parecer e proposta</h3>
-        <p>Você recebe o resultado por escrito. Só então apresentamos as opções de serviço e os valores, com termo de ciência de riscos.</p>
+        <p>Você recebe o resultado por escrito. Só então apresentamos opções e valores, com termo de ciência.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <h3>Execução</h3>
-        <p>Se houver indício e você quiser avançar, seguimos com tentativa extrajudicial documentada. Judicial só com novo consentimento.</p>
+        <p>Extrajudicial documentado. Judicial só com novo consentimento e advogado identificado.</p>
       </div>
     </div>
   </div>
@@ -492,10 +621,12 @@
 
 <section id="servicos">
   <div class="container">
+    <div class="section-label">O que oferecemos</div>
     <h2 class="section-title">Serviços</h2>
-    <p class="section-sub">Três frentes claras. Cada uma com escopo e custo definidos antes do início.</p>
+    <p class="section-sub">Escopo e custo definidos antes de qualquer início.</p>
     <div class="services">
       <div class="service">
+        <div class="service-icon">📋</div>
         <h3>Diagnóstico</h3>
         <p>Análise inicial do contrato e comparação com a taxa média do Bacen.</p>
         <ul>
@@ -506,79 +637,126 @@
         </ul>
       </div>
       <div class="service">
+        <div class="service-icon">📨</div>
         <h3>Extrajudicial</h3>
-        <p>Tentativa formal de negociação com a instituição financeira, com documentação e acompanhamento.</p>
+        <p>Tentativa formal de negociação com a financeira, com documentação e acompanhamento.</p>
         <ul>
           <li>Notificação formal com protocolo</li>
           <li>Acompanhamento por prazo definido</li>
-          <li>Relatórios periódicos ao cliente</li>
+          <li>Relatórios periódicos</li>
           <li>Registro de toda a tratativa</li>
         </ul>
       </div>
       <div class="service">
+        <div class="service-icon">⚖️</div>
         <h3>Apoio judicial</h3>
-        <p>Quando a via amigável não avança e existe base técnica. Sempre com advogado identificado e novo termo.</p>
+        <p>Quando a via amigável não avança e existe base técnica. Sempre com novo termo.</p>
         <ul>
           <li>Consentimento informado por escrito</li>
           <li>Advogado responsável identificado</li>
           <li>Acompanhamento de andamentos</li>
-          <li>Custas e riscos explicados previamente</li>
+          <li>Custas e riscos explicados antes</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section class="systems" id="sistemas">
+<section class="systems-bg" id="sistemas">
   <div class="container">
-    <h2 class="section-title">Sistemas oficiais</h2>
-    <p class="section-sub">Ferramentas internas usadas no dia a dia para análise, gestão de leads e acompanhamento de carteira.</p>
+    <div class="section-label">Operação</div>
+    <h2 class="section-title">Sistemas</h2>
+    <p class="section-sub">Ferramentas usadas no dia a dia. O LexisPredict é o sistema principal de carteira jurídica.</p>
+
+    <div class="lexis-hero">
+      <div>
+        <h3>LexisPredict</h3>
+        <p>
+          Suite operacional de carteira jurídica. Não é CRM de vendas.
+          Organiza processos, filas, prazos, atendimento, sinais de tribunal (DataJud e DJEN) e relatório executivo.
+          Feito para quem opera volume de processos no dia a dia.
+        </p>
+        <div class="lexis-tags">
+          <span class="lexis-tag">Carteira processual</span>
+          <span class="lexis-tag">DataJud</span>
+          <span class="lexis-tag">DJEN</span>
+          <span class="lexis-tag">Filas e prazos</span>
+          <span class="lexis-tag">Retorno ao cliente</span>
+          <span class="lexis-tag">Relatório executivo</span>
+        </div>
+      </div>
+      <div class="lexis-stats">
+        <div class="lexis-stat">
+          <strong>Processos</strong>
+          <span>Carteira completa</span>
+        </div>
+        <div class="lexis-stat">
+          <strong>Filas</strong>
+          <span>Prioridade do dia</span>
+        </div>
+        <div class="lexis-stat">
+          <strong>Tribunal</strong>
+          <span>Scanner real</span>
+        </div>
+        <div class="lexis-stat">
+          <strong>Supervisão</strong>
+          <span>Indicadores</span>
+        </div>
+      </div>
+    </div>
+
     <div class="sys-grid">
       <div class="sys-card">
         <h3>Leadcheck</h3>
         <p>
           Funil de captura e análise de contratos de financiamento de veículos.
-          Consulta a taxa média do Bacen, gera simulação de parcela e score de oportunidade, e prepara o pré-laudo.
+          Consulta taxa média do Bacen, simulação de parcela e pré-laudo.
         </p>
-        <span class="sys-tag">Bacen SGS</span>
-        <span class="sys-tag">Pré-laudo</span>
-        <span class="sys-tag">Qualificação</span>
+        <div class="lexis-tags">
+          <span class="lexis-tag">Bacen SGS</span>
+          <span class="lexis-tag">Pré-laudo</span>
+          <span class="lexis-tag">Qualificação</span>
+        </div>
       </div>
       <div class="sys-card">
         <h3>SyncCRM</h3>
         <p>
-          Sistema de gestão de relacionamento e carteira. Controla status de cada caso, retornos ao cliente, documentos e histórico de atendimento.
+          Gestão de relacionamento e carteira comercial.
+          Status de cada caso, retornos, documentos e histórico de atendimento.
         </p>
-        <span class="sys-tag">Carteira</span>
-        <span class="sys-tag">Retornos</span>
-        <span class="sys-tag">Histórico</span>
+        <div class="lexis-tags">
+          <span class="lexis-tag">Carteira</span>
+          <span class="lexis-tag">Retornos</span>
+          <span class="lexis-tag">Histórico</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="transparency" id="transparencia">
+<section id="transparencia">
   <div class="container">
+    <div class="section-label">Clareza</div>
     <h2 class="section-title">Transparência</h2>
-    <p class="section-sub">O que fazemos e o que não fazemos. Preferimos ser claros desde o primeiro contato.</p>
+    <p class="section-sub">O que fazemos e o que não fazemos.</p>
     <div class="trans-grid">
       <div class="trans-box">
-        <h3>O que fazemos</h3>
+        <h3>✓ O que fazemos</h3>
         <ul>
           <li>Comparamos sua taxa com a média oficial do Banco Central</li>
           <li>Entregamos parecer escrito antes de qualquer proposta de valor</li>
           <li>Explicamos custos, prazos e riscos de forma objetiva</li>
           <li>Registramos as tentativas de contato com a financeira</li>
-          <li>Só avançamos para a via judicial com novo termo assinado</li>
+          <li>Só avançamos para judicial com novo termo assinado</li>
         </ul>
       </div>
       <div class="trans-box">
-        <h3>O que não fazemos</h3>
+        <h3>✕ O que não fazemos</h3>
         <ul>
           <li>Não prometemos redução garantida de juros ou de parcela</li>
           <li>Não afirmamos que “a causa está ganha” ou que “já houve sentença”</li>
-          <li>Não cobramos por documentos que o próprio cliente obtém de graça (Registrato, e-CAC, extratos)</li>
-          <li>Não orientamos a suspender pagamento de parcelas sem formalização</li>
+          <li>Não cobramos por documentos que o cliente obtém de graça</li>
+          <li>Não orientamos a suspender pagamento sem formalização</li>
           <li>Não guardamos senhas de gov.br ou de bancos do cliente</li>
         </ul>
       </div>
@@ -589,12 +767,9 @@
 <section class="cta" id="contato">
   <div class="container">
     <h2>Solicite a análise do seu contrato</h2>
-    <p>
-      Envie os dados básicos. Entraremos em contato para receber o contrato e devolver o parecer técnico.
-      Sem compromisso de contratação.
-    </p>
+    <p>Envie os dados. Entramos em contato para receber o contrato e devolver o parecer. Sem compromisso de contratação.</p>
     <div class="form-card">
-      <form action="#" method="post" onsubmit="event.preventDefault(); alert('Formulário de exemplo. Em produção, conecte ao SyncCRM ou ao Leadcheck.');">
+      <form action="#" method="post" onsubmit="event.preventDefault(); alert('Formulário de exemplo. Em produção, conecte ao Leadcheck ou SyncCRM.');">
         <div class="form-group">
           <label for="nome">Nome completo</label>
           <input type="text" id="nome" name="nome" required placeholder="Seu nome">
@@ -614,11 +789,11 @@
         </div>
         <div class="form-group">
           <label for="obs">Observação (opcional)</label>
-          <textarea id="obs" name="obs" rows="3" placeholder="Ano do contrato, banco, ou qualquer detalhe relevante"></textarea>
+          <textarea id="obs" name="obs" rows="3" placeholder="Ano do contrato, banco, ou qualquer detalhe"></textarea>
         </div>
         <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Enviar solicitação</button>
         <p class="form-note">
-          Ao enviar, você concorda com o tratamento dos dados para contato e análise, nos termos da LGPD.
+          Ao enviar, você concorda com o tratamento dos dados para contato e análise (LGPD).
           Não enviamos spam e não compartilhamos seus dados com terceiros para fins comerciais.
         </p>
       </form>
@@ -632,7 +807,8 @@
       <div>
         <h4>Wone Capital</h4>
         <p style="margin-top:8px;line-height:1.5">
-          Assessoria focada em análise técnica de contratos de financiamento e orientação sobre revisão de cláusulas, com ênfase em transparência e documentação.
+          Análise técnica de contratos de financiamento e operação de carteira jurídica.
+          Sistema principal: LexisPredict.
         </p>
       </div>
       <div>
@@ -645,13 +821,14 @@
       </div>
       <div>
         <h4>Sistemas</h4>
+        <a href="https://github.com/W1CAPITAL/LexisPredict" target="_blank" rel="noopener">LexisPredict</a>
         <a href="https://github.com/daviconcentrix-debug/Leadcheck" target="_blank" rel="noopener">Leadcheck</a>
         <a href="https://github.com/daviconcentrix-debug/SyncCRM" target="_blank" rel="noopener">SyncCRM</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span>Wone Capital</span>
-      <span>Linguagem alinhada ao direito de informação clara e adequada (CDC)</span>
+      <span>Informação clara e adequada · CDC</span>
     </div>
   </div>
 </footer>
