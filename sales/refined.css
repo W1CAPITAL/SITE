@@ -940,3 +940,17 @@ footer .footer-brand-image.brand-atlas-w1-full + strong{display:none}
 .organic-resource-preview strong{font:normal clamp(27px,2.2vw,37px)/1.13 Georgia,serif}
 .organic-resource-preview small{font-size:12px;color:#e7c4d3}
 @media(max-width:770px){.organic-resource{padding:52px 6%}.organic-resource-content{grid-template-columns:1fr;gap:23px}.organic-resource-preview{min-height:170px}}
+
+/* W1 Capital: distinct administrative portfolio-support offer. */
+.portfolio-service{background:linear-gradient(128deg,#33101f,#5a1731 67%,#280a1a);color:#fff;padding:62px max(5vw,22px)}
+.portfolio-service-inner{max-width:1250px;margin:0 auto;display:grid;grid-template-columns:1.18fr .7fr;gap:35px;align-items:center}
+.portfolio-service h2{font:normal clamp(32px,3.5vw,50px)/1.15 Georgia,"Times New Roman",serif;letter-spacing:-.03em;margin:12px 0;color:#fff}
+.portfolio-service h2 em{font-style:normal;color:#e39cb3}
+.portfolio-service p{max-width:710px;color:#efd8e1;line-height:1.7;font-size:14px;margin:10px 0 17px}
+.portfolio-service-cta{display:inline-flex;align-items:center;gap:9px;text-decoration:none;border-radius:9px;background:#f4e9ed;color:#3e0d22!important;padding:13px 18px;font-size:13px;font-weight:800}
+.portfolio-service-cta:hover{background:#fff}
+.portfolio-service-side{padding:32px;border:1px solid #b7748e;border-radius:15px;min-height:208px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(150deg,#74405855,#2e0a1f55)}
+.portfolio-service-side strong{font:normal clamp(27px,2.6vw,39px)/1.15 Georgia,serif;color:#fff}
+.portfolio-service-side span{font-size:17px;margin-top:10px;color:#f1d6df}
+.portfolio-service-side small{font-size:12px;color:#dab5c4;margin-top:21px}
+@media(max-width:770px){.portfolio-service{padding:50px 6%}.portfolio-service-inner{grid-template-columns:1fr}.portfolio-service-side{min-height:150px;padding:23px}}
