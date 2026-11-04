@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#260d20">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Ferramenta de pesquisa manual e planejamento de prospecção da W1 Capital.">
+  <title>Pesquisa de empresas · W1 Sales</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./workspace.css">
+  <script type="module" src="./workspace.js"></script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<header class="top">
+  <a class="brand" href="../../" aria-label="Voltar ao site W1 Capital"><span class="mark">W1</span><span>W1 CAPITAL<small>SALES / PESQUISA</small></span></a>
+  <a class="back" href="../../">Site principal ↗</a>
+</header>
+<main id="conteudo">
+  <section class="hero" aria-labelledby="title">
+    <span class="eyebrow"><span class="dot"></span> W1 SALES · LABORATÓRIO COMERCIAL</span>
+    <h1 id="title">Empresas certas.<br><em>Pesquisa com critério.</em></h1>
+    <p>Antes de oferecer qualquer solução, vale entender o setor, a região e a realidade de uma empresa. Este painel abre pesquisas no Fichário; não coleta contatos, não salva listas e não envia mensagens.</p>
+    <div class="source"><span class="icon" aria-hidden="true">↗</span><div><b>Fonte externa: Fichário · Genesis Innovation</b><small>Dados cadastrais públicos, sujeitos a atualização e confirmação. Não é um serviço da Receita Federal.</small></div></div>
+  </section>
+  <section class="workspace" aria-label="Ferramentas de consulta">
+    <div class="section-title"><span>01 / PESQUISA</span><h2>Escolha como começar</h2><p>Os resultados são consultados diretamente no site do fornecedor, em uma nova aba.</p></div>
+    <div class="grid">
+      <article class="panel" aria-labelledby="cnpj-title">
+        <div class="panel-number">A</div><h3 id="cnpj-title">Já tem um CNPJ?</h3>
+        <p>Abra a ficha cadastral e conheça as informações públicas disponíveis.</p>
+        <form id="cnpj-form" novalidate>
+          <label for="cnpj">Número do CNPJ</label>
+          <input id="cnpj" name="cnpj" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00" maxlength="25" aria-describedby="cnpj-hint" required>
+          <small id="cnpj-hint">Validamos os dígitos antes de abrir a ficha.</small>
+          <button type="submit">Abrir ficha no Fichário <span aria-hidden="true">↗</span></button>
+          <div class="status" id="cnpj-status" role="status" aria-live="polite"></div>
+        </form>
+      </article>
+      <article class="panel wide" aria-labelledby="segment-title">
+        <div class="panel-number">B</div><h3 id="segment-title">Quer pesquisar um segmento?</h3>
+        <p>Combine o estado com o CNAE ou a cidade e abra uma busca segmentada de empresas.</p>
+        <form id="segment-form" novalidate>
+          <div class="form-grid">
+            <div><label for="uf">Estado (UF)</label><select id="uf" name="uf" required><option value="">Selecione</option><option value="SP">São Paulo (SP)</option><option value="RJ">Rio de Janeiro (RJ)</option><option value="MG">Minas Gerais (MG)</option><option value="PR">Paraná (PR)</option><option value="SC">Santa Catarina (SC)</option><option value="RS">Rio Grande do Sul (RS)</option><option value="BA">Bahia (BA)</option><option value="PE">Pernambuco (PE)</option><option value="CE">Ceará (CE)</option><option value="GO">Goiás (GO)</option><option value="DF">Distrito Federal (DF)</option><option value="ES">Espírito Santo (ES)</option><option value="PA">Pará (PA)</option><option value="AM">Amazonas (AM)</option><option value="PB">Paraíba (PB)</option><option value="RN">Rio Grande do Norte (RN)</option><option value="MT">Mato Grosso (MT)</option><option value="MS">Mato Grosso do Sul (MS)</option><option value="MA">Maranhão (MA)</option><option value="AL">Alagoas (AL)</option><option value="PI">Piauí (PI)</option><option value="SE">Sergipe (SE)</option><option value="RO">Rondônia (RO)</option><option value="TO">Tocantins (TO)</option><option value="AC">Acre (AC)</option><option value="AP">Amapá (AP)</option><option value="RR">Roraima (RR)</option></select></div>
+            <div><label for="cnae">CNAE principal <span>(opcional se houver cidade)</span></label><input id="cnae" name="cnae" inputmode="numeric" placeholder="Ex.: 4781400" maxlength="9"></div>
+            <div><label for="cidade">Cidade <span>(opcional se houver CNAE)</span></label><input id="cidade" name="cidade" placeholder="Ex.: Campinas" maxlength="90"></div>
+            <div><label for="porte">Porte</label><select id="porte" name="porte"><option value="">Todos os portes</option><option value="ME">Microempresa</option><option value="EPP">Pequeno porte</option><option value="Demais">Demais</option></select></div>
+          </div>
+          <button type="submit">Pesquisar empresas <span aria-hidden="true">↗</span></button>
+          <div class="status" id="segment-status" role="status" aria-live="polite"></div>
+          <p class="helper">Exportação CSV: o próprio Fichário oferece exportação sujeita às cotas do plano gratuito. Nenhuma lista é importada neste painel.</p>
+        </form>
+      </article>
+    </div>
+  </section>
+  <section class="process" aria-labelledby="process-title">
+    <div class="section-title"><span>02 / CRITÉRIOS</span><h2 id="process-title">Pesquisa não é permissão para contato</h2><p>Dados públicos podem ajudar a escolher um segmento, mas não autorizam automaticamente campanhas.</p></div>
+    <div class="steps"><article><span>01</span><h3>Identificar</h3><p>Localizar empresas por atividade e região.</p></article><article><span>02</span><h3>Revisar</h3><p>Confirmar o CNPJ, a fonte e a atualidade dos dados.</p></article><article><span>03</span><h3>Qualificar</h3><p>Decidir se há uma necessidade compatível com os produtos W1.</p></article><article><span>04</span><h3>Solicitar contato corretamente</h3><p>Respeitar base legal, oposição e consentimento quando aplicável, sem disparos em massa.</p></article></div>
+  </section>
+  <section class="notice" aria-labelledby="notice-title"><h2 id="notice-title">Integração futura, com cuidado desde agora.</h2><p>A conexão automática com o CRM da W1 está preparada apenas como arquitetura e testes, ainda não está ativa. Este painel não usa Supabase, não acessa o banco do LexisPredict e não armazena dados da consulta.</p><p><a href="https://cnpj.genesisinnovation.io/api" target="_blank" rel="noopener noreferrer">Documentação da API ↗</a><a href="https://cnpj.genesisinnovation.io/termos" target="_blank" rel="noopener noreferrer">Condições de uso ↗</a></p><small>Fonte: Fichário (cnpj.genesisinnovation.io), dados abertos da Receita Federal.</small></section>
+</main>
+<footer>W1 CAPITAL · PESQUISA MANUAL <span>Sem coleta de dados pessoais · Sem importação em massa</span><a href="../../">Voltar à W1 Capital ↑</a></footer>
+</body></html>

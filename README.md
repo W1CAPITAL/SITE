@@ -57,3 +57,7 @@ A configuração Supabase continua vazia, portanto a experiência está em modo 
 Para captação real, validar projeto Supabase comercial distinto, executar a migração apenas nele, testar RLS e adicionar proteção contra spam, política de privacidade e canal comercial real. Nunca inserir chaves privadas na página pública.
 
 As soluções são apresentadas sem preço fixo, garantias ou depoimentos fictícios. As recomendações são determinísticas, não respostas de um modelo GPT integrado. Contratação e atendimento humano exigem confirmação da equipe.
+
+## Prospecção comercial (preparação para uso futuro)
+
+Uma ferramenta separada de pesquisa manual de empresas foi adicionada em `sales/prospecting/`. Ela abre fichas de CNPJ e buscas setoriais no Fichário (Genesis Innovation), respeitando os termos de uso e sem coletar contatos, armazenar listas ou acionar campanhas. A futura integração de API/MCP e o modelo privado de pesquisa no Supabase estão descritos em [sales/prospecting/README.md](sales/prospecting/README.md). Nada foi aplicado ao banco do LexisPredict.
