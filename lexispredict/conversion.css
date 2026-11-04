@@ -735,3 +735,13 @@ footer .footer-brand-image.brand-atlas-w1-full + strong{display:none}
 @media(max-width:380px){.demo-team-grid{grid-template-columns:1fr}.demo-badge{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.demo-nav-button{transition:none}}
 
+/* Educational organic traffic, separate from the paid product demo. */
+.lp-resource{padding:68px 6%;background:linear-gradient(120deg,#f5eced,#f8f3f1);color:#341422}
+.lp-resource-inner{max-width:1170px;margin:auto;display:grid;grid-template-columns:1fr auto;gap:45px;align-items:center}
+.lp-resource-inner>div>span{font-size:11px;letter-spacing:.17em;color:#8e2847;font-weight:750}
+.lp-resource h2{margin:12px 0;font:normal clamp(30px,3.2vw,45px)/1.15 Georgia,serif;letter-spacing:-.03em}
+.lp-resource h2 em{font-style:normal;color:#a1234c}
+.lp-resource p{max-width:670px;font-size:15px;line-height:1.65;color:#745965}
+.lp-resource-button{display:inline-flex;align-items:center;justify-content:center;gap:16px;border-radius:9px;background:#7c1536;color:#fff!important;text-decoration:none;padding:17px 23px;font-size:13px;font-weight:700;white-space:nowrap}
+.lp-resource-button:hover{background:#a42850}
+@media(max-width:720px){.lp-resource{padding:52px 6%}.lp-resource-inner{grid-template-columns:1fr;gap:15px}.lp-resource-button{width:100%}}

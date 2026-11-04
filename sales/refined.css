@@ -926,3 +926,16 @@ footer .footer-brand-image.brand-atlas-w1-full + strong{display:none}
 @media(max-width:380px){.demo-team-grid{grid-template-columns:1fr}.demo-badge{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.demo-nav-button{transition:none}}
 
+/* Organic content entrypoint — useful educational lead magnet without pop-ups. */
+.organic-resource{padding:66px max(5vw,22px);background:linear-gradient(130deg,#f8f0ef,#f0e1e5);border-top:1px solid #e3d3d9;border-bottom:1px solid #e7d2dc;color:#371522}
+.organic-resource-content{max-width:1250px;margin:auto;display:grid;grid-template-columns:1.2fr .74fr;gap:36px;align-items:center}
+.organic-resource h2{font:normal clamp(32px,3.6vw,53px)/1.12 Georgia,"Times New Roman",serif;letter-spacing:-.035em;color:#330d1d;margin:15px 0}
+.organic-resource h2 em{font-style:normal;color:#a1274f}
+.organic-resource p{color:#775d67;font-size:15px;line-height:1.7;max-width:620px}
+.organic-resource-link{display:inline-flex;align-items:center;gap:15px;margin-top:9px;background:#7c1536;color:#fff!important;border-radius:9px;padding:14px 22px;text-decoration:none;font-size:13px;font-weight:750}
+.organic-resource-link:hover{background:#a52650}
+.organic-resource-preview{display:flex;flex-direction:column;justify-content:center;gap:13px;padding:34px 34px;min-height:245px;border:1px solid #c7a3b0;border-radius:15px;background:linear-gradient(135deg,#3f071b,#7b1c3c);color:#fff;text-decoration:none;box-shadow:0 17px 33px #5f183137}
+.organic-resource-preview span{font-size:10px;letter-spacing:.18em;color:#ecc0d0;font-weight:750}
+.organic-resource-preview strong{font:normal clamp(27px,2.2vw,37px)/1.13 Georgia,serif}
+.organic-resource-preview small{font-size:12px;color:#e7c4d3}
+@media(max-width:770px){.organic-resource{padding:52px 6%}.organic-resource-content{grid-template-columns:1fr;gap:23px}.organic-resource-preview{min-height:170px}}

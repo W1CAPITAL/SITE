@@ -60,7 +60,7 @@ test("both site pages load the interactive demo, with no real client data",()=>{
  const home=read("index.html"), product=read("lexispredict/index.html");
  for(const page of [home,product]){
   assert.match(page,/interactive-demo\.mjs\?v=/);
-  assert.match(page,/refined\.css\?v=20261104-demo2|conversion\.css\?v=20261104-demo2/);
+  assert.match(page,/refined\.css\?v=20261104-organic1|conversion\.css\?v=20261104-organic1/);
   assert.match(page,/data-lexis-gallery/);
   assert.match(page,/Dados fictícios|dados fictícios/);
  }

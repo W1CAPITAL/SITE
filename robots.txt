@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /sales/prospecting/
+Disallow: /sales/operations/
+Disallow: /sales/media/
+Sitemap: https://w1-capital.onrender.com/sitemap.xml
