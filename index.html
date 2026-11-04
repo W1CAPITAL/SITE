@@ -1,186 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Davi Alves Figueredo | Legal Operations, Tecnologia & Automação</title>
-  <meta name="description" content="Portfólio de Davi Alves Figueredo — Legal Operations, tecnologia, automação, dados, CRM e projetos digitais. Destaque: LexisPredict.">
-  <meta name="theme-color" content="#070A11">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#070A11;
-      --panel:#0D121C;
-      --panel-2:#111827;
-      --line:#202938;
-      --text:#F4F7FB;
-      --muted:#99A6B7;
-      --blue:#6EA8FF;
-      --cyan:#4DE1D7;
-      --green:#45D483;
-      --orange:#FFB65A;
-      --red:#FF6B6B;
-      --shadow:0 24px 70px rgba(0,0,0,.35);
-      --radius:20px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{font-family:"DM Sans",system-ui,sans-serif;background:radial-gradient(circle at 75% 5%,rgba(77,225,215,.10),transparent 30%),radial-gradient(circle at 5% 30%,rgba(110,168,255,.08),transparent 25%),var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
-    body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(to bottom,black,transparent 78%);opacity:.25}
-    a{color:inherit;text-decoration:none}
-    .container{width:min(1160px,calc(100% - 40px));margin:auto}
-    header{position:sticky;top:0;z-index:50;background:rgba(7,10,17,.72);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.05)}
-    .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .brand{display:flex;align-items:center;gap:12px;font-family:"Space Grotesk";font-weight:700;letter-spacing:-.03em}
-    .brand-mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#173365,#4DE1D7);box-shadow:0 0 0 1px rgba(255,255,255,.08),0 10px 30px rgba(77,225,215,.10)}
-    .nav-links{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:.9rem}
-    .nav-links a:hover{color:var(--text)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;padding:11px 17px;font-weight:700;font-size:.88rem;transition:.2s;border:1px solid transparent}
-    .btn-primary{background:var(--text);color:#08101A}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,255,255,.08)}
-    .btn-ghost{border-color:var(--line);background:rgba(255,255,255,.02);color:var(--text)}.btn-ghost:hover{border-color:#3B485D;background:rgba(255,255,255,.05)}
-    .hero{padding:92px 0 70px;position:relative}
-    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:52px;align-items:center}
-    .eyebrow{display:inline-flex;gap:8px;align-items:center;color:#BFE8FF;border:1px solid rgba(110,168,255,.23);background:rgba(110,168,255,.08);padding:7px 11px;border-radius:999px;font-size:.76rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
-    h1,h2,h3{font-family:"Space Grotesk",sans-serif;letter-spacing:-.035em}
-    h1{font-size:clamp(2.5rem,5vw,4.75rem);line-height:1.03;max-width:760px}
-    h1 span{background:linear-gradient(90deg,#fff,#6EA8FF 45%,#4DE1D7);-webkit-background-clip:text;color:transparent}
-    .lead{font-size:1.08rem;color:var(--muted);max-width:670px;margin:21px 0 29px}
-    .actions{display:flex;gap:11px;flex-wrap:wrap}
-    .hero-card{background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow);overflow:hidden;position:relative}
-    .hero-card:after{content:"";position:absolute;width:240px;height:240px;right:-90px;top:-90px;background:radial-gradient(circle,rgba(77,225,215,.25),transparent 70%)}
-    .window{border:1px solid #263244;border-radius:17px;overflow:hidden;background:#0A0F17;position:relative;z-index:1}
-    .window-top{height:38px;border-bottom:1px solid #1F2937;display:flex;align-items:center;gap:7px;padding:0 12px}.dot{width:8px;height:8px;border-radius:50%;background:#344054}
-    .window-body{padding:20px}.micro{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;font-weight:700}.window-title{font-family:"Space Grotesk";font-size:1.35rem;font-weight:700;margin:7px 0 18px}
-    .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.kpi{border:1px solid #202B3B;background:#0E1520;border-radius:14px;padding:13px}.kpi strong{display:block;font-family:"Space Grotesk";font-size:1.35rem}.kpi span{color:var(--muted);font-size:.72rem}.good strong{color:var(--green)}.teal strong{color:var(--cyan)}.warn strong{color:var(--orange)}.blue strong{color:var(--blue)}
-    section{padding:78px 0}.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:34px}.section-label{color:var(--cyan);font-size:.74rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}.section-head h2{font-size:2.15rem}.section-head p{max-width:530px;color:var(--muted)}
-    .impact{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.impact-card{padding:22px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.015))}.impact-card strong{font-family:"Space Grotesk";font-size:2rem;display:block;margin-bottom:4px}.impact-card p{color:var(--muted);font-size:.88rem}.impact-card:nth-child(1) strong{color:var(--green)}.impact-card:nth-child(2) strong{color:var(--cyan)}.impact-card:nth-child(3) strong{color:var(--blue)}
-    .featured{background:linear-gradient(145deg,#0A131C,#0B111B);border:1px solid #1D3441;border-radius:26px;padding:32px;box-shadow:var(--shadow)}
-    .featured-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:34px;align-items:start}.featured h3{font-size:2rem;margin:8px 0 12px}.featured p{color:var(--muted);max-width:690px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.chip{padding:7px 10px;border-radius:999px;background:#101C29;border:1px solid #1E3341;color:#BFE8FF;font-size:.75rem;font-weight:600}
-    .case{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.case-card{border:1px solid #1C2936;border-radius:16px;padding:18px;background:rgba(255,255,255,.02)}.case-card .big{font-family:"Space Grotesk";font-size:2rem;font-weight:700}.case-card .before{color:#8793A4;font-size:.8rem}.case-card .after{color:var(--green);font-weight:700;margin-top:5px}.case-card p{color:var(--muted);font-size:.79rem;margin-top:8px}.case-card.highlight{border-color:#254E44;background:rgba(69,212,131,.035)}
-    .feature-list{display:grid;gap:10px;margin-top:19px}.feature-item{display:flex;gap:11px;align-items:flex-start;padding:12px;border:1px solid #1E2938;border-radius:13px;background:#0C141D}.feature-icon{width:28px;height:28px;border-radius:8px;background:#132331;display:grid;place-items:center;color:var(--cyan);font-size:.8rem;flex:0 0 auto}.feature-item strong{font-size:.87rem}.feature-item p{font-size:.76rem;margin:2px 0 0}
-    .project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.project{border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:19px;padding:24px;transition:.2s;position:relative;overflow:hidden}.project:hover{transform:translateY(-3px);border-color:#334155;background:rgba(255,255,255,.04)}.project:before{content:"";position:absolute;inset:auto -50px -80px auto;width:160px;height:160px;background:radial-gradient(circle,rgba(110,168,255,.13),transparent 68%)}.project-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.project h3{font-size:1.22rem}.project .type{font-size:.67rem;color:#BFD1E9;border:1px solid #253245;border-radius:999px;padding:5px 8px}.project p{color:var(--muted);font-size:.87rem;margin:12px 0 15px}.stack{font-size:.72rem;color:#B8C5D5}.stack b{color:#E7EEF8}.project a{display:inline-flex;margin-top:18px;color:#BFE8FF;font-size:.78rem;font-weight:700}
-    .timeline{display:grid;gap:14px}.time{display:grid;grid-template-columns:95px 1fr;gap:24px}.time-year{color:var(--cyan);font-family:"Space Grotesk";font-weight:700}.time-card{border-left:1px solid #253043;padding:0 0 18px 20px}.time-card h3{font-size:1rem}.time-card p{color:var(--muted);font-size:.83rem;margin-top:4px}
-    .about{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel{border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:18px;padding:24px}.panel p,.panel li{color:var(--muted);font-size:.87rem}.panel ul{list-style:none;display:grid;gap:7px;margin-top:14px}.panel li:before{content:"•";color:var(--cyan);margin-right:8px}
-    footer{padding:45px 0 35px;border-top:1px solid rgba(255,255,255,.05);color:var(--muted)}.footer{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}.footer strong{color:var(--text)}
-    @media(max-width:900px){.hero-grid,.featured-grid,.about{grid-template-columns:1fr}.impact{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:10px}.project-grid{grid-template-columns:1fr}.nav-links{display:none}}
-    @media(max-width:620px){.container{width:min(100% - 28px,1160px)}section{padding:58px 0}.hero{padding-top:60px}h1{font-size:2.55rem}.featured{padding:22px}.case{grid-template-columns:1fr}.kpi-grid{grid-template-columns:1fr 1fr}.time{grid-template-columns:1fr;gap:5px}.time-card{padding-left:15px}}
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#210b19">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="W1 Capital: tecnologia para organizar operações, clientes e decisões. Conheça LexisPredict, CRM, automações e indicadores. Descubra o caminho certo para sua empresa.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="W1 Capital — Tecnologia que transforma a rotina">
+  <meta property="og:description" content="Soluções para organizar processos, clientes, automações e dados. Conheça o W1 Sales Studio.">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="robots" content="index,follow">
+  <title>W1 Capital — Soluções digitais para negócios que avançam</title>
+  <link rel="icon" href="./sales/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="./sales/premium.css" as="style">
+  <link rel="stylesheet" href="./sales/styles.css">
+  <link rel="stylesheet" href="./sales/studio.css">
+  <link rel="stylesheet" href="./sales/premium.css">
+  <script src="./sales/config.js"></script>
+  <script type="module" src="./sales/app.js"></script>
+  <script defer src="./sales/premium.js"></script>
 </head>
-<body>
-<header>
-  <div class="container nav">
-    <a class="brand" href="#top"><span class="brand-mark">DA</span><span>Davi Alves Figueredo</span></a>
-    <nav class="nav-links">
-      <a href="#impacto">Impacto</a><a href="#lexis">LexisPredict</a><a href="#projetos">Projetos</a><a href="#trajetoria">Trajetória</a>
-      <a class="btn btn-primary" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+<body class="w1-premium">
+  <a class="skip" href="#conteudo">Ir para o conteúdo principal</a>
+  <header class="top" id="inicio">
+    <div class="top-inner">
+      <a class="brand" href="#inicio" aria-label="W1 Capital, início">
+        <span class="brand-mark" aria-hidden="true">W<span>1</span></span>
+        <span>W1 CAPITAL<small>TECHNOLOGY STUDIO</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Navegação principal">
+        <a href="#solucoes">Soluções</a>
+        <a href="#metodo">Como trabalhamos</a>
+        <a href="#agentes">Experiência</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+      <a class="nav-cta" href="#atendimento"><span>Quero uma solução</span><span aria-hidden="true">↗</span></a>
+      <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="menu-mobile" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav id="menu-mobile" class="mobile-navigation" aria-label="Menu mobile" hidden>
+      <a href="#solucoes">Nossas soluções</a><a href="#metodo">Nosso método</a><a href="#agentes">Experiência W1</a><a href="#faq">Perguntas frequentes</a><a class="menu-mobile-cta" href="#atendimento">Descobrir minha solução ↗</a>
     </nav>
-  </div>
-</header>
-
-<main id="top">
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <div class="eyebrow">Legal Operations · Tecnologia · Automação · Dados</div>
-        <h1>Eu não só uso tecnologia.<br><span>Eu transformo operação em sistema.</span></h1>
-        <p class="lead">Profissional de operações e processos com atuação prática em jurídico, CRM, automação, dados e desenvolvimento de soluções digitais. O principal projeto é o <strong>LexisPredict</strong>, criado para atacar problemas reais de operação jurídica.</p>
-        <div class="actions"><a class="btn btn-primary" href="#lexis">Ver case LexisPredict</a><a class="btn btn-ghost" href="#projetos">Explorar projetos</a></div>
+  </header>
+  <main id="conteudo">
+    <section class="hero section" aria-labelledby="hero-heading">
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse"></span> OPERAÇÃO + TECNOLOGIA + CRESCIMENTO</p>
+        <h1 id="hero-heading">O seu negócio pode ir <span class="wordline">mais <em>longe.</em></span></h1>
+        <p>Informações espalhadas, tarefas repetidas e processos sem visibilidade acabam consumindo tempo demais. A W1 transforma essas dificuldades em soluções digitais claras, feitas para acompanhar o seu ritmo.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#atendimento">Encontrar minha solução <span aria-hidden="true">↗</span></a>
+          <a class="btn secondary" href="#solucoes">Explorar soluções <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-proof" aria-label="Como funciona a experiência">
+          <span><span aria-hidden="true">◆</span> Consulta inicial gratuita</span>
+          <span><span aria-hidden="true">◆</span> Sem compromisso</span>
+          <span><span aria-hidden="true">◆</span> Decisão nas suas mãos</span>
+        </div>
+        <div class="hero-index" aria-hidden="true"><span>W1 — DIGITAL EXPERIENCE</span><span>01 / 04</span></div>
       </div>
-      <div class="hero-card">
-        <div class="window">
-          <div class="window-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <div class="window-body">
-            <div class="micro">Case real · operação jurídica</div>
-            <div class="window-title">LexisPredict / GET Assessoria</div>
-            <div class="kpi-grid">
-              <div class="kpi good"><strong>600+ → ~250</strong><span>processos vencidos</span></div>
-              <div class="kpi teal"><strong>100+ → 0</strong><span>clientes sem retorno na fila diária de WhatsApp</span></div>
-              <div class="kpi blue"><strong>24/7</strong><span>estrutura digital de operação</span></div>
-              <div class="kpi warn"><strong>DataJud + DJEN</strong><span>monitoramento e automação</span></div>
-            </div>
-          </div>
+      <div class="showcase" aria-label="Ilustração interativa do fluxo W1 Sales: identificar, recomendar e organizar uma solução">
+        <div class="showcase-top"><span><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span> W1 OPERATIONS / SIMULAÇÃO</span><span class="online"><span class="pulse"></span> FLUXO ILUSTRATIVO</span></div>
+        <div class="office">
+          <div class="office-grid" aria-hidden="true"></div>
+          <div class="orbit orbit-one" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
+          <div class="scene-halo" aria-hidden="true"></div>
+          <div class="scene-ribbon">FLUXO DE SOLUÇÃO <span>•</span> W1 CAPITAL</div>
+          <div class="desk desk-a"><span class="monitor">01</span><span class="desk-title">Entender</span><span class="desk-sub">O que precisa mudar</span></div>
+          <div class="desk desk-b"><span class="monitor">02</span><span class="desk-title">Conectar</span><span class="desk-sub">A solução adequada</span></div>
+          <div class="desk desk-c"><span class="monitor">03</span><span class="desk-title">Evoluir</span><span class="desk-sub">Com clareza e controle</span></div>
+          <div class="scene-sticker" aria-hidden="true">IDEIAS<br>EM MOVIMENTO <span>✳</span></div>
+        </div>
+        <div class="showcase-bottom"><span>UMA EXPERIÊNCIA PARA ENCONTRAR O PRÓXIMO PASSO</span><span>DESENHO ORIGINAL · W1</span></div>
+      </div>
+    </section>
+    <div class="scroll-band" aria-label="Áreas de atuação"><div class="scroll-band-inner">
+      <span>GESTÃO JURÍDICA</span><i>✳</i><span>AUTOMAÇÃO</span><i>✳</i><span>CRM</span><i>✳</i><span>INDICADORES</span><i>✳</i><span>PROCESSOS MAIS INTELIGENTES</span>
+    </div></div>
+    <section class="section editorial" id="visao" aria-labelledby="visao-heading">
+      <div class="editorial-lead" data-reveal><span class="kicker"><span class="index">01 /</span> O QUE IMPORTA</span><h2 id="visao-heading">Tecnologia de verdade <i>não complica.</i> Ela abre caminho.</h2></div>
+      <div class="editorial-side" data-reveal>
+        <p>Um bom sistema não exige que sua equipe mude tudo de uma vez. Ele começa resolvendo o que mais atrasa o trabalho, organiza o que importa e devolve tempo para as decisões certas.</p>
+        <a href="#solucoes" class="editorial-link">Conheça nossas áreas de atuação <span aria-hidden="true">↗</span></a>
+        <div class="editorial-mark" aria-hidden="true"><span>W</span><span>1</span></div>
+      </div>
+    </section>
+    <section class="solutions-zone" id="solucoes" aria-labelledby="solucoes-heading">
+      <div class="section">
+        <div class="section-header" data-reveal><div><span class="kicker"><span class="index">02 /</span> O QUE PODEMOS CONSTRUIR</span><h2 id="solucoes-heading">A solução certa para <em>o problema certo.</em></h2></div><p>Não vendemos uma fórmula pronta para qualquer empresa. Conheça as áreas nas quais podemos ajudar e escolha o que faz sentido para a sua operação.</p></div>
+        <div class="product-grid" id="catalogo" aria-label="Catálogo de soluções W1 Capital"></div>
+        <div class="solutions-footnote"><span aria-hidden="true">↳</span> Cada projeto depende de escopo, disponibilidade e condições confirmadas pela equipe. Nenhum preço ou resultado é prometido nesta página.</div>
+      </div>
+    </section>
+    <section class="section process" id="metodo" aria-labelledby="metodo-heading">
+      <div class="section-header" data-reveal><div><span class="kicker"><span class="index">03 /</span> NOSSA FORMA DE TRABALHAR</span><h2 id="metodo-heading">Menos discurso.<br><em>Mais direção.</em></h2></div><p>Antes de falar de tecnologia, entendemos o desafio. A partir daí, fica muito mais fácil decidir o que construir — e o que não vale a pena complicar.</p></div>
+      <div class="process-layout">
+        <div class="process-steps">
+          <button type="button" class="process-step active" data-process="0" aria-pressed="true"><span class="step-num">01</span><span><strong>Entender</strong><small>A rotina, os gargalos e as prioridades.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="process-step" data-process="1" aria-pressed="false"><span class="step-num">02</span><span><strong>Desenhar</strong><small>Uma solução adequada ao contexto.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="process-step" data-process="2" aria-pressed="false"><span class="step-num">03</span><span><strong>Evoluir</strong><small>Organizar melhorias sem perder o controle.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
+        </div>
+        <div class="process-display" aria-live="polite">
+          <div class="display-head"><span>W1 / WORKFLOW</span><span class="display-dot"></span><span>ETAPA <span id="process-stage">01</span></span></div>
+          <div class="process-art" aria-hidden="true"><div class="art-disc"></div><div class="art-ring"></div><div class="art-center">W1</div><div class="art-node art-node-one"></div><div class="art-node art-node-two"></div></div>
+          <div class="display-caption"><span id="process-title">Ouvimos antes de propor.</span><p id="process-description">Descobrimos onde a operação perde tempo e o que a equipe realmente precisa.</p></div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="impacto">
-    <div class="container">
-      <div class="section-head"><div><div class="section-label">Resultado antes do discurso</div><h2>Impacto operacional</h2></div><p>Os números abaixo são os resultados que você descreveu da aplicação do LexisPredict na rotina da GET Assessoria.</p></div>
-      <div class="impact">
-        <article class="impact-card"><strong>600+ → ~250</strong><p>Redução da fila de processos vencidos após organizar a carteira e o controle de prazos.</p></article>
-        <article class="impact-card"><strong>100+ → 0</strong><p>Fila diária de clientes sem retorno no WhatsApp passou a ser tratada e zerada.</p></article>
-        <article class="impact-card"><strong>Planilha → Sistema</strong><p>Dados dispersos e planilhas operacionais foram centralizados em um fluxo digital de carteira.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section id="lexis">
-    <div class="container">
-      <div class="section-head"><div><div class="section-label">Projeto principal</div><h2>LexisPredict</h2></div><p>Um sistema criado para a operação jurídica de volume: processo, prazo, atendimento, dados e supervisão em um só ambiente.</p></div>
-      <div class="featured">
-        <div class="featured-grid">
-          <div>
-            <div class="micro">Legal Operations & CRM Jurídico</div>
-            <h3>Da planilha bagunçada para uma operação rastreável.</h3>
-            <p>O LexisPredict foi construído como sistema diário da carteira da GET Assessoria. Em vez de apenas registrar processos, ele organiza filas, responsáveis, prazos, atendimento, movimentações e indicadores para transformar uma operação manual em um fluxo controlável.</p>
-            <div class="chips"><span class="chip">Next.js</span><span class="chip">TypeScript</span><span class="chip">PostgreSQL</span><span class="chip">Supabase</span><span class="chip">DataJud</span><span class="chip">DJEN</span><span class="chip">Salesforce / CRM</span><span class="chip">Google Apps Script</span></div>
-            <div class="case">
-              <div class="case-card highlight"><div class="big">600+ → ~250</div><div class="before">situação inicial → situação tratada</div><div class="after">queda de aproximadamente 58% ou mais</div><p>Baseado no relato operacional fornecido para este portfólio.</p></div>
-              <div class="case-card highlight"><div class="big">100+ → 0</div><div class="before">fila diária de WhatsApp</div><div class="after">sem retorno pendente na fila</div><p>Rotina passou a ser controlada dentro da operação.</p></div>
-            </div>
-          </div>
-          <div class="feature-list">
-            <div class="feature-item"><div class="feature-icon">01</div><div><strong>Carteira processual</strong><p>Controle de processos, prazo, status, responsável e prioridade.</p></div></div>
-            <div class="feature-item"><div class="feature-icon">02</div><div><strong>Scanner DataJud + DJEN</strong><p>Monitoramento de movimentações para reduzir silêncio operacional.</p></div></div>
-            <div class="feature-item"><div class="feature-icon">03</div><div><strong>CRM + atendimento</strong><p>Histórico, retornos e contexto do cliente no mesmo fluxo.</p></div></div>
-            <div class="feature-item"><div class="feature-icon">04</div><div><strong>Automação e relatórios</strong><p>Dashboards, sincronizações e rotinas que reduzem trabalho manual.</p></div></div>
-            <div class="feature-item"><div class="feature-icon">05</div><div><strong>Offline</strong><p>Projeto irmão para continuidade operacional em ambiente local.</p></div></div>
-            <a class="btn btn-primary" style="margin-top:7px" href="https://github.com/W1CAPITAL/LexisPredict" target="_blank" rel="noopener">Abrir no GitHub</a>
-          </div>
+    </section>
+    <section class="agent-zone" id="agentes" aria-labelledby="agentes-heading">
+      <div class="section">
+        <div class="section-header" data-reveal><div><span class="kicker"><span class="index">04 /</span> EXPERIÊNCIA W1 SALES</span><h2 id="agentes-heading">Uma boa conversa já é <em>um ótimo começo.</em></h2></div><p>Nosso assistente por etapas ajuda você a organizar o que precisa. Sem chat genérico, sem promessas automáticas e sem exigir um computador potente.</p></div>
+        <div class="agent-grid">
+          <article class="agent" data-reveal><span class="agent-icon" aria-hidden="true">01</span><h3>Conte o desafio</h3><p>Começamos pelo problema real, não por um formulário enorme.</p><span class="tag">SEU CONTEXTO</span></article>
+          <article class="agent" data-reveal><span class="agent-icon" aria-hidden="true">02</span><h3>Veja possibilidades</h3><p>Relacionamos sua necessidade às soluções do nosso catálogo.</p><span class="tag">CRITÉRIOS CLAROS</span></article>
+          <article class="agent" data-reveal><span class="agent-icon" aria-hidden="true">03</span><h3>Decida o próximo passo</h3><p>Você recebe uma indicação explicada. O contato humano só acontece quando você solicita.</p><span class="tag">CONTROLE NAS SUAS MÃOS</span></article>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="projetos">
-    <div class="container">
-      <div class="section-head"><div><div class="section-label">Portfólio</div><h2>Todos os projetos em destaque</h2></div><p>Projetos selecionados pela utilidade prática e pelo que demonstram sobre processos, dados, tecnologia e produto.</p></div>
-      <div class="project-grid">
-        <article class="project"><div class="project-top"><h3>OFFLINE-LEXISPREDICT</h3><span class="type">Continuidade operacional</span></div><p>Versão local do ecossistema LexisPredict para trabalhar com carteira e dados mesmo quando a operação precisa sair do navegador.</p><div class="stack"><b>Stack:</b> Electron · dados locais · integração jurídica</div><a href="https://github.com/W1CAPITAL/OFFLINE-LEXISPREDICT" target="_blank" rel="noopener">Ver projeto →</a></article>
-        <article class="project"><div class="project-top"><h3>Leadcheck</h3><span class="type">Lead & análise</span></div><p>Funil de captação com análise automática de financiamento, consulta de taxa média Bacen, simulação e pré-laudo.</p><div class="stack"><b>Stack:</b> React · Vite · Vercel · Bacen SGS · CSV/Sheets</div><a href="https://github.com/W1CAPITAL/Leadcheck" target="_blank" rel="noopener">Ver projeto →</a></article>
-        <article class="project"><div class="project-top"><h3>SyncCRM</h3><span class="type">CRM & operação</span></div><p>Conceito de CRM para organizar relacionamento, carteira, retornos e contexto operacional de clientes e casos.</p><div class="stack"><b>Stack:</b> Next.js · CRM · integração de operação</div><a href="https://github.com/W1CAPITAL/SyncCRM" target="_blank" rel="noopener">Ver projeto →</a></article>
-        <article class="project"><div class="project-top"><h3>Concessão de Crédito</h3><span class="type">Dados & ML</span></div><p>Projeto de análise de dados com modelo de Regressão Logística para classificação de risco de crédito e leitura de padrões.</p><div class="stack"><b>Stack:</b> Python · Pandas · NumPy · Scikit-learn · Matplotlib · Plotly</div><a href="https://github.com/W1CAPITAL/CONCESSAO-DE-CREDITO" target="_blank" rel="noopener">Ver projeto →</a></article>
-        <article class="project"><div class="project-top"><h3>W1.OS</h3><span class="type">Frontend & UX</span></div><p>Simulação de um desktop Linux de alta fidelidade, com gerenciador de janelas e experiência visual inspirada em sistemas premium.</p><div class="stack"><b>Stack:</b> Next.js 15 · Tailwind CSS · Framer Motion · Zustand</div><a href="https://github.com/W1CAPITAL/W1.OS" target="_blank" rel="noopener">Ver projeto →</a></article>
-        <article class="project"><div class="project-top"><h3>W1 Capital / SITE</h3><span class="type">Produto & portfólio</span></div><p>Hub visual para apresentar tecnologia, projetos e posicionamento profissional com foco em operação, jurídico e automação.</p><div class="stack"><b>Stack:</b> HTML · CSS · JavaScript · GitHub Pages</div><a href="https://github.com/W1CAPITAL/SITE" target="_blank" rel="noopener">Ver repositório →</a></article>
+    </section>
+    <section class="section contact-wrap" id="atendimento" aria-labelledby="contato-heading">
+      <div class="section-header" data-reveal><div><span class="kicker">CONHEÇA SEU PRÓXIMO PASSO</span><h2 id="contato-heading">Vamos encontrar <em>um caminho?</em></h2></div><p>Responda duas perguntas. Você pode ver a sugestão e salvar um resumo sem informar nome ou e-mail.</p></div>
+      <div class="consultant" data-reveal>
+        <div class="consultant-left">
+          <div class="consultant-label"><span class="dot-lg"></span> CONSULTA GUIADA W1 <span class="muted">· ETAPA <span id="step-number">1</span> DE 3</span></div>
+          <div class="progress" role="progressbar" aria-label="Progresso da consulta" aria-valuemin="0" aria-valuemax="3" aria-valuenow="1"><span id="progress-bar"></span></div>
+          <div id="step-body" aria-live="polite"></div>
+          <div class="navigation"><button id="back" class="btn secondary" type="button">Voltar</button><button id="next" class="btn primary" type="button">Continuar ↗</button></div>
+        </div>
+        <aside class="consultant-right" aria-labelledby="resumo-heading">
+          <span class="sidebar-kicker">SEU MAPA DE NECESSIDADES</span><h3 id="resumo-heading">O que entendemos até aqui</h3>
+          <div class="summary-row"><span>Principal desafio</span><strong id="summary-need">A definir</strong></div>
+          <div class="summary-row"><span>Tamanho da equipe</span><strong id="summary-size">A definir</strong></div>
+          <div class="summary-row"><span>Solução indicada</span><strong id="summary-product">A definir</strong></div>
+          <div class="note"><strong>Sem pegadinhas.</strong><p>Estas recomendações são feitas por regras claras. Não são uma proposta comercial nem uma conversa com uma pessoa real.</p></div>
+          <div id="storage-status" class="storage-status" role="status"></div>
+        </aside>
       </div>
-    </div>
-  </section>
-
-  <section id="trajetoria">
-    <div class="container">
-      <div class="section-head"><div><div class="section-label">Trajetória</div><h2>Onde essa experiência foi construída</h2></div><p>Uma combinação de operação real, atendimento, CRM, processos e tecnologia.</p></div>
-      <div class="timeline">
-        <div class="time"><div class="time-year">2026 — atual</div><div class="time-card"><h3>GET Assessoria Financeira · Analista de Processos Judiciais</h3><p>Legal Operations, processos, prazos, atendimento, automação, CRM e criação/manutenção do LexisPredict.</p></div></div>
-        <div class="time"><div class="time-year">2025 — 2026</div><div class="time-card"><h3>Concentrix · Backoffice / Suporte</h3><p>CRM Salesforce, atendimento, chamados, KPIs e suporte operacional.</p></div></div>
-        <div class="time"><div class="time-year">2024 — 2025</div><div class="time-card"><h3>NEOBPO · Controle de Acesso</h3><p>Rotinas operacionais, atendimento ao público, conferência e cumprimento de procedimentos.</p></div></div>
-        <div class="time"><div class="time-year">2024</div><div class="time-card"><h3>Clique Conselhos · Analista Desenvolvedor Júnior</h3><p>Monitoramento de aplicações, sites, dados, suporte e produção digital.</p></div></div>
+    </section>
+    <section class="section faq" id="faq" aria-labelledby="faq-heading">
+      <div><span class="kicker">PERGUNTAS FREQUENTES</span><h2 id="faq-heading">Sem letras miúdas.<br><em>Sem mistério.</em></h2><p class="faq-lead">Antes de começar, é bom saber exatamente o que acontece em cada etapa.</p></div>
+      <div class="faq-grid">
+        <details><summary>Posso conhecer as soluções sem pagar?</summary><p>Sim. A consulta inicial neste site é gratuita e não exige compromisso. A contratação de qualquer produto ou serviço é avaliada separadamente pela equipe.</p></details>
+        <details><summary>O assistente é uma IA conversando comigo?</summary><p>Não nesta versão. A recomendação funciona com regras claras no navegador, sem ChatGPT ou outra API paga conectada automaticamente.</p></details>
+        <details><summary>Vocês armazenam os dados do meu atendimento?</summary><p>As duas primeiras perguntas funcionam somente no navegador. O registro de contato depende de um banco comercial separado e de sua autorização expressa. Enquanto essa integração não estiver ativa, você poderá apenas baixar um resumo.</p></details>
+        <details><summary>A indicação já é um orçamento?</summary><p>Não. Ela ajuda a identificar o serviço que parece adequado. Escopo, funcionalidades, valores e prazos dependem de análise e confirmação humana.</p></details>
+        <details><summary>Vou receber mensagens de marketing?</summary><p>Não por usar esta página. Eventuais contatos comerciais dependem da sua solicitação e das autorizações aplicáveis. Não há disparos automáticos nesta versão.</p></details>
       </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container about">
-      <div class="panel"><div class="section-label">Posicionamento</div><h2 style="font-size:1.65rem">Operação + tecnologia</h2><p style="margin-top:12px">Meu foco é transformar problemas operacionais em soluções claras: organizar dados, estruturar processos, automatizar tarefas e criar sistemas que possam ser usados por quem está na ponta.</p><ul><li>Legal Operations e Processos</li><li>CRM e atendimento</li><li>Automação e integração de dados</li><li>SQL, BI e sistemas</li></ul></div>
-      <div class="panel"><div class="section-label">Contato</div><h2 style="font-size:1.65rem">Vamos conversar</h2><p style="margin-top:12px">São Paulo — SP · Presencial, híbrido ou remoto.</p><ul><li><a href="mailto:davialves.figueredo@gmail.com">davialves.figueredo@gmail.com</a></li><li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://github.com/W1CAPITAL" target="_blank" rel="noopener">GitHub / W1CAPITAL</a></li></ul></div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="container footer"><span>© 2026 <strong>Davi Alves Figueredo</strong></span><span>Legal Operations · Tecnologia · Automação · Dados</span></div>
-</footer>
+    </section>
+    <section class="end-cta" aria-labelledby="cta-heading"><div class="end-cta-inner"><span class="kicker">O PRÓXIMO PASSO COME PEQUENO</span><h2 id="cta-heading">Sua operação merece<br><em>funcionar melhor.</em></h2><p>Encontre o primeiro ponto a melhorar. O resto começa com uma boa conversa.</p><a class="btn primary" href="#atendimento">Descobrir minha solução <span aria-hidden="true">↗</span></a><span class="end-cta-mark" aria-hidden="true">W1</span></div></section>
+  </main>
+  <footer class="site-footer"><div class="footer-top"><a href="#inicio" class="footer-brand">W1 CAPITAL<span>TECHNOLOGY STUDIO</span></a><p>Tecnologia para organizações que querem trabalhar com mais clareza, consistência e autonomia.</p><a href="#inicio" class="footer-up">Voltar ao topo ↑</a></div><div class="footer-bottom"><span>© <span id="year">2026</span> W1 Capital. Conteúdo comercial informativo.</span><span>Indicações preliminares. Sem garantia de resultados.</span><a href="#faq">Privacidade e dúvidas</a></div></footer>
 </body>
 </html>
