@@ -53,6 +53,9 @@ test("interactions support keyboards, reduced motion and unobtrusive marketing",
   assert.match(premiumJS,/setMenuOpen\(false\)/);
   assert.match(premiumJS,/IntersectionObserver/);
   assert.match(premium,/prefers-reduced-motion: reduce/);
+  assert.match(premium,/\.w1-premium\.reveal-ready \[data-reveal\]/);
+  assert.match(premiumJS,/classList\.add\("reveal-ready"\)/);
+  assert.doesNotMatch(premium,/^\.w1-premium \[data-reveal\] \{ opacity: 0/m);
   assert.match(studio,/prefers-reduced-motion:reduce/);
   assert.match(html,/FLUXO ILUSTRATIVO/);
   assert.match(html,/Sem compromisso/);
