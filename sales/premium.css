@@ -225,8 +225,8 @@ body.w1-premium .section { padding: 108px max(5%, calc((100vw - 1400px) / 2)); m
 .footer-up { display: inline-flex; white-space: nowrap; border-bottom: 1px solid #e3ac9f; padding-bottom: 9px; color: #ffd6ae; }
 .footer-bottom { border-top: 1px solid #8b4a624f; padding-top: 24px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 11px; }
 .footer-bottom a { color: #ffd6a9; }
-.w1-premium [data-reveal] { opacity: 0; transform: translate3d(0, 18px, 0); transition: transform .65s var(--w1-ease), opacity .65s var(--w1-ease); }
-.w1-premium [data-reveal].is-visible { opacity: 1; transform: none; }
+.w1-premium.reveal-ready [data-reveal] { opacity: 0; transform: translate3d(0, 18px, 0); transition: transform .65s var(--w1-ease), opacity .65s var(--w1-ease); }
+.w1-premium.reveal-ready [data-reveal].is-visible { opacity: 1; transform: none; }
 .w1-premium .product.reveal, .w1-premium .agent.reveal { transition-property: opacity, transform, background, border-color, box-shadow; }
 @media (max-width: 1180px) {
   .w1-premium .hero { min-height: 650px; }
