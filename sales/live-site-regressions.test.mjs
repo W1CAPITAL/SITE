@@ -32,6 +32,9 @@ test("mobile drawer is a real controlled sidebar with navigation to sales and co
   assert.match(script,/aria-expanded/);
   assert.match(script,/event\.key === "Escape"/);
   assert.match(css,/\.mobile-navigation\[hidden\]/);
+  // styles.css has `.top nav { display:none }` under mobile breakpoint;
+  // the open drawer must explicitly win the CSS cascade, not just toggle hidden.
+  assert.match(css,/\.top \.mobile-navigation:not\(\[hidden\]\)\s*\{\s*display:\s*block/);
 });
 test("desktop nav scroll observer never sends product URLs to querySelector",()=>{
   // Previously: document.querySelector("./lexispredict/") raises SyntaxError.
