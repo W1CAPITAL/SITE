@@ -8,6 +8,7 @@ on:
       - 'docs/**'
       - 'sales/**'
       - 'lexispredict/**'
+      - 'assets/**'
       - '.github/workflows/w1-sales.yml'
   push:
     branches: [main]
@@ -47,4 +48,4 @@ jobs:
           node --check sales/offers/lexispredict-unit-economics.mjs
           node --check lexispredict/vendas.js
       - name: Validate homepage, consultation and privacy
-        run: node --test sales/live-site-regressions.test.mjs sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs sales/seo/audit.test.mjs sales/operations/meeting-notes.test.mjs sales/media/spot-preview.test.mjs sales/operations/commercial.test.mjs sales/offers/lexispredict-unit-economics.test.mjs lexispredict/vendas.test.mjs
+        run: node --test sales/brand-assets.test.mjs sales/live-site-regressions.test.mjs sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs sales/seo/audit.test.mjs sales/operations/meeting-notes.test.mjs sales/media/spot-preview.test.mjs sales/operations/commercial.test.mjs sales/offers/lexispredict-unit-economics.test.mjs lexispredict/vendas.test.mjs
