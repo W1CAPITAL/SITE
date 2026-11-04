@@ -36,6 +36,19 @@ export function makeDemoRequest(raw){
 }
 if(typeof window!=="undefined"){
  const $=id=>document.getElementById(id);
+ const shortcuts=document.querySelector(".mobile-shortcuts");
+ shortcuts?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{
+   shortcuts.open = false;
+ }));
+ document.addEventListener("keydown",event=>{
+   if(event.key === "Escape" && shortcuts?.open){
+     shortcuts.open = false;
+     shortcuts.querySelector("summary")?.focus();
+   }
+ });
+ document.addEventListener("pointerdown",event=>{
+   if(shortcuts?.open && !shortcuts.contains(event.target)) shortcuts.open = false;
+ });
  const form=$("demo-form");
  const status=$("status");
  const fallback=$("fallback");
