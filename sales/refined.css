@@ -507,3 +507,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,t
  .product{transition:none}.product:hover{transform:none}
 }
 
+/* Synthetic-image disclosure must not collide with the fixed WhatsApp control. */
+@media(max-width:740px){
+ .hero-media figcaption{left:14px;right:auto;bottom:11px;max-width:min(170px,45vw);background:#260b19d9;color:#fff;border-radius:4px;padding:5px 7px;line-height:1.35;font-size:9px}
+}
