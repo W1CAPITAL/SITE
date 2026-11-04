@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'index.html'
+      - 'guia/**'
+      - 'robots.txt'
+      - 'sitemap.xml'
       - 'README.md'
       - 'docs/**'
       - 'sales/**'
@@ -43,6 +46,7 @@ jobs:
           node --check sales/prospecting/fichario.js
           node --check sales/prospecting/workspace.js
           node --check sales/seo/audit.mjs
+          node --check guia/origem.mjs
           node --check sales/operations/meeting-notes.js
           node --check sales/media/spot-preview.js
           node --check sales/operations/commercial-core.js
@@ -52,4 +56,4 @@ jobs:
           node --check sales/interactive-demo-model.mjs
           node --check sales/interactive-demo.mjs
       - name: Validate homepage, consultation and privacy
-        run: node --test sales/official-mini-preview.test.mjs sales/vector-logos.test.mjs sales/interactive-demo.test.mjs sales/brand-assets.test.mjs sales/conversion-redesign.test.mjs sales/reference-layout.test.mjs sales/live-site-regressions.test.mjs sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs sales/seo/audit.test.mjs sales/operations/meeting-notes.test.mjs sales/media/spot-preview.test.mjs sales/operations/commercial.test.mjs sales/offers/lexispredict-unit-economics.test.mjs lexispredict/vendas.test.mjs lexispredict/mobile-menu.test.mjs
+        run: node --test sales/seo/organic-growth.test.mjs sales/official-mini-preview.test.mjs sales/vector-logos.test.mjs sales/interactive-demo.test.mjs sales/brand-assets.test.mjs sales/conversion-redesign.test.mjs sales/reference-layout.test.mjs sales/live-site-regressions.test.mjs sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs sales/seo/audit.test.mjs sales/operations/meeting-notes.test.mjs sales/media/spot-preview.test.mjs sales/operations/commercial.test.mjs sales/offers/lexispredict-unit-economics.test.mjs lexispredict/vendas.test.mjs lexispredict/mobile-menu.test.mjs
