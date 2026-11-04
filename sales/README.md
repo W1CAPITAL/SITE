@@ -32,3 +32,7 @@ O formulário não envia mensagens WhatsApp nem campanhas e não promete registr
     node --test sales/core.test.mjs sales/site.test.mjs
 
 Consulte ../README.md para publicação e demais detalhes.
+
+## Pesquisa futura de empresas
+
+O módulo `prospecting/` oferece pesquisa manual por CNPJ e CNAE + UF + cidade no Fichário, com validação local, sem coletar contatos nem acessar o Supabase. A arquitetura futura para uso da API/MCP, regras de privacidade e modelo de banco privado estão em [prospecting/README.md](prospecting/README.md). Sua publicação não equivale à ativação de um CRM de prospecção.
