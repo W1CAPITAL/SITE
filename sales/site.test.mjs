@@ -76,3 +76,18 @@ test("demo mode and commercial database remain separate from legal clients",()=>
   assert.doesNotMatch(sql,/grant select .* to anon/i);
   assert.match(sql,/consent is true/i);
 });
+
+
+test("cinematic W1 identity preserves a local fictional-person hero and visual consistency",()=>{
+  const lexis=read("lexispredict/index.html");
+  assert.match(html,/\.\/sales\/cinematic\.css/);
+  assert.match(lexis,/\.\/cinematic\.css/);
+  assert.match(html,/src="\.\/assets\/w1-hero-ficticia\.webp"/);
+  assert.ok(existsSync(join(root,"assets/w1-hero-ficticia.webp")),"synthetic hero asset missing");
+  assert.match(html,/Imagem gerada digitalmente/);
+  assert.doesNotMatch(html,/pexels\.com|unsplash\.com|images\.pexels/i);
+  assert.match(html,/Estratégia, tecnologia e clareza/);
+  assert.match(lexis,/Demonstração com dados fictícios/i);
+  assert.ok(existsSync(join(root,"sales/cinematic.css")),"home visual design missing");
+  assert.ok(existsSync(join(root,"lexispredict/cinematic.css")),"product visual design missing");
+});
