@@ -81,3 +81,9 @@
 - [Autenticação futura](./AUTH-ROADMAP.md)
 - [Guia de produção de vídeos e voz](./MEDIA-ROADMAP.md)
 - [Homepage](../index.html)
+
+## 9. Diretriz empresarial central — decisão de 04/11/2026
+
+**A W1 precisa conquistar clientes e gerar dinheiro de forma legítima e sustentável. Construir sites é meio, não fim.** Novos projetos serão avaliados primeiro pela capacidade de gerar demanda qualificada, transformar interesse em proposta/contrato, entregar valor e registrar receita recebida de forma verificável. Os bloqueios de domínio público, canal comercial, oferta aprovada e banco privado devem ser removidos antes de gastar tempo em efeitos decorativos. Consultar [W1-DIRETRIZ-COMERCIAL.md](W1-DIRETRIZ-COMERCIAL.md) e [sales/operations/commercial.html](../sales/operations/commercial.html).
+
+O arquivo `CLAUDE.md` anexado complementa o processo de recreação visual com distinção entre modelo visual e conteúdo, inspeção de links reais, animação e duas rodadas de comparação. Só se aplica às tarefas com referências e permissões adequadas; ver [UI-RECREATION-WORKFLOW.md](UI-RECREATION-WORKFLOW.md).
