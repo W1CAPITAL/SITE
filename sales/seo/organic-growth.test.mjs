@@ -43,3 +43,11 @@ test("public SEO entry points include the three actual consumer-facing pages, no
  }
  assert.doesNotMatch(xml,/\/sales\/|example\.com|localhost|<lastmod>2027/i);
 });
+
+test("homepage and product page prominently link to the free educational resource",()=>{
+ const home=read("index.html"),product=read("lexispredict/index.html");
+ assert.match(home,/href="\.\/guia\/"/);
+ assert.match(product,/href="\.\.\/guia\/"/);
+ assert.match(home,/Checklist gratuito/);
+ assert.match(product,/Checklist gratuito/);
+});
