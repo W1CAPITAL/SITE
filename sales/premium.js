@@ -3,6 +3,8 @@
   "use strict";
   const $ = (selector, context = document) => context.querySelector(selector);
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  // Progressive enhancement: without JS, content must remain visible.
+  if (!reducedMotion.matches && "IntersectionObserver" in window) document.body.classList.add("reveal-ready");
   const menuButton = $(".menu-toggle");
   const menu = $("#menu-mobile");
   const nav = $(".desktop-nav");
