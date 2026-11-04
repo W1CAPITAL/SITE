@@ -80,8 +80,8 @@ test("demo mode and commercial database remain separate from legal clients",()=>
 
 test("cinematic W1 identity preserves a local fictional-person hero and visual consistency",()=>{
   const lexis=read("lexispredict/index.html");
-  assert.match(html,/\.\/sales\/refined\.css\?v=20261104-cinematic4/);
-  assert.match(lexis,/\.\/conversion\.css\?v=20261104-cinematic3/);
+  assert.match(html,/\.\/sales\/refined\.css\?v=20261104-demo2/);
+  assert.match(lexis,/\.\/conversion\.css\?v=20261104-demo2/);
   assert.match(html,/src="\.\/assets\/w1-hero-ficticia\.webp"/);
   assert.ok(existsSync(join(root,"assets/w1-hero-ficticia.webp")),"synthetic hero asset missing");
   assert.match(html,/Imagem gerada digitalmente/);

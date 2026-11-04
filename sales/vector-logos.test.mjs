@@ -25,11 +25,11 @@ test("W1 and LexisPredict logos use standalone vectors and preserve their aspect
  }
 });
 
-test("both commercial pages load logo-integrity stylesheet last and never squash branding",()=>{
+test("both commercial pages include vector logos in the unified stylesheets",()=>{
  const home=read("index.html");
  const product=read("lexispredict/index.html");
  for(const page of [home,product]){
-  assert.match(page,/logo-integrity\.css\?v=20261104/);
+  assert.match(page,/refined\.css\?v=20261104-demo2|conversion\.css\?v=20261104-demo2/);
   assert.match(page,/brand-atlas-w1-symbol/);
   assert.match(page,/brand-atlas-lexis-full/);
  }
@@ -42,4 +42,8 @@ test("both commercial pages load logo-integrity stylesheet last and never squash
  assert.match(css,/\.lp-gallery-header \.lp-gallery-logo/);
  assert.match(css,/\.footer-logo\.brand-atlas-w1-full/);
  assert.match(css,/@media\s*\(max-width:\s*600px\)/);
+ for(const path of ["sales/refined.css","lexispredict/conversion.css"]){
+  assert.match(read(path),/lexispredict-wordmark\.svg/);
+  assert.match(read(path),/background-size:contain/);
+ }
 });
