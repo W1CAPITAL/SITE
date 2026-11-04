@@ -228,3 +228,19 @@ footer a{color:#ffe3b7}
  .orbit{animation:none!important}
  .showcase,.desk,.product,.agent,.choice,.btn{transition:none!important}
 }
+
+/* Motion accents: guide attention toward the next action, not fake urgency. */
+.step-swap{animation:stepEnter 350ms cubic-bezier(.2,.8,.24,1) both}
+@keyframes stepEnter{from{opacity:.45;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:741px){
+ .showcase::before{
+  content:"";position:absolute;z-index:0;inset:-80% -20%;
+  background:linear-gradient(125deg,transparent 40%,rgba(255,227,192,.07) 50%,transparent 60%);
+  transform:translateX(-80%);pointer-events:none;
+  animation:scanLight 12s ease-in-out infinite;
+ }
+ @keyframes scanLight{0%,16%{transform:translateX(-80%)}45%,100%{transform:translateX(80%)}}
+}
+@media(prefers-reduced-motion:reduce){
+ .step-swap,.showcase::before{animation:none!important}
+}
