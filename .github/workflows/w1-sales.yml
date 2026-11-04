@@ -1,17 +1,24 @@
-name: W1 Sales quality
+name: W1 Capital site quality
+
 on:
   pull_request:
     paths:
+      - 'index.html'
+      - 'README.md'
       - 'sales/**'
       - '.github/workflows/w1-sales.yml'
   push:
     branches: [main]
     paths:
+      - 'index.html'
+      - 'README.md'
       - 'sales/**'
       - '.github/workflows/w1-sales.yml'
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   static-site:
     runs-on: ubuntu-latest
@@ -25,6 +32,7 @@ jobs:
         run: |
           node --check sales/core.js
           node --check sales/app.js
+          node --check sales/premium.js
           node --check sales/config.js
-      - name: Test guidance, privacy and landing
+      - name: Validate homepage, consultation and privacy
         run: node --test sales/core.test.mjs sales/site.test.mjs
