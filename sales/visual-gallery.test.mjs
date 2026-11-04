@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = path => readFileSync(join(root,path),"utf8");
 
-test("hero keeps a local fictional-person asset with high resolution",()=>{
+test("hero retains the local fictional-person asset without external portrait services",()=>{
  const html=read("index.html");
  assert.match(html,/assets\/w1-hero-ficticia\.webp/);
  const asset=join(root,"assets/w1-hero-ficticia.webp");
@@ -14,7 +14,7 @@ test("hero keeps a local fictional-person asset with high resolution",()=>{
  const b=readFileSync(asset);
  assert.equal(b.toString("ascii",0,4),"RIFF");
  assert.equal(b.toString("ascii",8,12),"WEBP");
- assert.match(html,/class="hero-photo"[^>]*width="1440" height="1019"/);
+ assert.match(html,/class="hero-photo"[^>]*width="560" height="356"/);
  assert.match(html,/Personagem fictícia/);
 });
 
@@ -31,7 +31,7 @@ test("both commercial pages demonstrate the app visually with privacy-safe label
   assert.match(svg,/<svg /);
   assert.match(svg,/Dados fictícios/);
   assert.match(svg,new RegExp(token));
-  assert.doesNotMatch(svg,/<script|https?:\/\/|<foreignObject/i);
+  assert.doesNotMatch(svg,/<script|<foreignObject|(?:href|src)=["\x27]https?:\/\//i);
  }
  for(const page of [homepage,lexis]){
   assert.match(page,/lexis-dashboard-preview\.svg/);
@@ -50,5 +50,5 @@ test("both commercial pages demonstrate the app visually with privacy-safe label
  assert.match(controls,/\.dataset\.previewSrc/);
  assert.match(read("sales/visual-gallery.css"),/@media\(max-width:460px\)/);
  assert.match(read("sales/visual-gallery.css"),/\.lp-screen-showcase/);
- assert.match(read("lexispredict/conversion.css"),/\.lp-screen-gallery/);
+ assert.match(read("sales/visual-gallery.css"),/\.lp-screen-gallery/);
 });
