@@ -80,8 +80,8 @@ const VIEWS={overview,processes,tasks,calendar,reports,team,settings};
 function nav(state){
  return TABS.map(tab=>'<button class="demo-nav-button'+(state.activeTab===tab?' is-active':'')+'" type="button" data-demo-nav="'+tab+'" data-official-route="'+ROUTES[tab]+'" '+(state.activeTab===tab?'aria-current="page"':'')+'><span class="demo-nav-icon" aria-hidden="true">'+ICONS[tab]+'</span>'+NAMES[tab]+'</button>').join("");
 }
-function frame(state){
- return '<div class="lexis-live-demo'+(state.compact?' is-compact':'')+'"><aside class="demo-sidebar"><div class="demo-logo"><b>LP</b><div><strong>LEXISPREDICT</strong><small>PRÉVIA · DADOS FICTÍCIOS</small></div></div><nav aria-label="Navegação inspirada no LexisPredict oficial">'+nav(state)+'</nav><div class="demo-sidebar-foot">Ambiente fictício<br>Sem acesso a clientes</div></aside><div class="demo-main"><div class="demo-topbar"><span>LexisPredict <b>/ '+NAMES[state.activeTab]+'</b></span><span class="demo-badge">● PRÉVIA · DADOS FICTÍCIOS</span></div><div class="demo-main-scroll"><div data-demo-panel>'+VIEWS[state.activeTab](state)+'</div><div class="demo-status" role="status" aria-live="polite">'+e(state.notice)+'</div></div></div></div>';
+function frame(state,assetPrefix){
+ return '<div class="lexis-live-demo'+(state.compact?' is-compact':'')+'"><aside class="demo-sidebar"><div class="demo-logo"><img src="'+assetPrefix+'lexispredict-symbol.svg" alt="" width="29" height="29"><div><strong>LEXISPREDICT</strong><small>PRÉVIA · DADOS FICTÍCIOS</small></div></div><nav aria-label="Navegação inspirada no LexisPredict oficial">'+nav(state)+'</nav><div class="demo-sidebar-foot">Ambiente fictício<br>Sem acesso a clientes</div></aside><div class="demo-main"><div class="demo-topbar"><span>LexisPredict <b>/ '+NAMES[state.activeTab]+'</b></span><span class="demo-badge">● PRÉVIA · DADOS FICTÍCIOS</span></div><div class="demo-main-scroll"><div data-demo-panel>'+VIEWS[state.activeTab](state)+'</div><div class="demo-status" role="status" aria-live="polite">'+e(state.notice)+'</div></div></div></div>';
 }
 function downloadDemoReport(state){
  const m=demoMetrics(state);
@@ -97,6 +97,8 @@ function mount(gallery){
  if(!stage||stage.querySelector(".lexis-live-demo"))return;
  let state=createDemoState();
  const host=document.createElement("div");
+ const localPreview=gallery.querySelector("[data-preview-main]")?.getAttribute("src")||"";
+ const assetPrefix=localPreview.startsWith("../assets/")?"../assets/":"./assets/";
  host.className="demo-live-host";
  host.setAttribute("aria-label","Demonstração interativa do LexisPredict com dados fictícios");
  stage.classList.add("has-functional-demo");
@@ -114,7 +116,7 @@ function mount(gallery){
   const title=gallery.querySelector("[data-preview-title]");
   if(title)title.textContent=NAMES[state.activeTab];
  };
- const render=()=>{host.innerHTML=frame(state);sync();};
+ const render=()=>{host.innerHTML=frame(state,assetPrefix);sync();};
  function dispatch(action){
   try{state=updateDemoState(state,action);render();}
   catch(error){
