@@ -55,7 +55,8 @@
     .top-inner{height:100%;width:92%;max-width:1450px;margin:auto;display:flex;gap:22px;align-items:center}
     .brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:13px;letter-spacing:.07em;white-space:nowrap}
     .brand small{display:block;font-size:9px;letter-spacing:.13em;color:#ddb6bd;margin-top:4px}
-    .brand-mark{height:44px;width:44px;display:grid;place-items:center;background:#ffb88a;color:#41172b;border-radius:12px 3px 12px 3px;font-size:19px}
+    .brand-mark{height:44px;width:44px;display:grid;place-items:center;background:#310012;color:#d8d9de;border-radius:12px 3px 12px 3px;font-size:19px}
+    .brand-atlas-w1-symbol{background-image:url("./assets/w1-lexis-atlas.webp");background-size:200% 200%;background-position:0 0;background-repeat:no-repeat}
     .top .desktop-nav{display:flex;gap:clamp(10px,1.3vw,22px);align-items:center;margin:auto;font-size:12px}
     .top .desktop-nav a{color:#f0d8db}
     .nav-cta{display:inline-flex;align-items:center;gap:10px;background:#ffb88a;color:#3d162c;padding:13px;border-radius:10px 3px 10px 3px;font-size:12px;font-weight:850;white-space:nowrap}
@@ -104,10 +105,10 @@
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   </style>
-  <link rel="preload" href="./sales/premium.css?v=20261104-mob2" as="style">
+  <link rel="preload" href="./sales/premium.css?v=20261104-brand1" as="style">
   <link rel="stylesheet" href="./sales/styles.css?v=20261104-mob2">
   <link rel="stylesheet" href="./sales/studio.css?v=20261104-mob2">
-  <link rel="stylesheet" href="./sales/premium.css?v=20261104-mob2">
+  <link rel="stylesheet" href="./sales/premium.css?v=20261104-brand1">
   <script src="./sales/config.js"></script>
   <script type="module" src="./sales/app.js"></script>
   <script defer src="./sales/premium.js?v=20261104-mob2"></script>
@@ -117,7 +118,7 @@
   <header class="top" id="inicio">
     <div class="top-inner">
       <a class="brand" href="#inicio" aria-label="W1 Capital, início">
-        <span class="brand-mark" aria-hidden="true">W<span>1</span></span>
+        <span class="brand-mark brand-atlas-w1-symbol" role="img" aria-label="Emblema W1 Capital"></span>
         <span>W1 CAPITAL<small>TECHNOLOGY STUDIO</small></span>
       </a>
       <nav class="desktop-nav" aria-label="Navegação principal">
@@ -198,6 +199,7 @@
     <section class="featured-product" aria-labelledby="featured-title">
       <div class="feature-inner">
         <div class="feature-copy" data-reveal>
+          <div class="brand-atlas-lexis-full product-logo" role="img" aria-label="Logotipo LexisPredict em prata sobre vinho"></div>
           <p class="kicker">PRODUTO EM DESTAQUE · W1 CAPITAL</p>
           <h2 id="featured-title">LexisPredict.<br><em>Mais visão sobre a operação jurídica.</em></h2>
           <p>Uma plataforma para reunir processos, atendimento e acompanhamento em um único lugar. Em vez de informações espalhadas, a equipe encontra um espaço organizado para trabalhar.</p>
@@ -213,7 +215,7 @@
         </div>
         <div class="feature-visual" data-reveal aria-label="Ilustração conceitual do painel LexisPredict. Não exibe dados reais.">
           <div class="feature-screen">
-            <div class="feature-screen-head"><span class="feature-symbol">W1</span><span>LexisPredict</span><span class="feature-dots" aria-hidden="true">•••</span></div>
+            <div class="feature-screen-head"><span class="feature-symbol brand-atlas-lexis-symbol" role="img" aria-label="Emblema LexisPredict"></span><span>LexisPredict</span><span class="feature-dots" aria-hidden="true">•••</span></div>
             <div class="feature-screen-body">
               <div class="feature-screen-side" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
               <div class="feature-screen-main">
@@ -289,7 +291,7 @@
     <section class="end-cta" aria-labelledby="cta-heading"><div class="end-cta-inner"><span class="kicker">O PRÓXIMO PASSO COMEÇA PEQUENO</span><h2 id="cta-heading">Sua operação merece<br><em>funcionar melhor.</em></h2><p>Encontre o primeiro ponto a melhorar. O resto começa com uma boa conversa.</p><a class="btn primary" href="#atendimento">Descobrir minha solução <span aria-hidden="true">↗</span></a><span class="end-cta-mark" aria-hidden="true">W1</span></div></section>
   </main>
   <a class="wa-float" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20equipe%20W1%20Capital%21%20Gostaria%20de%20uma%20demonstra%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer" aria-label="Conversar com W1 Capital no WhatsApp">WhatsApp <span aria-hidden="true">↗</span></a>
-  <footer class="site-footer"><div class="footer-top"><a href="#inicio" class="footer-brand">W1 CAPITAL<span>TECHNOLOGY STUDIO</span></a><p>Tecnologia para organizações que querem trabalhar com mais clareza, consistência e autonomia.</p><a href="#inicio" class="footer-up">Voltar ao topo ↑</a></div><div class="footer-contact-strip" aria-label="Contatos oficiais da W1 Capital">
+  <footer class="site-footer"><div class="footer-top"><a href="#inicio" class="footer-brand" aria-label="W1 Capital — voltar ao início"><span class="brand-atlas-w1-full footer-logo" role="img" aria-label="Logotipo W1 Capital"></span></a><p>Tecnologia para organizações que querem trabalhar com mais clareza, consistência e autonomia.</p><a href="#inicio" class="footer-up">Voltar ao topo ↑</a></div><div class="footer-contact-strip" aria-label="Contatos oficiais da W1 Capital">
     <span>Fale diretamente com a W1</span>
     <a href="mailto:corporacaow1capital@gmail.com">corporacaow1capital@gmail.com ↗</a>
     <a href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20equipe%20W1%20Capital%21%20Gostaria%20de%20conhecer%20as%20solu%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">WhatsApp +55 13 99119-9349 ↗</a>

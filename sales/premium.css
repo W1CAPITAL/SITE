@@ -333,3 +333,27 @@ body.w1-premium .section { padding: 108px max(5%, calc((100vw - 1400px) / 2)); m
 @media (prefers-reduced-motion: reduce) {
   .wa-float, .menu-toggle span { transition: none !important; }
 }
+
+
+/* Approved W1 Capital / LexisPredict metallic silver on wine identity.
+ * Local 8.5KB WebP atlas, one request, 4 art placements. No remote media. */
+.brand-atlas-w1-symbol,
+.brand-atlas-w1-full,
+.brand-atlas-lexis-symbol,
+.brand-atlas-lexis-full {
+  display: inline-block;flex:none;
+  background-image: url("../assets/w1-lexis-atlas.webp");
+  background-repeat:no-repeat;
+  background-size:200% 200%;
+  background-color:#310012;
+  border-radius:12px;
+}
+.brand-atlas-w1-symbol{background-position:0 0}
+.brand-atlas-lexis-symbol{background-position:100% 0}
+.brand-atlas-w1-full{background-position:0 100%}
+.brand-atlas-lexis-full{background-position:100% 100%}
+.top .brand-mark.brand-atlas-w1-symbol{width:44px;height:44px;border:1px solid #a9a1a44d;border-radius:12px}
+.product-logo{display:block;width:144px;height:144px;margin:0 0 13px;border:1px solid #d6bac132;box-shadow:0 12px 30px #12020e27}
+.feature-screen-head .feature-symbol.brand-atlas-lexis-symbol{width:35px;height:35px;flex:0 0 35px;background-color:#310012;border:1px solid #f1c7d84d}
+.footer-brand .footer-logo{display:block;width:155px;height:155px;max-width:35vw;max-height:35vw;border:1px solid #d2bcc033}
+@media(max-width:650px){.product-logo{width:116px;height:116px}.footer-brand .footer-logo{width:126px;height:126px}}
