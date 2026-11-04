@@ -324,3 +324,120 @@ footer a{color:#ead0db}
 }
 @media(prefers-reduced-motion:reduce){.features article:hover,.hero .visual:hover{transform:none}}
 
+/* W1 Capital × LexisPredict • interactive product gallery • 2026 */
+.hero.section{position:relative;isolation:isolate;overflow:hidden}
+.hero .hero-media{width:66%;z-index:0}
+.hero .hero-photo{transform:scaleX(-1);object-position:center 46%}
+.hero .hero-copy{z-index:4;max-width:min(690px,53%);}
+.hero .hero-app-window{display:block;position:absolute;z-index:2;right:16.7%;bottom:62px;width:min(33vw,490px);text-decoration:none;color:#fff;border-radius:12px 12px 6px 6px;background:#160d18;border:7px solid #29202a;box-shadow:0 29px 43px #12040bbe,0 0 0 1px #d8b8c165;transform:perspective(900px) rotateY(-4deg) rotateX(1deg);transition:transform .25s ease,box-shadow .25s ease}
+.hero .hero-app-window:hover{transform:perspective(900px) rotateY(0) translateY(-6px);box-shadow:0 34px 46px #12040bdd}
+.hero-app-toolbar,.lp-device-top,.lp-hero-device-head{display:flex;align-items:center;gap:12px;padding:8px 13px;background:#2b1120;color:#eedce5;font-family:"Segoe UI",sans-serif;font-size:10px;letter-spacing:.09em}
+.hero-app-toolbar strong{font-size:10px;color:#fff}
+.hero-app-toolbar>span:last-child,.lp-device-top small,.lp-hero-device-head small{margin-left:auto;font-size:8px;color:#d1aab9}
+.hero-app-dots{color:#bb6b87;font-size:10px;letter-spacing:2px}
+.hero-app-window img{display:block;width:100%;height:auto;aspect-ratio:1280/800;object-fit:cover;background:#22121e}
+.hero-app-base{display:block;position:absolute;bottom:-17px;left:-9%;width:118%;height:12px;border-radius:5px 5px 50% 50%;background:linear-gradient(#e6dce0,#605963);box-shadow:0 8px 8px #13090b65}
+.featured-product .feature-visual.lp-feature-device{border:0;overflow:visible;box-shadow:none;background:transparent}
+.lp-feature-display{width:100%;overflow:hidden;background:#1c1120;padding:7px;border:1px solid #9c7689;border-radius:14px;box-shadow:0 26px 44px #2e0c1e36}
+.lp-feature-display img{display:block;width:100%;height:auto;aspect-ratio:1280/800;border-radius:0 0 7px 7px}
+.lp-device-top{border-radius:6px 6px 0 0}
+.lp-device-top>span{letter-spacing:3px;color:#c4778f}
+.lp-feature-device .feature-visual-footnote{display:block;text-align:center;color:#836472;margin-top:15px;font-size:10px;letter-spacing:.04em}
+
+.lp-screen-showcase,.lp-screen-gallery{position:relative;background:#f5eeeb;color:#2d1020;padding:95px 5%;overflow:hidden;border-top:1px solid #e6d9de;border-bottom:1px solid #e6d9de}
+.lp-screen-gallery{background:#f8f3f1}
+.lp-section-inner{max-width:1320px;width:100%;margin:auto}
+.lp-gallery-header{display:grid;grid-template-columns:1.2fr .75fr;gap:10%;align-items:end;margin:0 0 36px}
+.lp-gallery-header h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(37px,4.1vw,62px);line-height:1.10;letter-spacing:-.04em;margin:16px 0 0;color:#341123}
+.lp-gallery-header h2 em{color:#9f2348;font-style:normal}
+.lp-gallery-header .kicker{font-size:11px;letter-spacing:.2em;color:#81314c;font-weight:700}
+.lp-gallery-header p{font:400 15px/1.75 "Segoe UI",Arial,sans-serif;color:#765c67;margin:0 0 4px;max-width:445px}
+.lp-gallery-layout{display:grid;grid-template-columns:minmax(230px,.38fr) minmax(0,1fr);gap:22px;align-items:stretch}
+.lp-gallery-choices{display:flex;flex-direction:column;gap:12px}
+.lp-screen-choice{appearance:none;display:flex;align-items:center;width:100%;text-align:left;gap:14px;background:#fffbf8;border:1px solid #e8d9df;color:#361326;border-radius:10px;padding:20px 19px;min-height:94px;cursor:pointer;box-shadow:0 6px 18px #57192d09;transition:background .2s,border-color .2s,transform .2s}
+.lp-screen-choice:hover{background:#fff;border-color:#b87591;transform:translateX(3px)}
+.lp-screen-choice[aria-pressed="true"]{color:#fff;background:linear-gradient(120deg,#680d30,#351122);border-color:#965370;box-shadow:0 17px 29px #49122325}
+.lp-choice-icon{display:flex;align-items:center;justify-content:center;width:42px;height:42px;flex:0 0 42px;font-size:13px;letter-spacing:.08em;border:1px solid #e8cdd7;color:#a23255;background:#f5e5eb;border-radius:10px;font-weight:700}
+.lp-screen-choice[aria-pressed="true"] .lp-choice-icon{color:#fff;border-color:#b36c88;background:#833452}
+.lp-choice-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.lp-choice-copy strong{font-weight:700;font-size:15px;line-height:1.25}
+.lp-choice-copy small{font-size:11px;line-height:1.4;color:#816a76}
+.lp-screen-choice[aria-pressed="true"] .lp-choice-copy small{color:#e8c8d4}
+.lp-choice-arrow{margin-left:auto;font-size:19px;color:#9b4c6c}
+.lp-screen-choice[aria-pressed="true"] .lp-choice-arrow{color:#ffecf2}
+.lp-gallery-note{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding:15px 16px;border-left:2px solid #a32c53;background:#fff6f6;color:#4d2637;font-size:12px;line-height:1.6}
+.lp-gallery-note strong{font-size:12px}
+.lp-gallery-note span{color:#806c76}
+.lp-gallery-stage{align-self:start;min-width:0;padding:7px;background:#21121d;border:1px solid #895b71;border-radius:13px;box-shadow:0 23px 48px #491e3133}
+.lp-stage-top{height:40px;background:#2f1526;border-radius:7px 7px 0 0;display:flex;align-items:center;gap:15px;padding:0 17px;color:#eee0e7;font-size:12px;font-weight:600}
+.lp-stage-dots{display:inline-flex;gap:5px}.lp-stage-dots i{display:block;width:7px;height:7px;border-radius:50%;background:#a15b77}.lp-stage-dots i:nth-child(2){background:#ce8a83}.lp-stage-dots i:nth-child(3){background:#8f9a8c}
+.lp-stage-tag{margin-left:auto;color:#bc95a7;letter-spacing:.12em;font-size:9px}
+.lp-gallery-stage>img{display:block;width:100%;height:auto;aspect-ratio:1280/800;background:#2e1524;object-fit:cover}
+.lp-stage-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 12px;background:#291522;border-radius:0 0 7px 7px;color:#c6a8b7;font-size:11px}
+.lp-stage-actions button{appearance:none;color:#fff;border:1px solid #946078;border-radius:6px;background:#5a1734;padding:8px 12px;font:600 11px "Segoe UI",sans-serif;cursor:pointer}
+.lp-stage-actions button:hover{background:#8d2751}
+.lp-gallery-footer{display:flex;align-items:center;flex-wrap:wrap;gap:14px 28px;margin-top:26px;color:#74505f;font-size:12px}
+.lp-gallery-footer>span::before{content:"✓";color:#9d274a;margin-right:7px;font-weight:bold}
+.lp-gallery-footer>a{margin-left:auto;text-decoration:none;color:#7e1637;font-weight:700;border-bottom:1px solid #8d3551;padding-bottom:5px}
+.lp-gallery-footer>a:hover{color:#b43e5f}
+.lp-preview-dialog{max-width:min(1180px,94vw);width:95vw;max-height:90vh;overflow:auto;background:#22101c;border:1px solid #a36681;padding:14px;border-radius:12px;color:#f8e4ee;box-shadow:0 40px 100px #170210a8}
+.lp-preview-dialog::backdrop{background:#12060dc4;backdrop-filter:blur(6px)}
+.lp-preview-dialog[open]{display:block}
+.lp-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:8px 4px 14px;font:600 14px "Segoe UI",sans-serif}
+.lp-dialog-head button{border:1px solid #c58ca6;border-radius:6px;background:#612343;color:#fff;padding:9px 15px;cursor:pointer}
+.lp-preview-dialog img{display:block;width:100%;height:auto}
+.lp-preview-dialog p{color:#ddbbcd;font-size:12px;text-align:center;margin:10px 0 3px}
+.lp-screen-choice:focus-visible,.lp-stage-actions button:focus-visible,.lp-dialog-head button:focus-visible,.lp-gallery-footer a:focus-visible,.hero-app-window:focus-visible{outline:3px solid #f0af7b;outline-offset:4px}
+
+.hero .visual.lp-product-hero-device{max-width:670px;width:100%;padding:7px;background:#1e111d;border:1px solid #b17892;overflow:hidden;box-shadow:0 30px 53px #12000bb8}
+.lp-product-hero-device img{display:block;width:100%;height:auto;aspect-ratio:1280/800;object-fit:cover}
+.lp-hero-device-head{border-radius:6px 6px 0 0;color:#fff}
+.lp-hero-device-head>span{color:#cb7995;letter-spacing:2px}
+.lp-product-hero-device>p{margin:0;padding:10px 12px;text-align:center;background:#271423;color:#d6b7c6;font-size:11px}
+
+@media(max-width:1100px){
+ .hero .hero-app-window{right:8%;width:39vw;bottom:49px}
+ .hero .hero-copy{max-width:55%}
+ .lp-screen-showcase,.lp-screen-gallery{padding:70px 5%}
+ .lp-gallery-layout{grid-template-columns:minmax(220px,.42fr) minmax(0,1fr)}
+ .lp-gallery-header{gap:35px}
+}
+@media(max-width:760px){
+ .hero.section{min-height:870px;padding-bottom:295px}
+ .hero .hero-photo{object-position:center 36%}
+ .hero .hero-copy{max-width:100%}
+ .hero .hero-app-window{left:8%;right:auto;bottom:45px;width:84%;max-width:490px;transform:none}
+ .hero .hero-app-window:hover{transform:translateY(-3px)}
+ .hero .hero-media{height:62%;width:100%}
+ .hero:after{background:linear-gradient(180deg,#250b17 0%,#230b16f7 31%,#280c17b8 63%,#280c175e 100%)}
+ .lp-screen-showcase,.lp-screen-gallery{padding:65px 5%}
+ .lp-gallery-header{grid-template-columns:1fr;gap:16px;margin-bottom:24px}
+ .lp-gallery-layout{grid-template-columns:1fr;gap:20px}
+ .lp-gallery-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .lp-screen-choice{min-height:103px;padding:14px 11px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+ .lp-choice-icon{width:30px;height:30px;flex:0 0 30px;font-size:10px}
+ .lp-choice-copy strong{font-size:12px}.lp-choice-copy small{font-size:10px}
+ .lp-choice-arrow{display:none}.lp-gallery-note{grid-column:1/-1;margin-top:6px}
+ .lp-gallery-footer{gap:12px}.lp-gallery-footer>a{margin:8px 0 0;width:100%;text-align:center;border-radius:8px;background:#7e1739;color:#fff;padding:14px;border:0}
+ .lp-gallery-footer>a:hover{color:#fff;background:#9e2b4c}
+}
+@media(max-width:460px){
+ .hero.section{min-height:850px;padding-bottom:275px}
+ .hero .hero-app-window{left:7%;width:86%;bottom:30px}
+ .hero .hero-app-toolbar{font-size:8px;padding:6px 9px;gap:7px}
+ .hero .hero-app-toolbar>span:last-child{font-size:7px}
+ .lp-gallery-header h2{font-size:clamp(34px,8.4vw,46px)}
+ .lp-screen-choice{min-height:116px}
+ .lp-choice-copy small{font-size:9px}
+ .lp-stage-tag{display:none}
+ .lp-gallery-stage{padding:4px;border-radius:8px}
+ .lp-stage-top{height:33px;padding:0 9px}
+ .lp-stage-actions{font-size:9px;padding:8px}
+ .lp-stage-actions button{font-size:10px}
+ .lp-gallery-note{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero .hero-app-window,.lp-screen-choice{transition:none}
+ .hero .hero-app-window:hover,.lp-screen-choice:hover{transform:none}
+}
+
