@@ -14,7 +14,7 @@ test("hero keeps a local fictional-person asset with high resolution",()=>{
  const b=readFileSync(asset);
  assert.equal(b.toString("ascii",0,4),"RIFF");
  assert.equal(b.toString("ascii",8,12),"WEBP");
- assert.match(html,/class="hero-photo"[^>]*width="1512" height="998"/);
+ assert.match(html,/class="hero-photo"[^>]*width="1440" height="1019"/);
  assert.match(html,/Personagem fictícia/);
 });
 
@@ -42,6 +42,13 @@ test("both commercial pages demonstrate the app visually with privacy-safe label
  }
  assert.match(homepage,/id="vitrine-lexis"/);
  assert.match(lexis,/id="telas"/);
- assert.match(read("sales/refined.css"),/\.lp-screen-showcase/);
+ assert.match(homepage,/visual-gallery\.js/);
+ assert.match(lexis,/visual-gallery\.js/);
+ const controls=read("sales/visual-gallery.js");
+ assert.match(controls,/aria-pressed/);
+ assert.match(controls,/showModal/);
+ assert.match(controls,/\.dataset\.previewSrc/);
+ assert.match(read("sales/visual-gallery.css"),/@media\(max-width:460px\)/);
+ assert.match(read("sales/visual-gallery.css"),/\.lp-screen-showcase/);
  assert.match(read("lexispredict/conversion.css"),/\.lp-screen-gallery/);
 });
