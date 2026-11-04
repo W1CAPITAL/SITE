@@ -110,7 +110,13 @@
   // Ensure active anchors are explicitly labeled for assistive technologies.
   const mainLinks = [...(nav?.querySelectorAll("a") || [])];
   if (mainLinks.length && "IntersectionObserver" in window) {
-    const sections = mainLinks.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+    // Only in-page anchors are valid selectors. Product URLs such as
+    // "./lexispredict/" are links, not CSS selectors; querying them throws.
+    const sections = mainLinks
+      .map(a => a.getAttribute("href"))
+      .filter(href => href?.startsWith("#") && href.length > 1)
+      .map(href => document.getElementById(href.slice(1)))
+      .filter(Boolean);
     const navObserver = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
