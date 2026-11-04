@@ -1,0 +1,67 @@
+{
+  "project": "W1 Capital — apresentação de soluções",
+  "status": "storyboard_apenas",
+  "format": {
+    "aspectRatio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "durationSeconds": 15
+  },
+  "style": {
+    "colors": {
+      "wine": "#2B1023",
+      "ivory": "#FFF7EC",
+      "coral": "#FDA773",
+      "gold": "#F8D17F"
+    },
+    "typography": "System UI — sans serif, clear tracking",
+    "motion": "ease-out; 0.25–0.7 s; safe margins; no flashing"
+  },
+  "scenes": [
+    {
+      "start": 0,
+      "end": 4,
+      "headline": "Seu tempo vale mais.",
+      "subline": "Menos tarefas repetidas. Mais clareza no dia a dia.",
+      "graphic": "Círculos geométricos, cartões e linhas em movimento"
+    },
+    {
+      "start": 4,
+      "end": 8,
+      "headline": "Tecnologia que acompanha a rotina.",
+      "subline": "Gestão jurídica, CRM, automações e indicadores.",
+      "graphic": "Quatro cartões de soluções, sem métricas simuladas"
+    },
+    {
+      "start": 8,
+      "end": 12,
+      "headline": "Comece pelo problema certo.",
+      "subline": "Conte o que trava a sua operação.",
+      "graphic": "Pergunta, solução indicada e retorno visual"
+    },
+    {
+      "start": 12,
+      "end": 15,
+      "headline": "W1 Capital",
+      "subline": "Conheça nossas soluções. Consulta inicial sem compromisso.",
+      "graphic": "Marca W1, cor vinho, CTA discreto"
+    }
+  ],
+  "audio": {
+    "music": "none",
+    "voice": "none",
+    "notice": "Adicione apenas trilha licenciada e narração autorizada; identifique voz sintética quando pertinente."
+  },
+  "legal": {
+    "noFictitiousTestimonials": true,
+    "noFictitiousRevenue": true,
+    "noClaimsOfGuaranteedResults": true,
+    "noUnauthorizedFacesOrVoiceCloning": true
+  },
+  "render": {
+    "status": "nao_gerado",
+    "renderBackend": "to_be_selected_after_cloud_or_compatible_hardware",
+    "sourceGuide": "guia-pratico-hyperframes.pdf"
+  }
+}
