@@ -17,7 +17,7 @@ test("operational portfolio management service has its own landing page and book
  assert.match(html,/dados fictícios/i);
  assert.match(html,/advogado responsável/i);
  assert.match(html,/sob autorização|autorização do escritório/i);
- assert.match(html,/não (substitui|presta) (consultoria|assessoria) jurídica/i);
+ assert.match(html,/não substitui consultoria ou assessoria jurídica/i);
  assert.match(html,/contrato|contratação/i);
  assert.match(html,/acessos|credenciais/);
  assert.doesNotMatch(html,/resultado garantido|cobertura universal|monitoramento 24h|sem supervisão/i);
