@@ -926,6 +926,7 @@ footer .footer-brand-image.brand-atlas-w1-full + strong{display:none}
 @media(max-width:380px){.demo-team-grid{grid-template-columns:1fr}.demo-badge{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.demo-nav-button{transition:none}}
 
+.organic-resource-alt{font-size:13px!important;color:#725364;margin:16px 0 0!important}.organic-resource-alt a{font-weight:750;color:#781c43;text-decoration:underline;text-underline-offset:3px}
 /* Organic content entrypoint — useful educational lead magnet without pop-ups. */
 .organic-resource{padding:66px max(5vw,22px);background:linear-gradient(130deg,#f8f0ef,#f0e1e5);border-top:1px solid #e3d3d9;border-bottom:1px solid #e7d2dc;color:#371522}
 .organic-resource-content{max-width:1250px;margin:auto;display:grid;grid-template-columns:1.2fr .74fr;gap:36px;align-items:center}
