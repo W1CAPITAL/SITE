@@ -305,6 +305,8 @@ body.w1-premium .section { padding: 108px max(5%, calc((100vw - 1400px) / 2)); m
   background: #32172c;
 }
 .mobile-navigation[hidden] { display: none !important; }
+/* More specific than legacy `.top nav { display: none }` inside the mobile breakpoint. */
+.top .mobile-navigation:not([hidden]) { display: block !important; }
 .mobile-navigation a { display: block; border-bottom: 1px solid #97637a33; }
 .mobile-navigation a:focus-visible { background: #542440; border-radius: 8px; }
 .wa-float {
