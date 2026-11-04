@@ -63,3 +63,9 @@ test("mobile navigation and reduced motion work without heavy dependencies",()=>
  assert.match(css,/scroll-margin-top/);
  assert.match(css,/\.top/);
 });
+
+
+test("fictional-image disclaimer stays on the left of the floating WhatsApp control on mobile",()=>{
+ assert.match(css,/\.hero-media figcaption\{left:14px;right:auto;/);
+ assert.match(css,/max-width:min\(170px,45vw\)/);
+});
