@@ -77,13 +77,8 @@
     });
   });
 
-  // Follow the real catalog selection to keep the recommendation in sync.
-  $(".feature-main")?.addEventListener("click", (event) => {
-    const selectLexis = document.querySelector('#catalogo [data-product="lexis"]');
-    if (!selectLexis) return; // Anchor remains a valid no-JavaScript fallback.
-    event.preventDefault();
-    selectLexis.click();
-  });
+  // The LexisPredict spotlight now links to the real commercial landing.
+  // Do not intercept its click or force the visitor into the old guide.
 
   const year = $("#year");
   if (year) year.textContent = String(new Date().getFullYear());

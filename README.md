@@ -97,3 +97,15 @@ A equipe W1 tem agora uma primeira proposta **baseada em fontes reais** do Lexis
 - [Modelo auditável de receita e despesas hipotéticas](sales/offers/lexispredict-unit-economics.mjs)
 
 A primeira meta comercial é validar um tenant independente e uma oferta de entrada **Essencial**, antes de aceitar assinaturas. Não foram realizados pagamentos, cadastros de clientes ou alterações no banco jurídico durante esta preparação.
+
+## Primeira página de vendas ativa no código
+
+A nova rota **`/lexispredict/`** foi preparada como página de conversão em demonstrações comerciais para a W1 Capital. Exibe quatro planos a preços já referenciados no software e explica que a implantação depende de escopo aprovado. O formulário abre **um rascunho no aplicativo de e-mail do visitante**, endereçado ao canal W1 `corporacaow1capital@gmail.com`, e fornece texto copiável como alternativa. **Nenhum pedido é salvo ou enviado sem o próprio visitante confirmar o envio.**
+
+- [Página LexisPredict](lexispredict/index.html)
+- [Formulário comercial e proteção contra envio fictício](lexispredict/vendas.js)
+- [Testes de consentimento, preços, rota e endereço](lexispredict/vendas.test.mjs)
+
+### Hospedagem para uso comercial
+
+O repositório é público, mas a hospedagem comercial não foi conectada. **Não** usar Vercel Hobby ou GitHub Pages para esta vitrine comercial. Cloudflare Pages ou Render Static Sites têm opções estáticas gratuitas dentro de suas cotas e condições; a conta e o GitHub precisam ser conectados pelo proprietário. Para Render: criar `Static Site` pelo repositório `W1CAPITAL/SITE`, branch `main`, sem build ou com `echo ready` se exigido, e publicar a **raiz** do repositório (`.`). Verificar HTTPS, a rota `/lexispredict/` e o recebimento de uma mensagem de teste antes de divulgar. Sem publicação confirmada, não anunciar URL pública.
