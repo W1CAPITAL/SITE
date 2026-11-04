@@ -109,3 +109,9 @@ A nova rota **`/lexispredict/`** foi preparada como página de conversão em dem
 ### Hospedagem para uso comercial
 
 O repositório é público, mas a hospedagem comercial não foi conectada. **Não** usar Vercel Hobby ou GitHub Pages para esta vitrine comercial. Cloudflare Pages ou Render Static Sites têm opções estáticas gratuitas dentro de suas cotas e condições; a conta e o GitHub precisam ser conectados pelo proprietário. Para Render: criar `Static Site` pelo repositório `W1CAPITAL/SITE`, branch `main`, sem build ou com `echo ready` se exigido, e publicar a **raiz** do repositório (`.`). Verificar HTTPS, a rota `/lexispredict/` e o recebimento de uma mensagem de teste antes de divulgar. Sem publicação confirmada, não anunciar URL pública.
+
+## Repaginação comercial de novembro de 2026
+
+O site institucional e a landing `/lexispredict/` usam estilos finais leves em `sales/conversion.css` e `lexispredict/conversion.css`. Direção: vinho profundo + prata + branco quente, coral só para botões de ação, formas esculturais simples em CSS, grandes áreas de respiro e benefícios que podem ser lidos rapidamente. Hero com dois caminhos diretos (**demonstração LexisPredict** e **conversa no WhatsApp**). Planos do LexisPredict mais fáceis de comparar sem prometer assinaturas automáticas. Tudo sem carregar bibliotecas, fontes, imagens externas nem rastreamento.
+
+Executar `node --test sales/conversion-redesign.test.mjs` junto à suíte do GitHub para validar os CTAs oficiais, semântica, design responsivo, redução de movimento, URLs e preservação dos módulos anteriores. A alteração visual não inclui sistema de checkout nem captura automática de leads.
