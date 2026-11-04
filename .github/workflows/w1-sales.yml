@@ -34,5 +34,7 @@ jobs:
           node --check sales/app.js
           node --check sales/premium.js
           node --check sales/config.js
+          node --check sales/prospecting/fichario.js
+          node --check sales/prospecting/workspace.js
       - name: Validate homepage, consultation and privacy
-        run: node --test sales/core.test.mjs sales/site.test.mjs
+        run: node --test sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs
