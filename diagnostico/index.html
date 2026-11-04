@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#420917">
+<meta name="robots" content="index,follow">
+<title>Diagnóstico gratuito de organização jurídica | W1 Capital</title>
+<meta name="description" content="Avalie em 2 minutos seis rotinas da operação jurídica: processos, tarefas, prazos, retornos, indicadores e segurança. Sem cadastro e sem enviar informações.">
+<link rel="canonical" href="https://w1-capital.onrender.com/diagnostico/">
+<link rel="icon" type="image/svg+xml" href="../assets/w1-symbol.svg">
+<meta property="og:title" content="Diagnóstico gratuito: sua rotina jurídica está organizada?">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://w1-capital.onrender.com/diagnostico/">
+<meta property="og:description" content="Seis perguntas, orientações práticas e nenhum cadastro. Material educativo da W1 Capital.">
+<meta name="twitter:card" content="summary">
+<script type="module" src="./diagnostico.mjs?v=20261104"></script>
+<style>
+:root{--wine:#440d24;--deep:#290b19;--accent:#a82f55;--cream:#fbf7f4;--ink:#2d1b26;--muted:#786571;--line:#e7dbe1}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:15px/1.6 "Segoe UI",Inter,Arial,sans-serif;background:var(--cream);color:var(--ink)}a{text-underline-offset:3px;color:inherit}
+.skip{position:absolute;top:-90px;left:10px;padding:11px;background:#fff;z-index:99}.skip:focus{top:8px}
+.top{background:#350714;color:white;min-height:77px}.top-inner{max-width:1080px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:10px 22px}
+.top img{display:block;width:218px;max-width:44vw;height:52px;object-fit:contain;object-position:left}
+.top nav{display:flex;gap:21px;align-items:center;font-size:12px;font-weight:650}
+.top a{text-decoration:none}.top nav a:hover{text-decoration:underline}
+.hero{background:radial-gradient(ellipse at 90% 15%,#72324a,transparent 48%),linear-gradient(125deg,#280b1c,#58162f 67%,#2b0b19);color:#fff}
+.hero-inner{max-width:1080px;margin:auto;padding:72px 22px 75px}
+.eyebrow{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#efd0da;font-weight:800}
+.hero h1{font:normal clamp(38px,4.8vw,68px)/1.08 Georgia,"Times New Roman",serif;max-width:920px;letter-spacing:-.035em;margin:15px 0}
+.hero h1 em{font-style:normal;color:#e47e9d}
+.hero p{color:#ead5dc;max-width:730px;font-size:16px;line-height:1.7}
+.pills{display:flex;flex-wrap:wrap;gap:11px;margin:25px 0 0}
+.pills span{padding:7px 12px;border-radius:100px;border:1px solid #8a5b6d;color:#f8e4ec;font-size:11px}
+main{max-width:1080px;padding:0 22px;margin:auto}
+.intro{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:42px 0 24px}
+.intro h2{font:normal clamp(29px,3vw,41px)/1.1 Georgia,serif;letter-spacing:-.025em;margin:0}
+.intro p{color:var(--muted);max-width:480px;font-size:13px}
+.questions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.question{margin:0;min-width:0;border:1px solid #eadce3;border-radius:15px;background:#fff;padding:23px 22px;box-shadow:0 7px 27px #3d10200a}
+.question legend{display:contents}
+.question legend>span{display:inline-block}
+.question legend strong{display:block;color:#371726;font-size:17px;line-height:1.3}
+.question legend small{display:block;margin:7px 0 19px;color:#765d6b;font-size:13px;line-height:1.5;min-height:58px}
+.num{background:#f8e9ef;color:#8c244a;font-size:11px;font-weight:850;letter-spacing:.06em;border-radius:7px;padding:6px 8px;margin-bottom:10px}
+.options{display:grid;gap:7px}
+.options label{display:flex;gap:10px;align-items:center;border:1px solid #e7dce3;border-radius:9px;padding:9px 11px;cursor:pointer;color:#594353;font-size:13px;background:#fff}
+.options label:has(input:checked){background:#fcebf1;border-color:#bc5980;font-weight:700;color:#6c2041}
+.options input{accent-color:#9c2050;width:16px;height:16px;margin:0;flex:none}
+.options input:focus-visible{outline:2px solid #99446b;outline-offset:3px}
+.actions{display:flex;gap:13px;flex-wrap:wrap;margin:24px 0 44px;align-items:center}
+.btn{font:750 13px "Segoe UI",Arial,sans-serif;border-radius:9px;text-decoration:none;padding:14px 21px;display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.btn.primary{border:1px solid #861a47;background:#861a47;color:#fff}
+.btn.primary:hover{background:#a32c58}
+.btn.secondary{border:1px solid #c8a8b7;background:transparent;color:#5a3146}
+.smallprint{font-size:12px;color:#796775}
+#resultado{scroll-margin-top:25px;margin:0 0 46px;padding:33px;background:#fff;border:1px solid #e5d6dd;border-radius:15px;box-shadow:0 15px 35px #43112713}
+#resultado[hidden]{display:none}
+.result-eyebrow{font-size:11px;font-weight:850;color:#8b3152;letter-spacing:.17em}
+#resultado h2{font:normal clamp(29px,3.2vw,43px)/1.2 Georgia,serif;margin:13px 0;color:#371426}
+.result-score{font-size:12px;font-weight:750;background:#f5e9ee;padding:10px 13px;border-radius:8px;display:inline-block;color:#752e4b}
+#resultado>p{color:#6c5360;max-width:730px}
+#resultado h3{margin:26px 0 8px;font-size:17px}
+#resultado ol{margin:0 0 26px;padding-left:20px}
+#resultado li{margin:9px 0}
+#resultado li strong{display:block}
+#resultado li p{margin:4px 0;color:#775d6c}
+footer{padding:29px 22px;background:#270714;color:#dec5d1;font-size:12px;text-align:center}
+footer a{color:#fff}
+@media(max-width:780px){.questions{grid-template-columns:1fr}.intro{display:block}.top nav{gap:10px;font-size:11px}.question legend small{min-height:0}.intro p{margin-top:13px}.hero-inner{padding:54px 22px}}
+@media(max-width:430px){.top img{max-width:41vw}.top nav a:first-child{display:none}.hero h1{font-size:39px}.question{padding:19px}.btn{width:100%}}
+@media print{.top,.hero,.actions,.result-actions,footer{display:none!important}main{max-width:none}.question{box-shadow:none;break-inside:avoid}.questions{grid-template-columns:repeat(2,1fr)}#resultado{box-shadow:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#formulario">Pular para as perguntas</a>
+<header class="top"><div class="top-inner"><a href="../" aria-label="W1 Capital — início"><img src="../assets/w1-wordmark.svg" alt="W1 Capital — Estratégia e Tecnologia" width="218" height="52"></a><nav><a href="../lexispredict/">LexisPredict</a><a href="../guia/">Checklist gratuito</a></nav></div></header>
+<section class="hero"><div class="hero-inner"><span class="eyebrow">W1 Capital · Ferramenta gratuita</span><h1>Diagnóstico gratuito da <em>rotina jurídica.</em></h1><p>Responda seis perguntas e receba duas sugestões de organização para a equipe. É uma autoavaliação orientativa, não uma auditoria ou certificação.</p><div class="pills"><span>6 perguntas</span><span>2 minutos</span><span>Sem cadastro</span><span>Sem enviar dados</span></div></div></section>
+<main>
+<div class="intro" id="formulario"><h2>Como está a organização hoje?</h2><p>Escolha a opção mais próxima da realidade do escritório. Você não precisará identificar clientes, casos ou processos. As respostas ficam apenas nesta página, enquanto ela estiver aberta.</p></div>
+<form id="diagnostico-form">
+<div class="questions"><fieldset class="question">
+ <legend><span class="num">01</span><span><strong>Centralização da carteira</strong><small>A equipe encontra as referências e o último acompanhamento de cada processo em um lugar definido?</small></span></legend>
+ <div class="options">
+  <label><input type="radio" name="q_carteira" value="0" required><span>Ainda não</span></label>
+  <label><input type="radio" name="q_carteira" value="1" required><span>Às vezes</span></label>
+  <label><input type="radio" name="q_carteira" value="2" required><span>Sim, com frequência</span></label>
+ </div>
+</fieldset>
+<fieldset class="question">
+ <legend><span class="num">02</span><span><strong>Responsáveis e tarefas</strong><small>Cada acompanhamento importante tem um responsável e uma próxima ação identificados?</small></span></legend>
+ <div class="options">
+  <label><input type="radio" name="q_responsaveis" value="0" required><span>Ainda não</span></label>
+  <label><input type="radio" name="q_responsaveis" value="1" required><span>Às vezes</span></label>
+  <label><input type="radio" name="q_responsaveis" value="2" required><span>Sim, com frequência</span></label>
+ </div>
+</fieldset>
+<fieldset class="question">
+ <legend><span class="num">03</span><span><strong>Prazos e compromissos</strong><small>Os prazos são conferidos nas fontes oficiais e separados de tarefas e lembretes internos?</small></span></legend>
+ <div class="options">
+  <label><input type="radio" name="q_prazos" value="0" required><span>Ainda não</span></label>
+  <label><input type="radio" name="q_prazos" value="1" required><span>Às vezes</span></label>
+  <label><input type="radio" name="q_prazos" value="2" required><span>Sim, com frequência</span></label>
+ </div>
+</fieldset>
+<fieldset class="question">
+ <legend><span class="num">04</span><span><strong>Atendimento ao cliente</strong><small>A equipe consegue localizar quando houve o último contato e quando será o próximo retorno?</small></span></legend>
+ <div class="options">
+  <label><input type="radio" name="q_retornos" value="0" required><span>Ainda não</span></label>
+  <label><input type="radio" name="q_retornos" value="1" required><span>Às vezes</span></label>
+  <label><input type="radio" name="q_retornos" value="2" required><span>Sim, com frequência</span></label>
+ </div>
+</fieldset>
+<fieldset class="question">
+ <legend><span class="num">05</span><span><strong>Relatórios e indicadores</strong><small>Existe um resumo periódico de tarefas pendentes, atividades concluídas e andamento da carteira?</small></span></legend>
+ <div class="options">
+  <label><input type="radio" name="q_indicadores" value="0" required><span>Ainda não</span></label>
+  <label><input type="radio" name="q_indicadores" value="1" required><span>Às vezes</span></label>
+  <label><input type="radio" name="q_indicadores" value="2" required><span>Sim, com frequência</span></label>
+ </div>
+</fieldset>
+<fieldset class="question">
+ <legend><span class="num">06</span><span><strong>Permissões e documentos</strong><small>O acesso a documentos e informações é limitado por função e revisado periodicamente?</small></span></legend>
+ <div class="options">
+  <label><input type="radio" name="q_acessos" value="0" required><span>Ainda não</span></label>
+  <label><input type="radio" name="q_acessos" value="1" required><span>Às vezes</span></label>
+  <label><input type="radio" name="q_acessos" value="2" required><span>Sim, com frequência</span></label>
+ </div>
+</fieldset></div>
+<div class="actions"><button type="submit" class="btn primary">Ver orientações gratuitas <span aria-hidden="true">↗</span></button><span class="smallprint">O cálculo acontece neste navegador. Não salvamos suas respostas.</span></div>
+</form>
+<section id="resultado" hidden aria-live="polite" aria-labelledby="titulo-resultado">
+<span class="result-eyebrow">RESULTADO ORIENTATIVO</span>
+<h2 id="titulo-resultado" data-result-title></h2>
+<span class="result-score" data-score></span>
+<p data-result-intro></p>
+<h3>Duas frentes para priorizar</h3>
+<ol data-priorities></ol>
+<p class="smallprint">Essa pontuação não é um diagnóstico profissional, previsão de resultados ou avaliação da segurança do seu escritório. Para prazos e atos processuais, mantenha a conferência nas fontes oficiais.</p>
+<div class="actions result-actions"><a data-contact class="btn primary" href="https://wa.me/5513991199349" target="_blank" rel="noopener noreferrer">Pedir demonstração do LexisPredict</a><a class="btn secondary" href="../lexispredict/#telas">Explorar prévia interativa</a><button type="button" class="btn secondary" data-reset>Refazer</button></div>
+</section>
+</main>
+<footer>© 2026 W1 Capital · Material educativo sem coleta de dados · <a href="../guia/">Checklist gratuito</a> · <a href="https://w1-capital.onrender.com/diagnostico/">Link permanente</a></footer>
+</body>
+</html>

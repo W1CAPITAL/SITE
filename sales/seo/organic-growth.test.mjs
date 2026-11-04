@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import {readFileSync,existsSync} from "node:fs";
 import {join,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
-import {normalizeOrigin,buildWhatsAppHref} from "../guia/origem.mjs";
-const root=join(dirname(fileURLToPath(import.meta.url)),"..");
+import {normalizeOrigin,buildWhatsAppHref} from "../../guia/origem.mjs";
+const root=join(dirname(fileURLToPath(import.meta.url)),"../..");
 const read=p=>readFileSync(join(root,p),"utf8");
 test("free educational guide is accessible, useful and clearly separate from the app",()=>{
  const p="guia/index.html";assert.ok(existsSync(join(root,p)));
@@ -38,7 +38,7 @@ test("public SEO entry points include the three actual consumer-facing pages, no
  assert.match(robots,/Disallow: \/sales\/prospecting\//);
  assert.match(robots,/Disallow: \/sales\/operations\//);
  assert.doesNotMatch(robots,/^Disallow: \/sales\/$/m,"Do not block CSS and JS assets from search robots");
- for(const uri of ["https://w1-capital.onrender.com/","https://w1-capital.onrender.com/lexispredict/","https://w1-capital.onrender.com/guia/"]){
+ for(const uri of ["https://w1-capital.onrender.com/","https://w1-capital.onrender.com/lexispredict/","https://w1-capital.onrender.com/guia/","https://w1-capital.onrender.com/diagnostico/"]){
   assert.ok(xml.includes("<loc>"+uri+"</loc>"),uri+" omitted");
  }
  assert.doesNotMatch(xml,/\/sales\/|example\.com|localhost|<lastmod>2027/i);
