@@ -36,7 +36,7 @@ test("does not put injected HTML into the site or execute user input",()=>{
  assert.doesNotMatch(script,/innerHTML|document\.write|eval\(/);
  assert.match(script,/\.value=/);
  assert.doesNotMatch(script,/\bfetch\s*\(|\bWebSocket\b|\blocalStorage\b|\bsessionStorage\b/);
- assert.match(html,/Nenhuma solicitação foi enviada/);
+ assert.match(script,/Nenhuma solicitação foi enviada/);
  assert.match(html,/envio depende da confirmação/);
 });
 test("landing is accessible, honest about terms, and directly linked by homepage",()=>{
