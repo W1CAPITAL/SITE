@@ -26,6 +26,7 @@ function render(){
   const product=recommendProduct(state.need,state.size,state.selected);
   $("step-number").textContent=state.step+1;
   $("progress-bar").style.width=((state.step+1)*100/3)+"%";
+  $("progress-bar").parentElement?.setAttribute("aria-valuenow",String(state.step+1));
   $("summary-need").textContent=needChoices.find(x=>x[0]===state.need)?.[1]||"A definir";
   $("summary-size").textContent=sizeChoices.find(x=>x[0]===state.size)?.[1]||"A definir";
   $("summary-product").textContent=product?.name||"A definir";
