@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">Personagens fictícios em um ambiente de trabalho</title>
+<desc id="desc">Ilustração digital original com duas personagens fictícias em uma reunião de planejamento, sem representar pessoas reais ou integrantes da W1 Capital.</desc>
+<defs>
+ <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#efe6e9"/><stop offset=".55" stop-color="#e0d2da"/><stop offset="1" stop-color="#baa3b2"/></linearGradient>
+ <linearGradient id="window" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#e2dce3"/><stop offset="1" stop-color="#a8a5b3"/></linearGradient>
+ <linearGradient id="jacket" x1=".15" y1="0" x2=".95" y2="1"><stop stop-color="#663149"/><stop offset="1" stop-color="#37182b"/></linearGradient>
+ <linearGradient id="jacket2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b07c82"/><stop offset="1" stop-color="#68364f"/></linearGradient>
+ <linearGradient id="desk" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a67e81"/><stop offset="1" stop-color="#5c3849"/></linearGradient>
+ <linearGradient id="device" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#40454d"/><stop offset="1" stop-color="#1e232a"/></linearGradient>
+ <radialGradient id="light" cx=".35" cy=".12" r=".8"><stop stop-color="#fff8ec" stop-opacity=".83"/><stop offset="1" stop-color="#fff8ec" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-40%" y="-40%" width="180%" height="200%"><feGaussianBlur stdDeviation="18"/></filter>
+ <clipPath id="frame"><rect width="1200" height="760" rx="28"/></clipPath>
+</defs>
+<g clip-path="url(#frame)">
+ <path fill="url(#wall)" d="M0 0h1200v760H0z"/>
+ <rect width="1200" height="760" fill="url(#light)"/>
+ <rect x="70" y="74" width="355" height="398" rx="14" fill="#fefefe" fill-opacity=".56" stroke="#fff" stroke-opacity=".85" stroke-width="9"/>
+ <rect x="92" y="96" width="311" height="354" rx="3" fill="url(#window)"/>
+ <g fill="#8f8792" opacity=".35"><rect x="103" y="260" width="64" height="190"/><rect x="178" y="206" width="74" height="244"/><rect x="260" y="300" width="65" height="150"/><rect x="332" y="234" width="64" height="216"/></g>
+ <path d="M249 86v375M85 255h334" stroke="#fffaf8" stroke-opacity=".75" stroke-width="11"/>
+ <path d="M470 48v395" stroke="#a68a9b" stroke-width="3" opacity=".28"/>
+ <g opacity=".55"><rect x="918" y="71" width="202" height="14" rx="7" fill="#583f4c"/><rect x="935" y="108" width="178" height="8" rx="4" fill="#fff"/></g>
+ <circle cx="966" cy="209" r="92" fill="#f9d7aa" opacity=".35" filter="url(#shadow)"/>
+ <path d="M951 335q42-67 70-1t-11 104h-87q-38-50 28-103" fill="#60806d" opacity=".82"/>
+ <path d="M975 378q-18-100-55-131m57 91q31-76 71-99" stroke="#4d6257" stroke-width="9" fill="none" stroke-linecap="round"/>
+ <rect x="952" y="419" width="59" height="55" rx="7" fill="#e9d6cb"/>
+ <ellipse cx="550" cy="707" rx="590" ry="60" fill="#321a2b" opacity=".24" filter="url(#shadow)"/>
+ <path d="M207 691q-28-110 16-214 25-60 110-69 77-5 121 84 24 78 7 199z" fill="url(#jacket2)"/>
+ <path d="M311 422l22 87 42-73" fill="#f5e9e5"/>
+ <path d="M284 431q30 51 64 78l-38 67-71-88" fill="#855367"/>
+ <path d="M385 433l-38 76 30 58 52-86" fill="#6c4059"/>
+ <ellipse cx="330" cy="317" rx="88" ry="106" fill="#c99579"/>
+ <path d="M238 309q-2-119 95-127 111-7 98 138-37-41-57-92-55 57-136 81" fill="#38303a"/>
+ <path d="M241 301q-5 63 23 113 16 18 29 23-38-67-26-136" fill="#38303a"/>
+ <path d="M384 304q33-7 41 32-3 37-28 49" fill="#c99579"/>
+ <path d="M311 416l11 30 26 9 17-24" fill="#b8846f"/>
+ <path d="M689 690q-20-126 43-212 48-50 137-46 94 6 130 75 20 65 5 183z" fill="url(#jacket)"/>
+ <path d="M809 439l-29 68 64 91 53-88-25-71" fill="#f1e5e0"/>
+ <ellipse cx="837" cy="333" rx="87" ry="107" fill="#aa735e"/>
+ <path d="M752 319q-21-103 57-133 68-25 113 31 22 30 7 102-32-29-42-77-56 26-135 77" fill="#29232c"/>
+ <path d="M909 261q33 92 3 167-18 33-38 41 37-92 7-180" fill="#29232c"/>
+ <path d="M809 436l23 30 21-3 24-25" fill="#98614f"/>
+ <path d="M-60 628q570-37 1322 0v199H-60z" fill="url(#desk)"/>
+ <path d="M-45 626q640-31 1270 0" stroke="#e1b6b2" stroke-width="12" opacity=".7"/>
+ <path d="M463 480l290 8 42 169-310 3z" fill="url(#device)" stroke="#8e8995" stroke-width="9"/>
+ <path d="M481 500l253 5 31 130-271 3z" fill="#331d2f"/>
+ <path d="M517 597l42-38 39 17 46-61 48 27 29-30" stroke="#f0b9ae" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M516 532h130M517 547h70" stroke="#d9b2c0" stroke-width="7" opacity=".5"/>
+ <path d="M466 657h342l36 24H428z" fill="#777983"/>
+ <path d="M426 681h420l-9 9H433z" fill="#3f4147"/>
+ <rect x="110" y="645" width="129" height="15" rx="7" fill="#e3c6bd"/>
+ <rect x="909" y="649" width="128" height="15" rx="7" fill="#e3c6bd"/>
+ <path d="M67 748h1069" stroke="#f3d5cf" stroke-width="2" opacity=".5"/>
+</g>
+</svg>
