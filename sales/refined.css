@@ -634,3 +634,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,t
 .lp-device-mark{display:block;flex:0 0 25px;width:25px;height:25px;border-radius:4px}
 .lp-hero-mini-logo{display:block;flex:0 0 72px;width:72px;height:27px;border-radius:4px}
 @media(max-width:480px){.lp-hero-mini-logo{width:42px;flex-basis:42px;height:24px}}
+
+.lp-gallery-header .lp-gallery-logo{display:block;width:205px;height:64px;max-width:100%;border-radius:5px;margin:0 0 12px;background-color:transparent}
+@media(max-width:460px){.lp-gallery-header .lp-gallery-logo{width:172px;height:55px}}
