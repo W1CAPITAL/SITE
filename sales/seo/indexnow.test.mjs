@@ -46,6 +46,6 @@ test("key file, sitemap and integration workflow agree on host and security",()=
  assert.match(workflow,/indexnow\.mjs --submit/);
  assert.match(workflow,/fetch-depth: 2/);
  assert.match(workflow,/github\.event\.before/);
- assert.match(workflow,/indexnow\.org/);
+ assert.match(read("sales/seo/indexnow.mjs"),/https:\/\/api\.indexnow\.org\/indexnow/);
  assert.doesNotMatch(workflow,/pull_request:|curl -d '.*email|api\.google\.com/);
 });
