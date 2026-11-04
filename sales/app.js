@@ -7,10 +7,10 @@ const ready = /^https:\/\/[a-z0-9-]+\.supabase\.co\/??$/.test(String(config.supa
 const $ = id => document.getElementById(id);
 const escapeHtml = value => String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const needChoices = [
-  ["juridico","Gestão jurídica e processos","Organizar prazos, carteira e acompanhamento"],
-  ["crm","Clientes e operação comercial","Centralizar interessados, contatos e negociação"],
-  ["automacao","Automatizar tarefas","Diminuir trabalho repetitivo e integrar sistemas"],
-  ["dados","Relatórios e indicadores","Transformar dados em decisões úteis"],
+  ["juridico","Meus processos e prazos estão espalhados","Quero mais organização e menos sustos na rotina jurídica"],
+  ["crm","Perco o fio das conversas com clientes","Preciso enxergar quem está interessado e o que falta fazer"],
+  ["automacao","Minha equipe repete as mesmas tarefas","Quero tirar o trabalho manual do caminho"],
+  ["dados","Falta clareza sobre os resultados","Quero entender a operação sem montar planilha toda hora"],
 ];
 const sizeChoices = [["individual","Profissional ou autônomo"],["pequena","Equipe de até 10 pessoas"],["media","Equipe de 11 a 50 pessoas"],["grande","Organização com mais de 50 pessoas"]];
 const state = {step:0,need:"",size:"",selected:"",busy:false};
@@ -33,16 +33,19 @@ function render(){
   $("next").disabled=state.busy||(!state.need&&state.step===0)||(!state.size&&state.step===1);
   $("storage-status").textContent=ready?"Formulário comercial configurado com banco de dados isolado.":"Modo demonstração: nenhum dado pessoal é coletado ou enviado. Configure um Supabase comercial para habilitar o contato.";
   if(state.step===0){
-    $("step-body").innerHTML='<h3 class="step-title">O que você quer melhorar?</h3><p class="step-copy">Escolha o desafio mais importante para a sua operação.</p>'+choiceMarkup(needChoices,state.need,"Necessidade");
+    $("step-body").innerHTML='<h3 class="step-title">Qual dessas situações parece a sua?</h3><p class="step-copy">Escolha o problema que mais atrapalha o dia a dia.</p>'+choiceMarkup(needChoices,state.need,"Necessidade");
     $("next").textContent="Continuar ↗";
   }else if(state.step===1){
-    $("step-body").innerHTML='<h3 class="step-title">Qual o tamanho da operação?</h3><p class="step-copy">Essa informação ajuda a organizar o atendimento; não determina preços.</p>'+choiceMarkup(sizeChoices,state.size,"Porte da empresa");
+    $("step-body").innerHTML='<h3 class="step-title">Hoje, quantas pessoas trabalham com você?</h3><p class="step-copy">É só para contextualizar a conversa. Não muda nenhum preço automaticamente.</p>'+choiceMarkup(sizeChoices,state.size,"Porte da empresa");
     $("next").textContent="Ver recomendação ↗";
   }else{
     const p=product||PRODUCTS[0];
-    $("step-body").innerHTML='<h3 class="step-title">Seu caminho recomendado</h3><div class="note"><strong>'+escapeHtml(p.name)+'</strong><p>'+escapeHtml(p.reason)+'</p></div><p class="step-copy" style="margin-top:18px">É apenas uma indicação preliminar. Uma pessoa da W1 precisa confirmar o serviço e as condições.</p>'+(ready?'<form id="lead-form" autocomplete="on"><label class="field">Seu nome<input name="name" maxlength="120" autocomplete="name" required placeholder="Como podemos chamar você?"></label><label class="field">E-mail profissional<input type="email" name="email" maxlength="240" autocomplete="email" required placeholder="voce@empresa.com"></label><label class="field">Contexto adicional (opcional)<textarea name="message" maxlength="700" rows="3" placeholder="Conte brevemente sua necessidade, sem dados sensíveis."></textarea></label><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"><label class="consent"><input name="consent" type="checkbox" required><span>Autorizo a W1 Capital a utilizar estas informações para responder a este pedido comercial. Não autorizo campanhas automáticas nem a transferência para a carteira jurídica.</span></label></form>':'<div class="status" role="status">O banco comercial ainda não está ativo. Você pode gerar um resumo da necessidade, sem incluir informações pessoais, para encaminhar depois.</div>')+'<div id="send-status" role="status" aria-live="polite"></div>';
-    $("next").textContent=ready?"Solicitar contato ↗":"Baixar resumo da consulta ↓";
+    $("step-body").innerHTML='<h3 class="step-title">Acho que vale começar por aqui</h3><div class="note"><strong>'+escapeHtml(p.name)+'</strong><p>'+escapeHtml(p.reason)+'</p></div><p class="step-copy" style="margin-top:18px">É apenas uma indicação preliminar. Uma pessoa da W1 precisa confirmar o serviço e as condições.</p>'+(ready?'<form id="lead-form" autocomplete="on"><label class="field">Seu nome<input name="name" maxlength="120" autocomplete="name" required placeholder="Como podemos chamar você?"></label><label class="field">E-mail profissional<input type="email" name="email" maxlength="240" autocomplete="email" required placeholder="voce@empresa.com"></label><label class="field">Contexto adicional (opcional)<textarea name="message" maxlength="700" rows="3" placeholder="Conte brevemente sua necessidade, sem dados sensíveis."></textarea></label><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"><label class="consent"><input name="consent" type="checkbox" required><span>Autorizo a W1 Capital a utilizar estas informações para responder a este pedido comercial. Não autorizo campanhas automáticas nem a transferência para a carteira jurídica.</span></label></form>':'<div class="status" role="status">O banco comercial ainda não está ativo. Você pode gerar um resumo da necessidade, sem incluir informações pessoais, para encaminhar depois.</div>')+'<div id="send-status" role="status" aria-live="polite"></div>';
+    $("next").textContent=ready?"Quero conversar com a W1 ↗":"Guardar minha sugestão ↓";
   }
+  $("step-body").classList.remove("step-swap");
+  void $("step-body").offsetWidth;
+  $("step-body").classList.add("step-swap");
 }
 $("step-body").addEventListener("click",e=>{
   const option=e.target.closest("[data-choice]");if(!option||state.busy)return;
@@ -71,10 +74,21 @@ async function submit(){
       body:JSON.stringify(lead.data),signal:AbortSignal.timeout(12000),cache:"no-store"
     });
     if(!response.ok)throw Error("Falha ao registrar solicitação (HTTP "+response.status+").");
-    result.className="status success";result.textContent="Solicitação registrada. Nossa equipe poderá responder pelo e-mail informado.";
+    result.className="status success";result.textContent="Pronto, recebemos seu pedido. A equipe poderá responder no e-mail informado.";
     form.reset();
-  }catch(e){result.className="status error";result.textContent="Não foi possível confirmar o registro. Não tente repetir sem verificar com a equipe. "+String(e?.message||"");}
+  }catch(e){result.className="status error";result.textContent="Não conseguimos confirmar o envio. Antes de tentar de novo, confira com a equipe para evitar pedidos duplicados. "+String(e?.message||"");}
   finally{state.busy=false;$("next").disabled=false;$("next").textContent="Solicitar contato ↗";}
 }
 $("next").addEventListener("click",()=>{if(state.step<2){if(state.step===0&&!state.need||state.step===1&&!state.size)return;state.step++;render();}else if(ready){void submit();}else{downloadBrief();}});
+const motionAllowed=!window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(motionAllowed&&"IntersectionObserver" in window){
+  const observer=new IntersectionObserver(entries=>{
+    for(const entry of entries)if(entry.isIntersecting){
+      entry.target.classList.add("is-visible");observer.unobserve(entry.target);
+    }
+  },{rootMargin:"0px 0px -35px 0px",threshold:.04});
+  for(const el of document.querySelectorAll(".product,.agent,.section-header,.consultant,.metric")){
+    el.classList.add("reveal");observer.observe(el);
+  }
+}
 render();
