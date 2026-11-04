@@ -86,3 +86,14 @@ A W1 deve se transformar em **empresa operacional, com produtos/serviços efetiv
 - [Guia CLAUDE.md de fidelidade visual, adaptado ao foco comercial W1](docs/UI-RECREATION-WORKFLOW.md)
 
 O gerador de propostas não envia documentos e não é CRM autenticado. A empresa precisa confirmar sua oferta, preço e serviço antes de usar uma minuta em negociação. Nenhuma conversão ou receita foi fabricada.
+
+## Primeira oferta comercial do LexisPredict
+
+A equipe W1 tem agora uma primeira proposta **baseada em fontes reais** do LexisPredict (GitHub, Vercel e Supabase), com preços já cadastrados no código, status de funcionalidades, restrições de assinaturas, custos hipotéticos e roteiro demonstrativo. **Não confundir material pronto com fluxo de pagamento/cadastro plenamente validado.**
+
+- [Auditoria de comercialização, planos, preços e bloqueios](docs/LEXISPREDICT-PRIMEIRA-OFERTA-2026-11-04.md)
+- [Apresentação resumida para interessados — revisão humana](sales/offers/lexispredict-apresentacao-comercial.md)
+- [Demonstração de 12 minutos com dados fictícios](sales/offers/lexispredict-demo.md)
+- [Modelo auditável de receita e despesas hipotéticas](sales/offers/lexispredict-unit-economics.mjs)
+
+A primeira meta comercial é validar um tenant independente e uma oferta de entrada **Essencial**, antes de aceitar assinaturas. Não foram realizados pagamentos, cadastros de clientes ou alterações no banco jurídico durante esta preparação.
