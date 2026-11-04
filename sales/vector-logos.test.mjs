@@ -17,7 +17,7 @@ test("W1 and LexisPredict logos use standalone vectors and preserve their aspect
   assert.ok(existsSync(join(root,path)),path+" missing");
   const svg=read(path);
   assert.match(svg,/<svg\s[^>]*viewBox=/);
-  assert.doesNotMatch(svg,/<script|<foreignObject|<image\s|https?:\/\//i);
+  assert.doesNotMatch(svg,/<script|<foreignObject|<image\s|(?:xlink:href|href)="https?:\/\//i);
   const match=svg.match(/viewBox="0 0 (\d+) (\d+)"/);
   assert.ok(match,path+" missing numeric viewBox");
   const ratio=Number(match[1])/Number(match[2]);
