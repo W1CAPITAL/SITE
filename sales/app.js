@@ -14,11 +14,25 @@ const needChoices = [
 ];
 const sizeChoices = [["individual","Profissional ou autônomo"],["pequena","Equipe de até 10 pessoas"],["media","Equipe de 11 a 50 pessoas"],["grande","Organização com mais de 50 pessoas"]];
 const state = {step:0,need:"",size:"",selected:"",busy:false};
-$("catalogo").innerHTML=PRODUCTS.map(p=>'<article class="product"><span class="product-icon" aria-hidden="true">'+escapeHtml(p.icon)+'</span><h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.description)+'</p><button type="button" data-product="'+escapeHtml(p.id)+'">Consultar esta solução ↗</button></article>').join("");
+$("catalogo").innerHTML=PRODUCTS.map(p=>{
+  const isLexis=p.id==="lexis";
+  const icon=isLexis
+    ?'<span class="product-brandmark brand-atlas-lexis-symbol" role="img" aria-label="Símbolo LexisPredict"></span>'
+    :'<span class="product-icon" aria-hidden="true">'+escapeHtml(p.icon)+'</span>';
+  const action=isLexis
+    ?'<a class="product-link" href="./lexispredict/">Conhecer o LexisPredict ↗</a>'
+    :'<button type="button" data-product="'+escapeHtml(p.id)+'">Avaliar esta solução ↗</button>';
+  return '<article class="product product--'+escapeHtml(p.id)+'">'+icon+'<h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.description)+'</p>'+action+'</article>';
+}).join("");
 $("catalogo").addEventListener("click",ev=>{
   const target=ev.target.closest("[data-product]");if(!target)return;
   const item=PRODUCTS.find(x=>x.id===target.dataset.product);if(!item)return;
-  state.need=item.need;state.selected=item.id;state.step=1;render();
+  state.need=item.need;state.selected=item.id;state.step=1;
+  // The consultation is secondary and normally collapsed; open it before
+  // scrolling from a capability card so the next step is actually visible.
+  const consultation=document.querySelector(".consultation-details");
+  if(consultation) consultation.open=true;
+  render();
   $("atendimento").scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
 });
 const choiceMarkup=(pairs,current,group)=>'<div class="choices" role="group" aria-label="'+escapeHtml(group)+'">'+pairs.map(([value,label,detail])=>'<button type="button" class="choice" data-choice="'+escapeHtml(value)+'" aria-pressed="'+(current===value)+'"><strong>'+escapeHtml(label)+'</strong>'+(detail?'<div class="muted" style="font-size:11px;margin-top:6px">'+escapeHtml(detail)+'</div>':"")+'</button>').join("")+'</div>';

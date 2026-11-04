@@ -11,11 +11,12 @@ const page=readFileSync(resolve(root,"index.html"),"utf8");
 test("SEO audit passes substantive static checks for W1 homepage",()=>{
   const items=auditHtml(page);
   assert.deepEqual(items.filter(x=>x.severity==="error"),[]);
-  assert.ok(items.some(x=>x.code==="CANONICAL"&&x.severity==="pending"));
+  assert.ok(!items.some(x=>x.code==="CANONICAL"&&x.severity==="pending"),"Verified Render domain has a canonical now");
+  assert.match(page,/<link rel="canonical" href="https:\/\/w1-capital\.onrender\.com\/">/);
   assert.ok(page.includes('type="application/ld+json"'));
 });
 test("audit catches missing headings, invalid structured data and bad anchors",()=>{
-  const stripped=page.replace(/<h1\s[^>]*>/,"<h2>").replace('href="#solucoes"','href="#inexistente"').replace('"@context": "https://schema.org"','"@context": "invalid"');
+  const stripped=page.replace(/<h1\s[^>]*>/,"<h2>").replace('href="#solucoes"','href="#inexistente"').replace(/"@context"\s*:\s*"https:\/\/schema\.org"/,'"@context":"invalid"');
   const issues=auditHtml(stripped).filter(x=>x.severity==="error").map(x=>x.code);
   assert.ok(issues.includes("SEO_H1"));
   assert.ok(issues.includes("BROKEN_ANCHOR"));

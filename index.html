@@ -3,142 +3,94 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#341124">
-  <meta name="color-scheme" content="dark light">
-  <meta name="description" content="W1 Capital: tecnologia para organizar operações, clientes e decisões. Conheça LexisPredict, CRM, automações e indicadores. Descubra o caminho certo para sua empresa.">
+  <meta name="theme-color" content="#faf9f7">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="W1 Capital — Soluções digitais para organizar processos, equipes e operação. Conheça o LexisPredict e converse com nossa equipe.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="W1 Capital — Menos caos. Mais clareza para crescer.">
-  <meta property="og:description" content="Tecnologia para processos, equipe e gestão. Conheça o LexisPredict ou converse diretamente com a W1 Capital.">
+  <meta property="og:title" content="W1 Capital — Tecnologia para trabalhar melhor">
+  <meta property="og:description" content="Gestão jurídica, automação e ferramentas digitais. Soluções para necessidades reais, sem complicar sua rotina.">
   <meta property="og:locale" content="pt_BR">
   <meta name="robots" content="index,follow">
-  <meta name="twitter:card" content="summary">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "name": "W1 Capital",
-          "description": "Estúdio de soluções digitais para operações empresariais, gestão comercial, integração e tecnologia jurídica.",
-          "knowsAbout": [
-            "Gestão jurídica",
-            "CRM comercial",
-            "Automação de processos",
-            "Indicadores operacionais"
-          ]
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "LexisPredict",
-          "applicationCategory": "BusinessApplication",
-          "url": "https://lexispredict.vercel.app",
-          "description": "Plataforma digital para organização de carteira jurídica, atendimento e acompanhamento processual."
-        }
-      ]
-    }
-  </script>
-
-  <title>W1 Capital — Soluções digitais para negócios que avançam</title>
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://w1-capital.onrender.com/">
+  <title>W1 Capital — Soluções digitais para negócios que querem avançar</title>
   <link rel="icon" href="./sales/favicon.svg" type="image/svg+xml">
-  <!-- Critical first-paint styling prevents an unformatted document on slow mobile connections. Full design below. -->
+  <meta name="format-detection" content="telephone=no">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Organization","name":"W1 Capital","url":"https://w1-capital.onrender.com/","email":"corporacaow1capital@gmail.com","description":"Soluções digitais, gestão jurídica, automações e ferramentas para organização operacional."}
+  </script>
+  <!-- Critical first-paint CSS: the W1 header and content never render as unstyled serif text. -->
   <style data-critical>
-    :root{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff5ea;background:#190917}
-    *,*::before,*::after{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:86px}
-    body{margin:0;min-width:320px;background:#190917;color:#fff5ea;overflow-x:hidden}
-    a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}
-    button{cursor:pointer}a:focus-visible,button:focus-visible{outline:3px solid #8fc7ff;outline-offset:3px}
-    .skip{position:absolute;left:12px;top:-100px;padding:12px;background:#fff;color:#321426;z-index:500}
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#201a20;background:#faf9f7}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:88px}
+    body{margin:0;min-width:320px;background:#faf9f7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}button{cursor:pointer}
+    .skip{position:absolute;left:15px;top:-100px;background:#fff;color:#201a20;z-index:500;padding:12px}
     .skip:focus{top:10px}
-    .top{position:relative;z-index:60;background:#281023;border-bottom:1px solid #83546b;height:82px}
-    .top-inner{height:100%;width:92%;max-width:1450px;margin:auto;display:flex;gap:22px;align-items:center}
-    .brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:13px;letter-spacing:.07em;white-space:nowrap}
-    .brand small{display:block;font-size:9px;letter-spacing:.13em;color:#ddb6bd;margin-top:4px}
-    .brand-mark{height:44px;width:44px;display:grid;place-items:center;background:#310012;color:#d8d9de;border-radius:12px 3px 12px 3px;font-size:19px}
+    .top{position:sticky;top:0;z-index:60;height:77px;background:#fffffff0;border-bottom:1px solid #e6e1e3}
+    .top-inner{max-width:1300px;width:92%;height:100%;margin:auto;display:flex;align-items:center;gap:28px}
+    .brand{display:flex;align-items:center;gap:10px;color:#361c2d;font-size:14px;font-weight:850;letter-spacing:.04em;white-space:nowrap}
+    .brand small{display:block;font-size:9px;font-weight:700;letter-spacing:.18em;color:#8b6c80;margin-top:4px}
+    .brand-mark{display:block;width:43px;height:43px;flex:none;border-radius:50%;background-color:#2d0c22}
     .brand-atlas-w1-symbol{background-image:url("./assets/w1-lexis-atlas.webp");background-size:200% 200%;background-position:0 0;background-repeat:no-repeat}
-    .top .desktop-nav{display:flex;gap:clamp(10px,1.3vw,22px);align-items:center;margin:auto;font-size:12px}
-    .top .desktop-nav a{color:#f0d8db}
-    .nav-cta{display:inline-flex;align-items:center;gap:10px;background:#ffb88a;color:#3d162c;padding:13px;border-radius:10px 3px 10px 3px;font-size:12px;font-weight:850;white-space:nowrap}
-    .menu-toggle{display:none;width:44px;height:44px;background:#452139;border:1px solid #b27c8d;border-radius:10px;padding:9px}
-    .menu-toggle span{display:block;height:2px;margin:5px 0;background:#fff5e9;border-radius:3px}
+    .desktop-nav{display:flex;align-items:center;gap:25px;margin-left:auto;font-size:13px;color:#493644;font-weight:650}
+    .nav-cta{display:inline-flex;align-items:center;justify-content:center;background:#411c30;color:#fff;border-radius:999px;padding:12px 19px;font-size:12px;font-weight:800;white-space:nowrap}
+    .menu-toggle{display:none;margin-left:auto;background:#fff;border:1px solid #d5c6cf;border-radius:12px;width:44px;height:44px;padding:10px}
+    .menu-toggle span{display:block;height:2px;background:#381e2f;margin:5px 0;border-radius:2px}
     .mobile-navigation[hidden]{display:none!important}
-    .top .mobile-navigation:not([hidden]){display:block!important}
-    .mobile-navigation{position:absolute;top:100%;left:0;right:0;z-index:80;background:#32162a;border-bottom:1px solid #ab687f;box-shadow:0 18px 40px #10040c99;padding:16px 5%;max-height:calc(100dvh - 76px);overflow:auto}
-    .mobile-navigation a{display:block;padding:13px 10px;border-bottom:1px solid #9d657044;font-size:14px}
-    .mobile-navigation .menu-mobile-cta{background:#ffbb8e;color:#301224;font-weight:900;border-radius:10px;margin-top:12px}
-    .hero{display:grid;grid-template-columns:1.06fr .94fr;align-items:center;gap:5%;max-width:1450px;margin:auto;padding:78px 5%}
-    .hero-copy{min-width:0}.eyebrow,.kicker{font-size:11px;font-weight:900;letter-spacing:.12em;color:#ffbd97}
-    .hero h1{font-size:clamp(45px,5.7vw,85px);letter-spacing:-.07em;line-height:1.06;margin:25px 0}
-    .hero h1 em{font-style:normal;color:#ffb78e}
-    .hero-copy>p:not(.eyebrow){font-size:clamp(14px,1.6vw,17px);line-height:1.85;color:#ebc9d0;max-width:680px}
-    .hero-actions,.hero-proof{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
-    .btn{display:inline-flex;gap:12px;align-items:center;justify-content:center;border:1px solid #a66e80;padding:14px 19px;border-radius:12px 3px 12px 3px;font-weight:850;font-size:13px}
-    .btn.primary{background:#ffba8e;color:#39162a;border-color:#ffba8e}
-    .btn.secondary{background:#432039;color:#ffe9e0}
-    .hero-proof{font-size:11px;color:#dfbec7}
-    .hero-index{display:flex;justify-content:space-between;gap:15px;color:#c9a5ae;font-size:10px;margin-top:36px;padding-top:16px;border-top:1px solid #94617355}
-    .showcase{min-width:0;border:1px solid #985d74;border-radius:19px;background:#3b1b34;overflow:hidden;box-shadow:12px 12px 0 #b76b6322}
-    .showcase-top,.showcase-bottom{padding:15px;display:flex;justify-content:space-between;gap:10px;font-size:10px;letter-spacing:.05em;color:#efcbd0}
-    .office{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:center;min-height:245px;padding:17px;background:radial-gradient(circle at 45% 30%,#713351,#32162b)}
-    .desk{position:relative;z-index:2;padding:13px 7px;min-height:118px;border:1px solid #a6758b;border-radius:11px;background:#54253f;text-align:center;display:flex;flex-direction:column;justify-content:center}
-    .monitor{font-weight:900;color:#ffcb98;font-size:24px}.desk-title,.desk-sub{display:block;margin-top:7px;font-size:11px}.desk-sub{font-size:9px;color:#eac9ce}
-    .section{padding:70px 5%}.section-header h2,.editorial h2,.faq h2{font-size:clamp(29px,4.2vw,50px);line-height:1.1;letter-spacing:-.05em}
-    .solutions-zone,.contact-wrap{background:#fff8ee;color:#442036}
-    .product-grid,.agent-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-    .product,.agent{padding:22px;border-radius:13px;border:1px solid #b77d8d55}
-    .w1-premium .reveal-ready [data-reveal]{opacity:1}
-    .wa-float{position:fixed;right:18px;bottom:18px;z-index:90;display:inline-flex;gap:8px;align-items:center;background:#167b54;color:#fff;padding:13px 17px;border-radius:999px;box-shadow:0 12px 28px #15091277;font-size:12px;font-weight:900}
-    @media (max-width:950px){
-      .top .desktop-nav,.top .nav-cta{display:none}
-      .menu-toggle{display:block;margin-left:auto}
-      .hero{grid-template-columns:1fr;gap:28px;padding:54px 5%}
-      .hero h1{font-size:clamp(41px,9.3vw,65px)}
-      .showcase{width:100%;max-width:650px}
+    .mobile-navigation{position:absolute;z-index:75;top:100%;left:0;right:0;background:#fff;border-bottom:1px solid #eadde3;padding:15px 5%;box-shadow:0 18px 40px #240f2020}
+    .mobile-navigation a{display:block;padding:13px;color:#321c2c;font-weight:700}
+    .hero{max-width:1300px;margin:auto;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:6%;padding:78px 4% 72px;min-height:605px}
+    .hero-copy{min-width:0}
+    .hero h1{font-size:clamp(39px,4.9vw,64px);line-height:1.08;letter-spacing:-.06em;color:#261924;margin:22px 0}
+    .hero h1 em{color:#a54866;font-style:normal}
+    .hero-copy>p:not(.eyebrow){color:#665662;line-height:1.7;font-size:16px;max-width:560px}
+    .hero-actions,.hero-proof{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+    .btn{display:inline-flex;align-items:center;gap:14px;border-radius:999px;padding:14px 21px;border:1px solid #d9cbd3;font-size:13px;font-weight:780}
+    .btn.primary{background:#ff995f;color:#281721;border-color:#ff995f}
+    .btn.secondary{background:#fff;color:#472e3b}
+    .hero-media{margin:0;position:relative;width:100%;min-width:0}
+    .hero-photo{display:block;width:100%;height:345px;object-fit:cover;border-radius:23px;background:#e9e3e5}
+    @media(max-width:950px){
+      .top{height:70px}.desktop-nav,.nav-cta{display:none}.menu-toggle{display:block}
+      .hero{grid-template-columns:1fr;gap:28px;padding:48px 5% 50px;min-height:0}
+      .hero h1{font-size:clamp(32px,8vw,48px)}
+      .hero-photo{height:auto;aspect-ratio:3/2}
+      .top .mobile-navigation:not([hidden]){display:block!important}
     }
-    @media (max-width:600px){
-      .top{height:74px}.top-inner{width:90%}.hero{padding:42px 5%}
-      .hero-proof{gap:8px 14px}.office{min-height:205px;gap:7px;padding:10px}
-      .desk{min-height:95px;padding:9px 3px}.monitor{font-size:18px}
-      .product-grid,.agent-grid{grid-template-columns:1fr}
-      .wa-float{right:12px;bottom:12px;font-size:11px;padding:11px 14px}
-    }
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    @media(max-width:600px){.hero-copy{text-align:center}.hero-actions,.hero-proof{justify-content:center}.hero .btn.primary{width:100%;justify-content:center}}
   </style>
-  <link rel="preload" href="./sales/premium.css?v=20261104-brand1" as="style">
-  <link rel="stylesheet" href="./sales/styles.css?v=20261104-mob2">
-  <link rel="stylesheet" href="./sales/studio.css?v=20261104-mob2">
-  <link rel="stylesheet" href="./sales/premium.css?v=20261104-brand1">
-  <link rel="stylesheet" href="./sales/conversion.css?v=20261104-redesign1">
+  <link rel="stylesheet" href="./sales/refined.css?v=20261104-agency1">
   <script src="./sales/config.js"></script>
   <script type="module" src="./sales/app.js"></script>
-  <script defer src="./sales/premium.js?v=20261104-mob2"></script>
+  <script defer src="./sales/premium.js"></script>
 </head>
 <body class="w1-premium">
   <a class="skip" href="#conteudo">Ir para o conteúdo principal</a>
+
   <header class="top" id="inicio">
     <div class="top-inner">
-      <a class="brand" href="#inicio" aria-label="W1 Capital, início">
-        <span class="brand-mark brand-atlas-w1-symbol" role="img" aria-label="Emblema W1 Capital"></span>
-        <span>W1 CAPITAL<small>TECHNOLOGY STUDIO</small></span>
+      <a class="brand" href="#inicio" aria-label="W1 Capital — Início">
+        <span class="brand-mark brand-atlas-w1-symbol" role="img" aria-label="Emblema da W1 Capital"></span>
+        <span>W1 CAPITAL<small>TECNOLOGIA E OPERAÇÃO</small></span>
       </a>
       <nav class="desktop-nav" aria-label="Navegação principal">
         <a href="#solucoes">Soluções</a>
-        <a href="./lexispredict/">LexisPredict — Demonstração</a>
+        <a href="#lexispredict">LexisPredict</a>
         <a href="#metodo">Como trabalhamos</a>
-        <a href="#agentes">Experiência</a>
         <a href="#faq">Dúvidas</a>
       </nav>
-      <a class="nav-cta" href="./lexispredict/"><span>Conhecer LexisPredict</span><span aria-hidden="true">↗</span></a>
-      <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="menu-mobile" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <a class="nav-cta" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20W1%20Capital.%20Quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20digital." target="_blank" rel="noopener noreferrer">Vamos conversar <span aria-hidden="true">↗</span></a>
+      <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="menu-mobile" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
-    <nav id="menu-mobile" class="mobile-navigation" aria-label="Menu mobile" hidden>
+    <nav id="menu-mobile" class="mobile-navigation" aria-label="Menu do celular" hidden>
       <a href="#solucoes">Nossas soluções</a>
-      <a href="./lexispredict/">LexisPredict — Planos e demonstração</a>
-      <a href="#metodo">Nosso método</a>
-      <a href="#agentes">Experiência W1</a>
+      <a href="#lexispredict">Conhecer LexisPredict</a>
+      <a href="#metodo">Como trabalhamos</a>
+      <a href="#agentes">Diagnóstico inicial</a>
       <a href="#atendimento">Consulta guiada</a>
       <a href="#faq">Perguntas frequentes</a>
       <a href="mailto:corporacaow1capital@gmail.com">E-mail comercial</a>
@@ -146,179 +98,181 @@
       <a class="menu-mobile-cta" href="./lexispredict/">Solicitar demonstração ↗</a>
     </nav>
   </header>
+
   <main id="conteudo">
     <section class="hero section" aria-labelledby="hero-heading">
-      <div class="hero-grain" aria-hidden="true"></div>
       <div class="hero-copy">
-        <p class="eyebrow"><span class="pulse"></span> TECNOLOGIA PARA NEGÓCIOS REAIS</p>
-        <h1 id="hero-heading">Menos caos.<br><span class="wordline">Mais <em>clareza para crescer.</em></span></h1>
-        <p>Processos, clientes e tarefas em lugares diferentes? A W1 cria soluções para organizar a rotina, conectar equipes e abrir espaço para o que faz seu negócio avançar.</p>
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> DIGITAL, SEM COMPLICAÇÃO</p>
+        <h1 id="hero-heading">Tecnologia para a rotina. <em>Espaço para crescer.</em></h1>
+        <p>Organizamos processos, tarefas e informações para que sua equipe trabalhe com mais clareza. Da gestão jurídica à automação, começamos pelo que sua operação realmente precisa.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="./lexispredict/">Ver LexisPredict em ação <span aria-hidden="true">↗</span></a>
-          <a class="btn secondary" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20W1%20Capital.%20Gostaria%20de%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20para%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Conversar no WhatsApp <span aria-hidden="true">↗</span></a>
+          <a class="btn primary" href="./lexispredict/">Conhecer o LexisPredict <span aria-hidden="true">↗</span></a>
+          <a class="btn secondary" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20W1%20Capital%21%20Quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer">Falar com a W1 <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="hero-proof" aria-label="Como funciona a experiência">
-          <span><span aria-hidden="true">✓</span> Demonstração guiada</span>
-          <span><span aria-hidden="true">✓</span> Sem compromisso</span>
-          <span><span aria-hidden="true">✓</span> Conversa com a equipe W1</span>
+        <div class="hero-proof" aria-label="Como é o primeiro contato">
+          <span><b aria-hidden="true">✓</b> Demonstração guiada</span>
+          <span><b aria-hidden="true">✓</b> Sem compromisso</span>
+          <span><b aria-hidden="true">✓</b> Atendimento humano</span>
         </div>
-        <div class="hero-index" aria-hidden="true"><span>W1 CAPITAL / SOLUÇÕES PARA SUA ROTINA</span><span>01 — DESCUBRA</span></div>
       </div>
-      <div class="showcase" aria-label="Ilustração interativa do fluxo W1 Sales: identificar, recomendar e organizar uma solução">
-        <div class="showcase-top"><span><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span> W1 / VISÃO DE OPERAÇÃO</span><span class="online"><span class="pulse"></span> FLUXO ILUSTRATIVO</span></div>
-        <div class="office">
-          <div class="office-grid" aria-hidden="true"></div>
-          <div class="orbit orbit-one" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
-          <div class="scene-halo" aria-hidden="true"></div>
-          <div class="scene-ribbon">FLUXO DE SOLUÇÃO <span>•</span> W1 CAPITAL</div>
-          <div class="desk desk-a"><span class="monitor">01</span><span class="desk-title">Entender</span><span class="desk-sub">O que precisa mudar</span></div>
-          <div class="desk desk-b"><span class="monitor">02</span><span class="desk-title">Conectar</span><span class="desk-sub">A solução adequada</span></div>
-          <div class="desk desk-c"><span class="monitor">03</span><span class="desk-title">Evoluir</span><span class="desk-sub">Com clareza e controle</span></div>
-          <div class="scene-sticker" aria-hidden="true">IDEIAS<br>EM MOVIMENTO <span>✳</span></div>
+      <figure class="hero-media">
+        <div class="hero-photo-frame">
+          <img class="hero-photo" src="https://images.pexels.com/photos/29267525/pexels-photo-29267525.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1100" width="880" height="580" alt="Profissionais reunidos para discutir ideias em um ambiente de escritório" fetchpriority="high" decoding="async">
+          <div class="hero-photo-label"><span class="eyebrow-line" aria-hidden="true"></span><b>Transformar a rotina começa entendendo o problema.</b></div>
         </div>
-        <div class="showcase-bottom"><span>TRÊS PASSOS. MAIS CLAREZA.</span><span>CONCEITO VISUAL · W1</span></div>
-      </div>
+        <figcaption>Imagem ilustrativa. Foto de <a href="https://www.pexels.com/photo/collaborative-meeting-in-modern-office-space-29267525/" target="_blank" rel="noopener noreferrer">Matheus Bertelli / Pexels</a>; não representa a equipe W1.</figcaption>
+      </figure>
     </section>
-    <div class="scroll-band" aria-label="Áreas de atuação"><div class="scroll-band-inner">
-      <span>PROCESSOS</span><i>✦</i><span>ATENDIMENTO</span><i>✦</i><span>GESTÃO</span><i>✦</i><span>VISIBILIDADE</span><i>✦</i><span>TEMPO PARA O QUE IMPORTA</span>
-    </div></div>
+
+    <div class="service-strip" aria-label="Áreas de atuação">
+      <div><span>GESTÃO JURÍDICA</span><span class="strip-point" aria-hidden="true">·</span><span>CRM</span><span class="strip-point" aria-hidden="true">·</span><span>AUTOMAÇÕES</span><span class="strip-point" aria-hidden="true">·</span><span>INDICADORES</span></div>
+    </div>
+
     <section class="impact-zone" id="beneficios" aria-labelledby="impact-heading">
-      <div class="impact-inner">
-        <div class="impact-intro">
-          <span class="kicker">MENOS RUÍDO, MAIS RESULTADO OPERACIONAL</span>
-          <h2 id="impact-heading">O que muda quando<br><em>tudo faz sentido?</em></h2>
-          <p>A tecnologia deixa de ser mais uma preocupação e começa a apoiar o trabalho real.</p>
-        </div>
-        <div class="impact-grid">
-          <article class="impact-card">
-            <span class="impact-glyph impact-glyph--one" aria-hidden="true">↗</span>
-            <div><h3>Processos</h3><p>Informações mais fáceis de encontrar e acompanhar.</p></div>
-          </article>
-          <article class="impact-card">
-            <span class="impact-glyph impact-glyph--two" aria-hidden="true">✳</span>
-            <div><h3>Equipe</h3><p>Atividades e responsabilidades mais claras para todos.</p></div>
-          </article>
-          <article class="impact-card">
-            <span class="impact-glyph impact-glyph--three" aria-hidden="true">◎</span>
-            <div><h3>Decisões</h3><p>Uma visão mais organizada para saber por onde começar.</p></div>
-          </article>
-        </div>
+      <div class="section-head compact">
+        <span class="kicker">O QUE MUDA NA PRÁTICA</span>
+        <h2 id="impact-heading">Menos ruído.<br><em>Mais organização.</em></h2>
+        <p>Simples de entender, útil para quem precisa executar.</p>
+      </div>
+      <div class="impact-grid">
+        <article class="impact-card"><span class="impact-num">01</span><h3>Processos</h3><p>Informações que a equipe consegue encontrar e acompanhar.</p></article>
+        <article class="impact-card"><span class="impact-num">02</span><h3>Equipe</h3><p>Atividades, responsáveis e próximos passos com mais contexto.</p></article>
+        <article class="impact-card"><span class="impact-num">03</span><h3>Decisões</h3><p>Dados e prioridades reunidos para orientar o trabalho.</p></article>
       </div>
     </section>
-    <section class="section editorial" id="visao" aria-labelledby="visao-heading">
-      <div class="editorial-lead" data-reveal><span class="kicker"><span class="index">01 /</span> O QUE IMPORTA</span><h2 id="visao-heading">Tecnologia boa é a que <i>simplifica seu dia.</i></h2></div>
-      <div class="editorial-side" data-reveal>
-        <p>Começamos entendendo o seu trabalho. Depois, escolhemos o que realmente ajuda — sem funções desnecessárias, promessas vazias ou complicação.</p>
-        <a href="#solucoes" class="editorial-link">Conheça nossas áreas de atuação <span aria-hidden="true">↗</span></a>
-        <div class="editorial-mark" aria-hidden="true"><span>W</span><span>1</span></div>
-      </div>
-    </section>
+
     <section class="solutions-zone" id="solucoes" aria-labelledby="solucoes-heading">
       <div class="section">
-        <div class="section-header" data-reveal><div><span class="kicker"><span class="index">02 /</span> O QUE PODEMOS CONSTRUIR</span><h2 id="solucoes-heading">Cada desafio merece <em>uma solução clara.</em></h2></div><p>Uma empresa não precisa de mais ferramentas desconectadas. Precisa do que funciona para a sua equipe.</p></div>
-        <div class="product-grid" id="catalogo" aria-label="Catálogo de soluções W1 Capital"></div>
-        <div class="solutions-footnote"><span aria-hidden="true">↳</span> Cada projeto depende de escopo, disponibilidade e condições confirmadas pela equipe. Nenhum preço ou resultado é prometido nesta página.</div>
+        <div class="section-head section-head--split">
+          <div><span class="kicker">O QUE FAZEMOS</span><h2 id="solucoes-heading">Soluções para <em>problemas reais.</em></h2></div>
+          <p>Uma operação bem estruturada não precisa de dezenas de ferramentas. Precisa das ferramentas certas, funcionando juntas.</p>
+        </div>
+        <div class="product-grid" id="catalogo" aria-label="Soluções da W1 Capital"></div>
+        <p class="solutions-footnote">Cada solução depende de avaliação técnica e proposta individual. Funcionalidades, prazos e condições são confirmados antes da contratação.</p>
       </div>
     </section>
-    <section class="featured-product" aria-labelledby="featured-title">
+
+    <section class="featured-product" id="lexispredict" aria-labelledby="featured-title">
       <div class="feature-inner">
-        <div class="feature-copy" data-reveal>
-          <div class="brand-atlas-lexis-full product-logo" role="img" aria-label="Logotipo LexisPredict em prata sobre vinho"></div>
-          <p class="kicker">PRODUTO EM DESTAQUE · W1 CAPITAL</p>
-          <h2 id="featured-title">LexisPredict.<br><em>Organização que acompanha a prática jurídica.</em></h2>
-          <p>Carteira processual, atividades e equipe reunidas em uma plataforma. Conheça os recursos em uma demonstração com dados fictícios.</p>
+        <div class="feature-copy">
+          <span class="kicker">NOSSO PRODUTO EM DESTAQUE</span>
+          <span class="product-logo brand-atlas-lexis-full" role="img" aria-label="Logotipo LexisPredict"></span>
+          <h2 id="featured-title">Sua carteira jurídica.<br><em>Uma visão mais clara.</em></h2>
+          <p>O LexisPredict reúne processos, atividades e acompanhamento de equipe em um único ambiente. Conheça os recursos que podemos demonstrar hoje.</p>
           <div class="feature-list">
-            <span><i aria-hidden="true">✓</i> Organização da carteira processual</span>
-            <span><i aria-hidden="true">✓</i> Acompanhamento de retornos e atividades</span>
-            <span><i aria-hidden="true">✓</i> Visão operacional com indicadores</span>
+            <span><b aria-hidden="true">✓</b> Carteira de processos organizada</span>
+            <span><b aria-hidden="true">✓</b> Tarefas, retornos e agenda</span>
+            <span><b aria-hidden="true">✓</b> Relatórios e exportações conforme permissões</span>
           </div>
           <div class="feature-actions">
-            <a class="btn feature-main" href="./lexispredict/">Ver planos e pedir demonstração ↗</a>
-            <a class="feature-external" href="https://lexispredict.vercel.app" target="_blank" rel="noopener noreferrer">Acessar plataforma (login necessário) ↗</a>
+            <a class="btn primary" href="./lexispredict/">Ver planos e demonstração <span aria-hidden="true">↗</span></a>
+            <a class="feature-external" href="https://lexispredict.vercel.app/login" target="_blank" rel="noopener noreferrer">Já utiliza? Acessar sistema ↗</a>
           </div>
         </div>
-        <div class="feature-visual" data-reveal aria-label="Ilustração conceitual do painel LexisPredict. Não exibe dados reais.">
-          <div class="feature-screen">
-            <div class="feature-screen-head"><span class="feature-symbol brand-atlas-lexis-symbol" role="img" aria-label="Emblema LexisPredict"></span><span>LexisPredict</span><span class="feature-dots" aria-hidden="true">•••</span></div>
-            <div class="feature-screen-body">
-              <div class="feature-screen-side" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-              <div class="feature-screen-main">
-                <span class="feature-caption">VISÃO ILUSTRATIVA / OPERAÇÃO</span>
-                <div class="feature-screen-title">Tudo o que importa.<br><em>Em um só lugar.</em></div>
-                <div class="feature-screen-grid">
-                  <div><span class="feature-icon">01</span><strong>Processos</strong><small>Carteira organizada</small></div>
-                  <div><span class="feature-icon">02</span><strong>Atendimento</strong><small>Histórico e contexto</small></div>
-                  <div><span class="feature-icon">03</span><strong>Retornos</strong><small>Próximos passos</small></div>
-                </div>
-                <div class="feature-mock-line"><span></span><span></span><span></span></div>
+        <div class="feature-visual" aria-label="Representação conceitual, sem dados de clientes ou captura real do sistema">
+          <div class="product-sample">
+            <div class="sample-top"><span class="brand-atlas-lexis-symbol feature-symbol" role="img" aria-label="Símbolo LexisPredict"></span><span>LEXISPREDICT</span><span class="sample-meta">VISÃO CONCEITUAL</span></div>
+            <div class="sample-body">
+              <span class="sample-eyebrow">UMA ROTINA MAIS ORGANIZADA</span>
+              <strong>O que importa, em um só lugar.</strong>
+              <div class="sample-rows">
+                <div><span class="sample-icon" aria-hidden="true">01</span><span><b>Processos</b><small>Carteira de trabalho</small></span><i aria-hidden="true">↗</i></div>
+                <div><span class="sample-icon" aria-hidden="true">02</span><span><b>Atividades</b><small>Tarefas e retornos</small></span><i aria-hidden="true">↗</i></div>
+                <div><span class="sample-icon" aria-hidden="true">03</span><span><b>Equipe</b><small>Responsabilidades</small></span><i aria-hidden="true">↗</i></div>
               </div>
             </div>
           </div>
-          <span class="feature-visual-footnote">INTERFACE CONCEITUAL — NÃO É UMA CAPTURA DO SISTEMA</span>
+          <small class="feature-visual-footnote">FLUXO ILUSTRATIVO — NÃO É UMA CAPTURA DO SISTEMA</small>
         </div>
       </div>
     </section>
-    <section class="section process" id="metodo" aria-labelledby="metodo-heading">
-      <div class="section-header" data-reveal><div><span class="kicker"><span class="index">03 /</span> NOSSA FORMA DE TRABALHAR</span><h2 id="metodo-heading">Primeiro entendemos.<br><em>Depois construímos.</em></h2></div><p>Você mostra o desafio. Nós avaliamos a solução e explicamos o próximo passo com transparência.</p></div>
+
+    <section class="process section" id="metodo" aria-labelledby="metodo-heading">
+      <div class="section-head section-head--split">
+        <div><span class="kicker">COMO TRABALHAMOS</span><h2 id="metodo-heading">Entender. Construir.<br><em>Acompanhar.</em></h2></div>
+        <p>A tecnologia entra depois de entender o negócio. Cada etapa tem uma função clara, sem prometer o que ainda não foi avaliado.</p>
+      </div>
       <div class="process-layout">
-        <div class="process-steps">
-          <button type="button" class="process-step active" data-process="0" aria-pressed="true"><span class="step-num">01</span><span><strong>Entender</strong><small>A rotina, os gargalos e as prioridades.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
-          <button type="button" class="process-step" data-process="1" aria-pressed="false"><span class="step-num">02</span><span><strong>Desenhar</strong><small>Uma solução adequada ao contexto.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
-          <button type="button" class="process-step" data-process="2" aria-pressed="false"><span class="step-num">03</span><span><strong>Evoluir</strong><small>Organizar melhorias sem perder o controle.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
+        <div class="process-steps" role="group" aria-label="Etapas da W1">
+          <button type="button" class="process-step active" data-process="0" aria-pressed="true"><span class="step-num">01</span><span><strong>Escutar</strong><small>Entendemos a rotina e os gargalos.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="process-step" data-process="1" aria-pressed="false"><span class="step-num">02</span><span><strong>Planejar</strong><small>Desenhamos um escopo viável.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="process-step" data-process="2" aria-pressed="false"><span class="step-num">03</span><span><strong>Evoluir</strong><small>Ajustamos conforme a necessidade.</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>
         </div>
         <div class="process-display" aria-live="polite">
-          <div class="display-head"><span>W1 / WORKFLOW</span><span class="display-dot"></span><span>ETAPA <span id="process-stage">01</span></span></div>
-          <div class="process-art" aria-hidden="true"><div class="art-disc"></div><div class="art-ring"></div><div class="art-center">W1</div><div class="art-node art-node-one"></div><div class="art-node art-node-two"></div></div>
-          <div class="display-caption"><span id="process-title">Ouvimos antes de propor.</span><p id="process-description">Descobrimos onde a operação perde tempo e o que a equipe realmente precisa.</p></div>
+          <span class="display-head">ETAPA <span id="process-stage">01</span> / 03</span>
+          <div class="display-caption"><strong id="process-title">Ouvimos antes de propor.</strong><p id="process-description">Descobrimos onde a operação perde tempo e o que a equipe realmente precisa.</p></div>
+          <div class="process-signature"><span>W1</span><small>TECNOLOGIA COM PROPÓSITO</small></div>
         </div>
       </div>
     </section>
+
     <section class="agent-zone" id="agentes" aria-labelledby="agentes-heading">
-      <div class="section">
-        <div class="section-header" data-reveal><div><span class="kicker"><span class="index">04 /</span> EXPERIÊNCIA W1 SALES</span><h2 id="agentes-heading">Comece com uma pergunta. <em>Saia com direção.</em></h2></div><p>Em poucos passos, nosso guia ajuda você a identificar uma solução possível. Simples e sem coletar dados pessoais para começar.</p></div>
-        <div class="agent-grid">
-          <article class="agent" data-reveal><span class="agent-icon" aria-hidden="true">01</span><h3>Conte o desafio</h3><p>Começamos pelo problema real, não por um formulário enorme.</p><span class="tag">SEU CONTEXTO</span></article>
-          <article class="agent" data-reveal><span class="agent-icon" aria-hidden="true">02</span><h3>Veja possibilidades</h3><p>Relacionamos sua necessidade às soluções do nosso catálogo.</p><span class="tag">CRITÉRIOS CLAROS</span></article>
-          <article class="agent" data-reveal><span class="agent-icon" aria-hidden="true">03</span><h3>Decida o próximo passo</h3><p>Você recebe uma indicação explicada. O contato humano só acontece quando você solicita.</p><span class="tag">CONTROLE NAS SUAS MÃOS</span></article>
-        </div>
+      <div class="agent-inner">
+        <div><span class="kicker">COMECE POR AQUI</span><h2 id="agentes-heading">Não sabe qual solução procurar?</h2><p>Responda duas perguntas simples. A consulta é uma orientação inicial por regras, não um atendimento com inteligência artificial nem uma proposta vinculante.</p></div>
+        <a class="btn secondary" href="#atendimento">Fazer diagnóstico inicial <span aria-hidden="true">↗</span></a>
       </div>
     </section>
-    <section class="section contact-wrap" id="atendimento" aria-labelledby="contato-heading">
-      <div class="section-header" data-reveal><div><span class="kicker">CONHEÇA SEU PRÓXIMO PASSO</span><h2 id="contato-heading">Qual desafio vamos <em>resolver primeiro?</em></h2></div><p>Responda duas perguntas. Você pode ver a sugestão e salvar um resumo sem informar nome ou e-mail.</p></div>
-      <div class="consultant" data-reveal>
-        <div class="consultant-left">
-          <div class="consultant-label"><span class="dot-lg"></span> CONSULTA GUIADA W1 <span class="muted">· ETAPA <span id="step-number">1</span> DE 3</span></div>
-          <div class="progress" role="progressbar" aria-label="Progresso da consulta" aria-valuemin="0" aria-valuemax="3" aria-valuenow="1"><span id="progress-bar"></span></div>
-          <div id="step-body" aria-live="polite"></div>
-          <div class="navigation"><button id="back" class="btn secondary" type="button">Voltar</button><button id="next" class="btn primary" type="button">Continuar ↗</button></div>
+
+    <section class="contact-wrap" id="atendimento" aria-labelledby="contato-heading">
+      <div class="contact-shell">
+        <div class="contact-heading">
+          <span class="kicker">DIAGNÓSTICO OPCIONAL</span>
+          <h2 id="contato-heading">Vamos começar pelo <em>seu desafio?</em></h2>
+          <p>Você pode ver uma recomendação e guardar o resumo sem informar nome ou e-mail.</p>
         </div>
-        <aside class="consultant-right" aria-labelledby="resumo-heading">
-          <span class="sidebar-kicker">SEU MAPA DE NECESSIDADES</span><h3 id="resumo-heading">O que entendemos até aqui</h3>
-          <div class="summary-row"><span>Principal desafio</span><strong id="summary-need">A definir</strong></div>
-          <div class="summary-row"><span>Tamanho da equipe</span><strong id="summary-size">A definir</strong></div>
-          <div class="summary-row"><span>Solução indicada</span><strong id="summary-product">A definir</strong></div>
-          <div class="note"><strong>Sem pegadinhas.</strong><p>Estas recomendações são feitas por regras claras. Não são uma proposta comercial nem uma conversa com uma pessoa real.</p></div>
-          <div id="storage-status" class="storage-status" role="status"></div>
-        </aside>
+        <details class="consultation-details">
+          <summary>Fazer consulta guiada gratuita <span aria-hidden="true">↗</span></summary>
+          <div class="consultant">
+            <div class="consultant-left">
+              <div class="consultant-label">CONSULTA GUIADA W1 <span class="muted">· ETAPA <span id="step-number">1</span> DE 3</span></div>
+              <div class="progress" role="progressbar" aria-label="Progresso da consulta" aria-valuemin="0" aria-valuemax="3" aria-valuenow="1"><span id="progress-bar"></span></div>
+              <div id="step-body" aria-live="polite"></div>
+              <div class="navigation"><button id="back" class="btn secondary" type="button">Voltar</button><button id="next" class="btn primary" type="button">Continuar ↗</button></div>
+            </div>
+            <aside class="consultant-right" aria-labelledby="resumo-heading">
+              <span class="sidebar-kicker">RESUMO DA CONSULTA</span><h3 id="resumo-heading">O que entendemos até aqui</h3>
+              <div class="summary-row"><span>Principal desafio</span><strong id="summary-need">A definir</strong></div>
+              <div class="summary-row"><span>Tamanho da equipe</span><strong id="summary-size">A definir</strong></div>
+              <div class="summary-row"><span>Solução indicada</span><strong id="summary-product">A definir</strong></div>
+              <div class="note"><strong>Sem compromisso.</strong><p>Estas sugestões seguem regras transparentes. Não são uma proposta comercial nem um atendimento humano.</p></div>
+              <div id="storage-status" class="storage-status" role="status"></div>
+            </aside>
+          </div>
+        </details>
       </div>
     </section>
-    <section class="section faq" id="faq" aria-labelledby="faq-heading">
-      <div><span class="kicker">PERGUNTAS FREQUENTES</span><h2 id="faq-heading">Sem letras miúdas.<br><em>Sem mistério.</em></h2><p class="faq-lead">Antes de começar, é bom saber exatamente o que acontece em cada etapa.</p></div>
+
+    <section class="faq section" id="faq" aria-labelledby="faq-heading">
+      <div class="section-head section-head--split"><div><span class="kicker">PERGUNTAS FREQUENTES</span><h2 id="faq-heading">É melhor quando<br><em>tudo está claro.</em></h2></div><p>Conheça o funcionamento antes de decidir.</p></div>
       <div class="faq-grid">
-        <details><summary>Posso conhecer as soluções sem pagar?</summary><p>Sim. A consulta inicial neste site é gratuita e não exige compromisso. A contratação de qualquer produto ou serviço é avaliada separadamente pela equipe.</p></details>
-        <details><summary>O assistente é uma IA conversando comigo?</summary><p>Não nesta versão. A recomendação funciona com regras claras no navegador, sem ChatGPT ou outra API paga conectada automaticamente.</p></details>
-        <details><summary>Vocês armazenam os dados do meu atendimento?</summary><p>As duas primeiras perguntas funcionam somente no navegador. O registro de contato depende de um banco comercial separado e de sua autorização expressa. Enquanto essa integração não estiver ativa, você poderá apenas baixar um resumo.</p></details>
-        <details><summary>A indicação já é um orçamento?</summary><p>Não. Ela ajuda a identificar o serviço que parece adequado. Escopo, funcionalidades, valores e prazos dependem de análise e confirmação humana.</p></details>
-        <details><summary>Vou receber mensagens de marketing?</summary><p>Não por usar esta página. Eventuais contatos comerciais dependem da sua solicitação e das autorizações aplicáveis. Não há disparos automáticos nesta versão.</p></details>
+        <details><summary>Posso conhecer a plataforma antes de contratar?</summary><p>Sim. A demonstração é assistida, sem compromisso. A proposta final depende do escopo e das funcionalidades validadas.</p></details>
+        <details><summary>O site usa inteligência artificial para conversar comigo?</summary><p>Não nesta versão. O diagnóstico opcional utiliza critérios definidos no próprio navegador, sem API de IA conectada.</p></details>
+        <details><summary>Meus dados são enviados automaticamente?</summary><p>Não. O diagnóstico inicial funciona no navegador. O formulário de demonstração do LexisPredict prepara um e-mail, mas o envio depende da sua confirmação.</p></details>
+        <details><summary>O LexisPredict está disponível para cadastro imediato?</summary><p>As primeiras implantações são assistidas. Cadastro, segurança, contratação e cobrança precisam ser confirmados pela W1 antes da ativação.</p></details>
       </div>
     </section>
-    <section class="end-cta" aria-labelledby="cta-heading"><div class="end-cta-inner"><span class="kicker">O PRÓXIMO PASSO COMEÇA PEQUENO</span><h2 id="cta-heading">Seu próximo passo<br><em>começa por uma conversa.</em></h2><p>Conheça o que já existe ou converse com a equipe W1 sobre o que sua operação precisa.</p><div class="end-cta-actions"><a class="btn primary" href="./lexispredict/">Agendar demonstração <span aria-hidden="true">↗</span></a><a class="btn secondary" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20W1%20Capital%21%20Quero%20entender%20as%20solu%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">Falar no WhatsApp ↗</a></div><span class="end-cta-mark" aria-hidden="true">W1</span></div></section>
+
+    <section class="end-cta" aria-labelledby="cta-heading">
+      <div class="end-cta-inner">
+        <span class="kicker">PRONTO PARA CONVERSAR?</span>
+        <h2 id="cta-heading">Sua operação pode funcionar <em>de um jeito mais simples.</em></h2>
+        <p>Conte o que precisa melhorar. Vamos avaliar se a W1 tem a solução certa.</p>
+        <div class="end-cta-actions">
+          <a class="btn primary" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20W1%20Capital.%20Quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer">Falar com a equipe <span aria-hidden="true">↗</span></a>
+          <a class="btn secondary" href="./lexispredict/">Conhecer LexisPredict <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
   </main>
-  <a class="wa-float" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20equipe%20W1%20Capital%21%20Gostaria%20de%20uma%20demonstra%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer" aria-label="Conversar com W1 Capital no WhatsApp">WhatsApp <span aria-hidden="true">↗</span></a>
-  <footer class="site-footer"><div class="footer-top"><a href="#inicio" class="footer-brand" aria-label="W1 Capital — voltar ao início"><span class="brand-atlas-w1-full footer-logo" role="img" aria-label="Logotipo W1 Capital"></span></a><p>Tecnologia para organizações que querem trabalhar com mais clareza, consistência e autonomia.</p><a href="#inicio" class="footer-up">Voltar ao topo ↑</a></div><div class="footer-contact-strip" aria-label="Contatos oficiais da W1 Capital">
-    <span>Fale diretamente com a W1</span>
-    <a href="mailto:corporacaow1capital@gmail.com">corporacaow1capital@gmail.com ↗</a>
-    <a href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20equipe%20W1%20Capital%21%20Gostaria%20de%20conhecer%20as%20solu%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">WhatsApp +55 13 99119-9349 ↗</a>
-  </div><div class="footer-bottom"><span>© <span id="year">2026</span> W1 Capital. Conteúdo comercial informativo.</span><span>Indicações preliminares. Sem garantia de resultados.</span><a href="#faq">Privacidade e dúvidas</a></div></footer>
+
+  <a class="wa-float" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20equipe%20W1%20Capital%21%20Gostaria%20de%20conhecer%20as%20solu%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer" aria-label="Conversar com a W1 Capital no WhatsApp"><span aria-hidden="true">◉</span> WhatsApp</a>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-main"><a href="#inicio" aria-label="Voltar ao início da W1 Capital"><span class="brand-atlas-w1-full footer-logo" role="img" aria-label="Logotipo W1 Capital"></span></a><p>Organização, tecnologia e soluções digitais voltadas à rotina real dos negócios.</p></div>
+      <div class="footer-col"><strong>Explore</strong><a href="#solucoes">Soluções</a><a href="./lexispredict/">LexisPredict</a><a href="#metodo">Como trabalhamos</a><a href="#faq">Dúvidas</a></div>
+      <div class="footer-col"><strong>Contato oficial</strong><a href="mailto:corporacaow1capital@gmail.com">corporacaow1capital@gmail.com</a><a href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20equipe%20W1%20Capital." target="_blank" rel="noopener noreferrer">WhatsApp +55 13 99119-9349</a><span>Solicite uma apresentação sem compromisso.</span></div>
+    </div>
+    <div class="footer-bottom"><span>© <span id="year">2026</span> W1 Capital.</span><span>Produtos e serviços sujeitos a proposta e validação técnica.</span></div>
+  </footer>
 </body>
 </html>
