@@ -76,3 +76,14 @@ test("demo mode and commercial database remain separate from legal clients",()=>
   assert.doesNotMatch(sql,/grant select .* to anon/i);
   assert.match(sql,/consent is true/i);
 });
+
+
+test("homepage uses an original fictional-person illustration instead of a real-person photo",()=>{
+  assert.ok(existsSync(join(root,"assets/w1-pessoas-ficticias.svg")));
+  assert.match(html,/src="\.\/assets\/w1-pessoas-ficticias\.svg"/);
+  assert.match(html,/personagens fictícios|pessoas fictícias/i);
+  assert.doesNotMatch(html,/pexels\.com|unsplash\.com|matheus bertelli/i);
+  const illustration=read("assets/w1-pessoas-ficticias.svg");
+  assert.match(illustration,/<svg\b/);
+  assert.match(illustration,/fictíci/i);
+});

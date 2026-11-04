@@ -37,7 +37,8 @@ test("capabilities appear ahead of product narrative and do not overpromise",()=
  assert.match(home,/brand-atlas-w1-full/);
  assert.match(home,/brand-atlas-lexis-full/);
  assert.match(home,/brand-atlas-lexis-symbol/);
- assert.match(home,/Pexels|Unsplash/);
+ assert.match(home,/assets\/w1-pessoas-ficticias\.svg/);
+ assert.doesNotMatch(home,/Pexels|Unsplash/);
 });
 
 test("consultation remains functional yet secondary to direct human contact",()=>{
