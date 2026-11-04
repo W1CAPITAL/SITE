@@ -38,7 +38,7 @@ test("public SEO entry points include the three actual consumer-facing pages, no
  assert.match(robots,/Disallow: \/sales\/prospecting\//);
  assert.match(robots,/Disallow: \/sales\/operations\//);
  assert.doesNotMatch(robots,/^Disallow: \/sales\/$/m,"Do not block CSS and JS assets from search robots");
- for(const uri of ["https://w1-capital.onrender.com/","https://w1-capital.onrender.com/lexispredict/","https://w1-capital.onrender.com/guia/"]){
+ for(const uri of ["https://w1-capital.onrender.com/","https://w1-capital.onrender.com/lexispredict/","https://w1-capital.onrender.com/guia/","https://w1-capital.onrender.com/diagnostico/"]){
   assert.ok(xml.includes("<loc>"+uri+"</loc>"),uri+" omitted");
  }
  assert.doesNotMatch(xml,/\/sales\/|example\.com|localhost|<lastmod>2027/i);
