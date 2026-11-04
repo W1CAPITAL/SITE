@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1624">
+<meta name="description" content="W1 Sales — conheça soluções da W1 Capital, tire dúvidas e solicite uma apresentação.">
+<title>W1 Sales — Soluções e atendimento comercial</title>
+<link rel="stylesheet" href="./styles.css">
+<script type="module" src="./app.js"></script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="top"><a class="brand" href="./" aria-label="W1 Sales, início"><span class="brand-mark">W1</span><span>W1 CAPITAL<small>SALES STUDIO</small></span></a><nav aria-label="Seções"><a href="#solucoes">Soluções</a><a href="#agentes">Agentes</a><a href="#atendimento">Atendimento</a></nav><a class="top-cta" href="#atendimento">Falar sobre meu projeto ↗</a></header>
+<main id="conteudo">
+<section class="hero section" aria-labelledby="h1">
+<div class="hero-copy"><span class="eyebrow"><span class="pulse"></span> W1 SALES · HUB COMERCIAL</span>
+<h1>Produtos que resolvem. <em>Atendimento que entende.</em></h1>
+<p>Conheça as soluções digitais da W1 Capital. Nosso assistente consultivo gratuito ajuda a encontrar o serviço adequado e organiza as informações para uma futura conversa com a equipe.</p>
+<div class="hero-actions"><a class="btn primary" href="#atendimento">Descobrir minha solução <span aria-hidden="true">↗</span></a><a class="btn secondary" href="#solucoes">Ver catálogo</a></div>
+<div class="hero-proof"><span>✓ Sem IA instalada no seu computador</span><span>✓ Sem promessa de resultado garantido</span><span>✓ Sem disparos automáticos</span></div>
+</div>
+<div class="showcase" aria-label="Escritório virtual ilustrativo dos agentes W1 Sales">
+<div class="showcase-top"><span>ESTAÇÃO DE TRABALHO</span><span class="online"><span class="pulse"></span> DEMONSTRAÇÃO</span></div>
+<div class="office">
+<div class="office-grid"></div>
+<div class="desk desk-a"><span class="monitor">01</span><span class="desk-title">Recepção</span><span class="desk-sub">Identificar objetivo</span></div>
+<div class="desk desk-b"><span class="monitor">02</span><span class="desk-title">Consultoria</span><span class="desk-sub">Indicar soluções</span></div>
+<div class="desk desk-c"><span class="monitor">03</span><span class="desk-title">Propostas</span><span class="desk-sub">Organizar demanda</span></div>
+<div class="flow-line line-a"></div><div class="flow-line line-b"></div>
+</div>
+<div class="showcase-bottom"><span>3 AGENTES DE FLUXO</span><span>REGRAS EXPLÍCITAS · SEM IA EXTERNA</span></div>
+</div>
+</section>
+<section class="section metrics" aria-label="Características"><div class="metric"><strong>3</strong><span>etapas de atendimento</span></div><div class="metric"><strong>0</strong><span>requisições de IA pagas</span></div><div class="metric"><strong>100%</strong><span>controle humano das propostas</span></div></section>
+<section class="section" id="solucoes"><div class="section-header"><div><span class="kicker">CATÁLOGO</span><h2>Tecnologia para a operação.</h2></div><p>Apresentação inicial das linhas de serviço, sujeita à confirmação de escopo e disponibilidade pela equipe.</p></div><div id="catalogo" class="product-grid"></div></section>
+<section class="section" id="agentes"><div class="section-header"><div><span class="kicker">OPERAÇÃO INTELIGENTE</span><h2>Três agentes, uma jornada.</h2></div><p>Uma automação consultiva simples, leve e transparente. Nenhum robô se passa por pessoa.</p></div><div class="agent-grid"><article class="agent"><span class="agent-icon">01</span><h3>Recepcionista</h3><p>Entende o que você procura, sem pedir dados sensíveis.</p><span class="tag">Etapa 1 · Necessidade</span></article><article class="agent"><span class="agent-icon">02</span><h3>Consultor</h3><p>Relaciona sua necessidade ao catálogo W1 por critérios claros.</p><span class="tag">Etapa 2 · Recomendação</span></article><article class="agent"><span class="agent-icon">03</span><h3>Propostas</h3><p>Organiza um pedido de contato para avaliação humana, sem inventar preços.</p><span class="tag">Etapa 3 · Contato autorizado</span></article></div></section>
+<section class="section contact-wrap" id="atendimento">
+<div class="section-header"><div><span class="kicker">ATENDIMENTO</span><h2>Encontre o caminho certo.</h2></div><p>Experimente nosso assistente comercial. Ele usa regras locais no navegador; não gera respostas por inteligência artificial.</p></div>
+<div class="consultant">
+<div class="consultant-left"><div class="consultant-label"><span class="dot-lg"></span> ASSISTENTE W1 <span class="muted">· ETAPA <span id="step-number">1</span> DE 3</span></div><div class="progress" aria-label="Progresso"><span id="progress-bar"></span></div><div id="step-body" aria-live="polite"></div><div class="navigation"><button id="back" class="btn secondary" type="button">Voltar</button><button id="next" class="btn primary" type="button">Continuar ↗</button></div></div>
+<aside class="consultant-right"><h3>Resumo da sua consulta</h3><div class="summary-row"><span>Necessidade</span><strong id="summary-need">A definir</strong></div><div class="summary-row"><span>Porte</span><strong id="summary-size">A definir</strong></div><div class="summary-row"><span>Solução indicada</span><strong id="summary-product">A definir</strong></div><div class="note"><strong>Privacidade em primeiro lugar</strong><p>Sem coleta de dados durante as perguntas. Somente o formulário final, com autorização expressa, pode enviar uma solicitação.</p></div><div id="storage-status" class="storage-status" role="status"></div></aside>
+</div>
+</section>
+<section class="section faq"><div><span class="kicker">TRANSPARÊNCIA</span><h2>Perguntas importantes.</h2></div><div class="faq-grid"><details><summary>Este robô usa ChatGPT automaticamente?</summary><p>Não. A versão gratuita inicial usa regras determinísticas. O ChatGPT pode ajudar a equipe a elaborar propostas dentro do próprio ChatGPT, mas não está conectado automaticamente ao site.</p></details><details><summary>Os meus dados são enviados ao LexisPredict?</summary><p>Não. O W1 Sales foi projetado para usar um banco comercial separado. A carteira processual não integra este fluxo.</p></details><details><summary>O atendimento é uma proposta vinculante?</summary><p>Não. As indicações são preliminares; escopo, preços, prazos e condições precisam de confirmação humana.</p></details><details><summary>Vocês enviam mensagens automaticamente?</summary><p>Não nesta versão. O consentimento do formulário é para a equipe avaliar e responder à solicitação; não autoriza campanhas em massa.</p></details></div></section>
+</main>
+<footer><span>W1 CAPITAL <span class="muted">· W1 Sales</span></span><span>Portal comercial demonstrativo · 2026</span><a href="#conteudo">Voltar ao início ↑</a></footer>
+</body></html>
