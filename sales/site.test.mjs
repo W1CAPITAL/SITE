@@ -21,7 +21,7 @@ test("isolated no-cost static portal exposes navigable sections and accessible f
 });
 
 test("client cannot read other companies' data and does not embed privileged keys",()=>{
-  assert.doesNotMatch(html+app+core+cfg,/(?:service_role|SUPABASE_SERVICE_ROLE_KEY)\\s*[:=]\\s*[\x27\x22]/i);
+  assert.doesNotMatch(html+app+core+cfg,/(?:service_role|SUPABASE_SERVICE_ROLE_KEY)\s*[:=]\s*['"]/i);
   assert.doesNotMatch(html+app+core+cfg,/postgres:\/\//i);
   assert.match(sql,/alter table public\.sales_leads enable row level security/i);
   assert.match(sql,/revoke all on table public\.sales_leads from anon, authenticated/i);
