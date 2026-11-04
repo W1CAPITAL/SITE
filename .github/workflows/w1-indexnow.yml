@@ -1,0 +1,64 @@
+name: Notify search engines of changed public W1 pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'lexispredict/index.html'
+      - 'operacao/index.html'
+      - 'guia/index.html'
+      - 'diagnostico/index.html'
+      - 'parcerias/index.html'
+      - 'exemplo-relatorio/index.html'
+      - 'sitemap.xml'
+      - '04419ef1947dc3671fc73417dced60f5.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    env:
+      INDEXNOW_KEY: '04419ef1947dc3671fc73417dced60f5'
+      BASE_SHA: ${{ github.event.before }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript and deterministic URL tests
+        run: |
+          node --check sales/seo/indexnow.mjs
+          node --test sales/seo/indexnow.test.mjs
+      - name: Wait for ownership key to be publicly served by Render
+        shell: bash
+        run: |
+          READY=0
+          for attempt in $(seq 1 18); do
+            STATUS=$(curl --silent --show-error --max-time 10 --output /tmp/w1-key.txt --write-out '%{http_code}' "https://w1-capital.onrender.com/${INDEXNOW_KEY}.txt" || true)
+            if [ "$STATUS" = "200" ] && [ "$(tr -d '\r\n' </tmp/w1-key.txt)" = "$INDEXNOW_KEY" ]; then
+              READY=1
+              break
+            fi
+            sleep 5
+          done
+          if [ "$READY" -ne 1 ]; then
+            echo "The owned public key is not reachable; do not submit IndexNow requests."
+            exit 1
+          fi
+      - name: Determine only changed public pages
+        shell: bash
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] || [ -z "$BASE_SHA" ] || ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+            printf '%s\n' "${INDEXNOW_KEY}.txt" > /tmp/w1-indexnow-changed.txt
+          else
+            git diff --name-only "$BASE_SHA" "$GITHUB_SHA" > /tmp/w1-indexnow-changed.txt
+          fi
+      - name: Notify IndexNow (Bing and participating search engines)
+        run: node sales/seo/indexnow.mjs --submit /tmp/w1-indexnow-changed.txt
