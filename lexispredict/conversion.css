@@ -146,3 +146,38 @@ footer a{color:#ffdbbd}
 @media(prefers-reduced-motion:reduce){
  .button,.hero .visual,.features article,.plan{animation:none!important;transition:none!important;transform:none!important}
 }
+
+
+/* Native details keeps navigation working even if JavaScript is unavailable. */
+.mobile-shortcuts{display:none;position:relative;flex-shrink:0;z-index:85}
+.mobile-shortcuts summary{
+ list-style:none;display:grid;place-items:center;cursor:pointer;
+ width:44px;height:44px;border-radius:12px;background:#572941;border:1px solid #ab849b;color:#fff4ed;
+ box-shadow:0 4px 15px #18081722;font-size:22px;line-height:1
+}
+.mobile-shortcuts summary::-webkit-details-marker{display:none}
+.mobile-shortcuts[open] summary{background:#74435f;border-color:#e1b2c9}
+.mobile-shortcuts-links{
+ position:absolute;top:calc(100% + 16px);right:0;width:min(280px,90vw);
+ display:flex;flex-direction:column;gap:3px;padding:12px;
+ background:#351729;border:1px solid #b38ba0;
+ border-radius:17px;box-shadow:0 22px 48px #16071875
+}
+.mobile-shortcuts-links a{padding:13px 14px;color:#fff4ed;border-radius:9px;font-size:13px;font-weight:800;line-height:1.4}
+.mobile-shortcuts-links a:hover,.mobile-shortcuts-links a:focus-visible{background:#6b3552;color:#fff}
+.mobile-shortcuts-links a:last-child{background:#ffad88;color:#38172b}
+@media(max-width:780px){
+ .mobile-shortcuts{display:block}
+ .topinner{gap:10px}
+ .topinner nav{display:none}
+ .topinner .top-cta{margin-left:auto}
+}
+@media(max-width:480px){
+ .topinner{padding:12px 4%;gap:7px}
+ .w1brand{gap:7px;font-size:11px;letter-spacing:.04em}
+ .brandwords small{display:none}
+ .sign{width:39px;height:39px;flex-shrink:0}
+ .topinner .top-cta{font-size:10px;padding:11px 11px;white-space:nowrap}
+ .mobile-shortcuts summary{width:41px;height:41px}
+ .mobile-shortcuts-links{right:-1px}
+}
