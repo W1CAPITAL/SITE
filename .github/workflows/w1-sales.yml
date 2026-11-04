@@ -13,6 +13,7 @@ on:
     paths:
       - 'index.html'
       - 'README.md'
+      - 'docs/**'
       - 'sales/**'
       - '.github/workflows/w1-sales.yml'
   workflow_dispatch:
@@ -42,5 +43,6 @@ jobs:
           node --check sales/media/spot-preview.js
           node --check sales/operations/commercial-core.js
           node --check sales/operations/commercial.js
+          node --check sales/offers/lexispredict-unit-economics.mjs
       - name: Validate homepage, consultation and privacy
-        run: node --test sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs sales/seo/audit.test.mjs sales/operations/meeting-notes.test.mjs sales/media/spot-preview.test.mjs sales/operations/commercial.test.mjs
+        run: node --test sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs sales/seo/audit.test.mjs sales/operations/meeting-notes.test.mjs sales/media/spot-preview.test.mjs sales/operations/commercial.test.mjs sales/offers/lexispredict-unit-economics.test.mjs
