@@ -1,0 +1,30 @@
+name: W1 Sales quality
+on:
+  pull_request:
+    paths:
+      - 'sales/**'
+      - '.github/workflows/w1-sales.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'sales/**'
+      - '.github/workflows/w1-sales.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check sales/core.js
+          node --check sales/app.js
+          node --check sales/config.js
+      - name: Test guidance, privacy and landing
+        run: node --test sales/core.test.mjs sales/site.test.mjs
