@@ -46,6 +46,8 @@ test("landing is accessible, honest about terms, and directly linked by homepage
  assert.match(html,/autocomplete="email"/);
  assert.match(html,/type="email"/);
  assert.match(html,/type="checkbox" required/);
+ assert.match(html,/<form id="demo-form"[^>]*method="post"[^>]*action="mailto:corporacaow1capital@gmail\.com"[^>]*enctype="text\/plain"/);
+ assert.doesNotMatch(html,/<form id="demo-form"[^>]*method="get"/i);
  assert.match(html,/Não corresponde a uma captura de dados reais/);
  assert.match(html,/implantação.*referência de R\$ 490/i);
  assert.match(html,/R\$ 197/);
