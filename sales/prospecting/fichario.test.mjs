@@ -10,7 +10,7 @@ test("validates the user-supplied example CNPJ with both check digits",()=>{
   assert.equal(normalizeCnpj(sample),"48659344000133");
   assert.equal(formatCnpj("48659344000133"),sample);
   assert.equal(companyPageUrl(sample),"https://cnpj.genesisinnovation.io/cnpj/48659344000133");
-  for(const invalid of ["","00000000000000","48659344000134","123","aaaaaaaaaaaaaa","12.345.678/0001-95"]){
+  for(const invalid of ["","00000000000000","48659344000134","123","aaaaaaaaaaaaaa","12.345.678/0001-96"]){
     assert.equal(normalizeCnpj(invalid),"");
   }
   assert.throws(()=>companyPageUrl("00000000000000"),/inválido/);
