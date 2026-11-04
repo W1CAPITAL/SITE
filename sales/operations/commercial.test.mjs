@@ -1,0 +1,52 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import {fileURLToPath} from "node:url";
+import {dirname,join} from "node:path";
+import {parseMoney,quoteDraft,funnelMetrics,funnelExport,brl} from "./commercial-core.js";
+const dir=dirname(fileURLToPath(import.meta.url));
+test("Brazilian money formatting and parsing are consistent",()=>{
+ assert.equal(parseMoney("1.234,56"),1234.56);
+ assert.equal(parseMoney("1234.56"),1234.56);
+ assert.equal(parseMoney("0"),0);
+ assert.equal(brl(1250),"R$ 1.250,00");
+ for(const x of ["-10","","abc","1,2,3"])assert.throws(()=>parseMoney(x));
+});
+test("proposal requires reviewed scope and prices, never claims signature or invoices",()=>{
+ const base={company:"Empresa Exemplo",solution:"CRM",problem:"Falta visibilidade",scope:"Organizar funil de vendas",deliverables:"Painel e treinamento",timeline:"A definir após briefing",date:"2026-11-04",implementation:"1.234,50",recurring:"300",recurringPeriod:"mensal",reviewed:true};
+ const draft=quoteDraft(base);
+ assert.match(draft,/R\$.*1\.234,50/);
+ assert.match(draft,/R\$.*300,00/);
+ assert.match(draft,/A contratação, o preço final/);
+ assert.doesNotMatch(draft,/Assinado por|Pagamento recebido|Cliente confirmou/);
+ assert.throws(()=>quoteDraft({...base,reviewed:false}));
+ assert.throws(()=>quoteDraft({...base,scope:""}));
+ assert.throws(()=>quoteDraft({...base,implementation:"-1"}));
+});
+test("revenue funnel rejects fictitious implied sequencing and omits undefined rates",()=>{
+ const base={researched:20,qualified:10,optIn:6,meetings:4,proposals:2,won:1,received:"2500",costs:"1000"};
+ const a=funnelMetrics(base);
+ assert.equal(a.qualifiedRate,50);
+ assert.equal(a.meetingRate,66.7);
+ assert.equal(a.proposalWinRate,50);
+ assert.equal(a.net,1500);
+ assert.match(funnelExport(a),/NÃO foram verificados/);
+ const empty=funnelMetrics({researched:0,qualified:0,optIn:0,meetings:0,proposals:0,won:0,received:0,costs:0});
+ assert.equal(empty.qualifiedRate,null);
+ assert.equal(empty.proposalWinRate,null);
+ assert.throws(()=>funnelMetrics({...base,won:3}));
+ assert.throws(()=>funnelMetrics({...base,qualified:21}));
+ assert.throws(()=>funnelMetrics({...base,received:"NaN"}));
+});
+test("commercial tool remains offline and warns it is not a private CRM",()=>{
+ const html=readFileSync(join(dir,"commercial.html"),"utf8");
+ const js=readFileSync(join(dir,"commercial.js"),"utf8");
+ assert.match(html,/noindex,nofollow/);
+ assert.match(html,/Não é um CRM privado/);
+ assert.match(html,/Sem envio de dados/);
+ assert.match(html,/reviewed/);
+ assert.match(html,/id="quote-form"/);
+ assert.match(html,/id="funnel-form"/);
+ assert.doesNotMatch(js,/fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|WebSocket/);
+ assert.match(js,/URL\.createObjectURL/);
+});

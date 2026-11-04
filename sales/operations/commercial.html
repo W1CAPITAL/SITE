@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#2b0e21">
+<title>Operação comercial — W1 Capital</title>
+<link rel="stylesheet" href="./commercial.css">
+<script type="module" src="./commercial.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Ir para o conteúdo</a>
+<header class="top"><a class="brand" href="../../" aria-label="Site principal W1 Capital"><span class="logo">W1</span><span>W1 CAPITAL <small>RECEITA / OPERAÇÃO COMERCIAL</small></span></a><a href="../../">Voltar ao site ↗</a></header>
+<main id="main">
+<section class="hero"><div class="eyebrow">ESTÚDIO COMERCIAL W1 / FERRAMENTA LEVE</div><h1>Menos protótipo.<br><em>Mais negócio de verdade.</em></h1><p>Organize um orçamento e acompanhe números de vendas que você realmente conferiu. Nada aqui é compartilhado ou salvo automaticamente; os resultados são baixados para o seu dispositivo.</p><div class="hero-strip"><span>01 · OFERTA</span><span>02 · PROPOSTA</span><span>03 · CONTRATOS E RECEITA</span></div></section>
+<section class="warning"><strong>Ambiente de trabalho local, sem autenticação.</strong> Não é um CRM privado. Evite incluir informações pessoais sensíveis ou sigilosas. Os dados preenchidos permanecem nesta aba até ela ser fechada, e arquivos exportados ficam sob seu controle. Não há cobrança, envio ao cliente nem registro de contrato automático.</section>
+<nav class="tabs" aria-label="Ferramentas comerciais"><a href="#proposta">Preparar proposta</a><a href="#funil">Medir o funil</a><a href="../../sales/prospecting/">Pesquisar empresas ↗</a><a href="../../sales/operations/meeting-notes.html">Registrar reunião ↗</a></nav>
+<section class="block" id="proposta"><div class="heading"><span>01 / VENDA CONSULTIVA</span><h2>Transforme uma conversa em uma proposta.</h2><p>Preencha apenas informações conferidas. Todos os preços, prazos e serviços dependem de aprovação humana.</p></div>
+<form id="quote-form" autocomplete="off">
+  <div class="fields">
+    <label>Empresa interessada / referência interna<input name="company" maxlength="140" required placeholder="Identificação do projeto (evite dados sensíveis)"></label>
+    <label>Linha de solução<select name="solution" required><option value="">Selecione</option><option>LexisPredict — organização jurídica</option><option>CRM e atendimento comercial</option><option>Integrações e automação</option><option>Indicadores e dashboards</option></select></label>
+    <label class="wide">Problema identificado<textarea name="problem" maxlength="700" required placeholder="Quais dificuldades foram descritas?"></textarea></label>
+    <label class="wide">Escopo proposto<textarea name="scope" maxlength="1500" required placeholder="O que será feito — somente funcionalidades realmente disponíveis"></textarea></label>
+    <label class="wide">Entregáveis<textarea name="deliverables" maxlength="1200" required placeholder="O que a equipe entregará e poderá demonstrar"></textarea></label>
+    <label>Prazo, sujeito a validação<input name="timeline" maxlength="160" required placeholder="Ex.: A combinar após levantamento"></label>
+    <label>Data da análise<input name="date" type="date" required></label>
+    <label>Implantação ou projeto (R$)<input name="implementation" inputmode="decimal" required value="0" placeholder="0,00"></label>
+    <label>Recorrência (R$)<input name="recurring" inputmode="decimal" required value="0" placeholder="0,00"></label>
+    <label>Período da recorrência<select name="recurringPeriod"><option value="mensal">Mensal</option><option value="trimestral">Trimestral</option><option value="anual">Anual</option></select></label>
+    <label class="wide">Exclusões e limites<textarea name="exclusions" maxlength="900" placeholder="O que não faz parte da entrega?"></textarea></label>
+    <label class="wide">Próxima ação comercial<textarea name="nextStep" maxlength="400" placeholder="Ex.: agendar demonstração e confirmar orçamento"></textarea></label>
+  </div>
+  <label class="check"><input type="checkbox" name="reviewed" required><span>Revisei o escopo, os valores e a viabilidade da entrega. Entendo que o arquivo será uma minuta de proposta para análise, sem envio automático.</span></label>
+  <div class="action-row"><button type="submit">Gerar proposta para revisão ↓</button><span class="status" id="quote-status" role="status" aria-live="polite"></span></div>
+</form>
+</section>
+<section class="block dark" id="funil"><div class="heading"><span>02 / INDICADORES REAIS</span><h2>O que está trazendo dinheiro?</h2><p>Use números consolidados de uma mesma carteira e período. Nenhum dado é recuperado do CRM; tudo aqui é digitado por você.</p></div>
+<form id="funnel-form" autocomplete="off"><div class="fields compact">
+<label>Empresas pesquisadas<input type="number" name="researched" min="0" step="1" required value="0"></label>
+<label>Empresas qualificadas<input type="number" name="qualified" min="0" step="1" required value="0"></label>
+<label>Leads que solicitaram contato<input type="number" name="optIn" min="0" step="1" required value="0"></label>
+<label>Reuniões realizadas<input type="number" name="meetings" min="0" step="1" required value="0"></label>
+<label>Propostas enviadas<input type="number" name="proposals" min="0" step="1" required value="0"></label>
+<label>Contratos efetivamente ganhos<input type="number" name="won" min="0" step="1" required value="0"></label>
+<label>Receita recebida (R$)<input name="received" inputmode="decimal" required value="0"></label>
+<label>Custos relacionados informados (R$)<input name="costs" inputmode="decimal" required value="0"></label>
+</div><div class="action-row"><button type="submit">Calcular indicadores ↗</button><button type="button" class="quiet" id="export-funnel" disabled>Exportar resultado TXT ↓</button><span id="funnel-status" class="status" role="status" aria-live="polite"></span></div></form>
+<div id="funnel-results" class="results" aria-live="polite" hidden>
+<div><span>Taxa de qualificação</span><strong id="rate-qualified">—</strong></div>
+<div><span>Conversão de propostas</span><strong id="rate-proposals">—</strong></div>
+<div><span>Recebido declarado</span><strong id="amount-received">—</strong></div>
+<div><span>Saldo após custos declarados*</span><strong id="amount-net">—</strong></div></div>
+<p class="footnote">* O saldo calculado não equivale a lucro contábil. Não publicamos nenhuma dessas métricas como resultados da W1 sem documentação e conferência.</p>
+</section>
+<section class="closing"><span>PRÓXIMA ETAPA</span><h2>Do primeiro contato à entrega.</h2><p>O processo começa com uma oferta verdadeira, continua com um cliente que precisa dela e só se transforma em receita quando uma contratação e o recebimento são confirmados. Acompanhe o funil com rigor.</p><a href="https://github.com/W1CAPITAL/SITE/blob/main/docs/W1-DIRETRIZ-COMERCIAL.md" target="_blank" rel="noopener noreferrer">Diretriz de crescimento W1 ↗</a></section>
+</main>
+<footer>W1 CAPITAL · PLANEJAMENTO COMERCIAL MANUAL <span>Sem envio de dados · Sem backend · Sem transações</span></footer>
+</body></html>

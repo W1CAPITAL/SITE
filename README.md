@@ -76,3 +76,13 @@ Revisamos os materiais enviados sobre autenticação Supabase, Claude SEO, Scrap
 - [Pesquisa manual de empresas via Fichário](sales/prospecting/README.md)
 
 Os novos recursos não foram conectados ao Supabase nem ao WhatsApp jurídico, não capturam contatos de terceiros, não fazem scraping e não iniciam serviços de IA pagos. Sem domínio comercial confirmado, não adicionamos canonical ou sitemap com URL suposta.
+
+## Objetivo empresarial prioritário: receita e clientes
+
+A W1 deve se transformar em **empresa operacional, com produtos/serviços efetivamente vendidos, clientes atendidos e receita comprovada**, não apenas em um site de portfólio. O site é canal comercial; sucesso é medido em qualificação, contato autorizado, propostas, contratos, recebimentos, margem e retenção — sempre com dados verdadeiros.
+
+- [Diretriz comercial, ofertas e plano de 30 dias](docs/W1-DIRETRIZ-COMERCIAL.md)
+- [Ferramenta comercial manual de propostas e funil](sales/operations/commercial.html)
+- [Guia CLAUDE.md de fidelidade visual, adaptado ao foco comercial W1](docs/UI-RECREATION-WORKFLOW.md)
+
+O gerador de propostas não envia documentos e não é CRM autenticado. A empresa precisa confirmar sua oferta, preço e serviço antes de usar uma minuta em negociação. Nenhuma conversão ou receita foi fabricada.
