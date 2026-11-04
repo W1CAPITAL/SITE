@@ -19,7 +19,8 @@ test("LexisPredict has accessible mobile navigation independent of a JavaScript 
  assert.match(css,/\.mobile-shortcuts\[open\]/);
 });
 test("menu does not obscure the contact call to action and closes after navigation",()=>{
- assert.match(html,/class="top-cta" href="#demonstracao"/);
+ assert.match(html,/class="top-cta" href="https:\/\/calendly\.com\/daviconcentrix\/demonstracao-lexispredict-w1-capital"/);
+ assert.match(html,/href="#demonstracao">Solicitar demonstração/);
  assert.match(js,/mobile-shortcuts/);
  assert.match(js,/shortcuts\.open = false/);
  assert.match(js,/event\.key === "Escape"/);
