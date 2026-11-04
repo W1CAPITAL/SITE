@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = path => readFileSync(join(root,path),"utf8");
 
-test("hero retains the local fictional-person asset without external portrait services",()=>{
+test("hero uses the new high-definition fictional-person asset without external portrait services",()=>{
  const html=read("index.html");
  assert.match(html,/assets\/w1-hero-ficticia\.webp/);
  const asset=join(root,"assets/w1-hero-ficticia.webp");
@@ -14,7 +14,9 @@ test("hero retains the local fictional-person asset without external portrait se
  const b=readFileSync(asset);
  assert.equal(b.toString("ascii",0,4),"RIFF");
  assert.equal(b.toString("ascii",8,12),"WEBP");
- assert.match(html,/class="hero-photo"[^>]*width="560" height="356"/);
+ assert.match(html,/class="hero-photo"[^>]*width="1440" height="1019"/);
+ assert.match(html,/w1-hero-ficticia\.webp\?v=20261104-hd1/);
+ assert.ok(b.length > 20000,"hero image should be the upgraded high-resolution asset");
  assert.match(html,/Personagem fictícia/);
 });
 
