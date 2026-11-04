@@ -48,7 +48,7 @@ test("both commercial pages demonstrate the app visually with privacy-safe label
  assert.match(controls,/aria-pressed/);
  assert.match(controls,/showModal/);
  assert.match(controls,/\.dataset\.previewSrc/);
- assert.match(read("sales/visual-gallery.css"),/@media\(max-width:460px\)/);
- assert.match(read("sales/visual-gallery.css"),/\.lp-screen-showcase/);
- assert.match(read("sales/visual-gallery.css"),/\.lp-screen-gallery/);
+ assert.match(read("sales/refined.css"),/@media\(max-width:460px\)/);
+ assert.match(read("sales/refined.css"),/\.lp-screen-showcase/);
+ assert.match(read("lexispredict/conversion.css"),/\.lp-screen-gallery/);
 });
