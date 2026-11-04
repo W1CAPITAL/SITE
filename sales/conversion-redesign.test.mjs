@@ -12,10 +12,11 @@ const app=read("sales/app.js");
 
 test("human-focused W1 presentation with clear calls to action",()=>{
  const hero=home.match(/<section class="hero section"[\s\S]*?<\/section>/)?.[0]||"";
- assert.match(hero,/Tecnologia para a rotina/);
+ assert.match(hero,/Estratégia, tecnologia e clareza/);
  assert.match(hero,/class="hero-photo"/);
- assert.match(hero,/Imagem ilustrativa/);
- assert.match(hero,/href="\.\/lexispredict\/"/);
+ assert.match(hero,/Imagem gerada digitalmente/);
+ assert.match(hero,/href="#solucoes"/);
+ assert.match(home,/href="\.\/lexispredict\/"/);
  assert.match(hero,/href="https:\/\/wa\.me\/5513991199349/);
  assert.match(hero,/Demonstração guiada/);
  assert.doesNotMatch(hero,/clientes satisfeitos|ganho garantido|100% de resultados/i);
