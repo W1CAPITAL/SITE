@@ -30,6 +30,18 @@
 - **Não existem no schema público `assinaturas`, `solicitacoes_assinatura` ou `commercial_audit_log`**, embora o fluxo comercial no código faça referência a essas tabelas. O campo `billing_status=active` é um estado do cadastro, **não uma prova de pagamento recebido**.
 - Não foram acessados, extraídos ou alterados dados pessoais de clientes nesta auditoria; apenas metadados e contagens agregadas.
 
+### Alertas de segurança do Supabase — revisão obrigatória
+
+O **Security Advisor** retornou em 04/11/2026:
+
+- **3 funções `SECURITY DEFINER` executáveis pelo papel `anon`**: revisar uso pretendido e privilégios `EXECUTE` antes de qualquer novo tenant comercial. [Remediação](https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable).
+- **10 funções `SECURITY DEFINER` acessíveis por `authenticated`**: confirmar segregação por empresa, checagem de permissões e inexistência de bypass. [Remediação](https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable).
+- **Aviso de proteção contra senhas vazadas**: verificar configuração do Supabase Auth. [Documentação](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
+- **17 tabelas com RLS ligada e sem política**: podem estar deliberadamente restritas a backend; investigar função de cada uma em vez de criar políticas permissivas genericamente.
+- **2 extensões no schema `public`** e avisos de performance que exigem revisão técnica antes de escalar.
+
+**Esses avisos não constituem prova de acesso indevido nem devem ser corrigidos às cegas.** Nenhuma mudança de segurança foi aplicada durante a auditoria. Um teste com duas empresas e revisão de `SECURITY DEFINER` são **portões de liberação comercial**, não melhorias cosméticas.
+
 ## 2. Matriz de disponibilidade comercial
 
 | Funcionalidade | Evidência | Como vender com precisão |
@@ -123,6 +135,7 @@ Mensagem central:
 
 - [ ] Criar **tenant de demonstração segregado** e usuário novo, com validação de e-mail e política de senha.
 - [ ] Fazer **teste cruzado de autorização** com dois tenants e papéis distintos nas rotas e Server Actions; confirmar que contas não veem processos, relatórios ou arquivos uma da outra.
+- [ ] Auditar as funções `SECURITY DEFINER` reportadas pelo Supabase Security Advisor, especialmente as 3 acessíveis a `anon`, e configurar proteção contra senhas vazadas.
 - [ ] Corrigir divergência de schema comercial (`assinaturas`, `solicitacoes_assinatura`, `commercial_audit_log`) **em ambiente de teste, com migração e testes**.
 - [ ] Testar caminho completo: cadastro → confirmação de e-mail → autorização de plano → login → onboarding → acesso apenas ao pacote vendido → cancelamento/bloqueio.
 - [ ] Com dados **fictícios**, validar importação de processos, filtro por CNJ, atribuição de tarefas e exportação XLSX/CSV/PDF sob permissões corretas.
