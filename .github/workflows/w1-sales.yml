@@ -11,6 +11,8 @@ on:
       - 'diagnostico/**'
       - 'robots.txt'
       - 'sitemap.xml'
+      - '04419ef1947dc3671fc73417dced60f5.txt'
+      - '.github/workflows/w1-indexnow.yml'
       - 'README.md'
       - 'docs/**'
       - 'sales/**'
@@ -50,6 +52,7 @@ jobs:
           node --check sales/prospecting/fichario.js
           node --check sales/prospecting/workspace.js
           node --check sales/seo/audit.mjs
+          node --check sales/seo/indexnow.mjs
           node --check guia/origem.mjs
           node --check diagnostico/diagnostico.mjs
           node --check sales/operations/meeting-notes.js
@@ -61,4 +64,4 @@ jobs:
           node --check sales/interactive-demo-model.mjs
           node --check sales/interactive-demo.mjs
       - name: Validate homepage, consultation and privacy
-        run: node --test sales/seo/partners.test.mjs sales/seo/sample-report.test.mjs sales/seo/portfolio-contact.test.mjs sales/seo/portfolio-service.test.mjs sales/seo/bookings.test.mjs diagnostico/diagnostico.test.mjs sales/seo/organic-growth.test.mjs sales/official-mini-preview.test.mjs sales/vector-logos.test.mjs sales/interactive-demo.test.mjs sales/brand-assets.test.mjs sales/conversion-redesign.test.mjs sales/reference-layout.test.mjs sales/live-site-regressions.test.mjs sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs sales/seo/audit.test.mjs sales/operations/meeting-notes.test.mjs sales/media/spot-preview.test.mjs sales/operations/commercial.test.mjs sales/offers/lexispredict-unit-economics.test.mjs lexispredict/vendas.test.mjs lexispredict/mobile-menu.test.mjs
+        run: node --test sales/seo/indexnow.test.mjs sales/seo/partners.test.mjs sales/seo/sample-report.test.mjs sales/seo/portfolio-contact.test.mjs sales/seo/portfolio-service.test.mjs sales/seo/bookings.test.mjs diagnostico/diagnostico.test.mjs sales/seo/organic-growth.test.mjs sales/official-mini-preview.test.mjs sales/vector-logos.test.mjs sales/interactive-demo.test.mjs sales/brand-assets.test.mjs sales/conversion-redesign.test.mjs sales/reference-layout.test.mjs sales/live-site-regressions.test.mjs sales/core.test.mjs sales/site.test.mjs sales/prospecting/fichario.test.mjs sales/seo/audit.test.mjs sales/operations/meeting-notes.test.mjs sales/media/spot-preview.test.mjs sales/operations/commercial.test.mjs sales/offers/lexispredict-unit-economics.test.mjs lexispredict/vendas.test.mjs lexispredict/mobile-menu.test.mjs
