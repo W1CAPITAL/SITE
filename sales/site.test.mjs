@@ -76,3 +76,18 @@ test("demo mode and commercial database remain separate from legal clients",()=>
   assert.doesNotMatch(sql,/grant select .* to anon/i);
   assert.match(sql,/consent is true/i);
 });
+
+
+test("cinematic W1 identity preserves a local fictional-person hero and visual consistency",()=>{
+  const lexis=read("lexispredict/index.html");
+  assert.match(html,/\.\/sales\/refined\.css\?v=20261104-cinematic3/);
+  assert.match(lexis,/\.\/conversion\.css\?v=20261104-cinematic3/);
+  assert.match(html,/src="\.\/assets\/w1-hero-ficticia\.webp"/);
+  assert.ok(existsSync(join(root,"assets/w1-hero-ficticia.webp")),"synthetic hero asset missing");
+  assert.match(html,/Imagem gerada digitalmente/);
+  assert.doesNotMatch(html,/pexels\.com|unsplash\.com|images\.pexels/i);
+  assert.match(html,/Estratégia, tecnologia e clareza/);
+  assert.match(lexis,/Demonstração com dados fictícios/i);
+  assert.match(read("sales/refined.css"),/direção cinematográfica institucional 2026/);
+  assert.match(read("lexispredict/conversion.css"),/identidade cinematográfica W1/);
+});

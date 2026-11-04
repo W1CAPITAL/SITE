@@ -20,8 +20,9 @@ test("short, image-backed hero and clear single primary sales path",()=>{
  const hero=home.match(/<section class="hero section"[\s\S]*?<\/section>/)?.[0]||"";
  assert.match(hero,/<h1[^>]+id="hero-heading"/);
  assert.match(hero,/<img[^>]+class="hero-photo"/);
- assert.match(hero,/Imagem ilustrativa/);
- assert.match(hero,/href="\.\/lexispredict\/"/);
+ assert.match(hero,/Imagem gerada digitalmente/);
+ assert.match(hero,/href="#solucoes"/);
+ assert.match(home,/href="\.\/lexispredict\/"/);
  assert.match(hero,/href="https:\/\/wa\.me\/5513991199349/);
  assert.match(hero,/Demonstração|demonstração/);
  assert.match(css,/\.hero-photo/);
@@ -37,7 +38,8 @@ test("capabilities appear ahead of product narrative and do not overpromise",()=
  assert.match(home,/brand-atlas-w1-full/);
  assert.match(home,/brand-atlas-lexis-full/);
  assert.match(home,/brand-atlas-lexis-symbol/);
- assert.match(home,/Pexels|Unsplash/);
+ assert.doesNotMatch(home,/Pexels|Unsplash|images\.pexels/i);
+ assert.match(home,/assets\/w1-hero-ficticia\.webp/);
 });
 
 test("consultation remains functional yet secondary to direct human contact",()=>{
