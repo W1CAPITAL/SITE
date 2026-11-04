@@ -1,0 +1,44 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import {fileURLToPath} from "node:url";
+import {dirname,join} from "node:path";
+const root=join(dirname(fileURLToPath(import.meta.url)),"../..");
+const read=p=>readFileSync(join(root,p),"utf8");
+const booking="https://calendly.com/daviconcentrix/apoio-a-carteira-processual-w1-capital";
+test("operational portfolio management service has its own landing page and booking",()=>{
+ const html=read("operacao/index.html");
+ assert.match(html,/<html lang="pt-BR">/);
+ assert.match(html,/<h1\b/);
+ assert.match(html,/Carteira processual/i);
+ assert.ok(html.includes(booking));
+ assert.match(html,/18h30 às 21h/);
+ assert.match(html,/15 minutos/);
+ assert.match(html,/dados fictícios/i);
+ assert.match(html,/advogado responsável/i);
+ assert.match(html,/sob autorização|autorização do escritório/i);
+ assert.match(html,/não substitui consultoria ou assessoria jurídica/i);
+ assert.match(html,/contrato|contratação/i);
+ assert.match(html,/acessos|credenciais/);
+ assert.doesNotMatch(html,/resultado garantido|cobertura universal|monitoramento 24h|sem supervisão/i);
+ assert.ok(!/<form\b/i.test(html),"no collection of personal data");
+});
+test("homepage and product offer both SaaS and operational service without conflating them",()=>{
+ const home=read("index.html"), lp=read("lexispredict/index.html");
+ assert.match(home,/href="\.\/operacao\/"/);
+ assert.match(lp,/href="\.\.\/operacao\/"/);
+ assert.match(home,/apoio operacional|carteira processual/i);
+ assert.match(lp,/apoio operacional|carteira processual/i);
+ assert.match(read("sitemap.xml"),/https:\/\/w1-capital\.onrender\.com\/operacao\//);
+ const robots=read("robots.txt");
+ assert.ok(!robots.includes("Disallow: /operacao/"));
+});
+test("page includes clear next step and accessible core structure",()=>{
+ const html=read("operacao/index.html");
+ assert.match(html,/href="#escopo"/);
+ assert.match(html,/href="#como-funciona"/);
+ assert.match(html,/rel="canonical" href="https:\/\/w1-capital\.onrender\.com\/operacao\/"/);
+ assert.match(html,/target="_blank" rel="noopener noreferrer"/);
+ assert.match(html,/name="description"/);
+ assert.match(html,/@media\(max-width:7/);
+});

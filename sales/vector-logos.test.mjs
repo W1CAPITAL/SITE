@@ -29,7 +29,7 @@ test("both commercial pages include vector logos in the unified stylesheets",()=
  const home=read("index.html");
  const product=read("lexispredict/index.html");
  for(const page of [home,product]){
-  assert.match(page,/refined\.css\?v=20261104-organic1|conversion\.css\?v=20261104-organic1/);
+  assert.match(page,/refined\.css\?v=20261104-ops1|conversion\.css\?v=20261104-ops1/);
   assert.match(page,/brand-atlas-w1-symbol/);
   assert.match(page,/brand-atlas-lexis-full/);
  }

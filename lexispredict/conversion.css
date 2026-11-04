@@ -746,3 +746,14 @@ footer .footer-brand-image.brand-atlas-w1-full + strong{display:none}
 .lp-resource-button{display:inline-flex;align-items:center;justify-content:center;gap:16px;border-radius:9px;background:#7c1536;color:#fff!important;text-decoration:none;padding:17px 23px;font-size:13px;font-weight:700;white-space:nowrap}
 .lp-resource-button:hover{background:#a42850}
 @media(max-width:720px){.lp-resource{padding:52px 6%}.lp-resource-inner{grid-template-columns:1fr;gap:15px}.lp-resource-button{width:100%}}
+
+/* W1 operational portfolio support as a separate offer from the LexisPredict license. */
+.lp-ops-offer{background:linear-gradient(120deg,#30111e,#5a1e36 76%,#2b0a1d);color:#fff;padding:67px 6%}
+.lp-ops-offer>div{max-width:1170px;margin:auto}
+.lp-ops-offer span{display:block;color:#e9b4c7;letter-spacing:.16em;font-weight:800;font-size:10px}
+.lp-ops-offer h2{font:normal clamp(29px,3.3vw,47px)/1.16 Georgia,serif;margin:12px 0;max-width:850px}
+.lp-ops-offer h2 em{font-style:normal;color:#e99fb7}
+.lp-ops-offer p{color:#e5c6d3;max-width:730px;font-size:14px;line-height:1.75;margin:0 0 22px}
+.lp-ops-offer a{display:inline-flex;text-decoration:none;background:#fff;color:#48152a!important;padding:13px 20px;border-radius:9px;font-size:13px;font-weight:750}
+.lp-ops-offer a:hover{background:#f8e7ef}
+@media(max-width:720px){.lp-ops-offer{padding:52px 6%}.lp-ops-offer a{max-width:100%}}
