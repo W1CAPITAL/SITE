@@ -61,3 +61,18 @@ As soluções são apresentadas sem preço fixo, garantias ou depoimentos fictí
 ## Prospecção comercial (preparação para uso futuro)
 
 Uma ferramenta separada de pesquisa manual de empresas foi adicionada em `sales/prospecting/`. Ela abre fichas de CNPJ e buscas setoriais no Fichário (Genesis Innovation), respeitando os termos de uso e sem coletar contatos, armazenar listas ou acionar campanhas. A futura integração de API/MCP e o modelo privado de pesquisa no Supabase estão descritos em [sales/prospecting/README.md](sales/prospecting/README.md). Nada foi aplicado ao banco do LexisPredict.
+
+
+## Contexto consolidado e ferramentas leves
+
+Revisamos os materiais enviados sobre autenticação Supabase, Claude SEO, ScrapeGraphAI, HyperFrames, MiniMax H3, Meetily e OmniVoice. As soluções foram distribuídas entre **implementações sem custo de IA**, planos de arquitetura e recursos futuros dependentes de infraestrutura/licença. O conteúdo `prompt.pdf` de reconstrução de foto pessoal não foi aplicado ao marketing W1.
+
+- [Contexto consolidado e situação de cada ferramenta](docs/W1-CONTEXTO-CONSOLIDADO.md)
+- [SEO técnico e GEO: auditoria offline](docs/SEO-WORKFLOW.md) · código em [sales/seo/audit.mjs](sales/seo/audit.mjs)
+- [Plano de autenticação e RLS para um CRM comercial privado](docs/AUTH-ROADMAP.md)
+- [Produção de vídeo, narração e reuniões com consentimento](docs/MEDIA-ROADMAP.md)
+- [Prévia leve do vídeo W1 (não é MP4)](sales/media/spot-preview.html)
+- [Resumo manual de reuniões, sem gravação ou IA](sales/operations/meeting-notes.html)
+- [Pesquisa manual de empresas via Fichário](sales/prospecting/README.md)
+
+Os novos recursos não foram conectados ao Supabase nem ao WhatsApp jurídico, não capturam contatos de terceiros, não fazem scraping e não iniciam serviços de IA pagos. Sem domínio comercial confirmado, não adicionamos canonical ou sitemap com URL suposta.
