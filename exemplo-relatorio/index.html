@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#40091f">
+<meta name="robots" content="index,follow">
+<title>Exemplo de relatório de carteira processual | W1 Capital</title>
+<meta name="description" content="Veja um relatório de acompanhamento processual fictício: registros, tarefas, responsáveis e modelo de retorno. Exemplo gratuito das entregas que podem ser avaliadas com a W1 Capital.">
+<link rel="canonical" href="https://w1-capital.onrender.com/exemplo-relatorio/">
+<link rel="icon" href="../assets/w1-symbol.svg" type="image/svg+xml">
+<meta property="og:title" content="Como seria o acompanhamento de uma carteira processual?">
+<meta property="og:description" content="Veja um exemplo fictício de relatório gerencial, pendências e retorno ao cliente, sem dados pessoais reais.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://w1-capital.onrender.com/exemplo-relatorio/">
+<meta property="og:type" content="article">
+<style>
+:root{--wine:#450e27;--wine-dark:#270b1b;--wine-soft:#a13359;--cream:#faf5f3;--ink:#392436;--muted:#79636d;--line:#e9dce2}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#fbf7f5;color:var(--ink);font:14px/1.55 "Segoe UI",Arial,sans-serif}
+a{color:inherit;text-underline-offset:3px}
+.skip{position:absolute;top:-80px;left:14px;background:#fff;padding:10px;z-index:100}.skip:focus{top:12px}
+.top{background:var(--wine-dark);color:#fff}
+.top-inner{max-width:1170px;min-height:78px;margin:auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.top img{width:213px;max-width:45vw;height:49px;object-fit:contain;object-position:left}
+.top nav{display:flex;gap:20px;align-items:center;font-size:12px;font-weight:700}
+.top a{text-decoration:none}.top a:hover{text-decoration:underline}
+.hero{color:#fff;background:radial-gradient(ellipse at 85% 12%,#7e3855 0,transparent 49%),linear-gradient(118deg,#250714,#4d132d 65%,#2b0c1c)}
+.hero-inner{max-width:1170px;margin:auto;padding:67px 24px 77px}
+.kicker{color:#e4b6c7;font-size:11px;letter-spacing:.18em;font-weight:800}
+h1{font:normal clamp(37px,4.2vw,62px)/1.09 Georgia,"Times New Roman",serif;letter-spacing:-.035em;margin:16px 0 20px;max-width:900px}
+h1 em{font-style:normal;color:#e19eb4}
+.hero p{font-size:16px;line-height:1.7;max-width:750px;color:#f2e1e8}
+.hero .hero-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;padding:12px 19px;border-radius:8px;border:1px solid transparent;font:750 13px "Segoe UI",Arial,sans-serif;cursor:pointer}
+.btn.cream{background:#f7eaef;color:#54122d}.btn.cream:hover{background:#fff}
+.btn.outline{border:1px solid #cc93aa;background:transparent;color:#fff}
+.btn.wine{background:#6a1437;color:#fff}.btn.wine:hover{background:#8a2350}
+.explain{max-width:1170px;margin:auto;padding:35px 24px 21px;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.explain p{max-width:730px;color:#745f6c;line-height:1.7;margin:0}
+.example-flag{background:#ffeff5;color:#81254b;border:1px solid #efc4d5;padding:9px 13px;border-radius:8px;white-space:nowrap;font-weight:800;font-size:11px;letter-spacing:.04em}
+.paper{max-width:1122px;margin:24px auto 68px;background:#fff;border:1px solid #dfd0d8;box-shadow:0 26px 70px #51223619;border-radius:10px;overflow:hidden}
+.paper-header{border-bottom:5px solid #651632;padding:31px 37px 23px;display:flex;justify-content:space-between;align-items:start;gap:16px}
+.paper-header .brand{font:normal 30px/1.1 Georgia,serif;letter-spacing:-.025em;color:#531330}
+.paper-header .brand span{display:block;font:750 9px "Segoe UI",Arial,sans-serif;letter-spacing:.2em;margin-top:7px;color:#977789}
+.paper-header .meta{font-size:11px;color:#8c7080;text-align:right}
+.paper-body{padding:28px 37px 34px}
+.watermark{display:flex;gap:12px;justify-content:space-between;align-items:center;border:1px dashed #bf7997;background:#fff7fa;padding:11px 14px;border-radius:7px;color:#77334f;font-size:11px;font-weight:700;margin-bottom:24px}
+.paper h2{font:normal 29px/1.14 Georgia,serif;color:#40172c;margin:0 0 7px;letter-spacing:-.02em}
+.paper h3{font-size:16px;color:#442237;margin:29px 0 11px}
+.paper p{font-size:12px;color:#796671;line-height:1.65}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:17px 0 0}
+.chips span{padding:5px 9px;border-radius:5px;background:#f3ebef;font-size:10px;color:#70505f}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:23px 0 30px}
+.metric{padding:15px;border:1px solid #e9dfe5;border-radius:8px;min-width:0}
+.metric strong{display:block;color:#5a1e3b;font-size:28px;line-height:1.15;font-weight:800}
+.metric small{display:block;color:#816d79;font-size:10px;margin-top:6px}
+.table-wrap{overflow-x:auto;max-width:100%;border:1px solid #e5dbe1;border-radius:8px}
+table{width:100%;min-width:640px;border-collapse:collapse;text-align:left;font-size:11px}
+th{background:#f4ebf0;color:#684258;padding:12px 13px;font-size:10px;white-space:nowrap}
+td{padding:13px;border-top:1px solid #eee6ea;color:#52384a;vertical-align:top;line-height:1.55}
+tr:nth-child(even) td{background:#fcf9fa}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:10px;font-weight:750;color:#74264d}
+.pill{display:inline-block;background:#eaf3fa;color:#306184;border-radius:20px;font-size:10px;padding:4px 7px;font-weight:700;white-space:nowrap}
+.pill.pending{background:#fff3e1;color:#a06b20}
+.pill.ready{background:#ebf7ee;color:#257448}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{background:#fcf9fa;border:1px solid #e9dde3;border-radius:8px;padding:17px 19px}
+.panel h3{margin:0 0 14px}
+.panel ol{padding-left:18px;margin:0}
+.panel li{font-size:12px;color:#654d5c;margin:10px 0;line-height:1.6}
+.panel li strong{color:#45263b}
+.communication{margin-top:20px;border:1px solid #dfc9d4;border-radius:8px;overflow:hidden}
+.communication-title{background:#5b1733;color:#fff;padding:12px 17px;font-size:12px;font-weight:750}
+.communication blockquote{margin:0;padding:18px 20px;background:#fffdfd;color:#4e3d48;font-size:12px;line-height:1.75;border-left:3px solid #b46e8c}
+.note{background:#fff8eb;border-left:3px solid #be9129;padding:12px 14px;color:#745523;font-size:11px;margin-top:22px}
+.paper-footer{border-top:1px solid #e6d6df;margin-top:25px;padding-top:15px;display:flex;justify-content:space-between;gap:10px;color:#917484;font-size:10px}
+.next{max-width:1122px;margin:0 auto 72px;padding:36px 38px;border-radius:14px;border:1px solid #dfc9d4;background:linear-gradient(105deg,#f5ebef,#fff);display:flex;justify-content:space-between;align-items:center;gap:22px}
+.next h2{font:normal clamp(26px,3.1vw,38px)/1.16 Georgia,serif;margin:0 0 11px;color:#481831}
+.next p{color:#745867;font-size:13px;max-width:620px}
+.next .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:end}
+footer{background:#260918;color:#e9d3df;font-size:12px;padding:26px 24px}
+footer>div{max-width:1170px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{color:#fff}
+@media(max-width:760px){.explain{display:block}.example-flag{display:inline-block;margin-top:16px}.paper{margin:16px 14px 46px}.paper-header,.paper-body{padding:22px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}.next{margin:0 14px 48px;display:block;padding:25px}.next .actions{justify-content:start}.top nav{gap:12px}.paper h2{font-size:25px}}
+@media(max-width:440px){.top nav a:first-child{display:none}.hero-inner{padding:52px 22px}.paper-header .brand{font-size:23px}.paper-header .meta{font-size:9px}.watermark{display:block}.hero .btn,.next .btn{width:100%}.metric strong{font-size:23px}.paper-body{padding:17px}.paper-header{padding:17px}.paper-footer{display:block}}
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff;color:#333}
+ .top,.hero,.explain,.next,footer,.print-hide{display:none!important}
+ .paper{max-width:none;margin:0;border:0;border-radius:0;box-shadow:none}
+ .paper-header{padding:0 0 14px;border-bottom:4px solid #651632}
+ .paper-body{padding:16px 0 0}
+ .columns{grid-template-columns:1fr 1fr}
+ .metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .metric,.panel,.communication,table tr{break-inside:avoid}
+ table{min-width:0}
+ th,td{padding:8px 7px;font-size:9px}
+ .paper h3{margin:14px 0 8px}
+ .paper p{margin:5px 0}
+ .paper-footer{margin-top:12px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#relatorio">Pular para o relatório</a>
+<header class="top"><div class="top-inner"><a href="../"><img src="../assets/w1-wordmark.svg" width="213" height="49" alt="W1 Capital"></a><nav><a href="../operacao/">Apoio à carteira</a><a href="../lexispredict/">LexisPredict</a><a href="../guia/">Checklist</a></nav></div></header>
+<section class="hero"><div class="hero-inner">
+<span class="kicker">W1 Capital · Exemplo de entrega · 100% ilustrativo</span>
+<h1>Como seria um <em>relatório de acompanhamento</em> da sua carteira?</h1>
+<p>Antes de avaliar a contratação do nosso apoio operacional, veja um modelo demonstrativo de registro de processos, pendências, responsáveis e retorno ao cliente. Todos os dados são inventados.</p>
+<div class="hero-links"><a class="btn cream" href="#relatorio">Ver exemplo fictício ↓</a><button class="btn outline" type="button" onclick="window.print()">Salvar exemplo em PDF ↗</button></div>
+</div></section>
+<section class="explain"><p>O material mostra o <strong>formato de uma possível entrega</strong>, não uma carteira atendida, um caso real, um serviço já prestado ou um compromisso de volume. Qualquer prestação efetiva exige escopo, contratação, autorizações, validação de capacidade e supervisão do escritório.</p><span class="example-flag">EXEMPLO FICTÍCIO · SEM DADOS REAIS</span></section>
+<main class="paper" id="relatorio" aria-label="Relatório ilustrativo de acompanhamento de carteira">
+<div class="paper-header"><div class="brand">W1 Capital<span>EXEMPLO DE RELATÓRIO OPERACIONAL</span></div><div class="meta">CARTEIRA DEMONSTRATIVA<br>Semana fictícia de acompanhamento<br>Modelo ilustrativo</div></div>
+<div class="paper-body">
+<div class="watermark"><span>EXEMPLO FICTÍCIO · NÃO É RELATÓRIO DE CLIENTE</span><span>Dados e protocolos inventados</span></div>
+<h2>Relatório de acompanhamento</h2>
+<p>Modelo de resumo para a supervisão do advogado responsável e coordenação interna do escritório. Os indicadores abaixo refletem somente os três exemplos artificiais desta página.</p>
+<div class="chips"><span>Carteira: demonstração</span><span>Responsáveis: profissionais fictícios</span><span>Origem: simulação</span></div>
+<div class="metrics">
+<div class="metric"><strong>03</strong><small>Registros ilustrativos</small></div>
+<div class="metric"><strong>02</strong><small>Ações internas pendentes</small></div>
+<div class="metric"><strong>01</strong><small>Retorno pronto para revisão</small></div>
+<div class="metric"><strong>00</strong><small>Prazos processuais conferidos</small></div>
+</div>
+<h3>1. Visão da carteira ilustrativa</h3>
+<div class="table-wrap"><table><thead><tr><th>Registro interno</th><th>Cliente fictício</th><th>Última anotação</th><th>Próxima ação</th><th>Responsável</th></tr></thead><tbody>
+<tr><td><span class="mono">EX-001</span></td><td>Cliente A</td><td>Documentos de exemplo recebidos, aguardando conferência autorizada.</td><td><span class="pill pending">Revisar pendência</span></td><td>Equipe Alfa</td></tr>
+<tr><td><span class="mono">EX-002</span></td><td>Cliente B</td><td>Retorno administrativo ilustrativo preparado para aprovação interna.</td><td><span class="pill ready">Validar mensagem</span></td><td>Equipe Beta</td></tr>
+<tr><td><span class="mono">EX-003</span></td><td>Cliente C</td><td>Referência de acompanhamento atualizada nesta simulação.</td><td><span class="pill">Acompanhar</span></td><td>Equipe Alfa</td></tr>
+</tbody></table></div>
+<h3>2. Pendências e próximos passos</h3>
+<div class="columns">
+<div class="panel"><h3>Pendências internas</h3><ol>
+<li><strong>EX-001</strong> — solicitar conferência do conjunto documental ao profissional responsável.</li>
+<li><strong>EX-002</strong> — obter revisão e autorização do escritório para o texto de retorno.</li>
+</ol></div>
+<div class="panel"><h3>Controles previstos</h3><ol>
+<li>Registrar fonte, data e responsável de cada acompanhamento efetivamente realizado.</li>
+<li>Diferenciar tarefa interna, contato administrativo e prazo processual conferido pelo advogado.</li>
+<li>Indicar itens sem informação suficiente, sem inferir o resultado de um processo.</li>
+</ol></div></div>
+<div class="communication"><div class="communication-title">3. Modelo de retorno ao cliente — sujeito à revisão do escritório</div>
+<blockquote>
+Olá, <strong>[nome do cliente]</strong>. O escritório registrou uma atualização de acompanhamento do seu caso em <strong>[data confirmada]</strong>. No momento, a próxima providência interna indicada é <strong>[ação aprovada pelo responsável]</strong>. Havendo nova informação relevante e confirmada, comunicaremos pelos canais habituais. 
+</blockquote></div>
+<div class="note"><strong>Revisão do escritório:</strong> textos de retorno são apenas rascunhos até a validação e autorização apropriadas. Este exemplo não foi enviado a ninguém e não representa consulta a processos judiciais, resultados ou prazos verdadeiros.</div>
+<div class="paper-footer"><span>W1 Capital | Modelo demonstrativo de entrega</span><span>Exemplo fictício · Não corresponde a uma carteira real</span></div>
+</div></main>
+<section class="next" aria-labelledby="next-title"><div><h2 id="next-title">Faz sentido para a rotina do seu escritório?</h2><p>Conheça a oferta de apoio operacional separada do CRM e avalie o escopo em uma conversa gratuita, preferencialmente após as 18h. Sem fornecer informações confidenciais nesta fase.</p></div><div class="actions"><a class="btn wine" href="https://calendly.com/daviconcentrix/apoio-a-carteira-processual-w1-capital" target="_blank" rel="noopener noreferrer">Agendar conversa de 15 minutos ↗</a><a class="btn wine" href="../operacao/">Conhecer o serviço ↗</a></div></section>
+<footer><div><span>© 2026 W1 Capital · Modelo didático com dados fictícios</span><span><a href="../operacao/">Apoio operacional</a> · <a href="../lexispredict/">LexisPredict</a></span></div></footer>
+</body></html>
