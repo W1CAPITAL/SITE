@@ -35,7 +35,9 @@ test("social source is explicitly whitelisted, not tracked or collected",()=>{
 test("public SEO entry points include the three actual consumer-facing pages, not internal tools",()=>{
  const robots=read("robots.txt"),xml=read("sitemap.xml");
  assert.match(robots,/Sitemap: https:\/\/w1-capital\.onrender\.com\/sitemap\.xml/);
- assert.match(robots,/Disallow: \/sales\//);
+ assert.match(robots,/Disallow: \/sales\/prospecting\//);
+ assert.match(robots,/Disallow: \/sales\/operations\//);
+ assert.doesNotMatch(robots,/^Disallow: \/sales\/$/m,"Do not block CSS and JS assets from search robots");
  for(const uri of ["https://w1-capital.onrender.com/","https://w1-capital.onrender.com/lexispredict/","https://w1-capital.onrender.com/guia/"]){
   assert.ok(xml.includes("<loc>"+uri+"</loc>"),uri+" omitted");
  }
