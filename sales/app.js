@@ -1,7 +1,7 @@
 import {PRODUCTS, recommendProduct, normalizeLead, buildBrief} from "./core.js";
 
 const config = window.W1_SALES_CONFIG || {};
-const ready = /^https:\/\/[a-z0-9-]+\.supabase\.co\/??$/.test(String(config.supabaseUrl||"")) &&
+const ready = /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(String(config.supabaseUrl||"")) &&
   typeof config.publishableKey==="string" && config.publishableKey.length>20 &&
   !config.publishableKey.includes("COLOQUE");
 const $ = id => document.getElementById(id);
@@ -77,7 +77,7 @@ async function submit(){
     result.className="status success";result.textContent="Pronto, recebemos seu pedido. A equipe poderá responder no e-mail informado.";
     form.reset();
   }catch(e){result.className="status error";result.textContent="Não conseguimos confirmar o envio. Antes de tentar de novo, confira com a equipe para evitar pedidos duplicados. "+String(e?.message||"");}
-  finally{state.busy=false;$("next").disabled=false;$("next").textContent="Solicitar contato ↗";}
+  finally{state.busy=false;$("next").disabled=false;$("next").textContent="Quero conversar com a W1 ↗";}
 }
 $("next").addEventListener("click",()=>{if(state.step<2){if(state.step===0&&!state.need||state.step===1&&!state.size)return;state.step++;render();}else if(ready){void submit();}else{downloadBrief();}});
 const motionAllowed=!window.matchMedia("(prefers-reduced-motion: reduce)").matches;
