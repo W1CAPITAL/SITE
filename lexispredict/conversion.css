@@ -735,6 +735,7 @@ footer .footer-brand-image.brand-atlas-w1-full + strong{display:none}
 @media(max-width:380px){.demo-team-grid{grid-template-columns:1fr}.demo-badge{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.demo-nav-button{transition:none}}
 
+.lp-resource-alt{color:#7f2451;font-weight:750;text-decoration:underline;text-underline-offset:4px}
 /* Educational organic traffic, separate from the paid product demo. */
 .lp-resource{padding:68px 6%;background:linear-gradient(120deg,#f5eced,#f8f3f1);color:#341422}
 .lp-resource-inner{max-width:1170px;margin:auto;display:grid;grid-template-columns:1fr auto;gap:45px;align-items:center}
