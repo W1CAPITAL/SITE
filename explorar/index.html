@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#390d22">
+<meta name="robots" content="index,follow">
+<meta name="description" content="Explore todas as páginas públicas da W1 Capital em um só lugar: LexisPredict, piloto de apoio à carteira processual, materiais gratuitos, parcerias e agendamentos.">
+<link rel="canonical" href="https://w1-capital.onrender.com/explorar/">
+<link rel="icon" type="image/svg+xml" href="../assets/w1-symbol.svg">
+<title>Explore todos os serviços e recursos | W1 Capital</title>
+<meta property="og:title" content="Tudo que a W1 Capital oferece">
+<meta property="og:description" content="Serviços, ferramentas, materiais gratuitos e calendários em um só lugar.">
+<meta property="og:url" content="https://w1-capital.onrender.com/explorar/">
+<meta property="og:type" content="website">
+<style>
+:root{--wine:#410e27;--deep:#250a1b;--pink:#a93261;--cream:#fff9f6;--paper:#f9f4f5;--ink:#30202a;--muted:#74646d;--line:#eadce3;--gold:#eab3c5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-width:320px;color:var(--ink);background:var(--paper);font:15px/1.6 "Segoe UI",Inter,system-ui,Arial,sans-serif}
+a{color:inherit;text-underline-offset:3px}a:focus-visible{outline:3px solid #df729c;outline-offset:3px}.skip{position:absolute;left:12px;top:-90px;padding:12px;background:#fff;color:#28141e;z-index:10}.skip:focus{top:8px}
+.top{background:#290a1a;color:#fff;min-height:77px;border-bottom:1px solid #89516a}
+.top-inner{max-width:1170px;min-height:77px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;gap:22px}
+.top img{width:min(225px,47vw);height:52px;object-fit:contain;object-position:left;display:block}
+.top nav{display:flex;align-items:center;justify-content:end;gap:19px;flex-wrap:wrap;font-weight:700;font-size:12px}
+.top nav a{text-decoration:none}.top nav a:hover{text-decoration:underline}
+.hero{background:radial-gradient(ellipse at 87% 11%,#773657,transparent 52%),linear-gradient(128deg,#210915,#4d102b 62%,#2a0b1c);color:#fff}
+.hero-inner{max-width:1170px;margin:auto;padding:72px 24px 78px}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.18em;color:#f3bdd0;text-transform:uppercase}
+h1{font:normal clamp(38px,5.4vw,69px)/1.07 Georgia,"Times New Roman",serif;letter-spacing:-.04em;margin:19px 0 20px;max-width:940px}
+h1 em{color:#efa7c0;font-style:normal}
+.hero p{font-size:16px;color:#e9d5df;max-width:740px;line-height:1.75}
+.hero-links{display:flex;flex-wrap:wrap;gap:11px;margin-top:27px}
+.hero-links a{border-radius:9px;border:1px solid #af8297;padding:10px 14px;text-decoration:none;font-size:12px;font-weight:750;color:#f9e5ed}
+.hero-links a:hover{background:#ffffff1b}
+main{max-width:1170px;margin:auto;padding:57px 24px 72px}
+section[id]{scroll-margin-top:30px}
+.section-title{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:0 0 22px}
+.section-title h2{font:normal clamp(29px,3.2vw,43px)/1.17 Georgia,serif;margin:4px 0;color:#3a1a2b;letter-spacing:-.03em}
+.section-title p{font-size:13px;color:var(--muted);max-width:390px;margin:0}
+.group{margin:0 0 52px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.tile{display:flex;flex-direction:column;justify-content:space-between;gap:22px;min-width:0;border:1px solid var(--line);border-radius:15px;background:#fff;padding:25px 27px;box-shadow:0 10px 26px #3714210b;text-decoration:none;transition:transform .15s,border-color .15s}
+.tile:hover{transform:translateY(-3px);border-color:#bb8ca4}
+.tile.top-pick{background:linear-gradient(132deg,#fff,#fbf0f4)}
+.tile-number{font-size:10px;font-weight:850;letter-spacing:.14em;color:#a33e65}
+.tile h3{font-size:21px;line-height:1.32;color:#41213a;margin:9px 0}
+.tile p{font-size:13px;color:#74606c;margin:0;line-height:1.7;max-width:510px}
+.tile .go{font-size:13px;color:#822b50;font-weight:850}
+.tiles-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cta-card{background:linear-gradient(115deg,#3b1027,#661d40);color:#fff;padding:30px;border-radius:15px;display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:17px}
+.cta-card h3{font:normal 28px Georgia,serif;margin:0 0 6px;color:#fff}
+.cta-card p{font-size:13px;color:#f1d8e3;margin:0}
+.cta-card a{background:#fff5f7;color:#54172f;border-radius:9px;padding:13px 17px;text-decoration:none;font-weight:800;font-size:13px;white-space:nowrap}
+.notice{font-size:12px;color:#7c6573;background:#fff;border:1px solid var(--line);border-left:4px solid #a33865;border-radius:8px;padding:16px 20px;margin-top:10px}
+footer{background:#28091a;color:#f3dbe5;padding:29px 24px;font-size:12px}
+footer>div{max-width:1170px;margin:auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+footer a{color:#fff}
+@media(max-width:760px){.top-inner{min-height:78px;gap:12px}.top nav{gap:12px;font-size:11px}.top nav a:nth-child(3){display:none}.hero-inner{padding:55px 24px 60px}.section-title{display:block}.section-title p{margin-top:11px}.grid,.tiles-three{grid-template-columns:1fr}.tile{padding:21px}.cta-card{display:block}.cta-card a{display:inline-flex;margin-top:18px}}
+@media(max-width:440px){.top nav a:nth-child(2){display:none}.hero p{font-size:14px}.hero-links a{flex:1;text-align:center}.tile h3{font-size:19px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.tile{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<header class="top"><div class="top-inner"><a href="../" aria-label="Voltar à página inicial da W1 Capital"><img src="../assets/w1-wordmark.svg" alt="W1 Capital" width="225" height="52"></a><nav aria-label="Navegação de serviços"><a href="../">Início</a><a href="../lexispredict/">LexisPredict</a><a href="../operacao/#piloto">Piloto à carteira</a><a href="../parcerias/">Parcerias</a></nav></div></header>
+<section class="hero"><div class="hero-inner">
+<span class="eyebrow">Diretório público W1 Capital</span>
+<h1>Encontre tudo o que você precisa. <em>Sem procurar em várias abas.</em></h1>
+<p>Produtos, serviço operacional, materiais gratuitos, parcerias e agendas de demonstração em um único lugar. Escolha abaixo por onde começar.</p>
+<div class="hero-links"><a href="#servicos">Serviços e CRM ↓</a><a href="#gratuitos">Materiais gratuitos ↓</a><a href="#agendamentos">Agendamentos ↓</a></div>
+</div></section>
+<main id="conteudo">
+<section class="group" id="servicos" aria-labelledby="servicos-titulo">
+<div class="section-title"><div><span class="eyebrow" style="color:#9e2a57">CONHEÇA E CONTRATE</span><h2 id="servicos-titulo">Produtos e serviços</h2></div><p>Conheça as ofertas antes de solicitar uma reunião. O escopo e a contratação são definidos individualmente.</p></div>
+<div class="grid">
+<a class="tile top-pick" href="../lexispredict/"><div><span class="tile-number">01 · PLATAFORMA</span><h3>LexisPredict — CRM jurídico</h3><p>Prévia interativa, recursos para processos e tarefas, informações de planos e pedido de demonstração.</p></div><span class="go">Conhecer o LexisPredict ↗</span></a>
+<a class="tile top-pick" href="../operacao/#piloto"><div><span class="tile-number">02 · SERVIÇO INDEPENDENTE</span><h3>Piloto pago de apoio à carteira</h3><p>Comece por uma rotina autorizada: organização de acompanhamentos, pendências e preparação de retornos para revisão do escritório.</p></div><span class="go">Ver o piloto e suas condições ↗</span></a>
+<a class="tile" href="../operacao/"><div><span class="tile-number">03 · APOIO OPERACIONAL</span><h3>Serviço de organização processual</h3><p>Entenda o escopo, os limites profissionais, o funcionamento e as possibilidades de atendimento continuado.</p></div><span class="go">Explorar o serviço ↗</span></a>
+<a class="tile" href="https://lexispredict.vercel.app/login" target="_blank" rel="noopener noreferrer"><div><span class="tile-number">04 · SISTEMA EXISTENTE</span><h3>Área de acesso ao LexisPredict</h3><p>Entrada na aplicação para usuários que já têm credenciais. A ativação comercial exige validação prévia.</p></div><span class="go">Abrir a tela de login ↗</span></a>
+</div>
+</section>
+<section class="group" id="gratuitos" aria-labelledby="gratuitos-titulo">
+<div class="section-title"><div><span class="eyebrow" style="color:#9e2a57">APRENDA E EXPERIMENTE</span><h2 id="gratuitos-titulo">Ferramentas e materiais gratuitos</h2></div><p>Recursos educacionais que não exigem compartilhar dados confidenciais de processos ou clientes.</p></div>
+<div class="grid tiles-three">
+<a class="tile" href="../diagnostico/"><div><span class="tile-number">GRATUITO · INTERATIVO</span><h3>Diagnóstico jurídico</h3><p>Seis perguntas e orientações práticas para a rotina do escritório, sem cadastro.</p></div><span class="go">Fazer diagnóstico ↗</span></a>
+<a class="tile" href="../guia/"><div><span class="tile-number">GRATUITO · CHECKLIST</span><h3>Guia de organização</h3><p>Sete práticas para controlar tarefas, responsabilidades, processos e retornos.</p></div><span class="go">Abrir checklist ↗</span></a>
+<a class="tile" href="../exemplo-relatorio/"><div><span class="tile-number">GRATUITO · EXEMPLO FICTÍCIO</span><h3>Modelo de relatório</h3><p>Veja um formato ilustrativo de acompanhamento de carteira e salve-o como PDF.</p></div><span class="go">Ver modelo fictício ↗</span></a>
+<a class="tile" href="../assets/w1-carrossel-operacao.pdf" target="_blank" rel="noopener noreferrer"><div><span class="tile-number">PDF · 5 PÁGINAS</span><h3>Apresentação visual da W1</h3><p>Resumo ilustrativo de desafios, escopo operacional e convite para uma conversa.</p></div><span class="go">Abrir apresentação em PDF ↗</span></a>
+</div>
+</section>
+<section class="group" id="parceiros" aria-labelledby="parceiros-titulo">
+<div class="section-title"><div><span class="eyebrow" style="color:#9e2a57">CRESÇA CONOSCO</span><h2 id="parceiros-titulo">Parcerias e relacionamento</h2></div><p>Uma possibilidade de conversa para consultorias, profissionais de Legal Ops, controladoria jurídica e empresas de tecnologia.</p></div>
+<div class="grid"><a class="tile" href="../parcerias/"><div><span class="tile-number">COLABORAÇÃO</span><h3>Parcerias W1 Capital</h3><p>Entenda como avaliamos conteúdos educativos, apresentações e cooperação comercial sem comissões previamente prometidas.</p></div><span class="go">Conhecer a proposta de parcerias ↗</span></a></div>
+</section>
+<section class="group" id="agendamentos" aria-labelledby="agendamentos-titulo">
+<div class="section-title"><div><span class="eyebrow" style="color:#9e2a57">ESCOLHA UM HORÁRIO</span><h2 id="agendamentos-titulo">Agendamentos diretos</h2></div><p>Conversas gratuitas de 15 minutos, com horários preferenciais após as 18h30, conforme disponibilidade.</p></div>
+<div class="grid tiles-three">
+<a class="tile" href="https://calendly.com/daviconcentrix/demonstracao-lexispredict-w1-capital" target="_blank" rel="noopener noreferrer"><div><span class="tile-number">CRM</span><h3>Demonstração LexisPredict</h3><p>Converse sobre processos, equipe e organização na plataforma.</p></div><span class="go">Agendar CRM ↗</span></a>
+<a class="tile" href="https://calendly.com/daviconcentrix/apoio-a-carteira-processual-w1-capital" target="_blank" rel="noopener noreferrer"><div><span class="tile-number">SERVIÇO</span><h3>Apoio à carteira processual</h3><p>Avalie um escopo de apoio operacional independente da licença do CRM.</p></div><span class="go">Agendar apoio à carteira ↗</span></a>
+<a class="tile" href="https://calendly.com/daviconcentrix/parcerias-de-gestao-juridica-w1-capital" target="_blank" rel="noopener noreferrer"><div><span class="tile-number">PARCEIROS</span><h3>Conversa de parceria</h3><p>Apresente a atuação da sua consultoria ou empresa para avaliar complementaridade.</p></div><span class="go">Agendar parceria ↗</span></a>
+</div>
+<div class="cta-card"><div><h3>Prefere uma mensagem?</h3><p>Entre em contato com a equipe comercial sem compartilhar dados sigilosos antes de um acordo.</p></div><a href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20W1%20Capital.%20Gostaria%20de%20conhecer%20os%20servi%C3%A7os%20dispon%C3%ADveis." target="_blank" rel="noopener noreferrer">Conversar no WhatsApp ↗</a></div>
+</section>
+<p class="notice">As prévias utilizam dados fictícios. O apoio à carteira depende de contrato, autorização do escritório e supervisão do advogado responsável. Não é serviço de consultoria jurídica ou representação judicial.</p>
+</main>
+<footer><div><span>© 2026 W1 Capital · Diretório público de serviços e recursos</span><span><a href="../">Início</a> · <a href="../parcerias/">Parcerias</a> · <a href="mailto:corporacaow1capital@gmail.com">E-mail comercial</a></span></div></footer>
+</body></html>

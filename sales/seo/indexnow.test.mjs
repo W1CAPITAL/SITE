@@ -14,6 +14,7 @@ const urls=[
  "https://w1-capital.onrender.com/guia/",
  "https://w1-capital.onrender.com/diagnostico/",
  "https://w1-capital.onrender.com/parcerias/",
+ "https://w1-capital.onrender.com/explorar/",
  "https://w1-capital.onrender.com/exemplo-relatorio/"
 ];
 test("notify only public changed pages and deduplicate results",()=>{

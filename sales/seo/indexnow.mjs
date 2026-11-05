@@ -11,6 +11,7 @@ const paths=new Map([
  ["guia/index.html","/guia/"],
  ["diagnostico/index.html","/diagnostico/"],
  ["parcerias/index.html","/parcerias/"],
+ ["explorar/index.html","/explorar/"],
  ["exemplo-relatorio/index.html","/exemplo-relatorio/"]
 ]);
 const root=join(dirname(fileURLToPath(import.meta.url)),"../..");

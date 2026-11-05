@@ -10,6 +10,7 @@ on:
       - 'guia/index.html'
       - 'diagnostico/index.html'
       - 'parcerias/index.html'
+      - 'explorar/index.html'
       - 'exemplo-relatorio/index.html'
       - 'sitemap.xml'
       - '04419ef1947dc3671fc73417dced60f5.txt'
