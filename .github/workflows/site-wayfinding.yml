@@ -1,0 +1,28 @@
+name: W1 public navigation
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - sales/premium.js
+      - sales/seo/navigation-wayfinding.test.mjs
+      - sales/seo/navigation-discovery.test.mjs
+      - .github/workflows/site-wayfinding.yml
+  pull_request:
+    paths:
+      - index.html
+      - sales/premium.js
+      - sales/seo/navigation-wayfinding.test.mjs
+      - sales/seo/navigation-discovery.test.mjs
+      - .github/workflows/site-wayfinding.yml
+
+jobs:
+  public-navigation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check navigational markup and real routes
+        run: node --test sales/seo/navigation-wayfinding.test.mjs sales/seo/navigation-discovery.test.mjs sales/live-site-regressions.test.mjs
