@@ -8,6 +8,20 @@
   const menuButton = $(".menu-toggle");
   const menu = $("#menu-mobile");
   const nav = $(".desktop-nav");
+  // Close the resource directory after selection, on Escape or outside click.
+  const resourceMenu = $(".w1-mega-nav");
+  resourceMenu?.addEventListener("click", (event) => {
+    if (event.target.closest("a")) resourceMenu.open = false;
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && resourceMenu?.open) {
+      resourceMenu.open = false;
+      resourceMenu.querySelector("summary")?.focus();
+    }
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (resourceMenu?.open && !resourceMenu.contains(event.target)) resourceMenu.open = false;
+  });
   const stages = [
     {
       title: "Ouvimos antes de propor.",
