@@ -93,7 +93,7 @@ if(typeof window!=="undefined"){
  $("copy-message")?.addEventListener("click",()=>{
     if(!msg.value)return;
     if(!navigator.clipboard){msg.focus();msg.select();status.textContent="Selecione e copie a mensagem preparada.";return;}
-    navigator.clipboard.writeText(msg.value).then(()=>{status.textContent="Mensagem copiada. Agora envie pelo seu e-mail para "+SALES_EMAIL+".";}).catch(()=>{
+    navigator.clipboard.writeText(msg.value).then(()=>{status.textContent="Mensagem copiada. Confirme o envio pelo canal que você escolheu.";}).catch(()=>{
       msg.focus();msg.select();status.textContent="Selecione e copie a mensagem preparada.";
     });
  });
