@@ -1,0 +1,87 @@
+/* W1 Capital — progressive 3D prism hero, adapted from the user's halo brief.
+   Scoped to the home hero; all product/service routes remain unchanged. */
+.hero.section.w1-prismatic{
+  min-height:clamp(640px,80svh,850px);
+  background:radial-gradient(ellipse at 79% 47%,#33212f 0%,#1b151b 38%,#151517 75%);
+}
+.hero.section.w1-prismatic::after{
+  z-index:0;
+  background:linear-gradient(90deg,#151517 0%,#151517f9 22%,#151517bd 42%,#15151726 64%,transparent 82%);
+}
+.w1-prismatic .hero-media{display:none}
+.w1-prismatic .hero-copy{max-width:min(690px,54%);z-index:4}
+.w1-prismatic .hero-copy>p:not(.eyebrow){color:#dbd1d7}
+.w1-prismatic .hero h1{font-size:clamp(49px,5.1vw,80px);letter-spacing:-.05em;font-weight:400;line-height:1.07}
+.w1-prismatic .hero h1 em{color:#d75078}
+.w1-prismatic .hero-proof{color:#d1c1c9}
+.w1-prismatic .hero-app-window{
+  right:3.5%;bottom:31px;width:min(22vw,292px);opacity:.91;z-index:3;
+  border:5px solid #332332;
+  box-shadow:0 20px 38px #050206d1,0 0 0 1px #d5b5c046;
+  transform:perspective(950px) rotateY(-9deg) rotateX(3deg);
+}
+.w1-prismatic .hero-app-window:hover{
+  opacity:1;transform:perspective(950px) rotateY(0deg) translateY(-4px)
+}
+.w1-prism-stage{
+  position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;
+  opacity:0;animation:w1-prism-appear 1.35s .15s ease both;
+  contain:layout paint;
+}
+.w1-prism-stage canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
+.w1-prism-fx{mix-blend-mode:screen}
+.w1-prism-gl{filter:drop-shadow(0 0 22px #dce4ff35)}
+.w1-prism-stage::after{
+  content:"";position:absolute;inset:0;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 80% 42%,transparent 15%,#1515170a 53%,#1515179c 100%);
+}
+.w1-prism-signature{
+  position:absolute;right:6%;top:16%;z-index:2;
+  display:flex;align-items:center;gap:8px;font:500 10px/1.2 ui-sans-serif,system-ui,sans-serif;
+  color:#d8bfca;letter-spacing:.25em;text-transform:uppercase;
+  opacity:.8;pointer-events:none
+}
+.w1-prism-signature::before{content:"";width:23px;height:1px;background:#d96386}
+@keyframes w1-prism-appear{from{opacity:0}to{opacity:1}}
+@media(max-width:1100px){
+  .w1-prismatic .hero-copy{max-width:58%}
+  .w1-prismatic .hero h1{font-size:clamp(43px,5.15vw,69px)}
+  .w1-prismatic .hero-app-window{right:2.8%;width:24vw;bottom:25px}
+}
+@media(max-width:950px){
+  .hero.section.w1-prismatic{
+    min-height:870px;padding-top:55px;padding-bottom:340px;align-items:flex-start
+  }
+  .w1-prismatic .hero-copy{max-width:100%}
+  .w1-prismatic .hero h1{font-size:clamp(39px,6.3vw,65px)}
+  .w1-prismatic .hero-app-window{
+    left:auto;right:7%;bottom:29px;width:min(58vw,365px);max-width:none;
+    transform:perspective(900px) rotateY(-4deg)
+  }
+  .w1-prismatic .hero-app-window:hover{transform:perspective(900px) rotateY(0)}
+  .w1-prismatic.hero::after{
+    background:linear-gradient(180deg,#151517 0%,#151517eb 24%,#15151775 43%,transparent 60%)
+  }
+  .w1-prism-signature{right:7%;top:42%}
+}
+@media(max-width:600px){
+  .hero.section.w1-prismatic{
+    min-height:920px;padding-top:42px;padding-bottom:360px
+  }
+  .w1-prismatic .hero h1{font-size:clamp(37px,9vw,49px)}
+  .w1-prismatic .hero-copy>p:not(.eyebrow){font-size:13px}
+  .w1-prismatic .hero-app-window{
+    left:8%;right:auto;bottom:37px;width:84%;max-width:370px
+  }
+  .w1-prism-signature{right:8%;top:49%;font-size:8px}
+  .w1-prismatic .hero-actions{align-items:stretch}
+}
+@media(max-width:380px){
+  .hero.section.w1-prismatic{min-height:1000px;padding-bottom:370px}
+  .w1-prismatic .hero h1{font-size:36px}
+}
+@media(prefers-reduced-motion:reduce){
+  .w1-prism-stage{animation:none;opacity:1}
+  .w1-prismatic .hero-app-window{transition:none;transform:none}
+}
