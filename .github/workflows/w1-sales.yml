@@ -7,6 +7,7 @@ on:
       - 'guia/**'
       - 'operacao/**'
       - 'parcerias/**'
+      - 'explorar/**'
       - 'exemplo-relatorio/**'
       - 'diagnostico/**'
       - 'robots.txt'
