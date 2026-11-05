@@ -64,3 +64,25 @@ test("landing is accessible, honest about terms, and directly linked by homepage
  for(const id of [...html.matchAll(/href="#([^"]+)"/g)].map(x=>x[1]))
   assert.ok(ids.has(id),"Missing landing anchor "+id);
 });
+
+test("prepares an opt-in WhatsApp request with the same validated commercial context",()=>{
+ const r=makeDemoRequest(draft);
+ const url=new URL(r.whatsapp);
+ assert.equal(url.origin,"https://wa.me");
+ assert.equal(url.pathname,"/5513991199349");
+ const text=url.searchParams.get("text");
+ assert.match(text,/LexisPredict/);
+ assert.match(text,/Ana Silva/);
+ assert.match(text,/Escritório Exemplo/);
+ assert.match(text,/ana@example.org/);
+ assert.match(text,/organizar tarefas/);
+ assert.equal(Object.hasOwn(r,"sent"),false);
+});
+test("provides a second WhatsApp channel without auto-sending or removing the original email route",()=>{
+ assert.match(html,/id="send-whatsapp"/);
+ assert.match(html,/WhatsApp/);
+ assert.match(html,/e-mail ou no WhatsApp/);
+ assert.match(script,/send-whatsapp/);
+ assert.match(script,/window\.open\(/);
+ assert.match(html,/action="mailto:corporacaow1capital@gmail\.com"/);
+});
