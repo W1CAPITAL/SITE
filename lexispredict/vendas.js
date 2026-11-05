@@ -1,5 +1,6 @@
 /* W1 Sales: manual demo request, no network, tracking or backend. */
 export const SALES_EMAIL="corporacaow1capital@gmail.com";
+export const SALES_WHATSAPP="5513991199349";
 export const PLAN_CHOICES=Object.freeze(["Essencial","Financeiro","Operacional","Máximo","Ainda não sei"]);
 const clean=(value,max)=>String(value??"").replace(/[\u0000-\u001f\u007f]/g," ").replace(/\s+/g," ").trim().slice(0,max);
 export function makeDemoRequest(raw){
@@ -27,12 +28,13 @@ export function makeDemoRequest(raw){
   "Principal desafio:",
   desafio,
   "",
-  "Autorizo a W1 Capital a responder a esta solicitação comercial. Entendo que o envio será realizado por mim no aplicativo de e-mail e que a proposta final dependerá de validação.",
+  "Autorizo a W1 Capital a responder a esta solicitação comercial. Entendo que a mensagem será enviada somente quando eu confirmar no aplicativo escolhido e que a proposta final dependerá de validação.",
   "",
   "Obrigado(a)."
  ].join("\n");
  const mailto="mailto:"+SALES_EMAIL+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
- return Object.freeze({subject,body,mailto,address:SALES_EMAIL});
+ const whatsapp="https://wa.me/"+SALES_WHATSAPP+"?text="+encodeURIComponent(subject+"\n\n"+body);
+ return Object.freeze({subject,body,mailto,whatsapp,address:SALES_EMAIL});
 }
 if(typeof window!=="undefined"){
  const $=id=>document.getElementById(id);
@@ -69,6 +71,18 @@ if(typeof window!=="undefined"){
      status.textContent="Mensagem preparada. Confirme o envio no seu aplicativo de e-mail. Se ele não abrir, copie a mensagem abaixo. Nenhuma solicitação foi enviada por este site.";
      // The user clicks Submit: open the OS email composer. Do not claim it was sent.
      window.location.href=data.mailto;
+   }catch(error){status.textContent=error instanceof Error?error.message:"Confira os dados.";}
+ });
+ $("send-whatsapp")?.addEventListener("click",()=>{
+   if(!form?.reportValidity())return;
+   try{
+     const raw=Object.fromEntries(new FormData(form).entries());
+     raw.consent=$("consent").checked;
+     const data=makeDemoRequest(raw);
+     msg.value="WhatsApp: +55 13 99119-9349\n\n"+data.body;
+     fallback.hidden=false;
+     status.textContent="Mensagem preparada para o WhatsApp. Confirme o envio na conversa aberta. Se não abrir, copie o texto abaixo. Nenhuma solicitação foi enviada por este site.";
+     window.open(data.whatsapp,"_blank","noopener,noreferrer");
    }catch(error){status.textContent=error instanceof Error?error.message:"Confira os dados.";}
  });
  $("copy-email")?.addEventListener("click",()=>{
