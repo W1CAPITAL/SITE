@@ -110,3 +110,14 @@ test("small-business website offer has a real route and discoverable homepage na
   assert.match(page,/Não há contratação automática|Sem contrato automático/i);
   assert.doesNotMatch(page,/clientes satisfeitos|resultados garantidos|últimas vagas/i);
 });
+
+
+test("website service has a dedicated verified booking path with manual briefing as alternative",()=>{
+  const page=read("sites/index.html");
+  const booking="https://calendly.com/daviconcentrix/orcamento-de-site-w1-capital";
+  assert.match(page,new RegExp(booking));
+  assert.match(page,/Agendar conversa/);
+  assert.match(page,/Contato via WhatsApp|Preparar no WhatsApp/);
+  assert.match(page,/O agendamento é gratuito|conversa gratuita/);
+  assert.doesNotMatch(page,/agendar.*lexispredict-w1-capital/i);
+});
