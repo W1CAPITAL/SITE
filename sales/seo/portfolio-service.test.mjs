@@ -25,13 +25,26 @@ test("operational portfolio management service has its own landing page and book
 });
 test("homepage and product offer both SaaS and operational service without conflating them",()=>{
  const home=read("index.html"), lp=read("lexispredict/index.html");
- assert.match(home,/href="\.\/operacao\/"/);
+ assert.match(home,/href="\.\/operacao\/#piloto"/);
  assert.match(lp,/href="\.\.\/operacao\/"/);
  assert.match(home,/apoio operacional|carteira processual/i);
  assert.match(lp,/apoio operacional|carteira processual/i);
  assert.match(read("sitemap.xml"),/https:\/\/w1-capital\.onrender\.com\/operacao\//);
  const robots=read("robots.txt");
  assert.ok(!robots.includes("Disallow: /operacao/"));
+});
+test("the paid pilot explains its deliverables and routes prospects to the existing calendar",()=>{
+ const html=read("operacao/index.html");
+ const pilot=html.match(/<section class="pilot" id="piloto"[^>]*>[\s\S]*?<\/section>/)?.[0];
+ assert.ok(pilot,"pilot section is missing");
+ for(const deliverable of [/Registros padronizados/,/Próximas ações/,/Relatório e revisão/]){
+  assert.match(pilot,deliverable);
+ }
+ assert.match(pilot,/Piloto pago/);
+ assert.match(pilot,/A conversa é gratuita/);
+ assert.match(pilot,/Volume, prazo e preço constam na proposta/);
+ assert.ok(pilot.includes(`${booking}?utm_source=w1_site&amp;utm_medium=website&amp;utm_campaign=piloto_carteira`));
+ assert.match(read("exemplo-relatorio/index.html"),/href="\.\.\/operacao\/#piloto"/);
 });
 test("page includes clear next step and accessible core structure",()=>{
  const html=read("operacao/index.html");
