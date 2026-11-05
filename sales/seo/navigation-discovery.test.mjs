@@ -75,3 +75,16 @@ test("site map includes directory and homepage keeps one original stylesheet",()
  assert.match(css,/max-height:\s*calc\(100dvh/,"mobile menu must scroll on small displays");
  assert.match(css,/@media\(max-width:760px\)/);
 });
+
+test("on narrow screens every standalone page prioritizes the directory link over crowded menus",()=>{
+ const standalone=["operacao","guia","diagnostico","exemplo-relatorio","parcerias"];
+ for(const route of standalone){
+  const html=read(route+"/index.html");
+  assert.match(html,/@media\(max-width:660px\)/,route+" requires mobile header rules");
+  assert.match(html,/\.top nav a:not\(\[href="\.\.\/explorar\/"\]\)\{display:none!important\}/,route+" must hide extra header links on phones");
+  assert.match(html,/\.top nav a\[href="\.\.\/explorar\/"\]\{display:inline-flex/,route+" must keep directory visible");
+ }
+ const product=read("lexispredict/index.html");
+ assert.match(product,/class="mobile-shortcuts"/);
+ assert.match(product,/href="\.\.\/explorar\/"/);
+});
