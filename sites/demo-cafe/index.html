@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow"><meta name="theme-color" content="#2c352b">
+<meta name="description" content="Demonstração conceitual de um site para cafeteria. Projeto fictício de portfólio da W1 Capital.">
+<title>Café Brisa — Demonstração de site | W1 Capital</title>
+<style>
+:root{--sage:#334237;--mint:#e6ede2;--cream:#f5f0e5;--brown:#67412f;--orange:#dba77d;--ink:#28352b;--line:#d8d5c8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);font:16px/1.58 "Segoe UI",system-ui,Arial,sans-serif;color:var(--ink)}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:5px}:focus-visible{outline:3px solid #c98246;outline-offset:4px}
+.notice{background:#23392f;color:#fff;display:flex;align-items:center;justify-content:center;gap:11px;padding:11px 22px;text-align:center;font-size:12px;letter-spacing:.06em;line-height:1.5}
+.notice strong{color:#ffdaa9}.notice a{color:#fff;font-weight:800}
+.top{background:#fbf7ef;border-bottom:1px solid var(--line)}.top-inner{max-width:1220px;margin:auto;padding:22px 28px;display:flex;justify-content:space-between;align-items:center;gap:25px}
+.logo{font:italic bold 29px/1 Georgia,serif;color:var(--sage);text-decoration:none;letter-spacing:-.04em}.logo small{font:700 10px system-ui,sans-serif;letter-spacing:.23em;display:block;margin-top:6px;color:#a27755}
+.top nav{display:flex;align-items:center;gap:27px;font-size:13px;font-weight:650}.top nav a{text-decoration:none}.top nav a:hover{text-decoration:underline}
+.nav-cta{border:1px solid #6b886d;padding:11px 17px;border-radius:30px}
+.hero{min-height:580px;display:grid;grid-template-columns:1fr 1fr;background:var(--sage);color:#fff}
+.hero-copy{padding:clamp(60px,8vw,120px) max(30px,calc((100vw - 1170px)/2)) 80px clamp(27px,7vw,88px);display:flex;align-items:flex-start;flex-direction:column;justify-content:center}
+.eyebrow{font-size:12px;letter-spacing:.23em;font-weight:750;text-transform:uppercase;color:#e1c6a9}.hero h1{font:normal clamp(50px,6vw,91px)/1.04 Georgia,serif;letter-spacing:-.04em;max-width:660px;margin:22px 0}.hero h1 em{color:#eab88f}
+.hero p{font-size:17px;max-width:510px;color:#e0e8da}.button{display:inline-flex;align-items:center;gap:13px;border-radius:40px;padding:14px 22px;text-decoration:none;font-size:13px;font-weight:800;background:#e7b78e;color:#283b2c;margin-top:27px}
+.hero-art{position:relative;overflow:hidden;background:radial-gradient(circle at 53% 45%,#edcfab 0 34%,#c99874 35% 44%,transparent 45%),linear-gradient(135deg,#e9d4b2,#b97455)}
+.hero-art:before{content:"";position:absolute;width:76%;aspect-ratio:1;border-radius:100%;top:13%;left:14%;border:2px dashed #fff6e055;box-shadow:0 0 0 30px #fdf4e31b}
+.cup{position:absolute;left:50%;top:50%;transform:translate(-50%,-46%) rotate(-11deg);width:min(43%,220px);aspect-ratio:1.08;border-radius:50% 50% 48% 48%;background:#faf7ec;box-shadow:0 25px 35px #663c2a45,0 0 0 15px #faf7ecaa}
+.cup:before{content:"";position:absolute;left:12%;top:13%;width:76%;height:74%;border-radius:100%;background:radial-gradient(circle at 45% 37%,#c7905b 0 18%,#6c422d 19% 65%,#a36b43 68% 72%,#f8e5cf 74%);box-shadow:inset 0 0 0 4px #9d653f}
+.cup:after{content:"";position:absolute;right:-34%;top:25%;border:18px solid #f9f5ea;width:32%;height:34%;border-radius:50%}
+.art-label{position:absolute;left:8%;bottom:10%;color:#fff8ec;font:italic 24px Georgia,serif;text-shadow:0 3px 20px #5b2e1c}
+.section{max-width:1170px;padding:83px 28px;margin:auto}.section-label{font-size:11px;letter-spacing:.25em;font-weight:850;text-transform:uppercase;color:#96734f}
+h2{font:normal clamp(36px,4.1vw,60px)/1.15 Georgia,serif;letter-spacing:-.03em;margin:12px 0 18px;color:#344534}
+.intro-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:center}.intro-grid p{font-size:16px;color:#6b655a;line-height:1.85}
+.story-art{height:390px;border-radius:160px 160px 18px 18px;background:linear-gradient(145deg,#d1dfc3,#8eaf86);display:grid;place-items:center;position:relative;overflow:hidden}.story-art:before{content:"";position:absolute;width:200px;height:340px;border-radius:110px 110px 20px 20px;background:linear-gradient(45deg,#c08859,#f2d4a7);transform:rotate(-15deg);box-shadow:60px 27px 0 #577d60}.story-art span{z-index:1;font:italic 36px Georgia,serif;color:white;text-shadow:0 3px 12px #33423277}
+.menu{background:#f0e8dc}.menu .section{padding-top:85px;padding-bottom:90px}.menu-items{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:36px}
+.menu-item{padding:31px;border:1px solid #d8cabc;background:#fbf8f0;border-radius:13px}.menu-item .symbol{width:60px;height:60px;border-radius:22px;background:#e8dbca;display:grid;place-items:center;font-size:26px}.menu-item h3{font:normal 28px Georgia,serif;margin:26px 0 7px}.menu-item p{font-size:14px;color:#756a5f;line-height:1.75}
+.banner{background:#d7dfd0;text-align:center;padding:75px 22px}.banner h2{max-width:760px;margin:15px auto 12px}.banner p{color:#5d6e5e}.banner .button{background:var(--sage);color:white}
+footer{padding:40px 28px;background:#20342a;color:#dfe5d7}footer .wrap{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;max-width:1170px;margin:auto}footer a{color:#fff}footer strong{font-family:Georgia,serif;font-size:18px}
+@media(max-width:850px){.hero{grid-template-columns:1fr}.hero-copy{padding:76px 28px}.hero-art{min-height:350px}.intro-grid{grid-template-columns:1fr;gap:34px}.menu-items{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.top-inner{padding:18px}.top nav{gap:12px}.top nav a:not(.nav-cta){display:none}.hero-art{min-height:280px}.hero h1{font-size:56px}.intro-grid{gap:26px}.section{padding:60px 20px}.story-art{height:270px}.menu-items{grid-template-columns:1fr}.menu-item{padding:23px}.banner{padding:55px 20px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="notice"><strong>DEMONSTRAÇÃO FICTÍCIA</strong><span>Site conceitual criado para o portfólio W1 Capital. Não representa um estabelecimento real.</span><a href="../../">Voltar à W1 ↗</a></div>
+<header class="top"><div class="top-inner"><a class="logo" href="#inicio">Brisa Café<small>CAFÉ & ENCONTROS</small></a><nav aria-label="Navegação demonstrativa"><a href="#sobre">Nossa proposta</a><a href="#cardapio">Cardápio exemplo</a><a class="nav-cta" href="../../#orcamento">Quero um site assim ↗</a></nav></div></header>
+<main id="inicio">
+<section class="hero"><div class="hero-copy"><span class="eyebrow">Um lugar para desacelerar</span><h1>Café com sabor de <em>pausa.</em></h1><p>Um conceito de cafeteria de bairro, criado para mostrar como uma presença digital pode apresentar marca, ambiente e cardápio com personalidade.</p><a class="button" href="#cardapio">Conheça o cardápio ilustrativo ↗</a></div><div class="hero-art" aria-label="Ilustração gráfica de café em uma xícara"><div class="cup" aria-hidden="true"></div><span class="art-label">Uma pausa especial.</span></div></section>
+<section class="section intro-grid" id="sobre"><div><span class="section-label">01 · Nossa história ilustrativa</span><h2>Mais do que servir. <em>Receber.</em></h2><p>Esse modelo apresenta a história, o diferencial e a atmosfera de uma cafeteria com um visual acolhedor. No projeto real, cada texto, imagem, menu e botão são adaptados às informações fornecidas pelo cliente.</p><p><strong>Conteúdo meramente demonstrativo:</strong> esta marca e suas descrições são fictícias.</p></div><div class="story-art" aria-hidden="true"><span>Sabores e histórias.</span></div></section>
+<div class="menu"><section class="section" id="cardapio"><span class="section-label">02 · Vitrine de produtos</span><h2>Um cardápio para <em>descobrir.</em></h2><p>Veja como três categorias podem aparecer em uma vitrine simples e responsiva, sem necessidade de loja virtual.</p><div class="menu-items"><article class="menu-item"><div class="symbol" aria-hidden="true">☕</div><h3>Cafés especiais</h3><p>Espaço para apresentar grãos, métodos de preparo e combinações que representem sua marca.</p></article><article class="menu-item"><div class="symbol" aria-hidden="true">🥐</div><h3>Feitos na casa</h3><p>Valorize produtos próprios, ingredientes e o cuidado com a experiência do consumidor.</p></article><article class="menu-item"><div class="symbol" aria-hidden="true">🍰</div><h3>Para acompanhar</h3><p>Uma vitrine organizada que funciona bem no celular e facilita encontrar os destaques.</p></article></div></section></div>
+<section class="banner"><span class="section-label">03 · Um modelo de presença digital</span><h2>Gostou do formato? Criamos uma versão para seu negócio.</h2><p>Site demonstrativo da W1 Capital. Seu projeto real recebe identidade, escopo e conteúdo próprios.</p><a class="button" href="../../#orcamento">Solicitar proposta à W1 ↗</a></section>
+</main><footer><div class="wrap"><strong>Brisa Café · conceito fictício</strong><span>Portfólio demonstrativo W1 Capital · <a href="../../">Criação de sites para empresas</a></span></div></footer>
+</body>
+</html>
