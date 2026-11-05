@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'index.html'
+      - 'sites/**'
       - 'guia/**'
       - 'operacao/**'
       - 'parcerias/**'
@@ -24,6 +25,7 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'sites/**'
       - 'lexispredict/**'
       - 'assets/**'
       - 'README.md'
@@ -62,6 +64,7 @@ jobs:
           node --check sales/operations/commercial.js
           node --check sales/offers/lexispredict-unit-economics.mjs
           node --check lexispredict/vendas.js
+          node --check sites/brief.js
           node --check sales/interactive-demo-model.mjs
           node --check sales/interactive-demo.mjs
       - name: Validate homepage, consultation and privacy

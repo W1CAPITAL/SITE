@@ -2,6 +2,10 @@
 
 Site institucional e comercial premium da W1 Capital em HTML, CSS e JavaScript nativos. Sem frameworks, bibliotecas de animação, Ollama ou API paga de IA.
 
+## Nova oferta comercial: criação de sites para pequenos negócios (05/11/2026)
+
+A W1 Capital também oferece **sites institucionais, landing pages e catálogos digitais** para negócios de setores diversos, não apenas escritórios jurídicos. Página: [Criação de sites](/sites/). O briefing prepara mensagem para WhatsApp ou e-mail, após validação e consentimento do visitante; não há salvamento no Supabase nem envio automático pela W1. Valores, hospedagem, domínio, recursos adicionais e prazos dependem de proposta aprovada. Não há portfólio de clientes fictícios. Site da própria W1 é exemplo de trabalho publicado.
+
 ## Entrega
 
 - Página principal do antigo portfólio substituída integralmente por uma experiência comercial. A versão anterior é recuperável pelo histórico Git.

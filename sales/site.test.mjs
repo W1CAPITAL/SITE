@@ -91,3 +91,22 @@ test("cinematic W1 identity preserves a local fictional-person hero and visual c
   assert.match(read("sales/refined.css"),/direção cinematográfica institucional 2026/);
   assert.match(read("lexispredict/conversion.css"),/identidade cinematográfica W1/);
 });
+
+
+test("small-business website offer has a real route and discoverable homepage navigation",()=>{
+  assert.ok(existsSync(join(root,"sites/index.html")),"small business sites offer missing");
+  assert.ok(existsSync(join(root,"sites/brief.js")),"site briefing interaction missing");
+  const page=read("sites/index.html");
+  const brief=read("sites/brief.js");
+  assert.match(html,/href="\.\/sites\/"/);
+  assert.match(read("explorar/index.html"),/href="\.\.\/sites\/"/);
+  assert.match(page,/Criação de sites para pequenos negócios/);
+  assert.match(page,/Comércio|Serviços|Profissionais/);
+  assert.match(page,/id="site-briefing"/);
+  assert.match(page,/id="site-whatsapp"/);
+  assert.match(page,/type="checkbox"[^>]*name="consent"/);
+  assert.match(brief,/encodeURIComponent/);
+  assert.match(brief,/reportValidity/);
+  assert.match(page,/Não há contratação automática|Sem contrato automático/i);
+  assert.doesNotMatch(page,/clientes satisfeitos|resultados garantidos|últimas vagas/i);
+});
