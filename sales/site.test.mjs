@@ -121,3 +121,22 @@ test("website service has a dedicated verified booking path with manual briefing
   assert.match(page,/O agendamento é gratuito|conversa gratuita/);
   assert.doesNotMatch(page,/agendar.*lexispredict-w1-capital/i);
 });
+
+
+test("W1 site portfolio exposes two honest fictional design demonstrations",()=>{
+  const commercial=read("sites/index.html");
+  assert.match(commercial,/id="demos"/);
+  for(const route of ["sites/demo-cafe/index.html","sites/demo-servicos/index.html"]){
+    assert.ok(existsSync(join(root,route)),route+" missing");
+    const sample=read(route);
+    assert.match(sample,/<html lang="pt-BR">/);
+    assert.match(sample,/name="robots" content="noindex,follow"/);
+    assert.match(sample,/FICTÍCIO|FICTÍCIA|FICTÍCIA/i);
+    assert.match(sample,/site demonstrativo|demonstração conceitual|projeto fictício/i);
+    assert.match(sample,/\.\.\/\.\.\//);
+    assert.doesNotMatch(sample,/cliente real|avaliação de clientes|garantido|dep[oó]imentos reais/i);
+  }
+  assert.match(commercial,/href="\.\/demo-cafe\/"/);
+  assert.match(commercial,/href="\.\/demo-servicos\/"/);
+  assert.match(commercial,/projetos fictícios|demonstrações fictícias/i);
+});
