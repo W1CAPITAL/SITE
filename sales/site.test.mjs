@@ -107,6 +107,6 @@ test("small-business website offer has a real route and discoverable homepage na
   assert.match(page,/type="checkbox"[^>]*name="consent"/);
   assert.match(brief,/encodeURIComponent/);
   assert.match(brief,/reportValidity/);
-  assert.match(page,/Sem contrato automático|sem contratação automática/i);
+  assert.match(page,/Não há contratação automática|Sem contrato automático/i);
   assert.doesNotMatch(page,/clientes satisfeitos|resultados garantidos|últimas vagas/i);
 });
