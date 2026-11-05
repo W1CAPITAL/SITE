@@ -105,6 +105,22 @@ footer{background:#240b1a;color:#f1d9e2;padding:30px 24px;font-size:13px}
 footer a{color:#fff}
 @media(max-width:850px){.hero-inner{grid-template-columns:1fr;padding-top:70px}.hero-showcase{max-width:500px;min-height:auto;margin:12px 0 0}.quote-layout{grid-template-columns:1fr;gap:25px}.quote .section-title{position:static}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.top-inner{align-items:start}.top nav{justify-content:flex-end;gap:12px}.top nav a:not(.cta-link){display:none}.hero-inner{padding-top:52px;padding-bottom:60px}.hero-showcase{display:none}.grid,.steps{grid-template-columns:1fr}.portfolio{display:block}.portfolio a{display:inline-block;margin-top:19px}.fields{grid-template-columns:1fr}main .section{padding:60px 20px}}
+.demo-section{background:#fff}
+.demo-previews{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:30px}
+.demo-link{border:1px solid #e3d4dc;border-radius:18px;background:#fffaf8;text-decoration:none;overflow:hidden;box-shadow:0 16px 36px #3d12240d;transition:transform .15s,border-color .15s}
+.demo-link:hover{transform:translateY(-3px);border-color:#b56c8c}
+.demo-art{height:215px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:28px}
+.demo-art:before{content:"";position:absolute;width:220px;height:220px;right:-70px;top:-80px;border-radius:50%;border:32px solid #ffffff22}
+.demo-art.cafe{background:linear-gradient(128deg,#314838,#c68d65)}
+.demo-art.business{background:linear-gradient(135deg,#0a2836,#1c6881)}
+.demo-art .demo-brand{position:relative;color:#fff;font:italic 36px Georgia,serif;letter-spacing:-.04em;text-shadow:0 5px 20px #0003}
+.demo-art.business .demo-brand{font:800 37px system-ui,Arial,sans-serif;letter-spacing:-.045em}
+.demo-art .sample-tag{position:absolute;left:19px;top:17px;padding:5px 10px;border-radius:30px;background:#fff9;color:#fff;font-size:10px;font-weight:900;letter-spacing:.1em}
+.demo-desc{display:block;padding:23px 25px 25px}
+.demo-desc strong{display:block;font:normal 26px Georgia,serif;line-height:1.2}
+.demo-desc small{display:block;font-size:13px;color:#756771;margin:10px 0 15px;line-height:1.7}
+.demo-desc b{font-size:12px;color:#7b2e50}
+@media(max-width:640px){.demo-previews{grid-template-columns:1fr}.demo-art{height:170px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 <script type="module" src="./brief.js"></script>
@@ -136,6 +152,12 @@ footer a{color:#fff}
 <article class="card"><span class="num">02 / CAMPANHAS</span><h3>Landing page</h3><p>Uma página objetiva para divulgar um produto, serviço ou campanha, com mensagem clara e um caminho direto para o contato.</p></article>
 <article class="card"><span class="num">03 / VITRINE</span><h3>Catálogo digital</h3><p>Organize produtos ou serviços em uma vitrine acessível no celular. Pedidos, pagamentos e integrações são definidos separadamente.</p></article>
 </div></section>
+<section class="demo-section" id="demos" aria-labelledby="demos-title"><div class="section">
+<div class="section-title"><span class="label">02 / VEJA DOIS ESTILOS EM FUNCIONAMENTO</span><h2 id="demos-title">Visualize o que podemos <em>criar para você.</em></h2><p>Estas são demonstrações fictícias desenvolvidas para apresentar possibilidades de design. Não são projetos de clientes nem representam empresas reais. Cada proposta real terá escopo, textos e identidade próprios.</p></div>
+<div class="demo-previews">
+<a class="demo-link" href="./demo-cafe/" aria-label="Abrir site demonstrativo fictício para cafeteria"><span class="demo-art cafe"><span class="sample-tag">CONCEITO FICTÍCIO</span><span class="demo-brand">Brisa Café</span></span><span class="demo-desc"><strong>Cafeteria de bairro</strong><small>Experiência editorial com identidade acolhedora, navegação adaptável ao celular e vitrine de produtos.</small><b>Explorar demonstração ↗</b></span></a>
+<a class="demo-link" href="./demo-servicos/" aria-label="Abrir site demonstrativo fictício para empresa de serviços"><span class="demo-art business"><span class="sample-tag">CONCEITO FICTÍCIO</span><span class="demo-brand">axis.</span></span><span class="demo-desc"><strong>Empresa de serviços</strong><small>Site institucional com proposta de valor clara, seções de serviços, etapas de atendimento e perguntas frequentes.</small><b>Explorar demonstração ↗</b></span></a>
+</div></div></section>
 <div class="examples"><section class="section" aria-labelledby="setores-titulo"><div class="section-title"><span class="label">02 / SEM LIMITAÇÃO A UM SETOR</span><h2 id="setores-titulo">Criação de sites para pequenos negócios, <em>independentemente do nicho.</em></h2><p>Trabalhamos com empresas de diferentes segmentos. A comunicação e os requisitos são adaptados ao tipo de negócio e às regras aplicáveis.</p></div>
 <div class="chips" aria-label="Exemplos de setores"><span>Comércio local</span><span>Restaurantes e cafés</span><span>Salões e estética</span><span>Prestadores de serviços</span><span>Profissionais autônomos</span><span>Educação</span><span>Escritórios</span><span>Empresas B2B</span><span>Outros segmentos</span></div></section></div>
 <section class="section" id="como-funciona" aria-labelledby="processo-titulo"><div class="section-title"><span class="label">03 / DO PRIMEIRO CONTATO AO SITE</span><h2 id="processo-titulo">Sem complicar o que <em>pode ser simples.</em></h2></div>
