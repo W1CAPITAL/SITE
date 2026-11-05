@@ -154,7 +154,7 @@
     const right=tri[1], top=tri[0];
     const entry=V(mix(top.x,right.x,mix(.18,.80,aim.x)),mix(top.y,right.y,mix(.18,.80,aim.x)));
     // The lamp arrives from the right, then disperses towards the left.
-    const incoming=norm(rotate(times(normals[0],-1),mix(.62,.98,1-aim.y)));
+    const incoming=norm(rotate(times(normals[0],-1),mix(.95,1.20,1-aim.y)));
     const far=Math.hypot(W,H)*1.65;
     const source=minus(entry,times(incoming,far));
     const count=mobile?44:72;
