@@ -57,3 +57,32 @@ test('W1 Capital navigation reaches portfolio from desktop, mobile and footer',(
  assert.ok((home.match(/href="\.\/portfolio\/"/g)||[]).length>=3);
  assert.match(home,/Portfólio Davi/);
 });
+test('unknown tab falls back to the professional home page',()=>{
+ const v=render('rota-inexistente');
+ assert.match(v.html,/Analista de Processos Jurídicos/);
+ assert.equal(v.links.find(l=>l.dataset.tab==='inicio')['aria-current'],'page');
+});
+test('all pages have exactly one primary heading and named navigation',()=>{
+ for(const t of tabs)assert.equal((render(t).html.match(/<h1\b/g)||[]).length,1,t);
+ assert.match(html,/aria-controls="navigation"/);
+ assert.match(html,/class="skip" href="#app"/);
+ assert.match(css,/prefers-reduced-motion:reduce/);
+});
+test('email form encodes the complete message and blocks invalid submissions',()=>{
+ let submit,valid=false;
+ const form={reportValidity:()=>valid,addEventListener(type,fn){if(type==='submit')submit=fn}};
+ const mock={addEventListener(){},classList:{toggle(){return false},remove(){}},setAttribute(){}};
+ const appNode={innerHTML:''},feedback={textContent:''},loc={search:'?tab=contato',href:''};
+ const doc={title:'',querySelector:()=>appNode,querySelectorAll:()=>[],getElementById:id=>id==='email-form'?form:id==='form-feedback'?feedback:mock};
+ const data={name:'Teste & revisão',email:'teste@example.com',subject:'Proposta: A & B?',message:'Olá!\nTecnologia + operação = projeto.'};
+ class TestFormData{get(key){return data[key]}}
+ vm.runInNewContext(app,{document:doc,location:loc,URLSearchParams,FormData:TestFormData,encodeURIComponent});
+ let prevented=0;submit({preventDefault(){prevented++}});assert.equal(loc.href,'');
+ valid=true;submit({preventDefault(){prevented++}});
+ assert.equal(prevented,2);
+ const url=new URL(loc.href);
+ assert.equal(url.protocol,'mailto:');assert.equal(url.pathname,'davialves.figueredo@gmail.com');
+ assert.equal(url.searchParams.get('subject'),data.subject);
+ for(const value of [data.name,data.email,data.message])assert.ok(url.searchParams.get('body').includes(value));
+ assert.match(feedback.textContent,/revisão/);
+});
