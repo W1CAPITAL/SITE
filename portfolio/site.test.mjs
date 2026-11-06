@@ -86,3 +86,26 @@ test('email form encodes the complete message and blocks invalid submissions',()
  for(const value of [data.name,data.email,data.message])assert.ok(url.searchParams.get('body').includes(value));
  assert.match(feedback.textContent,/revisão/);
 });
+
+
+test('visual assets preserve the existing seven-tab portfolio and real CV',()=>{
+ const assetNames=['hero-davi.webp','retratro-davi.webp','projeto-lexispredict.webp','projeto-w1capital.webp','projeto-autentica.webp','projeto-centro-operacional.webp','projeto-propostas.webp','projeto-automacoes.webp'];
+ for(const name of assetNames){
+  const file=path.join(dirname,'assets',name);
+  assert.ok(fs.existsSync(file),name+' missing');
+  assert.ok(fs.statSync(file).size>5000,name+' unexpectedly empty');
+ }
+ assert.match(html,/premium-fidelity\.css/);
+ assert.match(html,/Davi Alves Figueredo/);
+ assert.doesNotMatch(html+app,/Gabriel Menezes/i);
+ for(const tab of tabs){const page=render(tab).html;assert.match(page,/hero-davi\.webp|retratro-davi\.webp/,'portrait not integrated in '+tab);}
+ assert.match(render('sobre').html,/portrait-panel/);
+ assert.match(render('inicio').html,/projeto-w1capital\.webp/);
+ assert.match(render('projetos').html,/gallery-grid/);
+ assert.match(render('projetos').html,/projeto-autentica\.webp/);
+ assert.match(render('competencias').html,/skills-gallery/);
+ assert.match(render('contato').html,/contact-portrait/);
+ assert.match(render('contato').html,/davialves\.figueredo@gmail\.com/);
+ assert.match(render('formacao').html,/UNICID/);
+ assert.doesNotMatch(app,/20\+ projetos|15\+ sites|3\+ anos/i);
+});
