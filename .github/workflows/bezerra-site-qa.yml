@@ -20,4 +20,4 @@ jobs:
         with:
           node-version: '22'
       - name: Validate six pages, navigation, local forms and assets
-        run: node --test sites/demo-bezerra-menezes/site.test.mjs
+        run: node --test sites/demo-bezerra-menezes/*.test.mjs
