@@ -11,33 +11,33 @@ const PAGE={
  'contato':{name:'Contato',path:'contato',kicker:'CONTATO',heading:'Fale com uma advocacia preparada para ouvir, analisar e agir com <em>estratégia.</em>',summary:'Veja como funcionaria uma experiência de atendimento jurídico profissional, com clareza, organização e privacidade.',image:'hero-contato.webp',alt:'Escritório jurídico preto e dourado com balança, livros e monograma Bezerra Menezes'}
 };
 const SERVICES=[
- {icon:'⚖',title:'Direito Civil',desc:'Obrigações, contratos, relações patrimoniais e demandas civis.'},
- {icon:'♙',title:'Direito de Família',desc:'Questões familiares, guarda, divórcio, alimentos e partilha.'},
- {icon:'▣',title:'Direito Trabalhista',desc:'Análise de conflitos e orientação em relações de trabalho.'},
- {icon:'♧',title:'Direito Previdenciário',desc:'Benefícios, aposentadorias e questões previdenciárias.'},
- {icon:'▤',title:'Consultoria Jurídica',desc:'Orientação jurídica preventiva e avaliação de riscos.'},
- {icon:'◎',title:'Atuação Estratégica',desc:'Planejamento jurídico e análise de demandas complexas.'}
+ {icon:'scale',title:'Direito Civil',desc:'Obrigações, contratos, relações patrimoniais e demandas civis.'},
+ {icon:'users-round',title:'Direito de Família',desc:'Questões familiares, guarda, divórcio, alimentos e partilha.'},
+ {icon:'briefcase-business',title:'Direito Trabalhista',desc:'Análise de conflitos e orientação em relações de trabalho.'},
+ {icon:'hand-heart',title:'Direito Previdenciário',desc:'Benefícios, aposentadorias e questões previdenciárias.'},
+ {icon:'file-text',title:'Consultoria Jurídica',desc:'Orientação jurídica preventiva e avaliação de riscos.'},
+ {icon:'target',title:'Atuação Estratégica',desc:'Planejamento jurídico e análise de demandas complexas.'}
 ];
 const PILLARS=[
- {icon:'▥',title:'Autoridade jurídica',desc:'Estudo técnico e responsabilidade'},
- {icon:'♞',title:'Estratégia',desc:'Soluções pensadas para cada situação'},
- {icon:'♧',title:'Atendimento direto',desc:'Clareza, escuta e proximidade'},
- {icon:'◇',title:'Sigilo e confiança',desc:'Cuidado com cada informação'}
+ {icon:'landmark',title:'Autoridade jurídica',desc:'Estudo técnico e responsabilidade'},
+ {icon:'compass',title:'Estratégia',desc:'Soluções pensadas para cada situação'},
+ {icon:'handshake',title:'Atendimento direto',desc:'Clareza, escuta e proximidade'},
+ {icon:'shield-check',title:'Sigilo e confiança',desc:'Cuidado com cada informação'}
 ];
 const DIFFERENTIALS=[
- {icon:'♧',title:'Atendimento direto',desc:'Acolhimento atento e comunicação próxima.'},
- {icon:'⌕',title:'Análise profunda',desc:'Estudo das particularidades, dos riscos e das alternativas.'},
- {icon:'♞',title:'Estratégia personalizada',desc:'Uma conduta jurídica ajustada ao contexto.'},
- {icon:'◇',title:'Sigilo e confiança',desc:'Respeito à confidencialidade das informações.'},
- {icon:'☏',title:'Comunicação clara',desc:'Informações objetivas e linguagem compreensível.'},
- {icon:'◎',title:'Compromisso com soluções',desc:'Dedicação à defesa de direitos e à condução responsável.'}
+ {icon:'handshake',title:'Atendimento direto',desc:'Acolhimento atento e comunicação próxima.'},
+ {icon:'scan-search',title:'Análise profunda',desc:'Estudo das particularidades, dos riscos e das alternativas.'},
+ {icon:'route',title:'Estratégia personalizada',desc:'Uma conduta jurídica ajustada ao contexto.'},
+ {icon:'shield-check',title:'Sigilo e confiança',desc:'Respeito à confidencialidade das informações.'},
+ {icon:'messages-square',title:'Comunicação clara',desc:'Informações objetivas e linguagem compreensível.'},
+ {icon:'chart-no-axes-combined',title:'Compromisso com soluções',desc:'Dedicação à defesa de direitos e à condução responsável.'}
 ];
 const STEPS=[
- {icon:'▦',title:'Atendimento',desc:'Entendemos a necessidade, os objetivos e os fatos essenciais.'},
- {icon:'⌕',title:'Análise',desc:'Avaliamos as informações e os caminhos jurídicos possíveis.'},
- {icon:'▱',title:'Estratégia jurídica',desc:'Definimos uma proposta de atuação e os próximos passos.'},
- {icon:'⚖',title:'Condução técnica',desc:'Organizamos as medidas cabíveis e acompanhamos o andamento.'},
- {icon:'◎',title:'Retorno e orientação',desc:'Comunicamos os desdobramentos e as alternativas seguintes.'}
+ {icon:'calendar-days',title:'Atendimento',desc:'Entendemos a necessidade, os objetivos e os fatos essenciais.'},
+ {icon:'search-check',title:'Análise',desc:'Avaliamos as informações e os caminhos jurídicos possíveis.'},
+ {icon:'layers-3',title:'Estratégia jurídica',desc:'Definimos uma proposta de atuação e os próximos passos.'},
+ {icon:'gavel',title:'Condução técnica',desc:'Organizamos as medidas cabíveis e acompanhamos o andamento.'},
+ {icon:'clipboard-check',title:'Retorno e orientação',desc:'Comunicamos os desdobramentos e as alternativas seguintes.'}
 ];
 const FAQ=[
  ['O atendimento inicial tem algum custo?','Esta é uma demonstração de design. Valores, formas de atendimento e condições devem ser confirmados com o escritório responsável antes do uso oficial.'],
@@ -47,29 +47,47 @@ const FAQ=[
  ['O escritório atua em todo o Brasil?','A abrangência territorial precisa de confirmação antes da publicação de uma versão oficial.']
 ];
 
-function svgIcon(symbol,klass='icon'){
+function svgIcon(name,klass='icon'){
  const paths={
- '⚖':'<path d="M12 3v18M5 7h14M2 13l3-6 3 6H2Zm14 0 3-6 3 6h-6ZM8 21h8"/>',
- '♙':'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
- '▣':'<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/>',
- '♧':'<path d="m2 12 3 3 3-3M22 12l-3 3-3-3M8 10l2-2a3 3 0 0 1 4 0l3 2M8 14l4 4a2 2 0 0 0 3-3l-3-3M5 6l-3 3M19 6l3 3"/>',
- '▤':'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',
- '◎':'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/><path d="m19 5 3-3M19 2h3v3"/>',
- '▥':'<path d="m3 10 9-7 9 7M4 10h16M6 10v9M10 10v9M14 10v9M18 10v9M3 21h18"/>',
- '♞':'<path d="M7 21h13M6 17h12v4H6zM10 17l-2-6L5 9l1-5 4 1 3 3 3 1 2 8M9 12h2"/>',
- '◇':'<path d="M12 22c5-2 8-6 8-10V5l-8-3-8 3v7c0 4 3 8 8 10Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
- '⌕':'<circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/>',
- '☏':'<path d="M21 11.5a8 8 0 0 1-8.5 8.5 10 10 0 0 1-4.8-1L3 21l1.2-4a9 9 0 1 1 16.8-5.5Z"/><path d="M8 10c1.5 3 3.5 4.5 6 5"/>',
- '↗':'<path d="m3 17 6-6 4 4 8-8M15 7h6v6"/>',
- '▱':'<path d="m12 2 9 5-9 5-9-5 9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/>',
- '▦':'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h3"/>',
- '☆':'<path d="m12 2 3 6.5 7 1-5 5 1 7-5-3-5 3 1-7-5-5 7-1L12 2Z"/>',
- '✉':'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m3 6 9 7 9-7"/>',
- '⌖':'<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
- 'graduation':'<path d="m2 10 10-5 10 5-10 5L2 10ZM6 12v5c4 3 8 3 12 0v-5M22 10v6"/>',
- 'diamond':'<path d="M6 3h12l5 7-11 11L1 10l5-7ZM1 10h22M6 3l3 7 3 11 3-11 3-7"/>'
+ 'scale':'<path d="M12 3v18M5 7h14M3 16l3-8 3 8H3Zm12 0 3-8 3 8h-6ZM8 21h8"/>',
+ 'users-round':'<path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.9M17 3.1a4 4 0 0 1 0 7.8"/>',
+ 'briefcase-business':'<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/>',
+ 'hand-heart':'<path d="M12 21s-9-5-9-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 11-9 11Z"/><path d="M7 14c2.5 0 3-1 5-1s3 1 5 1"/>',
+ 'file-text':'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>',
+ 'target':'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/><path d="m17 7 4-4M17 3h4v4"/>',
+ 'landmark':'<path d="m3 10 9-7 9 7M3 10h18M5 10v9M10 10v9M14 10v9M19 10v9M2 21h20"/>',
+ 'compass':'<circle cx="12" cy="12" r="10"/><path d="m16.5 7.5-3.2 5.8-5.8 3.2 3.2-5.8 5.8-3.2Z"/>',
+ 'handshake':'<path d="m2 12 4-4 3 3M22 12l-4-4-3 3M9 12l2-2a2 2 0 0 1 3 0l4 4M7 14l4 4a2 2 0 0 0 3-3l-2-2M3 8l3-3 4 2M21 8l-3-3-4 2"/>',
+ 'shield-check':'<path d="M12 22c5-2 8-6 8-10V5l-8-3-8 3v7c0 4 3 8 8 10Z"/><path d="m8 12 3 3 5-6"/>',
+ 'scan-search':'<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><circle cx="11" cy="11" r="4"/><path d="m14 14 3 3"/>',
+ 'route':'<circle cx="6" cy="19" r="2"/><path d="M9 19h8a4 4 0 0 0 0-8H7a4 4 0 0 1 0-8h8"/><path d="m13 1 2 2-2 2"/>',
+ 'messages-square':'<path d="M19 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4l4-4h2"/><path d="M14 11h5a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-3l-3 2v-2"/>',
+ 'chart-no-axes-combined':'<path d="m3 17 6-6 4 4 8-8M15 7h6v6M3 21h18M4 15v6M10 13v8M16 11v10"/>',
+ 'calendar-days':'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 18h2"/>',
+ 'search-check':'<circle cx="11" cy="11" r="7"/><path d="m16 16 5 5M8 11l2 2 4-4"/>',
+ 'layers-3':'<path d="m12 2 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 17l9 5 9-5"/>',
+ 'gavel':'<path d="m14 3 7 7M12 5l7 7M3 18 15 6M2 21h15M4 21v-3h11v3"/>',
+ 'clipboard-check':'<rect x="5" y="5" width="14" height="17" rx="2"/><rect x="9" y="2" width="6" height="5" rx="1"/><path d="m9 15 2 2 4-4"/>',
+ 'heart-handshake':'<path d="M12 21s-8-5-9-10a5 5 0 0 1 9-4 5 5 0 0 1 9 4c-1 5-9 10-9 10Z"/><path d="m8 13 2-2 4 4 2-2"/>',
+ 'calendar-clock':'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7 2v4M17 2v4M3 9h18"/><circle cx="15" cy="15" r="4"/><path d="M15 13v2l1.5 1"/>',
+ 'message-circle':'<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.6 0-3.1-.3-4.4-1L3 21l1.5-4A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 12h8M8 9h5"/>',
+ 'files':'<path d="M15 2H6a2 2 0 0 0-2 2v14M10 6h8l3 3v11a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"/><path d="M18 6v3h3M12 13h5M12 17h5"/>',
+ 'badge-check':'<path d="m12 2 2.4 2 3.2-.1.8 3 2.8 1.7-1 3.1 1 3.1-2.8 1.7-.8 3-3.2-.1L12 22l-2.4-2-3.2.1-.8-3L2.8 15l1-3.1-1-3.1L5.6 7l.8-3 3.2.1L12 2Z"/><path d="m8 12 3 3 5-6"/>',
+ 'list-checks':'<path d="m3 7 2 2 3-3M11 7h10M3 17l2 2 3-3M11 17h10"/>',
+ 'user-round-check':'<circle cx="10" cy="8" r="4"/><path d="M2 21v-2a6 6 0 0 1 12 0v2M16 14l2 2 4-4"/>',
+ 'lock-keyhole':'<rect x="4" y="10" width="16" height="12" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1"/><path d="M12 16v2"/>',
+ 'graduation-cap':'<path d="m2 9 10-5 10 5-10 5L2 9ZM6 12v5c4 3 8 3 12 0v-5M22 9v7"/>',
+ 'gem':'<path d="M6 3h12l5 7-11 11L1 10l5-7ZM1 10h22M6 3l3 7 3 11 3-11 3-7"/>',
+ 'phone':'<path d="M22 17v3a2 2 0 0 1-2.2 2C10.8 21.3 3.7 14.2 3 5.2A2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.7l.5 3a2 2 0 0 1-.6 1.8L8 11.3a15 15 0 0 0 4.7 4.7l1.8-1.8a2 2 0 0 1 1.8-.6l3 .5A2 2 0 0 1 22 17Z"/>',
+ 'mail':'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m3 6 9 7 9-7"/>',
+ 'map-pin':'<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+ 'arrow-up-right':'<path d="M7 17 17 7M7 7h10v10"/>',
+ 'arrow-right':'<path d="M4 12h16M14 6l6 6-6 6"/>',
+ 'menu':'<path d="M4 7h16M4 12h16M4 17h16"/>',
+ 'x':'<path d="M18 6 6 18M6 6l12 12"/>'
  };
- return '<svg class="'+klass+'" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+(paths[symbol]||paths['◇'])+'</svg>';
+ if (!Object.prototype.hasOwnProperty.call(paths,name)) throw Error('Icone desconhecido: '+name);
+ return '<svg class="'+klass+'" data-bm-icon="'+name+'" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+paths[name]+'</svg>';
 }
 
 function root(){return document.documentElement.dataset.page==='inicio'?'./':'../'}
@@ -85,15 +103,15 @@ function hero(page){const v=PAGE[page];return '<section class="hero" aria-labell
 function pillars(data=PILLARS){return '<div class="pillar-bar"><div class="shell pillars">'+data.map(d=>'<div class="pillar">'+svgIcon(d.icon)+'<div><b>'+d.title+'</b><small>'+d.desc+'</small></div></div>').join('')+'</div></div>'}
 function manifesto(){const about=document.documentElement.dataset.page==='sobre';const photo=about?'manifesto-sobre.webp':'band-inicio.webp';return '<section class="manifesto"><div class="manifesto-art" style="background-image:url(\''+asset(photo)+'\')" role="img" aria-label="'+(about?'Balança da Justiça dourada, imagem editorial':'Escultura da Justiça, imagem editorial')+'"></div><div class="manifesto-body"><div class="manifesto-title"><small>NOSSA ESSÊNCIA</small>Manifesto<br>da marca</div><q>Mais do que defender direitos, acredito na força da <em>justiça</em>, na importância de cada história e no compromisso de transformar conhecimento jurídico em <em>soluções</em>, sempre com <em>ética, estratégia e dedicação.</em></q></div></section>'}
 function services(id='areas'){return '<section class="section marble" id="'+id+'"><div class="shell">'+title('ÁREAS DE ATUAÇÃO','Soluções jurídicas completas e especializadas','Seis frentes ilustrativas que podem compor a apresentação da banca, sujeitas à validação da atuação real.')+'<div class="card-grid">'+SERVICES.map(d=>card(d)).join('')+'</div></div></section>'}
-function benefits(){const data=[{icon:'⌕',title:'Análise precisa',desc:'Atenção aos fatos e à fundamentação jurídica.'},{icon:'▱',title:'Atuação estratégica',desc:'Planejamento e avaliação das alternativas.'},{icon:'☏',title:'Comunicação clara',desc:'Orientações em linguagem acessível.'},{icon:'↗',title:'Compromisso com soluções',desc:'Foco na condução responsável de cada demanda.'}];return section('<div class="shell-inner" id="beneficios"><div class="heading" data-reveal><span class="line-mark">DIFERENCIAIS</span><h2>Por que confiar na <em>Bezerra Menezes</em></h2></div><div class="benefit-grid">'+data.map(d=>'<div class="benefit" data-reveal>'+svgIcon(d.icon)+'<div><b>'+d.title+'</b><span>'+d.desc+'</span></div></div>').join('')+'</div></div>','tight')}
+function benefits(){const data=[{icon:'scan-search',title:'Análise precisa',desc:'Atenção aos fatos e à fundamentação jurídica.'},{icon:'compass',title:'Atuação estratégica',desc:'Planejamento e avaliação das alternativas.'},{icon:'messages-square',title:'Comunicação clara',desc:'Orientações em linguagem acessível.'},{icon:'chart-no-axes-combined',title:'Compromisso com soluções',desc:'Foco na condução responsável de cada demanda.'}];return section('<div class="shell-inner" id="beneficios"><div class="heading" data-reveal><span class="line-mark">DIFERENCIAIS</span><h2>Por que confiar na <em>Bezerra Menezes</em></h2></div><div class="benefit-grid">'+data.map(d=>'<div class="benefit" data-reveal>'+svgIcon(d.icon)+'<div><b>'+d.title+'</b><span>'+d.desc+'</span></div></div>').join('')+'</div></div>','tight')}
 function steps(count=5){const items=STEPS.slice(0,count);return '<section class="section marble" id="processo"><div class="shell">'+title('NOSSO PROCESSO DE ATUAÇÃO','Da primeira conversa ao próximo passo','Um fluxo ilustrativo para orientar a apresentação de serviços profissionais.')+'<div class="process-grid">'+items.map((x,i)=>'<article class="step" data-reveal><span class="step-num">'+(i+1)+'</span>'+svgIcon(x.icon,"step-icon")+'<h3>'+x.title+'</h3><p>'+x.desc+'</p></article>').join('')+'</div></div></section>'}
 function band(page,head,entries){return '<section class="band"><div class="band-picture" style="background-image:url(\''+asset('band-'+page+'.webp')+'\')" role="img" aria-label="Fotografia artística do conceito visual"></div><div class="band-content"><h2>'+head+'</h2><div class="band-list">'+entries.map((e,i)=>'<div class="band-point">'+svgIcon(['◇','⌕','♧'][i%3])+'<div><b>'+e[0]+'</b><small>'+e[1]+'</small></div></div>').join('')+'</div></div></section>'}
-function values(){const arr=[{icon:'⚖',title:'Ética',desc:'Conduta comprometida com transparência e responsabilidade.'},{icon:'♞',title:'Estratégia',desc:'Olhar técnico e planejamento individualizado.'},{icon:'♧',title:'Dedicação',desc:'Atenção às particularidades de cada história.'},{icon:'☏',title:'Clareza',desc:'Comunicação simples, direta e respeitosa.'}];return section(title('NOSSOS VALORES','Princípios que orientam nossa atuação')+'<div class="values-grid">'+arr.map(x=>card(x,'value-card')).join('')+'</div>','tight')}
+function values(){const arr=[{icon:'scale',title:'Ética',desc:'Conduta comprometida com transparência e responsabilidade.'},{icon:'compass',title:'Estratégia',desc:'Olhar técnico e planejamento individualizado.'},{icon:'heart-handshake',title:'Dedicação',desc:'Atenção às particularidades de cada história.'},{icon:'messages-square',title:'Clareza',desc:'Comunicação simples, direta e respeitosa.'}];return section(title('NOSSOS VALORES','Princípios que orientam nossa atuação')+'<div class="values-grid">'+arr.map(x=>card(x,'value-card')).join('')+'</div>','tight')}
 function about(){return '<section class="section marble founder-section" aria-labelledby="founder-title"><div class="shell split"><div class="split-art founder-portrait" style="background-image:url(\''+asset('portrait-sobre.webp')+'\')" role="img" aria-label="Retrato editorial feminino ilustrativo, não é fotografia autenticada da advogada"></div><div class="split-content" data-reveal><span class="kicker">A FUNDADORA</span><h2 id="founder-title">Dra. Bezerra Menezes</h2><p class="founder-role">Advogada e Fundadora</p><p>O conceito apresenta a Dra. Bezerra Menezes como símbolo de uma advocacia marcada pela ética, visão estratégica e respeito à história de cada cliente.</p><p>Uma apresentação pautada por clareza, dedicação e responsabilidade na condução das demandas jurídicas.</p><div class="founder-highlights"><span>'+svgIcon("graduation")+'Atuação jurídica</span><span>'+svgIcon("◇")+'Ética profissional</span><span>'+svgIcon("⚖")+'Visão estratégica</span></div><p class="legal-note">Retrato ilustrativo. Formação, registro profissional e histórico precisam ser confirmados com a responsável antes de publicação oficial.</p></div></div></section>'}
 function timeline(){const arr=[['01','Escuta','Compreender as necessidades e objetivos.'],['02','Análise','Estudar fatos, documentos e alternativas.'],['03','Estratégia','Estruturar a atuação adequada.'],['04','Acompanhamento','Comunicar decisões e próximos passos.']];return section(title('NOSSA TRAJETÓRIA','Uma história de <em>solidez e confiança.</em>','Uma apresentação editorial de método, sem inventar datas de fundação ou conquistas.')+'<div class="timeline">'+arr.map(a=>'<article class="milestone" data-reveal><b>'+a[0]+'</b><h3>'+a[1]+'</h3><p>'+a[2]+'</p></article>').join('')+'</div>')}
 function differenceDetails(){return section(title('NOSSOS DIFERENCIAIS','Pilares que elevam a experiência jurídica')+'<div class="card-grid" id="pilares">'+DIFFERENTIALS.map(d=>card(d)).join('')+'</div>')}
 function comparison(){const arr=[['Atendimento','Escuta atenta e orientação individualizada'],['Análise do caso','Consideração dos fatos, documentos e riscos'],['Estratégia','Planejamento conforme objetivos e contexto'],['Comunicação','Informações claras e acompanhamento'],['Sigilo','Tratamento responsável dos dados e documentos']];return section(title('NOSSA PROPOSTA DE VALOR','O que significa uma atuação <em>estratégica?</em>')+'<div class="table-scroll"><table class="difference-table"><thead><tr><th>Compromisso</th><th>Experiência proposta</th></tr></thead><tbody>'+arr.map(x=>'<tr><td>'+x[0]+'</td><td>✓ &nbsp; '+x[1]+'</td></tr>').join('')+'</tbody></table></div><p class="legal-note">Apresentação conceitual, não prova de desempenho, métricas de clientes ou comparação factual com concorrentes.</p>')}
-function caseInformation(){const arr=[{icon:'▦',title:'Prazos',desc:'Cada situação exige estimativa compatível com a complexidade e os prazos aplicáveis.'},{icon:'☏',title:'Comunicação',desc:'Orientações por canais de contato validados, com clareza de expectativas.'},{icon:'▤',title:'Documentação necessária',desc:'Solicitação de documentos pertinentes por meios apropriados e seguros.'},{icon:'☆',title:'Padrões de atendimento',desc:'Conduta responsável, escuta respeitosa e informação acessível.'}];return section(title('INFORMAÇÕES IMPORTANTES','O que você precisa saber sobre a condução do seu caso')+'<div class="values-grid">'+arr.map(d=>card(d,'value-card')).join('')+'</div>')}
+function caseInformation(){const arr=[{icon:'calendar-clock',title:'Prazos',desc:'Cada situação exige estimativa compatível com a complexidade e os prazos aplicáveis.'},{icon:'message-circle',title:'Comunicação',desc:'Orientações por canais de contato validados, com clareza de expectativas.'},{icon:'files',title:'Documentação necessária',desc:'Solicitação de documentos pertinentes por meios apropriados e seguros.'},{icon:'badge-check',title:'Padrões de atendimento',desc:'Conduta responsável, escuta respeitosa e informação acessível.'}];return section(title('INFORMAÇÕES IMPORTANTES','O que você precisa saber sobre a condução do seu caso')+'<div class="values-grid">'+arr.map(d=>card(d,'value-card')).join('')+'</div>')}
 function clientExperience(){return band('como-funciona','Mais do que um serviço jurídico, <em>uma condução com clareza, eficiência e segurança.</em>',[['Clareza','Entenda as possibilidades e etapas.'],['Organização','Acompanhamento dos passos combinados.'],['Segurança','Respeito ao sigilo e à responsabilidade jurídica.']])}
 function form(short=false){return '<form class="demo-form" autocomplete="off" novalidate><div class="form-grid">'+
 '<div class="form-field '+(short?'all':'')+'"><label for="contact-name">Nome completo *</label><input id="contact-name" name="nome" required maxlength="100" autocomplete="name" placeholder="Seu nome"></div>'+
@@ -113,8 +131,8 @@ function layout(page){const content={
  sobre:()=>manifesto()+about()+values()+timeline()+band('sobre','Confiança, solidez e <em>propósito</em> em cada história.',[['Ética','Respeito ao compromisso profissional.'],['Estratégia','Conhecimento aplicado a cada situação.']]),
  atuacao:()=>services()+band('atuacao','Método, análise e atenção personalizada <em>em cada caso.</em>',[['Método','Planejamento jurídico.'],['Análise','Estudo de alternativas.'],['Atendimento','Comunicação responsável.']])+benefits()+steps(4),
  diferenciais:()=>differenceDetails()+comparison()+band('diferenciais','Experiência jurídica marcada por <em>confiança e responsabilidade.</em>',[['Profissionalismo','Coerência entre discurso e entrega.'],['Clareza','Orientação objetiva e acessível.'],['Sigilo','Respeito aos dados de cada pessoa.']])+benefits(),
- 'como-funciona':()=>pillars([{icon:'⚖',title:'Processo transparente',desc:'Compreensão das etapas'},{icon:'♧',title:'Atuação estratégica',desc:'Planejamento da conduta'},{icon:'◇',title:'Segurança jurídica',desc:'Responsabilidade técnica'},{icon:'↗',title:'Foco em soluções',desc:'Próximos passos claros'}])+steps(5)+caseInformation()+clientExperience(),
- contato:()=>pillars([{icon:'▥',title:'Atendimento personalizado',desc:'Escuta e clareza'},{icon:'◇',title:'Sigilo e segurança',desc:'Cuidado com informações'},{icon:'⚖',title:'Análise jurídica',desc:'Responsabilidade técnica'},{icon:'◎',title:'Foco em soluções',desc:'Direcionamento objetivo'}])+contactFull()+faq()+band('contato','Prefere falar com <em>um profissional?</em>',[['Confirme os canais','Use apenas telefones e e-mails publicados pelo escritório responsável.']])
+ 'como-funciona':()=>pillars([{icon:'list-checks',title:'Processo transparente',desc:'Compreensão das etapas'},{icon:'compass',title:'Atuação estratégica',desc:'Planejamento da conduta'},{icon:'shield-check',title:'Segurança jurídica',desc:'Responsabilidade técnica'},{icon:'target',title:'Foco em soluções',desc:'Próximos passos claros'}])+steps(5)+caseInformation()+clientExperience(),
+ contato:()=>pillars([{icon:'user-round-check',title:'Atendimento personalizado',desc:'Escuta e clareza'},{icon:'lock-keyhole',title:'Sigilo e segurança',desc:'Cuidado com informações'},{icon:'search-check',title:'Análise jurídica',desc:'Responsabilidade técnica'},{icon:'target',title:'Foco em soluções',desc:'Direcionamento objetivo'}])+contactFull()+faq()+band('contato','Prefere falar com <em>um profissional?</em>',[['Confirme os canais','Use apenas telefones e e-mails publicados pelo escritório responsável.']])
  };
 return navbar(page)+'<main id="conteudo">'+hero(page)+(page==='inicio'||page==='sobre'||page==='atuacao'||page==='diferenciais'?pillars():'')+content[page]()+closing()+'</main>'+footer()}
 function wire(){
