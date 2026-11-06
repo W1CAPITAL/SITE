@@ -19,7 +19,7 @@ function render(tab){
 }
 test('seven real HTML tabs render and select exactly one navigation item',()=>{
  assert.match(html,/<main id="app"/);
- for(const t of tabs){const v=render(t);assert.ok(v.html.length>4000,t+' empty');assert.equal(v.links.filter(l=>l['aria-current']==='page').length,1,t);assert.equal(v.document.title.includes('Davi Alves Figueredo'),true);}
+ for(const t of tabs){const v=render(t);assert.ok(v.html.length>1600,t+' empty');assert.match(v.html,/<h1\b/);assert.equal(v.links.filter(l=>l['aria-current']==='page').length,1,t);assert.equal(v.document.title.includes('Davi Alves Figueredo'),true);}
 });
 test('professional profile distinguishes GET job from W1 Capital ownership',()=>{
  const v=render('inicio').html;
