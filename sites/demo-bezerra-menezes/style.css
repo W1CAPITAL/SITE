@@ -38,3 +38,46 @@ main{min-height:60vh}
 .brand-original img{display:block;width:clamp(164px,18vw,220px);height:auto;max-width:100%;object-fit:contain}
 .footer .brand-original img{width:175px}
 @media(max-width:640px){.brand-original img{width:162px}.footer .brand-original img{width:152px}}
+
+
+/* Premium interaction refinement: real scalable buttons, consistent vector iconography. */
+.btn{border-radius:999px;padding:11px 23px;min-height:44px;letter-spacing:.005em;box-shadow:inset 0 1px 0 #fff2}
+.nav-cta{border-radius:999px;padding:11px 22px;min-height:42px}
+.menu-toggle{border-radius:12px}
+.contact-box,.service-card,.info-card,.value-card{border-radius:13px}
+.form-field input,.form-field select,.form-field textarea{border-radius:10px}
+.faq details{border-radius:10px}
+.btn:active,.nav-cta:active{transform:translateY(0) scale(.988)}
+.icon,.step-icon{display:inline-block;flex:none;width:27px;height:27px;stroke:currentColor;stroke-width:1.6;color:#e5bb66;vertical-align:middle}
+.pillar .icon{width:29px;height:29px}
+.service-card .icon{width:33px;height:33px}
+.value-card .icon{width:33px;height:33px;margin-bottom:13px}
+.benefit .icon,.band-point .icon{width:26px;height:26px}
+.step .step-icon{width:26px;height:26px;color:#efc977;vertical-align:middle}
+.contact-channel .icon{width:27px;height:27px}
+.founder-section .split{grid-template-columns:minmax(0,41%) minmax(0,59%);gap:0;align-items:stretch}
+.founder-section .founder-portrait{min-height:335px;background-position:center 38%;background-size:cover;border-right:0}
+.founder-section .split-content{padding:32px clamp(25px,3.4vw,49px);align-self:center}
+.founder-section h2{font-size:clamp(32px,3.6vw,46px);margin:10px 0 2px;color:var(--ivory)}
+.founder-role{font:normal 22px/1.2 var(--serif);color:var(--gold)!important;margin:0 0 16px!important}
+.founder-highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0 20px;border-block:1px solid #c4994d50;padding:14px 0}
+.founder-highlights span{display:flex;align-items:center;gap:9px;color:#efe5d2;font-size:11px;font-weight:600;line-height:1.4;min-width:0}
+.founder-highlights span+span{border-left:1px solid var(--hair);padding-left:12px}
+.founder-highlights .icon{width:26px;height:26px;color:#dfb65b}
+.founder-section .legal-note{margin-top:18px}
+@media(max-width:920px){
+  .founder-section .split{grid-template-columns:minmax(0,42%) minmax(0,58%)}
+  .founder-section .split-content{padding:23px 20px}
+  .founder-highlights{grid-template-columns:1fr;gap:10px}
+  .founder-highlights span+span{padding-left:0;border-left:0}
+}
+@media(max-width:640px){
+  .btn,.nav-cta{border-radius:999px}
+  .founder-section .split{display:block}
+  .founder-section .founder-portrait{min-height:285px;background-size:cover;background-position:center 38%}
+  .founder-section .split-content{padding:23px 5px}
+  .founder-highlights{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .founder-highlights span{display:grid;justify-items:start;font-size:10px}
+  .founder-highlights span+span{padding-left:8px;border-left:1px solid var(--hair)}
+}
+@media(prefers-reduced-motion:reduce){.btn:active,.nav-cta:active{transform:none}}
