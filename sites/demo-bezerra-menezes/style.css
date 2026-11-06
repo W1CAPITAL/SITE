@@ -81,3 +81,8 @@ main{min-height:60vh}
   .founder-highlights span+span{padding-left:8px;border-left:1px solid var(--hair)}
 }
 @media(prefers-reduced-motion:reduce){.btn:active,.nav-cta:active{transform:none}}
+
+/* Vector icons inside CTA text, scaled independently of browser zoom. */
+.cta-icon{display:inline-block;width:16px;height:16px;flex:none;color:inherit;vertical-align:middle}
+.btn:hover .cta-icon,.nav-cta:hover .cta-icon{transform:translateX(2px);transition:transform .2s ease}
+@media(prefers-reduced-motion:reduce){.btn:hover .cta-icon,.nav-cta:hover .cta-icon{transform:none}}
