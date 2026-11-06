@@ -30,4 +30,8 @@ for page, url in SRC.items():
     bottom = 415 if page == "diferenciais" else 445 if page == "atuacao" else 423
     img.crop((580, 132, 1122, bottom)).save(BASE / f"hero-{page}.webp", "WEBP", quality=90, method=5)
     img.crop(BANDS[page]).save(BASE / f"band-{page}.webp", "WEBP", quality=90, method=5)
+    if page == "inicio":
+        img.crop((64, 82, 272, 150)).save(BASE / "logo-bm.webp", "WEBP", quality=94, method=5)
+    if page == "sobre":
+        img.crop((0, 519, 330, 752)).save(BASE / "portrait-sobre.webp", "WEBP", quality=92, method=5)
     print("Imported", page)
