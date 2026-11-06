@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - .github/workflows/import-bezerra.yml
+      - scripts/import_bezerra_visuals.py
   workflow_dispatch:
 permissions:
   contents: write
