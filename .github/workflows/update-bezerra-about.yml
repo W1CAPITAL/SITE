@@ -1,0 +1,33 @@
+name: Bezerra Menezes · Atualizar arte da fundadora
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/update-bezerra-about.yml
+      - scripts/update_bezerra_about_assets.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  optimize-approved-art:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow
+        run: python -m pip install Pillow
+      - name: Crop unique approved image regions
+        run: python scripts/update_bezerra_about_assets.py
+      - name: Commit permanent original visual fragments
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sites/demo-bezerra-menezes/assets/hero-sobre.webp sites/demo-bezerra-menezes/assets/manifesto-sobre.webp sites/demo-bezerra-menezes/assets/portrait-sobre.webp
+          git diff --cached --quiet && exit 0
+          git commit -m "assets(bezerra): replace duplicate visuals with approved female founder concept [skip ci]"
+          git push origin HEAD:main
