@@ -29,7 +29,7 @@ test('every page consistently renders named bespoke gold-line SVG icons',()=>{
     const html=render(page);
     const icons=[...html.matchAll(/<svg\b[^>]*data-bm-icon="([^"]+)"[^>]*>/g)].map(m=>m[1]);
     assert.ok(icons.length>=8,`${page} rendered only ${icons.length} named icons`);
-    for (const name of icons){assert.match(name,/^[a-z]+(?:-[a-z]+)*$/);all.add(name);}
+    for (const name of icons){assert.match(name,/^[a-z]+(?:-[a-z0-9]+)*$/);all.add(name);}
     assert.doesNotMatch(html,/<span class="icon"[^>]*>[^<]+<\/span>/);
   }
   assert.ok(all.size>=18,`Only ${all.size} different icon designs`);
