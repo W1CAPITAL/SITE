@@ -1,0 +1,108 @@
+/* AUTENTICA / Fidelity layer for original user-approved 2026-11-06 visual concepts.
+   Only photographic crops are used; headings, navigation and forms remain accessible DOM.
+   Temporary signed reference images always have a persistent stock fallback. */
+:root{--bronze:#d1a067;--copper:#c48b49;--forest:#002c22;--cream:#f9f3ec}
+.hero-art.hero-reference:before{
+  inset:0!important;
+  background-image:var(--ref-hero),var(--hero-photo)!important;
+  background-size:225% auto,cover!important;
+  background-position:right 13%,center!important;
+  background-repeat:no-repeat,no-repeat!important;
+  filter:none!important;
+  transform:translate3d(var(--mx),var(--my),0) scale(1.01)!important;
+  transition:transform .8s cubic-bezier(.19,1,.22,1)!important
+}
+.hero-art.hero-reference:after{
+  background:linear-gradient(90deg,#002d24c2 0%,#002d2438 22%,transparent 51%),linear-gradient(0deg,#00231b11,transparent 40%)!important
+}
+.hero-art.hero-reference .art-symbol{display:none!important}
+.hero-art.hero-reference .art-overlay{display:none!important}
+.hero,.hero:before{background:#002b23!important}
+.hero-inner{min-height:400px!important}
+.hero.strong .hero-inner{min-height:440px!important}
+.hero-copy{width:min(55.5%,730px)!important}
+.hero h1{font-size:clamp(37px,4.05vw,59px)!important;line-height:1.09!important;text-wrap:balance;max-width:690px!important}
+.hero-copy p{max-width:510px!important}
+.hero-art.hero-reference{width:54%!important;overflow:hidden}
+html[data-page="inicio"] .hero h1{max-width:680px!important}
+html[data-page="sobre"] .hero h1{max-width:600px!important}
+html[data-page="solucoes"] .hero h1{max-width:660px!important}
+html[data-page="atuacao"] .hero h1{max-width:670px!important}
+html[data-page="como-funciona"] .hero h1{max-width:680px!important}
+html[data-page="contato"] .hero h1{max-width:620px!important}
+.feature-photo.photo-justice,.feature-photo.photo-justice-about,.feature-photo.photo-hourglass{
+  background-repeat:no-repeat!important;
+  background-size:305% auto,cover!important;
+  background-position:left 82.5%,center!important;
+  filter:none;min-height:320px
+}
+.feature-photo.photo-justice-about{background-position:left 82.5%,center!important}
+.feature-photo.photo-hourglass{background-position:left 88%,center!important}
+.feature-photo.photo-justice:after,
+.feature-photo.photo-justice-about:after,
+.feature-photo.photo-hourglass:after{background:linear-gradient(90deg,transparent 55%,#003e30bb)!important}
+.split-photo.photo-portrait{
+  background-repeat:no-repeat!important;
+  background-size:300% auto,cover!important;
+  background-position:left 55%,center!important;
+  min-height:375px!important;box-shadow:none!important;
+  filter:none
+}
+.split-photo.photo-portrait:after{display:none!important}
+.map-art.map-reference{
+  min-height:440px!important;
+  background-repeat:no-repeat!important;
+  background-size:350% auto,cover!important;
+  background-position:43% 45%,center!important;
+  background-color:#f7f0e7!important;
+  border:0!important;box-shadow:none!important
+}
+.section-heading h2{max-width:660px}
+.service-card{padding:25px 25px 23px!important}
+.service-card h3{font-size:24px!important}
+.service-card p{font-size:11.6px!important;line-height:1.5!important}
+.service-icon{color:#b27a42!important;font-size:30px!important}
+.value-grid{border-top:1px solid #dfc5a8}
+html[data-page="sobre"] .value-grid{background:#00392c;color:#fff;border:0;padding:32px 27px;margin:0 -10px}
+html[data-page="sobre"] .value-card{border-color:#cca67181}
+html[data-page="sobre"] .value-card h3{color:#fff5e6}
+html[data-page="sobre"] .value-card p{color:#d4ded5}
+html[data-page="sobre"] .value-card .symbol{color:#eab67a}
+html[data-page="sobre"] .paper-alt:has(.value-grid){background:#00392c}
+html[data-page="sobre"] .paper-alt:has(.value-grid) .section-heading h2{color:#fff}
+html[data-page="sobre"] .paper-alt:has(.value-grid) .section-heading p{color:#d0ddd1}
+html[data-page="sobre"] .paper-alt:has(.value-grid) .eyebrow-dark{color:#e8bc83}
+html[data-page="sobre"] .paper-alt:has(.value-grid) .section-heading h2 em{color:#ebb67b}
+html[data-page="atuacao"] .place-layout{grid-template-columns:1fr 1fr}
+html[data-page="atuacao"] .map-art{order:1}
+html[data-page="atuacao"] .place-layout > div:nth-child(2){order:2}
+html[data-page="como-funciona"] .step-grid{margin-top:38px}
+html[data-page="como-funciona"] .step:before{margin-top:-4px}
+html[data-page="contato"] .contact-layout{grid-template-columns:1.1fr .9fr}
+html[data-page="contato"] .contact-form,html[data-page="contato"] .contact-aside{background:#fcf6ed}
+@media(max-width:1040px){
+ .hero-copy{width:59%!important}
+ .hero-art.hero-reference{width:52%!important}
+ .hero h1{font-size:clamp(38px,4.2vw,53px)!important}
+}
+@media(max-width:850px){
+ .hero-copy{width:100%!important}
+ .hero-art.hero-reference{width:100%!important;height:310px!important;min-height:310px!important}
+ .hero-art.hero-reference:before{background-size:220% auto,cover!important;background-position:right 13%,center!important}
+ .hero-inner,.hero.strong .hero-inner{min-height:0!important}
+ .hero-copy h1{max-width:720px!important}
+ html[data-page="atuacao"] .place-layout{grid-template-columns:1fr}
+}
+@media(max-width:580px){
+ .hero h1{font-size:clamp(34px,9.1vw,47px)!important}
+ .hero-art.hero-reference{height:240px!important;min-height:240px!important}
+ .hero-art.hero-reference:before{background-size:220% auto,cover!important;background-position:right 13%,center!important}
+ .feature-photo.photo-justice,.feature-photo.photo-hourglass,.feature-photo.photo-justice-about{min-height:240px!important}
+ .split-photo.photo-portrait{min-height:260px!important}
+ .map-art.map-reference{min-height:330px!important}
+ .service-card{padding:23px!important}
+ html[data-page="sobre"] .value-grid{padding:17px 23px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-art.hero-reference:before{transform:none!important;transition:none!important}
+}
