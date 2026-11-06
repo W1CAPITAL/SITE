@@ -1,0 +1,23 @@
+name: Bezerra Menezes prototype QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - sites/demo-bezerra-menezes/**
+      - sites/index.html
+      - .github/workflows/bezerra-site-qa.yml
+  pull_request:
+    paths:
+      - sites/demo-bezerra-menezes/**
+      - sites/index.html
+      - .github/workflows/bezerra-site-qa.yml
+jobs:
+  static-site-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate six pages, navigation, local forms and assets
+        run: node --test sites/demo-bezerra-menezes/site.test.mjs
