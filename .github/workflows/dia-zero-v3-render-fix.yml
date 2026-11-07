@@ -1,4 +1,4 @@
-name: Dia Zero V3 - final corrigido 96 quadros
+name: Dia Zero V3 - final HQ cenas sincronizadas
 on:
   push:
     branches: [dia-zero-v3-96-quadros-audio-sincronizado]
@@ -90,7 +90,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: DIA_ZERO_V3_FILME_FINAL_96_QUADROS
+          name: DIA_ZERO_V3_FILME_96_CENAS_SINCRONIZADAS
           path: |
             Dia_Zero_V3_HQ_96_Quadros_2_Minutos_1080p.mp4
             Dia_Zero_V3_HQ_96_Quadros_Celular.mp4
