@@ -1,0 +1,53 @@
+name: LexisPredict natural Brazilian male gamer voice (VoxCPM2)
+on:
+  push:
+    branches: [lexis-pixel-natural-voice-20261107]
+    paths: [.github/workflows/lexis-voxcpm-voice.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthesize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install VoxCPM2 engine supported by VoiceStudio
+        run: |
+          python -m pip install -q --upgrade pip
+          python -m pip install -q 'voxcpm>=2.0.3' soundfile
+      - name: Generate natural, lively male PT-BR gaming reel voice
+        run: |
+          python - <<'PY'
+          import os, soundfile as sf
+          from voxcpm import VoxCPM
+          print('Loading VoxCPM2',flush=True)
+          engine=VoxCPM.from_pretrained('openbmb/VoxCPM2',load_denoiser=False)
+          lines=[
+          'Seu escritório ainda tá no modo difícil?',
+          'Cliente chamando! Processo perdido! Cadê o retorno?',
+          'E o relógio... não perdoa!',
+          'Calma! Chegou o seu novo power-up!',
+          'LexisPredict: clientes, processos e retornos num só lugar!',
+          'Bora subir de nível? Pede uma demonstração!',
+          ]
+          os.makedirs('generated-voxcpm',exist_ok=True)
+          prompt='A male Brazilian Portuguese streamer in his twenties speaking clearly in a natural Sao Paulo accent, energetic, emotionally expressive and spontaneous, lively highs and lows, smiling, urgent and excited, quick rhythm, no robotic cadence'
+          for i,line in enumerate(lines,1):
+              text='('+prompt+')'+line
+              print('Generating',i,line,flush=True)
+              speech=engine.generate(text=text,cfg_value=2.0,inference_timesteps=8,seed=8200+i)
+              sf.write(f'generated-voxcpm/scene_{i:02d}.wav',speech,engine.tts_model.sample_rate)
+              print('Saved',i, len(speech)/engine.tts_model.sample_rate,flush=True)
+          PY
+      - name: Save generated audio even if partially complete
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexispredict-voxcpm2-natural-ptbr
+          path: generated-voxcpm/*
+          if-no-files-found: warn
+          retention-days: 7
