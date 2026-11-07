@@ -51,6 +51,12 @@ jobs:
               json.dump(result,f,indent=2)
           print('Genjutsu offline normalize passed:', result)
           PY
+      - name: Retrieve original LexisPredict onboarding video from W1 GitHub
+        run: |
+          curl --fail --location --retry 2 --max-time 100 \
+            https://raw.githubusercontent.com/W1CAPITAL/LexisPredict/main/public/Onboarding_LexisPredict.mp4 \
+            --output out/w1-reel-real-sites/Lexis_Onboarding_Source.mp4
+          ffprobe -v error -show_entries stream=codec_name,width,height -show_entries format=duration -of json out/w1-reel-real-sites/Lexis_Onboarding_Source.mp4
       - name: Probe exported video and audio
         run: |
           ffprobe -v error -show_entries stream=codec_name,width,height -show_entries format=duration -of json out/w1-reel-real-sites/w1-reel-sites-REAL.mp4
@@ -66,5 +72,6 @@ jobs:
             out/w1-reel-real-sites/provenance.json
             out/w1-reel-real-sites/genjutsu-normalize.json
             out/w1-reel-real-sites/genjutsu-offline-prepared.mp4
+            out/w1-reel-real-sites/Lexis_Onboarding_Source.mp4
           retention-days: 7
           if-no-files-found: error
