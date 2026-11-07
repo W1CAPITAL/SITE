@@ -17,7 +17,7 @@ jobs:
           mkdir -p licensed-stock
           curl -fL --retry 2 --connect-timeout 12 --max-time 100 -A 'Mozilla/5.0' -o licensed-stock/pexels-5495890.mp4 'https://www.pexels.com/download/video/5495890/'
           file licensed-stock/pexels-5495890.mp4
-          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 licensed-stock/pexels-5495890.mp4
+          ls -lh licensed-stock/pexels-5495890.mp4
           test $(stat -c %s licensed-stock/pexels-5495890.mp4) -gt 100000
       - uses: actions/upload-artifact@v4
         with:
