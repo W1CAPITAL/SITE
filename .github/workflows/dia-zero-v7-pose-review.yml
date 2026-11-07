@@ -1,0 +1,21 @@
+name: DIA ZERO V7 - inspecao visual das poses animadas
+on:
+  push:
+    branches: [dia-zero-v7-objetos-personagens-animados-20261107]
+    paths: [.github/workflows/dia-zero-v7-pose-review.yml]
+permissions: {contents: read}
+jobs:
+  previews:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install pillow requests
+      - run: python -u creative/dia_zero_v7/pose_review.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: V7_Revisao_12_Sequencias_4_Poses
+          path: creative/dia_zero_v7/V7_Pose_Motion_Review.jpg
+          retention-days: 5
