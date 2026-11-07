@@ -1,0 +1,73 @@
+name: Dia Zero V2 - audio cinematografico corrigido
+on:
+  push:
+    branches: [dia-zero-hq-audio-movimento-v2-20261107]
+    paths: [.github/workflows/dia-zero-v2-audio-fix.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  master:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          python -m pip install 'numpy<3' scipy soundfile requests beautifulsoup4 pillow opencv-python-headless
+      - name: Regression tests — no toy cars, funny crowd or random footsteps
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v2.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42383165838
+          name: DiaZeroV2_Imagem_1080p
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42378375462
+          name: dia-zero-dialogue
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output/voice
+      - name: Rebuild precisely matched authentic SFX and preserve narration
+        run: python -u creative/dia_zero_v4/render_audio_v2.py
+      - name: Export 2-minute film and social variants
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/dia_zero_v2_silent.mp4 -i creative/dia_zero_v4/output/dia_zero_v2_real_audio.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4 -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 27 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_18h_HQ_V2_Imersivo_Celular.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4 -t 25 -c:v libx264 -preset veryfast -crf 25 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_18h_HQ_V2_Previa_25s.mp4
+      - name: Verify 120 seconds and genuine sound effect catalogue
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          f='Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4'
+          d=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',f]))
+          assert 119.93<=float(d['format']['duration'])<=120.08,d['format']['duration']
+          v=next(x for x in d['streams'] if x['codec_type']=='video')
+          a=next(x for x in d['streams'] if x['codec_type']=='audio')
+          assert v['width']==1080 and v['height']==1920 and v['r_frame_rate']=='24/1'
+          assert a['channels']==2 and a['codec_name']=='aac'
+          s=json.load(open('creative/dia_zero_v4/output/sfx/SOURCES.json'))
+          for key in ('collision','crowd','footsteps','stairs','call'):
+              print(key,s.get(key))
+              assert key in s
+          assert s['collision']['title']=='Truck crash with explosion'
+          assert s['crowd']['title']=='Rioting Crowd'
+          assert s['footsteps']['title']=='Crunchy road fast walking loop'
+          print('QA OK: 120s, 64 different cuts, music-free authentic SFX, voice, stereo.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZeroV2_CORRIGIDO_FINAL
+          path: |
+            Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4
+            Dia_Zero_18h_HQ_V2_Imersivo_Celular.mp4
+            Dia_Zero_18h_HQ_V2_Previa_25s.mp4
+            creative/dia_zero_v4/output/sfx/SOURCES.json
+          retention-days: 7
