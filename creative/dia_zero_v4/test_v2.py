@@ -45,5 +45,10 @@ class PacingTests(unittest.TestCase):
         self.assertEqual(ASSET_QUERIES["collision"][1][0],"Truck crash with explosion")
         self.assertEqual(ASSET_QUERIES["crowd"][1][0],"Rioting Crowd")
         self.assertEqual(ASSET_QUERIES["stairs"][1][0],"Footsteps in a tunnel loop")
+        self.assertEqual(ASSET_QUERIES["alert"][1][0],"Dry pop up notification alert")
+        self.assertEqual(ASSET_QUERIES["electrical"][1][0],"Electric buzz glitch")
+        self.assertEqual(ASSET_QUERIES["door"][1][0],"Knocking on a thick wooden door")
+        self.assertEqual(ASSET_QUERIES["helicopter"][1][0],"Helicopter flying in the sky")
+        self.assertEqual(ASSET_QUERIES["metro"][1][0],"Old subway train arrives")
 
 if __name__=="__main__":unittest.main()
