@@ -54,7 +54,8 @@ jobs:
           assert v['width']==1080 and v['height']==1920 and v['r_frame_rate']=='24/1'
           assert a['channels']==2 and a['codec_name']=='aac'
           s=json.load(open('creative/dia_zero_v4/output/sfx/SOURCES.json'))
-          assert len(s)==15, f'Expected all 15 recorded effects, got {len(s)}'\n          for key in ('collision','crowd','footsteps','stairs','call','alert','electrical','door','helicopter','metro'):
+          assert len(s)==15, f'Expected all 15 recorded effects, got {len(s)}'
+          for key in ('collision','crowd','footsteps','stairs','call','alert','electrical','door','helicopter','metro'):
               print(key,s.get(key))
               assert key in s
           assert s['collision']['title']=='Truck crash with explosion'
