@@ -1,0 +1,155 @@
+name: Dia Zero V3 - 96 quadros 120s legenda na voz ambiente real
+on:
+  push:
+    branches: [dia-zero-v3-96-quadros-audio-sincronizado]
+    paths: [.github/workflows/dia-zero-v3-master.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  captions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "3"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install 'numpy<3' faster-whisper
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42378375462
+          name: dia-zero-dialogue
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output/voice
+      - name: Align subtitle phrases against approved pt-BR voice stems
+        run: python -u creative/dia_zero_v4/captions_v3.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V3_Captions_Timed
+          path: creative/dia_zero_v4/output/captions_v3.json
+          retention-days: 7
+  soundtrack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install 'numpy<3' scipy soundfile requests beautifulsoup4 pillow
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42378375462
+          name: dia-zero-dialogue
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output/voice
+      - name: Compose realistic multi-layered stereo locations and causal sound cues
+        run: python -u creative/dia_zero_v4/audio_v3.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V3_Studio_Sound
+          path: creative/dia_zero_v4/output/dia_zero_v3_spatial_audio.wav
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V3_Recorded_SFX_Credits
+          path: creative/dia_zero_v4/output/sfx/SOURCES.json
+          retention-days: 7
+  visuals:
+    needs: captions
+    runs-on: ubuntu-latest
+    timeout-minutes: 48
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          python -m pip install 'numpy<3' pillow opencv-python-headless requests beautifulsoup4 scipy soundfile
+      - name: Verify V3 timing stabilization transparency and audio alignment tests
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v3.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V3_Captions_Timed
+          path: creative/dia_zero_v4/output
+      - name: Render all 96 independent sequential comic shots at 1080x1920
+        run: python -u creative/dia_zero_v4/render_video_v3.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V3_96_Scenes_HQ
+          path: creative/dia_zero_v4/output/dia_zero_v3_96_shots_silent.mp4
+          retention-days: 7
+  export:
+    needs: [visuals,soundtrack]
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V3_96_Scenes_HQ
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V3_Studio_Sound
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V3_Captions_Timed
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V3_Recorded_SFX_Credits
+          path: input
+      - name: Master film with narration and immersive stereo
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/dia_zero_v3_96_shots_silent.mp4 -i input/dia_zero_v3_spatial_audio.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 256k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_V3_HQ_96_Quadros_2_Minutos_1080p.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V3_HQ_96_Quadros_2_Minutos_1080p.mp4 -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 27 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V3_HQ_96_Quadros_Celular.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V3_HQ_96_Quadros_2_Minutos_1080p.mp4 -t 25 -c:v libx264 -preset veryfast -crf 25 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V3_HQ_Previa_25s.mp4
+      - name: Check audio, frame count, source credits, timecode
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          video='Dia_Zero_V3_HQ_96_Quadros_2_Minutos_1080p.mp4'
+          info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',video]))
+          duration=float(info['format']['duration'])
+          print('Full duration',duration)
+          assert 119.93<=duration<=120.08
+          vid=next(s for s in info['streams'] if s['codec_type']=='video')
+          aud=next(s for s in info['streams'] if s['codec_type']=='audio')
+          assert vid['width']==1080 and vid['height']==1920 and vid['r_frame_rate']=='24/1'
+          assert aud['channels']==2 and aud['codec_name']=='aac'
+          captions=json.load(open('input/captions_v3.json'))['cues']
+          assert 32<=len(captions)<=65
+          assert all(0<=x['start']<x['end']<=120 for x in captions)
+          assert any('mãe' in c['text'].lower() for c in captions)
+          sources=json.load(open('input/SOURCES.json'))
+          assert len(sources)>=14
+          print('FINAL QA OK; captions',len(captions),'recorded effects',len(sources),'audio stereo H264 1080p 120seconds')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIA_ZERO_V3_96_QUADROS_FILME_FINAL
+          path: |
+            Dia_Zero_V3_HQ_96_Quadros_2_Minutos_1080p.mp4
+            Dia_Zero_V3_HQ_96_Quadros_Celular.mp4
+            Dia_Zero_V3_HQ_Previa_25s.mp4
+            input/captions_v3.json
+            input/SOURCES.json
+          retention-days: 7
