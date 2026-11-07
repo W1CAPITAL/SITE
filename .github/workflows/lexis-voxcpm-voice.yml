@@ -1,4 +1,4 @@
-name: LexisPredict natural Brazilian male gamer voice (VoxCPM2)
+name: LexisPredict conversational PT-BR single-take voice (VoxCPM2)
 on:
   push:
     branches: [lexis-pixel-natural-voice-20261107]
@@ -9,46 +9,46 @@ permissions:
 jobs:
   synthesize:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install VoxCPM2 engine supported by VoiceStudio
+      - name: Install VoiceStudio-compatible VoxCPM2
         run: |
           python -m pip install -q --upgrade pip
           python -m pip install -q 'voxcpm>=2.0.3' soundfile
-      - name: Generate natural, lively male PT-BR gaming reel voice
+      - name: Generate one continuous, relaxed male Brazilian voice performance per Reel
         run: |
           python - <<'PY'
-          import os, soundfile as sf, torch
+          import os
+          from pathlib import Path
+          import torch
+          import soundfile as sf
           from voxcpm import VoxCPM
-          print('Loading VoxCPM2',flush=True)
+          print('Loading VoxCPM2 model',flush=True)
           engine=VoxCPM.from_pretrained('openbmb/VoxCPM2',load_denoiser=False)
-          lines=[
-          'Três erros que fazem seu escritório perder tempo!',
-          'Erro um: esquecer os retornos importantes no chat!',
-          'Erro dois: informação espalhada pra todo lado!',
-          'Erro três: começar o dia sem prioridade!',
-          'Mas dá pra virar esse jogo: organiza clientes, processos e retornos!',
-          'LexisPredict! Bora subir de nível? Peça uma demonstração!',
-          ]
-          os.makedirs('generated-voxcpm',exist_ok=True)
-          prompt='A male Brazilian Portuguese streamer in his twenties speaking clearly in a natural Sao Paulo accent, energetic, emotionally expressive and spontaneous, lively highs and lows, smiling, urgent and excited, quick rhythm, no robotic cadence'
-          for i,line in enumerate(lines,1):
-              text='('+prompt+')'+line
-              print('Generating',i,line,flush=True)
-              torch.manual_seed(8200+i)
-              speech=engine.generate(text=text,cfg_value=2.0,inference_timesteps=8)
-              sf.write(f'generated-voxcpm/scene_{i:02d}.wav',speech,engine.tts_model.sample_rate)
-              print('Saved',i, len(speech)/engine.tts_model.sample_rate,flush=True)
+          scripts={
+             '01': 'Tem dia que o escritório vira uma confusão, né? Cliente chamando, processo para acompanhar, retorno que não pode esquecer. O LexisPredict ajuda a organizar essas informações em um só lugar. Conheça e peça uma demonstração.',
+             '02': 'Três coisas atrapalham a rotina do escritório: retorno esquecido, informação espalhada e tarefa sem prioridade. Se isso acontece por aí, vale conhecer o LexisPredict. Organize clientes, processos e retornos em um só lugar.'
+          }
+          # One continuous performance avoids changing voices every two seconds.
+          voice_direction='A Brazilian Portuguese male adult speaking to one colleague, warm natural conversational tone, calm confident everyday speech, normal comfortable pace, no shouting, no urgency, no announcer act, no exaggeration, gentle friendly intonation and naturally varied rhythm.'
+          os.makedirs('generated-conversational',exist_ok=True)
+          for i,(name,script) in enumerate(scripts.items()):
+              torch.manual_seed(451)
+              print('SYNTHESIZING',name,script,flush=True)
+              result=engine.generate(text=f'({voice_direction}){script}',cfg_value=2.0,inference_timesteps=10)
+              path=f'generated-conversational/lexis_reel_{name}_one_take.wav'
+              sf.write(path,result,engine.tts_model.sample_rate)
+              print('SAVED',path,'duration',round(len(result)/engine.tts_model.sample_rate,2),flush=True)
           PY
-      - name: Save generated audio even if partially complete
+      - name: Export narrations
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lexispredict-voxcpm2-natural-ptbr
-          path: generated-voxcpm/*
+          name: lexis-conversational-single-takes-ptbr
+          path: generated-conversational/*
           if-no-files-found: warn
           retention-days: 7
