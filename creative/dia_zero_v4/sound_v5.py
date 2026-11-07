@@ -12,6 +12,7 @@ from edit_plan_v5 import SHOT_ACTIONS,shots
 
 SFX_SOURCES={
  **ORIGINAL,
+ "keyboard":("keyboard","Keyboard typing"),
  "click":("keyboard","Single key press in a laptop"),
  "alert":("alarm","Emergency alert alarm"),
  "tv":("static","Broken radio frequency signal"),
@@ -108,7 +109,6 @@ def catalogued_recordings():
     return recordings
 
 def original_male_narrator(mix):
-    from audio_v2 import __name__ as unused
     # dry original approved spoken takes, no synthesized "mother" spoken message
     import subprocess
     for i in range(16):
