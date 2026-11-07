@@ -12,7 +12,7 @@ SCENES=[
  [("orig",12),("orig",15),("orig",16)],
  [("orig",20),("orig",19),("orig",18),("orig",21)],
  [("orig",17),("orig",14),("orig",24),("orig",25)],
- [("new",0),("new",1),("new",2),("new",3)],
+ [("new",0),("fix",1),("fix",2),("new",3)],
  [("orig",33),("orig",23),("orig",34)],
  [("orig",38),("orig",41),("orig",43),("orig",44)],
  [("orig",45),("new",4),("orig",51),("orig",52)],
