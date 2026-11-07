@@ -51,8 +51,8 @@ def create_caption_cues(lines,word_timings=None,durations=None):
             start=i*SCENE_SECONDS+VOICE_OFFSET+t0
             end=min(i*SCENE_SECONDS+SCENE_SECONDS-.12,i*SCENE_SECONDS+VOICE_OFFSET+t1)
             if end<=start:end=start+.12
-            if end-start>2.8:
-                end=start+2.8
+            if end-start>2.75:
+                end=start+2.75
             text=" ".join(tokens[first:last+1]).strip()
             cues.append({"start":round(start,3),"end":round(end,3),"text":text,"line":i})
     return cues
