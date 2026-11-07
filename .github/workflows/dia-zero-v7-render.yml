@@ -1,0 +1,118 @@
+name: DIA ZERO V7 - movimento real de objetos e personagens
+on:
+  push:
+    branches: [dia-zero-v7-objetos-personagens-animados-20261107]
+    paths: [.github/workflows/dia-zero-v7-render.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  animation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "3"
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install open-source motion interpolation, video codecs and 2D compositing
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          python -m pip install 'numpy<3' pillow opencv-python-headless requests beautifulsoup4 scipy soundfile
+      - name: Prove that fire water rain phones and body keyframes CHANGE PIXELS
+        run: PYTHONPATH=creative/dia_zero_v7:creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v7 -p test_v7.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395772257
+          name: V5_FINAL_Story_59_Tomadas
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v7/output
+      - name: Download twelve four-pose motion sheets and interpolate actual actions for every frame
+        run: python -u creative/dia_zero_v7/render_v7.py
+        env:
+          PYTHONPATH: creative/dia_zero_v7:creative/dia_zero_v4
+      - name: Audit 2,880 independent frames, object motion and 59 distinct shots
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('creative/dia_zero_v7/output/motion_v7_audit.json'))
+          assert d['frames']==2880 and d['total_seconds']==120
+          assert d['real_pose_sequences']==12
+          assert len(d['shots'])==59
+          assert all(x['object_change_mean']>.01 for x in d['shots'])
+          key=[x for x in d['shots'] if x['pose_kind']]
+          assert len(key)==12
+          print('SUCCESS',len(d['shots']),'individual moving shots,',len(key),'pose keyframe interpolations')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: V7_Imagem_Objetos_Animados
+          path: creative/dia_zero_v7/output/Dia_Zero_V7_True_Object_Motion_Silent.mp4
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: V7_Auditoria_Animacao
+          path: |
+            creative/dia_zero_v7/output/motion_v7_audit.json
+            creative/dia_zero_v7/pose_sheets.json
+          retention-days: 7
+  export:
+    needs: animation
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          name: V7_Imagem_Objetos_Animados
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395092680
+          name: DiaZero_V5_Stereo_Foley
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: V7_Auditoria_Animacao
+          path: input
+      - name: Merge original synchronized pt-BR narration and ambient Foley
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/Dia_Zero_V7_True_Object_Motion_Silent.mp4 -i input/dia_zero_v5_real_stereo_sound.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_V7_Animacao_Real_720p.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V7_Animacao_Real_720p.mp4 -vf 'scale=1080:1920:flags=lanczos,unsharp=3:3:0.25' -c:v libx264 -preset veryfast -crf 23 -pix_fmt yuv420p -c:a copy -movflags +faststart Dia_Zero_V7_Animacao_Real_1080p_Upscale.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V7_Animacao_Real_720p.mp4 -t 30 -c:v libx264 -preset veryfast -crf 22 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V7_Amostra_Animada_30s.mp4
+      - name: Verify videos are complete with true new object-frame differences
+        run: |
+          python - <<'PY'
+          import os,subprocess,json
+          for file,duration,w,h in [
+              ('Dia_Zero_V7_Animacao_Real_720p.mp4',120,720,1280),
+              ('Dia_Zero_V7_Animacao_Real_1080p_Upscale.mp4',120,1080,1920),
+              ('Dia_Zero_V7_Amostra_Animada_30s.mp4',30,720,1280)]:
+              assert os.path.getsize(file)>800000
+              data=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',file]))
+              assert abs(float(data['format']['duration'])-duration)<.10
+              video=next(s for s in data['streams'] if s['codec_type']=='video')
+              audio=next(s for s in data['streams'] if s['codec_type']=='audio')
+              assert video['width']==w and video['height']==h
+              assert video['r_frame_rate']=='24/1'
+              assert audio['channels']==2
+              print('FULLY VERIFIED',file,os.path.getsize(file),'bytes')
+          d=json.load(open('input/motion_v7_audit.json'))
+          assert sum(x['pose_kind'] is not None for x in d['shots'])==12
+          print('Physical object and pose motion checked for 59 of 59 shots')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIA_ZERO_V7_MOVIMENTO_REAL_FILME_COMPLETO
+          path: |
+            Dia_Zero_V7_Animacao_Real_720p.mp4
+            Dia_Zero_V7_Animacao_Real_1080p_Upscale.mp4
+            Dia_Zero_V7_Amostra_Animada_30s.mp4
+            input/motion_v7_audit.json
+          retention-days: 7
