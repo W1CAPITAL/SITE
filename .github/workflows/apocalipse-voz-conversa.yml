@@ -1,0 +1,22 @@
+name: Fictional apocalypse short dialogue PT-BR (Edge neural)
+on:
+  push:
+    branches: [filme-apocalipse-2min-20261107]
+    paths: [.github/workflows/apocalipse-voz-conversa.yml,creative/apocalipse2min/generate_conversational_voice.py]
+permissions: {contents: read}
+jobs:
+  speech:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install edge-tts
+      - run: python creative/apocalipse2min/generate_conversational_voice.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apocalipse2min-conversational-male-ptbr
+          path: out-voice-v2/*.mp3
+          retention-days: 3
