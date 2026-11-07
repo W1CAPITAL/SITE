@@ -1,0 +1,125 @@
+name: DIA ZERO V5 — filme definitivo com infectado corrigido
+on:
+  push:
+    branches: [dia-zero-v5-sequencia-continuidadade-e-foley-20261107]
+    paths: [.github/workflows/dia-zero-v5-infected-fix.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  film:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          python -m pip install 'numpy<3' pillow opencv-python-headless requests beautifulsoup4 scipy soundfile
+      - name: Prove coherent protagonist / infected separation, 59 unique shots
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v5.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42386057461
+          name: DiaZero_V3_Captions_Timed
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output
+      - name: Re-render with infected truly seen through office window
+        run: python -u creative/dia_zero_v4/render_v5.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: V5_FINAL_Story_59_Tomadas
+          path: |
+            creative/dia_zero_v4/output/dia_zero_v5_storyboard_contact.jpg
+            creative/dia_zero_v4/output/v5_visual_manifest.json
+            creative/dia_zero_v4/output/v5_captions.json
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: V5_FINAL_Filme_1080p_SemAudio
+          path: creative/dia_zero_v4/output/dia_zero_v5_1080p_silent.mp4
+          retention-days: 7
+  export:
+    needs: film
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          name: V5_FINAL_Filme_1080p_SemAudio
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: V5_FINAL_Story_59_Tomadas
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395092680
+          name: DiaZero_V5_Stereo_Foley
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395092680
+          name: DiaZero_V5_Sound_Provenance
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - name: Final 120-second film with authentic Foley and original narrator
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/dia_zero_v5_1080p_silent.mp4 -i input/dia_zero_v5_real_stereo_sound.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_V5_Final_HQ_2min_FullHD.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V5_Final_HQ_2min_FullHD.mp4 -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 27 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V5_Final_HQ_Celular.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V5_Final_HQ_2min_FullHD.mp4 -t 30 -c:v libx264 -preset veryfast -crf 25 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V5_Final_Previa_30s.mp4
+      - name: Verify multimedia integrity and story-sound links
+        run: |
+          python - <<'PY'
+          import subprocess,json,os
+          files=[
+              ('Dia_Zero_V5_Final_HQ_2min_FullHD.mp4',1080,1920,120),
+              ('Dia_Zero_V5_Final_HQ_Celular.mp4',720,1280,120),
+              ('Dia_Zero_V5_Final_Previa_30s.mp4',1080,1920,30)]
+          for file,w,h,duration in files:
+              p=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',file]))
+              assert abs(float(p['format']['duration'])-duration)<.075
+              v=next(x for x in p['streams'] if x['codec_type']=='video')
+              a=next(x for x in p['streams'] if x['codec_type']=='audio')
+              assert v['width']==w and v['height']==h and v['r_frame_rate']=='24/1'
+              assert a['codec_name']=='aac' and a['channels']==2
+              assert os.path.getsize(file)>1000000
+              print('FILE CONFIRMED',file,os.path.getsize(file))
+          story=json.load(open('input/v5_visual_manifest.json'))
+          sounds=json.load(open('input/v5_sound_cues.json'))
+          captions=json.load(open('input/v5_captions.json'))
+          assert len(story)==59 and story[-1]['end_frame']==2880
+          assert story[19]['asset']==['fix',1],story[19]['asset']
+          assert story[20]['asset']==['fix',2],story[20]['asset']
+          for event in sounds:
+              shot=next(x for x in story if x['beat']==event['beat'] and x['pos']==event['shot'])
+              assert shot['start']<=event['time_seconds']<shot['end']
+              assert event['event'] in shot['visible']
+              # Update provenance with the actual replacement image; audio timing is unchanged.
+              event['asset']=shot['asset']
+          json.dump(sounds,open('input/v5_sound_cues.json','w'),ensure_ascii=False,indent=2)
+          assert all(a['end']<b['start'] for a,b in zip(captions,captions[1:]))
+          assert len(captions)>=45 and len(sounds)>=40
+          print('QUALITY CONTROL PASSED: continuous 2min story, 59 unique shots, 2 distinct infected frames, grounded Foley')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIA_ZERO_V5_FINAL_CORRIGIDO_REVISADO
+          path: |
+            Dia_Zero_V5_Final_HQ_2min_FullHD.mp4
+            Dia_Zero_V5_Final_HQ_Celular.mp4
+            Dia_Zero_V5_Final_Previa_30s.mp4
+            input/dia_zero_v5_storyboard_contact.jpg
+            input/v5_visual_manifest.json
+            input/v5_captions.json
+            input/v5_sound_cues.json
+            input/v5_sound_credits.json
+          retention-days: 7
