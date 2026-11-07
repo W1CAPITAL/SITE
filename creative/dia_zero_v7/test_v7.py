@@ -66,4 +66,18 @@ class RealObjectMotionTest(unittest.TestCase):
         self.assertTrue(all(p[i]["end_frame"]==p[i+1]["start_frame"] for i in range(58)))
         self.assertEqual(len(set(tuple(x["asset"]) for x in p)),59)
 
+    def test_previous_almost_static_shots_have_moving_props_or_figures(self):
+        from motion_v7 import physical_effects
+        from edit_plan_v5 import shots
+        plan=shots()
+        # TV, stuck elevator, stairs, apartment door and floor-shadow shots.
+        for index in [22,23,24,25,26,28,50,51,53,54,56,57]:
+            blank=np.full((320,180,3),47,np.uint8)
+            shot=plan[index]
+            first=physical_effects(blank.copy(),shot,.2)
+            last=physical_effects(blank.copy(),shot,1.15)
+            motion=float(np.abs(first.astype(np.float32)-last.astype(np.float32)).mean())
+            self.assertGreater(motion,.12,
+                f"Missing visible object motion on shot {index} ({shot['visible']}): {motion}")
+
 if __name__=="__main__":unittest.main()
