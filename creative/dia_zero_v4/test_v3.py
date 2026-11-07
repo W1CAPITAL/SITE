@@ -11,6 +11,16 @@ class DiaZeroV3Tests(unittest.TestCase):
         self.assertAlmostEqual(TOTAL_SECONDS/len(s),1.25)
         self.assertEqual(s[:3],[("old",0,0),("new",0,0),("extra",0,0)])
 
+    def test_bus_collision_precedes_infected_reaction_on_screen(self):
+        from render_video_v3 import schedule
+        segment=schedule()[24:30]
+        self.assertEqual(segment,[("old",2,0),("new",2,0),("extra",2,0),("new",2,1),("extra",2,1),("old",2,2)])
+
+    def test_phone_call_visuals_start_when_mother_calls(self):
+        from render_video_v3 import schedule
+        self.assertEqual(schedule()[72],("extra",6,0))
+        self.assertEqual(schedule()[73],("extra",6,1))
+
     def test_camera_has_no_shake_and_moves_smoothly(self):
         from render_video_v3 import get_camera_transform
         one=[get_camera_transform(4,i/30.0) for i in range(30)]
