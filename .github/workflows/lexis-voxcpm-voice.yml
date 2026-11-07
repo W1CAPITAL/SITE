@@ -27,12 +27,12 @@ jobs:
           print('Loading VoxCPM2',flush=True)
           engine=VoxCPM.from_pretrained('openbmb/VoxCPM2',load_denoiser=False)
           lines=[
-          'Seu escritório ainda tá no modo difícil?',
-          'Cliente chamando! Processo perdido! Cadê o retorno?',
-          'E o relógio... não perdoa!',
-          'Calma! Chegou o seu novo power-up!',
-          'LexisPredict: clientes, processos e retornos num só lugar!',
-          'Bora subir de nível? Pede uma demonstração!',
+          'Três erros que fazem seu escritório perder tempo!',
+          'Erro um: esquecer os retornos importantes no chat!',
+          'Erro dois: informação espalhada pra todo lado!',
+          'Erro três: começar o dia sem prioridade!',
+          'Mas dá pra virar esse jogo: organiza clientes, processos e retornos!',
+          'LexisPredict! Bora subir de nível? Peça uma demonstração!',
           ]
           os.makedirs('generated-voxcpm',exist_ok=True)
           prompt='A male Brazilian Portuguese streamer in his twenties speaking clearly in a natural Sao Paulo accent, energetic, emotionally expressive and spontaneous, lively highs and lows, smiling, urgent and excited, quick rhythm, no robotic cadence'
