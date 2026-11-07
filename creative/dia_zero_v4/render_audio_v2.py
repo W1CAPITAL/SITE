@@ -43,17 +43,17 @@ ASSET_QUERIES={
  "office":("office",["office ambience","office background","working in office","office"]),
  "rain":("rain",["heavy rain ambience","long rain ambience","rain long loop"]),
  "traffic":("traffic",["city traffic background ambience","urban ambient sound","road traffic sound"]),
- "alert":("notification",["notification alert","phone notification","message notification","notification"]),
- "electrical":("electricity",["electric buzz","electrical spark","electric crackle","power failure","electric"]),
+ "alert":("notification",["Dry pop up notification alert"]),
+ "electrical":("electricity",["Electric buzz glitch"]),
  "collision":("crash",["Truck crash with explosion"]),
  "siren":("siren",["police siren","ambulance siren","siren"]),
  "crowd":("scream",["Rioting Crowd"]),
  "stairs":("footsteps",["Footsteps in a tunnel loop"]),
  "footsteps":("footsteps",["Crunchy road fast walking loop"]),
- "door":("door",["knocking on a door","door knock","knocking","door opening","door"]),
- "helicopter":("helicopter",["helicopter flying","helicopter rotor","flying helicopter","helicopter"]),
+ "door":("door",["Knocking on a thick wooden door"]),
+ "helicopter":("helicopter",["Helicopter flying in the sky"]),
  "call":("phone",["Marimba ringtone"]),
- "metro":("subway",["subway train","subway","train station","metro"]),
+ "metro":("subway",["Old subway train arrives"]),
  "heartbeat":("heartbeat",["heartbeat sound","slow heartbeat","heart beating","heartbeat"]),
 }
 # Realistic event trim lengths, seconds.
@@ -115,7 +115,7 @@ def get_sfx():
         files[k]=dest
         provenance[k]={"title":title,"url":url,"listing":"https://mixkit.co/free-sound-effects/"+page+"/"}
         print("AUTHENTIC SFX",k,":",title,round(dest.stat().st_size/1024),"KiB",flush=True)
-    if len(files)<9 or not all(k in files for k in ("rain","traffic","siren","footsteps")):
+    if len(files)!=len(ASSET_QUERIES):
         raise RuntimeError("Insufficient genuine environment recordings: "+str(list(files)))
     (SFX_DIR/"SOURCES.json").write_text(json.dumps(provenance,indent=2,ensure_ascii=False))
     return files
