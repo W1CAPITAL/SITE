@@ -88,6 +88,7 @@ SFX_EVENTS=[
  (14,.30,"stairs",.075,-.13),
  (14,2.7,"keys",.095,.24),  # apartment key/lock close-up
  (14,4.5,"knock",.095,.58), # figure behind door
+ (14,6.45,"door",.026,.36), # door shifts as she speaks
  (15,.22,"phone",.125,-.19),# final contradictory message
  (15,3.25,"heartbeat",.037,.0),
  (15,5.60,"door",.029,.36), # ominous door movement only
