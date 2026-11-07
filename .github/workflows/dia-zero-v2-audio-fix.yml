@@ -54,7 +54,7 @@ jobs:
           assert v['width']==1080 and v['height']==1920 and v['r_frame_rate']=='24/1'
           assert a['channels']==2 and a['codec_name']=='aac'
           s=json.load(open('creative/dia_zero_v4/output/sfx/SOURCES.json'))
-          for key in ('collision','crowd','footsteps','stairs','call'):
+          assert len(s)==15, f'Expected all 15 recorded effects, got {len(s)}'\n          for key in ('collision','crowd','footsteps','stairs','call','alert','electrical','door','helicopter','metro'):
               print(key,s.get(key))
               assert key in s
           assert s['collision']['title']=='Truck crash with explosion'
@@ -64,7 +64,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: DiaZeroV2_CORRIGIDO_FINAL
+          name: DiaZeroV2_FINAL_AUDIO_COMPLETO
           path: |
             Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4
             Dia_Zero_18h_HQ_V2_Imersivo_Celular.mp4
