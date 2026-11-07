@@ -1,0 +1,28 @@
+name: Dia Zero V8 — prova de animacao temporal real (Wan2.2 publico)
+on:
+  push:
+    branches: [dia-zero-v8-animacao-generativa-continuidade-20261107]
+    paths: [.github/workflows/dia-zero-v8-wan-proof.yml]
+permissions: {contents: read}
+jobs:
+  one_real_clip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          pip install pillow requests
+      - name: Verify story-space boundaries and motion prompt before rendering
+        run: PYTHONPATH=creative/dia_zero_v8 python -m unittest discover -s creative/dia_zero_v8 -p test_v8.py -v
+      - name: Single free/public actual image-to-video generation test (no synthetic overlay)
+        run: python -u creative/dia_zero_v8/probe_wan_video.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Dia_Zero_V8_Prova_Animacao_Generativa_Ou_Diagnostico
+          path: creative/dia_zero_v8/out/
+          retention-days: 7
