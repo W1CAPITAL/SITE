@@ -95,7 +95,13 @@ def pose_interpolate(A,B,t,flow_ab=None,flow_ba=None):
             A.astype(np.float32)*(1-mask[:,:,None])).clip(0,255).astype(np.uint8)
 
 def _draw_alpha(img,overlay,opacity):
-    cv2.addWeighted(img,1-opacity,overlay,opacity,0,dst=img)
+    # Composite ONLY pixels occupied by real foreground flames/smoke/clouds;
+    # blending black everywhere would reproduce the rejected global filter.
+    occupied=cv2.cvtColor(overlay,cv2.COLOR_BGR2GRAY)>1
+    if np.any(occupied):
+        img[occupied]=np.clip(img[occupied].astype(np.float32)*(1-opacity)+
+                              overlay[occupied].astype(np.float32)*opacity,
+                              0,255).astype(np.uint8)
 
 def _rain(img,shot,sec):
     h,w=img.shape[:2]
