@@ -28,6 +28,7 @@ def main():
         # the frame rate from 16 to 24fps. Fixed camera, no fake slide pan.
         filt=("scale=720:1280:flags=lanczos:force_original_aspect_ratio=increase,"
               "crop=720:1280,"
+              "setpts=1.05*PTS,"
               "minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:me_mode=bidir,"
               "format=yuv420p")
         cmd("ffmpeg","-hide_banner","-v","error","-y","-i",path,"-vf",filt,
