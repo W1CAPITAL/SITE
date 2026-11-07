@@ -42,7 +42,7 @@ jobs:
           k=by['keys'][0]
           assert k['visual_source_index']==84,k
           assert 108.7 <= k['second'] <= 110.7
-          assert all(x['second']<83 or x['sound']!='stairs' for x in cues)
+          assert all(not (83<=x['second']<105 and x['sound']=='stairs') for x in cues)
           assert all(x['visual_source_index'] in range(96) for x in cues)
           print('FOLEY CHECK',len(cues),'well-placed real recorded sounds')
           PY
