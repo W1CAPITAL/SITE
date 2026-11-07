@@ -18,6 +18,7 @@ Mantenha mídia, fotos de clientes, áudios e planos privados fora do GitHub. Ed
 
     node scripts/reel-studio/studio.mjs doctor
     node --test scripts/reel-studio/studio.test.mjs
+    VOICESTUDIO_BASE_URL=http://127.0.0.1:8000 node scripts/reel-studio/studio.mjs voices
     VOICESTUDIO_BASE_URL=http://127.0.0.1:8000 node scripts/reel-studio/studio.mjs voice ./private/roteiro.txt VOZ_AUTORIZADA ./private/assets/voz.wav
     node scripts/reel-studio/studio.mjs validate ./private/plan.json
     node scripts/reel-studio/studio.mjs render ./private/plan.json ./private/reel-final.mp4
@@ -33,7 +34,7 @@ O comando voice exige VoiceStudio funcionando localmente, com voz e modelo realm
 5. Gere ou grave voz, escute e valide, adicione música autorizada discreta e marque as legendas pelo tempo.
 6. Renderize MP4 H.264/AAC 1080x1920, 30 fps; confira no celular **inteiro**, checando legibilidade, cortes, naturalidade e sincronismo antes de publicar.
 
-O editor fornece normalização de loudness, ducking da música por sidechain e fundo desfocado para capturas horizontais. O teste automatizado realiza um render real com material **sintético apenas para testes**, jamais anunciado como Reel comercial.
+O editor fornece normalização de loudness, ducking da música por sidechain e fundo desfocado para capturas horizontais. Opcionalmente, adicione no bloco audio do plano uma faixa de Foley sincronizada (effects: assets/foley.wav, effectsRights: owned/ licensed/ consented, effectsGain: 0.15). Os efeitos têm volume separado da música e da narração. O comando voices lista somente perfis de voz cadastrados no VoiceStudio; isso não substitui a audição humana para verificar naturalidade. O teste automatizado realiza um render real com material **sintético apenas para testes**, jamais anunciado como Reel comercial.
 
 ## Segurança e licença
 
