@@ -1,0 +1,27 @@
+name: Filme apocalipse 2min - voz masculina brasileira
+on:
+  push:
+    branches: [filme-apocalipse-2min-20261107]
+    paths: [.github/workflows/apocalipse-voz.yml, creative/apocalipse2min/generate_voice.py]
+permissions:
+  contents: read
+jobs:
+  build-audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq espeak-ng ffmpeg
+          python -m pip install 'kokoro>=0.9.4' numpy soundfile
+      - run: python creative/apocalipse2min/generate_voice.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: filme-apocalipse-2min-voz-ptbr
+          path: out/*.mp3
+          retention-days: 3
