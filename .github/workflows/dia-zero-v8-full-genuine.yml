@@ -1,4 +1,4 @@
-name: DIA ZERO V8 - filme 120s com 32 animacoes genuinas Wan2.2
+name: DIA ZERO V8 - exportacao de clipes temporais genuinos 120s
 on:
   push:
     branches: [dia-zero-v8-animacao-generativa-continuidade-20261107]
