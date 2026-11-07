@@ -35,4 +35,15 @@ class PacingTests(unittest.TestCase):
         from render_audio_v2 import CONTINUOUS_SYNTH_TONE
         self.assertFalse(CONTINUOUS_SYNTH_TONE)
 
+    def test_sfx_selector_rejects_comedic_or_toy_mismatches(self):
+        from render_audio_v2 import choose
+        self.assertIsNone(choose([("Toy car crash","example")],["Car crash"]))
+        self.assertIsNone(choose([("Crowd laugh","example")],["Crowd"]))
+        self.assertIsNone(choose([("Footsteps on tall grass","example")],["Footsteps"]))
+    def test_critical_effect_queries_are_grounded(self):
+        from render_audio_v2 import ASSET_QUERIES
+        self.assertEqual(ASSET_QUERIES["collision"][1][0],"Truck crash with explosion")
+        self.assertEqual(ASSET_QUERIES["crowd"][1][0],"Rioting Crowd")
+        self.assertEqual(ASSET_QUERIES["stairs"][1][0],"Footsteps in a tunnel loop")
+
 if __name__=="__main__":unittest.main()
