@@ -39,7 +39,7 @@ for beat,actions in enumerate([
  [("zombie","crowd"),("footsteps",),("gate","footsteps")],
  [("footsteps",),("helicopter",),("helicopter",)],
  [("phone",),("phone",),("breath",)],
- [("metro",),("metal",),("electric",),("footsteps",)],
+ [("metro","metal"),("metal",),("electric",),("footsteps",)],
  [("door",),("stairs",),("keys",),("door",),("knock",)],
  [("phone",),("heartbeat",),("floor",),("floor",)]
 ]):
