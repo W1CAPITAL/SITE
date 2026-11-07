@@ -17,10 +17,33 @@ CUTS=96
 CUT_FRAMES=30
 assert 96*30==SECONDS*FPS
 
+# Editorial timeline: six shots per 7.5-second spoken line. Panels are ordered
+# by what is happening in the narration, never merely by the order of drawings.
+CHAPTER_SHOT_ORDER=[
+    [("old",0),("new",0),("extra",0),("old",1),("new",1),("new",3),
+     ("old",2),("new",2),("extra",1),("extra",2),("old",3),("extra",3)],
+    [("old",2),("new",2),("extra",0),("extra",1),("old",3),("new",3),
+     ("old",0),("new",0),("extra",2),("old",1),("new",1),("extra",3)],
+    [("old",0),("new",0),("extra",0),("new",1),("extra",1),("old",2),
+     ("old",1),("new",2),("extra",2),("old",3),("new",3),("extra",3)],
+    [("extra",0),("old",0),("new",0),("new",1),("extra",2),("old",1),
+     ("extra",1),("old",2),("new",2),("old",3),("new",3),("extra",3)],
+    [("old",0),("new",0),("extra",0),("new",2),("old",2),("extra",1),
+     ("new",1),("old",1),("extra",2),("old",3),("new",3),("extra",3)],
+    [("extra",0),("extra",3),("extra",2),("old",2),("new",2),("extra",1),
+     ("old",0),("new",0),("old",1),("new",1),("old",3),("new",3)],
+    [("extra",0),("extra",1),("old",1),("old",3),("new",2),("extra",3),
+     ("old",0),("new",1),("extra",2),("old",2),("new",0),("new",3)],
+    [("old",0),("new",0),("extra",2),("old",2),("extra",0),("new",2),
+     ("old",1),("new",1),("extra",1),("old",3),("new",3),("extra",3)],
+]
+
 def schedule():
-    return [(source,page,part)
-            for page in range(8) for part in range(4)
-            for source in ("old","new","extra")]
+    order=[(source,page,part)
+           for page,items in enumerate(CHAPTER_SHOT_ORDER)
+           for source,part in items]
+    assert len(order)==96 and len(set(order))==96
+    return order
 
 def get_camera_transform(cut, time_in_shot):
     # Smooth, stabilized editorial pan; zero shaking / rocking / rotation.
@@ -72,11 +95,14 @@ def all_96():
     originals=download_original_64()
     extra=download_extra_pages()
     assert len(originals)==64 and len(extra)==32
-    final=[]
+    originals_by_key={}
     for page in range(8):
         for j in range(4):
             idx=page*4+j
-            final.extend([originals[2*idx],originals[2*idx+1],extra[idx]])
+            originals_by_key[("old",page,j)]=originals[2*idx]
+            originals_by_key[("new",page,j)]=originals[2*idx+1]
+            originals_by_key[("extra",page,j)]=extra[idx]
+    final=[originals_by_key[key] for key in schedule()]
     assert len(final)==96 and len(set(map(str,final)))==96
     return final
 
