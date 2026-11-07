@@ -1,4 +1,4 @@
-name: DIA ZERO V7 - movimento real de objetos e personagens
+name: DIA ZERO V7 - final 59 shots moving independently
 on:
   push:
     branches: [dia-zero-v7-objetos-personagens-animados-20261107]
@@ -109,7 +109,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: DIA_ZERO_V7_MOVIMENTO_REAL_FILME_COMPLETO
+          name: DIA_ZERO_V7_FINAL_59_TOMADAS_ANIMADAS
           path: |
             Dia_Zero_V7_Animacao_Real_720p.mp4
             Dia_Zero_V7_Animacao_Real_1080p_Upscale.mp4
