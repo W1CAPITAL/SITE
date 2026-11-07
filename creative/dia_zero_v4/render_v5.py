@@ -9,6 +9,7 @@ from PIL import Image,ImageDraw,ImageFont
 from edit_plan_v5 import shots,FPS,TOTAL_FRAMES,SCENES
 from render_video_v3 import all_96,subtitle_overlay,extract_panels_from_image,W,H,OUTPUT
 from render_v4 import normalize_cues
+cleaned_cues=normalize_cues
 
 ROOT=Path(__file__).parent
 TOTAL_SECONDS=120
