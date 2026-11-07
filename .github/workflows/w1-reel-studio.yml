@@ -1,0 +1,26 @@
+name: W1 Reel Studio checks
+on:
+  pull_request:
+    paths:
+      - 'scripts/reel-studio/**'
+      - '.github/workflows/w1-reel-studio.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/reel-studio/**'
+      - '.github/workflows/w1-reel-studio.yml'
+permissions:
+  contents: read
+jobs:
+  node-and-render-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JS syntax
+        run: node --check scripts/reel-studio/studio.mjs
+      - name: Test data validation, licensing, voice API and FFmpeg render
+        run: node --test scripts/reel-studio/studio.test.mjs
