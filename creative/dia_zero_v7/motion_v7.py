@@ -340,14 +340,17 @@ def _running_figure(img,shot,sec):
                 0,0,360,1.,-1)
     mask=cv2.GaussianBlur(mask,(0,0),max(2,w*.016))[:,:,None]*.76
     img[y1:y2,x1:x2]=(src*(1-mask)+moved*mask).astype(np.uint8)
-    # Separate moving footstep shadow / dust at floor, staggered between strides.
-    xc=int(w*(.43+.10*math.sin(sec*13.5)))
-    yc=int(h*.91)
-    rad=int((.8+.2*math.cos(sec*11))*w*.09)
+    # Each foot physically changes position and its separate shadow sweeps
+    # across the floor, alternating with the walking cycle.
     sh=np.zeros_like(img)
-    cv2.ellipse(sh,(xc,yc),(max(6,rad),max(2,rad//5)),
-                0,0,360,(13,18,28),-1,cv2.LINE_AA)
-    _draw_alpha(img,sh,.16)
+    for side in (-1,1):
+        phase=sec*12.8+side*math.pi/2
+        xx=int(w*(.46+side*.12+.16*math.sin(phase)))
+        yy=int(h*(.87+.058*math.cos(phase)))
+        rad=max(8,int(w*.17*(.85+.13*math.cos(phase))))
+        cv2.ellipse(sh,(xx,yy),(rad,max(3,int(rad*.31))),
+                    0,0,360,(9,14,24),-1,cv2.LINE_AA)
+    _draw_alpha(img,sh,.39)
 
 def _door_object(img,shot,sec):
     """A door edge pivots, handle and corridor shadows move as actual props."""
