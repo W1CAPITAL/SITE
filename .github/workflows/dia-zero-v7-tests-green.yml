@@ -1,4 +1,4 @@
-name: DIA ZERO V7 - test real object movement (GREEN)
+name: DIA ZERO V7 - verify all 59 shots animate physical objects
 on:
   push:
     branches: [dia-zero-v7-objetos-personagens-animados-20261107]
