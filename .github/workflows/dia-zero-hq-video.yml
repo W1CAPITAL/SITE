@@ -1,0 +1,108 @@
+name: Dia Zero HQ - filme vertical 2 minutos
+on:
+  push:
+    branches: [dia-zero-hq-producao-20261107]
+    paths:
+      - .github/workflows/dia-zero-hq-video.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visuals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          python -m pip install --upgrade pip
+          python -m pip install 'numpy<3' pillow opencv-python-headless requests
+      - name: Tests for timing and 4-panel cropping
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_production.py -v
+      - name: Export 32 independent motion comic shots at 1080p
+        run: python -u creative/dia_zero_v4/render_video.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dia-zero-silent-video
+          path: creative/dia_zero_v4/output/dia_zero_video_silent.mp4
+          retention-days: 5
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dia-zero-illustrations
+          path: creative/dia_zero_v4/output/panels/*.jpg
+          retention-days: 5
+  audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install 'numpy<3' scipy soundfile edge-tts
+      - name: Synthesize Brazilian Portuguese dialogue, then mix layered stereo environment
+        run: python -u creative/dia_zero_v4/render_audio.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dia-zero-sound
+          path: creative/dia_zero_v4/output/dia_zero_sound_mix.wav
+          retention-days: 5
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dia-zero-dialogue
+          path: creative/dia_zero_v4/output/voice/*.mp3
+          retention-days: 5
+  mux:
+    needs: [visuals,audio]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          name: dia-zero-silent-video
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: dia-zero-sound
+          path: input
+      - name: Master audio and video for Instagram Reels / TikTok / Shorts
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/dia_zero_video_silent.mp4 -i input/dia_zero_sound_mix.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_18h_HQ_2min_Video_Final.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_18h_HQ_2min_Video_Final.mp4 -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 27 -c:a aac -b:a 128k -movflags +faststart Dia_Zero_18h_HQ_2min_Celular.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_18h_HQ_2min_Video_Final.mp4 -t 25 -c:v libx264 -preset veryfast -crf 24 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_HQ_Previa_25s.mp4
+      - name: Assert exact duration and sound
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          f='Dia_Zero_18h_HQ_2min_Video_Final.mp4'
+          raw=subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',f])
+          d=json.loads(raw)
+          print('duration',d['format']['duration'])
+          print('video',[(s['codec_name'],s.get('width'),s.get('height'),s.get('r_frame_rate')) for s in d['streams'] if s['codec_type']=='video'])
+          print('audio',[(s['codec_name'],s.get('channels')) for s in d['streams'] if s['codec_type']=='audio'])
+          assert 119.93<=float(d['format']['duration'])<=120.08
+          assert len([s for s in d['streams'] if s['codec_type']=='video'])==1
+          assert len([s for s in d['streams'] if s['codec_type']=='audio'])==1
+          assert next(s for s in d['streams'] if s['codec_type']=='video')['width']==1080
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIA-ZERO-18H-FILME-FINAL
+          path: |
+            Dia_Zero_18h_HQ_2min_Video_Final.mp4
+            Dia_Zero_18h_HQ_2min_Celular.mp4
+            Dia_Zero_HQ_Previa_25s.mp4
+          retention-days: 5
