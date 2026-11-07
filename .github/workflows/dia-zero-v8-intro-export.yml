@@ -1,0 +1,59 @@
+name: Dia Zero V8 - abertura 30s com 8 videos genuinos
+on:
+  push:
+    branches: [dia-zero-v8-animacao-generativa-continuidade-20261107]
+    paths: [.github/workflows/dia-zero-v8-intro-export.yml]
+permissions: {contents: read, actions: read}
+jobs:
+  genuine_intro:
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libass9 fonts-dejavu-core
+          python -m pip install pillow
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42420217220
+          pattern: V8_Generative_Clips_Batch_*
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/generated
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395772257
+          name: V5_FINAL_Story_59_Tomadas
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395092680
+          name: DiaZero_V5_Stereo_Foley
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - name: Join ONLY 8 successful real video clips with naturally smooth frame-rate conversion
+        run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -u creative/dia_zero_v8/assemble_v8_intro.py
+      - name: Verify 30 seconds, 24fps, stereo and original narrator
+        run: |
+          python - <<'PY'
+          import json,subprocess,os
+          f='creative/dia_zero_v8/intro/Dia_Zero_V8_30s_Animacao_Generativa_Real.mp4'
+          d=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',f]))
+          assert abs(float(d['format']['duration'])-30)<.10
+          v=next(s for s in d['streams'] if s['codec_type']=='video')
+          a=next(s for s in d['streams'] if s['codec_type']=='audio')
+          assert (v['width'],v['height'],v['r_frame_rate'])==(720,1280,'24/1')
+          assert a['channels']==2 and a['codec_name']=='aac'
+          assert os.path.getsize(f)>2000000
+          print('VERIFIED ONLY GENUINE GENERATED 30s INTRO',os.path.getsize(f),'bytes')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DIA_ZERO_V8_30s_VERDADEIRA_ANIMACAO_GERATIVA
+          path: creative/dia_zero_v8/intro/
+          retention-days: 7
