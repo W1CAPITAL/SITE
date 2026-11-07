@@ -1,0 +1,116 @@
+name: DIA ZERO V4 — master final com Foley conferido
+on:
+  push:
+    branches: [dia-zero-v4-narrativa-coerente-20261107]
+    paths: [.github/workflows/dia-zero-v4-master-corrigido.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  correct-audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install 'numpy<3' scipy soundfile requests beautifulsoup4 pillow opencv-python-headless
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42378375462
+          name: dia-zero-dialogue
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output/voice
+      - name: Verify cut order and sound mapping regressions
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v4.py -v
+      - name: Rebuild precise foley — lock keys only at apartment door, no stray steps
+        run: python -u creative/dia_zero_v4/audio_v4.py
+      - name: Check that every practical sound belongs to visible scene
+        run: |
+          python - <<'PY'
+          import json
+          cues=json.load(open('creative/dia_zero_v4/output/sound_cues_v4.json'))
+          by={c['sound']:[] for c in cues}
+          for c in cues:by[c['sound']].append(c)
+          k=by['keys'][0]
+          assert k['visual_source_index']==84,k
+          assert 108.7 <= k['second'] <= 110.7
+          assert all(x['second']<83 or x['sound']!='stairs' for x in cues)
+          assert all(x['visual_source_index'] in range(96) for x in cues)
+          print('FOLEY CHECK',len(cues),'well-placed real recorded sounds')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIAZERO_V4_FINAL_AUDIO_CONFIRMED
+          path: |
+            creative/dia_zero_v4/output/dia_zero_v4_story_sound.wav
+            creative/dia_zero_v4/output/sound_cues_v4.json
+            creative/dia_zero_v4/output/SFX_CREDITS_V4.json
+          retention-days: 7
+  export:
+    needs: correct-audio
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42390245920
+          name: DiaZero_V4_Filme_60Tomadas_SemAudio
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DIAZERO_V4_FINAL_AUDIO_CONFIRMED
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42390245920
+          name: DiaZero_V4_Plano_Visual
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - name: Render final chronological apocalyptic HQ film in mp4
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/dia_zero_v4_coherent_silent.mp4 -i input/dia_zero_v4_story_sound.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4 -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 27 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V4_HQ_Celular.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4 -t 30 -c:v libx264 -preset veryfast -crf 24 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V4_Previa_30s.mp4
+      - name: Validate every requested output exists and media duration is exact
+        run: |
+          python - <<'PY'
+          import json,os,subprocess
+          for name,duration,width,height in (
+            ('Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4',120,1080,1920),
+            ('Dia_Zero_V4_HQ_Celular.mp4',120,720,1280),
+            ('Dia_Zero_V4_Previa_30s.mp4',30,1080,1920)
+          ):
+            assert os.path.getsize(name)>1000000
+            info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',name]))
+            assert abs(float(info['format']['duration'])-duration)<.07
+            v=next(x for x in info['streams'] if x['codec_type']=='video')
+            a=next(x for x in info['streams'] if x['codec_type']=='audio')
+            assert v['width']==width and v['height']==height
+            assert a['channels']==2
+            print('OK',name,os.path.getsize(name),'bytes')
+          s=json.load(open('input/shot_manifest_v4.json'))
+          assert len(s)==60 and len(set(x['source'] for x in s))==60
+          print('V4 SUCCESS: distinct chronological 60 shots and grounded authentic Foley')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIA_ZERO_V4_VERSAO_CORRIGIDA_FINAL
+          path: |
+            Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4
+            Dia_Zero_V4_HQ_Celular.mp4
+            Dia_Zero_V4_Previa_30s.mp4
+            input/shot_manifest_v4.json
+            input/captions_synchronized_v4.json
+            input/sound_cues_v4.json
+            input/SFX_CREDITS_V4.json
+          retention-days: 7
