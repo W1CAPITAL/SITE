@@ -11,6 +11,8 @@ class V5StoryConsistency(unittest.TestCase):
         self.assertEqual(LOCATIONS,
              ("office",)*8+("street",)*5+("metro",)+("residence",)*2)
         self.assertEqual(SCENES[5][0],("new",0))
+        self.assertEqual(SCENES[5][1],("fix",1)) # gray-coat stranger in same puddle
+        self.assertEqual(SCENES[5][2],("fix",2)) # infected is not main hero
         self.assertEqual(SCENES[5][-1],("new",3)) # return to office to watch news
         self.assertEqual(SCENES[13][-1],("new",10)) # arrive near home after failed metro
         self.assertEqual(SCENES[14][-1],("new",14)) # voice on the other side of door
