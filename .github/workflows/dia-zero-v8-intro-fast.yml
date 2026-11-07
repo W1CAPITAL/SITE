@@ -1,0 +1,45 @@
+name: Dia Zero V8 - exportacao rapida 30s generativos
+on:
+  push:
+    branches: [dia-zero-v8-animacao-generativa-continuidade-20261107]
+    paths: [.github/workflows/dia-zero-v8-intro-fast.yml]
+permissions: {contents: read, actions: read}
+jobs:
+  mp4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core libass9
+          python -m pip install pillow
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42420217220
+          pattern: V8_Generative_Clips_Batch_*
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/generated
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395772257
+          name: V5_FINAL_Story_59_Tomadas
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395092680
+          name: DiaZero_V5_Stereo_Foley
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - name: Export 30 second genuine Wan motion at original 16fps shown in 24fps MP4
+        run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -u creative/dia_zero_v8/assemble_v8_intro_fast.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DIA_ZERO_V8_ABERTURA_30SEG_ANIMACAO_REAL_COMPATIVEL
+          path: creative/dia_zero_v8/intro_fast/
+          retention-days: 7
