@@ -1,0 +1,86 @@
+name: DIA ZERO V7 - export final 120s after QA artifact path fix
+on:
+  push:
+    branches: [dia-zero-v7-objetos-personagens-animados-20261107]
+    paths: [.github/workflows/dia-zero-v7-export-fixed.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  final:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42417656724
+          name: V7_Imagem_Objetos_Animados
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395092680
+          name: DiaZero_V5_Stereo_Foley
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42417656724
+          name: V7_Auditoria_Animacao
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42417078135
+          name: V7_Revisao_12_Sequencias_4_Poses
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: input
+      - name: Export actual interpolated character/object motion as 2-minute MP4
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/Dia_Zero_V7_True_Object_Motion_Silent.mp4 -i input/dia_zero_v5_real_stereo_sound.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_V7_Objetos_e_Pessoas_Animados_720p.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V7_Objetos_e_Pessoas_Animados_720p.mp4 -vf 'scale=1080:1920:flags=lanczos,unsharp=3:3:0.25' -c:v libx264 -preset veryfast -crf 23 -pix_fmt yuv420p -c:a copy -movflags +faststart Dia_Zero_V7_Objetos_e_Pessoas_Animados_1080p.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V7_Objetos_e_Pessoas_Animados_720p.mp4 -t 30 -c:v libx264 -preset veryfast -crf 22 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V7_Abertura_Animada_30s.mp4
+      - name: Verify all three complete MP4 files AND 59 object animation shots
+        run: |
+          python - <<'PY'
+          import os,subprocess,json
+          from pathlib import Path
+          paths=list(Path('input').rglob('motion_v7_audit.json'))
+          print('AUDIT FILES:',paths)
+          assert len(paths)==1,'Expected audit JSON nested under input'
+          data=json.loads(paths[0].read_text())
+          assert data['frames']==2880 and data['total_seconds']==120
+          assert len(data['shots'])==59 and data['real_pose_sequences']==12
+          assert all(x['object_change_mean']>.01 for x in data['shots'])
+          assert len([x for x in data['shots'] if x['pose_kind']])==12
+          for path,dur,w,h in [
+            ('Dia_Zero_V7_Objetos_e_Pessoas_Animados_720p.mp4',120,720,1280),
+            ('Dia_Zero_V7_Objetos_e_Pessoas_Animados_1080p.mp4',120,1080,1920),
+            ('Dia_Zero_V7_Abertura_Animada_30s.mp4',30,720,1280)]:
+              assert os.path.getsize(path)>1000000
+              info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',path]))
+              assert abs(float(info['format']['duration'])-dur)<.11
+              v=next(s for s in info['streams'] if s['codec_type']=='video')
+              a=next(s for s in info['streams'] if s['codec_type']=='audio')
+              assert v['width']==w and v['height']==h and v['r_frame_rate']=='24/1'
+              assert a['codec_name']=='aac' and a['channels']==2
+              print('PASSED',path,os.path.getsize(path),'bytes')
+          os.makedirs('provas',exist_ok=True)
+          import shutil
+          shutil.copy2(paths[0],'provas/motion_v7_audit.json')
+          for p in Path('input').rglob('V7_Pose_Motion_Review.jpg'):
+              shutil.copy2(p,'provas/V7_Pose_Motion_Review.jpg')
+          print('Real independently moving animation: 12 four-pose scenes and 47 prop/environment shots.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIA_ZERO_V7_MP4_ANIMACAO_DE_OBJETOS_120s_FINAL
+          path: |
+            Dia_Zero_V7_Objetos_e_Pessoas_Animados_720p.mp4
+            Dia_Zero_V7_Objetos_e_Pessoas_Animados_1080p.mp4
+            Dia_Zero_V7_Abertura_Animada_30s.mp4
+            provas/motion_v7_audit.json
+            provas/V7_Pose_Motion_Review.jpg
+          retention-days: 7
