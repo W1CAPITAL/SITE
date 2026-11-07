@@ -5,6 +5,7 @@ on:
       - lexispredict-kokoro-voz-20261107
     paths:
       - .github/workflows/lexispredict-kokoro-voz.yml
+      - marketing/lexispredict/gerar_narracao_kokoro.py
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,13 +26,13 @@ jobs:
           sudo apt-get install -y -qq espeak-ng ffmpeg
           python -m pip install --upgrade pip
           python -m pip install 'kokoro>=0.9.4' soundfile numpy
-      - name: Render Brazilian Portuguese male voiceover
+      - name: Render scene-timed Brazilian Portuguese male voiceover
         run: python marketing/lexispredict/gerar_narracao_kokoro.py
       - name: Save voiceovers for the video editor
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lexispredict-narracoes-masculinas-ptbr
+          name: lexispredict-narracoes-masculinas-ptbr-cenas
           path: generated-voices/*
           if-no-files-found: warn
           retention-days: 3
