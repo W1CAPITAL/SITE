@@ -1,4 +1,4 @@
-name: Dia Zero V8 - abertura 30s com 8 videos genuinos
+name: Dia Zero V8 - filme real de 30s corrigido
 on:
   push:
     branches: [dia-zero-v8-animacao-generativa-continuidade-20261107]
