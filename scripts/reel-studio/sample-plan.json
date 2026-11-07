@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "title": "Seu site pode estar afastando clientes — W1 Capital",
+  "resolution": "1080x1920",
+  "fps": 30,
+  "shots": [
+    {
+      "file": "assets/entrada-real.mp4",
+      "start": 0,
+      "duration": 1.7,
+      "role": "hook",
+      "rights": "owned",
+      "kind": "real",
+      "caption": "Seu site pode estar afastando clientes?"
+    },
+    {
+      "file": "assets/navegacao-real.mp4",
+      "start": 0,
+      "duration": 3.2,
+      "role": "problem",
+      "rights": "owned",
+      "kind": "real",
+      "caption": "O contato não deveria estar escondido."
+    },
+    {
+      "file": "assets/projeto-w1-real.mp4",
+      "start": 0,
+      "duration": 4.2,
+      "role": "proof",
+      "rights": "owned",
+      "kind": "real",
+      "caption": "Projeto desenvolvido pela W1",
+      "framing": "blurred"
+    },
+    {
+      "file": "assets/detalhes-real.mp4",
+      "start": 0,
+      "duration": 3,
+      "role": "solution",
+      "rights": "owned",
+      "kind": "real",
+      "caption": "Uma navegação simples e objetiva"
+    },
+    {
+      "file": "assets/cta-real.mp4",
+      "start": 0,
+      "duration": 2,
+      "role": "cta",
+      "rights": "owned",
+      "kind": "real",
+      "caption": "Mande SITE no direct"
+    }
+  ],
+  "audio": {
+    "voice": "assets/voz-aprovada.wav",
+    "music": "assets/trilha-licenciada.wav",
+    "musicRights": "licensed",
+    "musicGain": 0.1
+  },
+  "subtitles": [
+    {
+      "start": 0,
+      "end": 1.7,
+      "text": "Seu site pode afastar clientes sem você perceber."
+    },
+    {
+      "start": 1.7,
+      "end": 4.9,
+      "text": "Se a pessoa não encontra o contato, vai embora."
+    },
+    {
+      "start": 4.9,
+      "end": 9.1,
+      "text": "Aqui está um projeto real da W1 Capital."
+    },
+    {
+      "start": 9.1,
+      "end": 12.1,
+      "text": "Design bonito também precisa funcionar."
+    },
+    {
+      "start": 12.1,
+      "end": 14.1,
+      "text": "Quer um assim? Mande SITE no direct."
+    }
+  ]
+}
