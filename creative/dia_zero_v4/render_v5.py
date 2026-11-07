@@ -56,6 +56,29 @@ def download_new():
             file=directory/f"v5_insert_{p*4+j:02d}.jpg"
             im.resize((W,H),Image.Resampling.LANCZOS).save(file,quality=93)
             urls[("new",p*4+j)]=file
+    # Narrative correction: the infected man in the flooded street must look visibly
+    # different from the protagonist still watching from the office window.
+    fix_url=json.loads((ROOT/"assets_v5_infected.json").read_text())["source"]
+    response=requests.get(fix_url,headers={"User-Agent":"Mozilla/5.0"},timeout=115)
+    response.raise_for_status()
+    fix_sheet=Image.open(io.BytesIO(response.content)).convert("RGB")
+    if fix_sheet.width<500 or fix_sheet.height<800:
+        raise RuntimeError("Replacement infected panels incomplete")
+    fix_sheet.save(directory/"infected_window_pov_page.jpg",quality=93)
+    fix_panels=extract_panels_from_image(fix_sheet,margin=.002)
+    for j in (1,2):
+        tile=fix_panels[j]
+        pw,ph=tile.size
+        if pw/ph>W/H:
+            new_width=round(ph*W/H);off=(pw-new_width)//2
+            tile=tile.crop((off,0,off+new_width,ph))
+        else:
+            new_height=round(pw*H/W);off=(ph-new_height)//2
+            tile=tile.crop((0,off,pw,off+new_height))
+        dest=directory/f"infected_stranger_{j}.jpg"
+        tile.resize((W,H),Image.Resampling.LANCZOS).save(dest,quality=93)
+        urls[("fix",j)]=dest
+    print("New verified infected stranger (not the hero) has been inserted",flush=True)
     return urls
 
 def prepare_art():
