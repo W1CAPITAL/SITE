@@ -22,7 +22,7 @@ jobs:
       - name: Generate natural, lively male PT-BR gaming reel voice
         run: |
           python - <<'PY'
-          import os, soundfile as sf
+          import os, soundfile as sf, torch
           from voxcpm import VoxCPM
           print('Loading VoxCPM2',flush=True)
           engine=VoxCPM.from_pretrained('openbmb/VoxCPM2',load_denoiser=False)
@@ -39,7 +39,8 @@ jobs:
           for i,line in enumerate(lines,1):
               text='('+prompt+')'+line
               print('Generating',i,line,flush=True)
-              speech=engine.generate(text=text,cfg_value=2.0,inference_timesteps=8,seed=8200+i)
+              torch.manual_seed(8200+i)
+              speech=engine.generate(text=text,cfg_value=2.0,inference_timesteps=8)
               sf.write(f'generated-voxcpm/scene_{i:02d}.wav',speech,engine.tts_model.sample_rate)
               print('Saved',i, len(speech)/engine.tts_model.sample_rate,flush=True)
           PY
