@@ -49,6 +49,12 @@ export function validatePlan(p){
   check(rights.includes(p.audio.musicRights),'Informe licença da trilha');
  }
  check(p.audio.musicGain===undefined||finite(p.audio.musicGain)&&p.audio.musicGain>=0&&p.audio.musicGain<=.3,'Música deve ficar abaixo da fala');
+ if(p.audio.effects){
+  check(safeFile(p.audio.effects)&&/\.(wav|mp3|flac|m4a)$/i.test(p.audio.effects),'Faixa de Foley inválida');
+  check(rights.includes(p.audio.effectsRights),'Informe direito de uso dos efeitos sonoros');
+ }
+ check(p.audio.effectsGain===undefined||finite(p.audio.effectsGain)&&p.audio.effectsGain>=0&&p.audio.effectsGain<=.4,'Efeitos sonoros devem ficar abaixo da narração');
+
  if(p.subtitles)for(const x of p.subtitles)check(finite(x.start)&&finite(x.end)&&x.start>=0&&x.end>x.start&&x.end<=duration+.05&&typeof x.text==='string'&&x.text.length>0&&x.text.length<=170,'Legenda/timing inválidos');
  return {...p,duration:Math.round(duration*1000)/1000};
 }
@@ -66,10 +72,20 @@ export async function requestVoice({base,text,voice,fetcher=fetch}){
  check(/audio\/(wav|x-wav|wave|vnd.wave)|application\/octet-stream/i.test(r.headers.get('content-type')||''),'VoiceStudio não retornou WAV');
  const buf=await r.arrayBuffer();check(buf.byteLength>=4&&buf.byteLength<=35_000_000,'Narração inválida');return buf;
 }
+export async function listVoices({base,fetcher=fetch}){
+ const host=parseOrigin(base);
+ const r=await fetcher(host+'/v1/audio/voices',{method:'GET',redirect:'error',signal:AbortSignal.timeout(12000)});
+ check(r.ok,'VoiceStudio não respondeu à consulta de vozes');
+ const data=await r.json();
+ const items=Array.isArray(data.voices)?data.voices:[];
+ return items.filter(x=>x&&x.type==='profile'&&typeof x.voice_id==='string').map(x=>({
+  id:x.voice_id,name:String(x.name||x.voice_id),language:String(x.language||'')
+ }));
+}
 function exec(bin,args){return new Promise((resolve,reject)=>{const p=spawn(bin,args,{stdio:['ignore','pipe','pipe']});let out='',err='';p.stdout.on('data',b=>{if(out.length<2e6)out+=b});p.stderr.on('data',b=>{if(err.length<2e6)err+=b});p.on('error',reject);p.on('close',code=>code===0?resolve(out):reject(Error(bin+' falhou: '+err.slice(-1200))));});}
 export async function probe(file){const out=await exec('ffprobe',['-v','error','-show_format','-show_streams','-of','json',file]);const j=JSON.parse(out);return {duration:Number(j.format?.duration),streams:j.streams||[]};}
 async function inputChecks(root,plan){
- const files=[...plan.shots.map(x=>x.file),plan.audio.voice,...(plan.audio.music?[plan.audio.music]:[])];
+ const files=[...plan.shots.map(x=>x.file),plan.audio.voice,...(plan.audio.music?[plan.audio.music]:[]),...(plan.audio.effects?[plan.audio.effects]:[])];
  for(const f of new Set(files)){const file=inside(root,f),st=await stat(file);check(st.isFile()&&st.size>0,'Mídia vazia: '+f);const real=await realpath(file);check(real.startsWith(root+path.sep),'Mídia fora do projeto: '+f);}
  for(let i=0;i<plan.shots.length;i++){const s=plan.shots[i],m=await probe(inside(root,s.file));check(m.streams.some(x=>x.codec_type==='video')&&finite(m.duration)&&s.start+s.duration<=m.duration+.1,'Clip '+(i+1)+' não tem vídeo ou duração adequada');}
  const voice=await probe(inside(root,plan.audio.voice));check(voice.streams.some(x=>x.codec_type==='audio')&&voice.duration<=plan.duration+5,'Regrave ou ajuste o tempo da voz');
@@ -90,12 +106,17 @@ export async function render(planPath,outPath,{width=1080,height=1920,preset='me
   await exec('ffmpeg',['-hide_banner','-nostdin','-v','error','-y','-f','concat','-safe','0','-i',fileList,'-c','copy',silent]);
   let start=0;const subtitles=p.subtitles??p.shots.map(s=>{const result={start,end:start+s.duration,text:s.caption};start+=s.duration;return result;});
   const ass=path.join(temp,'captions.ass');await writeFile(ass,makeAss(subtitles,p.duration));
-  const argv=['-hide_banner','-nostdin','-v','error','-y','-i',silent,'-i',inside(root,p.audio.voice)],music=Boolean(p.audio.music);
+  const argv=['-hide_banner','-nostdin','-v','error','-y','-i',silent,'-i',inside(root,p.audio.voice)],music=Boolean(p.audio.music),effects=Boolean(p.audio.effects);
   if(music)argv.push('-stream_loop','-1','-i',inside(root,p.audio.music));
+  if(effects)argv.push('-i',inside(root,p.audio.effects));
   const vf='highpass=f=70,lowpass=f=12500,loudnorm=I=-17:TP=-2:LRA=8';
-  const audio=music
-   ? '[1:a]'+vf+',asplit=2[vmain][vside];[2:a]volume='+(p.audio.musicGain??.11)+',highpass=f=45[bed];[bed][vside]sidechaincompress=threshold=0.03:ratio=10:attack=25:release=350[duck];[vmain][duck]amix=inputs=2:duration=longest:dropout_transition=0,loudnorm=I=-14:TP=-1.5:LRA=8[a]'
-   : '[1:a]'+vf+',loudnorm=I=-14:TP=-1.5:LRA=8[a]';
+  let audio=music
+   ? '[1:a]'+vf+',asplit=2[vmain][vside];[2:a]volume='+(p.audio.musicGain??.11)+',highpass=f=45[bed];[bed][vside]sidechaincompress=threshold=0.03:ratio=10:attack=25:release=350[duck];[vmain][duck]amix=inputs=2:duration=longest:dropout_transition=0[base]'
+   : '[1:a]'+vf+'[base]';
+  if(effects){
+   const index=music?3:2;
+   audio+=';['+index+':a]volume='+(p.audio.effectsGain??.16)+',highpass=f=90[fx];[base][fx]amix=inputs=2:duration=longest:dropout_transition=0[pre];[pre]loudnorm=I=-14:TP=-1.5:LRA=8[a]';
+  }else audio+=';[base]loudnorm=I=-14:TP=-1.5:LRA=8[a]';
   await mkdir(path.dirname(path.resolve(outPath)),{recursive:true});
   await exec('ffmpeg',[...argv,'-filter_complex','[0:v]ass='+ass+'[v];'+audio,'-map','[v]','-map','[a]','-t',String(p.duration),'-c:v','libx264','-crf','18','-preset',preset,'-pix_fmt','yuv420p','-r','30','-c:a','aac','-b:a','192k','-ar','48000','-movflags','+faststart',outPath]);
   const result=await probe(outPath);check(Math.abs(result.duration-p.duration)<.3&&result.streams.some(x=>x.codec_type==='video')&&result.streams.some(x=>x.codec_type==='audio'),'MP4 final inválido');
@@ -107,7 +128,8 @@ export async function cli(argv){
  if(action==='doctor'){const f=await exec('ffmpeg',['-version']),p=await exec('ffprobe',['-version']);return {ffmpeg:f.split('\n')[0],ffprobe:p.split('\n')[0],genjutsuModes:GENJUTSU};}
  if(action==='validate'){const root=path.dirname(path.resolve(rest[0])),p=validatePlan(JSON.parse(await readFile(rest[0],'utf8')));await inputChecks(root,p);return{ok:true,shots:p.shots.length,duration:p.duration};}
  if(action==='render')return render(rest[0],rest[1]);
+ if(action==='voices')return listVoices({base:process.env.VOICESTUDIO_BASE_URL||'http://127.0.0.1:8000'});
  if(action==='voice'){const [script,voice,file]=rest;const b=await requestVoice({base:process.env.VOICESTUDIO_BASE_URL||'http://127.0.0.1:8000',text:await readFile(script,'utf8'),voice});await writeFile(file,Buffer.from(b));return{ok:true,file,bytes:b.byteLength};}
- throw Error('Uso: node studio.mjs doctor | validate plan.json | voice roteiro.txt VOZ out.wav | render plan.json out.mp4');
+ throw Error('Uso: node studio.mjs doctor | voices | validate plan.json | voice roteiro.txt VOZ out.wav | render plan.json out.mp4');
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===path.resolve(process.argv[1]))cli(process.argv.slice(2)).then(x=>console.log(JSON.stringify(x,null,2))).catch(e=>{console.error(e.message);process.exitCode=1});
