@@ -1,0 +1,25 @@
+name: W1 Open-Higgsfield bridge
+on:
+  pull_request:
+    paths:
+      - 'scripts/higgsfield/**'
+      - '.github/workflows/higgsfield-bridge.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/higgsfield/**'
+      - '.github/workflows/higgsfield-bridge.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check scripts/higgsfield/render.mjs
+      - run: node --test scripts/higgsfield/render.test.mjs
