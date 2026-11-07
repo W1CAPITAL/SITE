@@ -38,7 +38,7 @@ class DiaZeroV8GenuineVideoTests(unittest.TestCase):
         import pathlib
         script=(pathlib.Path(__file__).parent/"generate_v8_full.py").read_text()
         self.assertIn("/gradio_api/call/generate_video",script)
-        self.assertIn("duration_seconds",script)
+        self.assertIn("DURATION_SECONDS=3.9",script)
         self.assertNotIn("zoompan=",script)
         self.assertNotIn("drawtext=",script)
 
