@@ -1,0 +1,159 @@
+name: DIA ZERO V5 — historia continua HQ e Foley sincronizado
+on:
+  push:
+    branches: [dia-zero-v5-sequencia-continuidadade-e-foley-20261107]
+    paths: [.github/workflows/dia-zero-v5-master.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  visuals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 48
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install video render
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          python -m pip install 'numpy<3' pillow opencv-python-headless requests beautifulsoup4 scipy soundfile
+      - name: Unit tests — 59 unique shots, fixed geography, synchronized effects
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v5.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42386057461
+          name: DiaZero_V3_Captions_Timed
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output
+      - name: Render chronological story with new continuity frames
+        run: python -u creative/dia_zero_v4/render_v5.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V5_Storyboard_59_Sequenced
+          path: |
+            creative/dia_zero_v4/output/dia_zero_v5_storyboard_contact.jpg
+            creative/dia_zero_v4/output/v5_visual_manifest.json
+            creative/dia_zero_v4/output/v5_captions.json
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V5_Coherent_1080p_Silent
+          path: creative/dia_zero_v4/output/dia_zero_v5_1080p_silent.mp4
+          retention-days: 7
+  sound:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install 'numpy<3' pillow opencv-python-headless scipy soundfile requests beautifulsoup4
+      - name: Unit tests — no unmotivated sound
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v5.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42378375462
+          name: dia-zero-dialogue
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output/voice
+      - name: Record grounded genuine Foley and original approved pt-BR narrator
+        run: python -u creative/dia_zero_v4/sound_v5.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V5_Stereo_Foley
+          path: creative/dia_zero_v4/output/dia_zero_v5_real_stereo_sound.wav
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V5_Sound_Provenance
+          path: |
+            creative/dia_zero_v4/output/v5_sound_cues.json
+            creative/dia_zero_v4/output/v5_sound_credits.json
+          retention-days: 7
+  export:
+    needs: [visuals,sound]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V5_Coherent_1080p_Silent
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V5_Stereo_Foley
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V5_Storyboard_59_Sequenced
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V5_Sound_Provenance
+          path: input
+      - name: Export FullHD 2-minute final, mobile copy and introduction preview
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/dia_zero_v5_1080p_silent.mp4 -i input/dia_zero_v5_real_stereo_sound.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_V5_HQ_Cinematografica_2min_FullHD.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V5_HQ_Cinematografica_2min_FullHD.mp4 -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 27 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V5_HQ_Cinematografica_Celular.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V5_HQ_Cinematografica_2min_FullHD.mp4 -t 30 -c:v libx264 -preset veryfast -crf 24 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V5_Previa_30s.mp4
+      - name: End-to-end assert video timeline, sound and captions anchored in illustration
+        run: |
+          python - <<'PY'
+          import json,subprocess,os,math
+          media=[
+            ('Dia_Zero_V5_HQ_Cinematografica_2min_FullHD.mp4',1080,1920,120),
+            ('Dia_Zero_V5_HQ_Cinematografica_Celular.mp4',720,1280,120),
+            ('Dia_Zero_V5_Previa_30s.mp4',1080,1920,30)]
+          for file,w,h,d in media:
+              assert os.path.getsize(file)>2000000
+              meta=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',file]))
+              assert abs(float(meta['format']['duration'])-d)<.08
+              v=next(x for x in meta['streams'] if x['codec_type']=='video')
+              a=next(x for x in meta['streams'] if x['codec_type']=='audio')
+              assert (v['width'],v['height'],v['r_frame_rate'])==(w,h,'24/1')
+              assert a['channels']==2 and a['codec_name']=='aac'
+              print('VALID MP4',file,os.path.getsize(file))
+          timeline=json.load(open('input/v5_visual_manifest.json'))
+          captions=json.load(open('input/v5_captions.json'))
+          sounds=json.load(open('input/v5_sound_cues.json'))
+          credits=json.load(open('input/v5_sound_credits.json'))
+          assert len(timeline)==59
+          assert len(set(tuple(s['asset']) for s in timeline))==59
+          assert timeline[-1]['end_frame']==2880
+          assert all(a['end_frame']==b['start_frame'] for a,b in zip(timeline,timeline[1:]))
+          assert len(captions)>=48 and all(a['end']<b['start'] for a,b in zip(captions,captions[1:]))
+          assert len(sounds)>=38 and len(credits)>=18
+          for fx in sounds:
+              shot=next(s for s in timeline if s['beat']==fx['beat'] and s['pos']==fx['shot'])
+              assert shot['start']<=fx['time_seconds']<shot['end']
+              assert fx['event'] in shot['visible']
+          print('FINAL SUCCESS 120sec, 59 shot story, captions',len(captions),'grounded real sounds',len(sounds),'unique licensed recordings',len(credits))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIA_ZERO_V5_HQ_FILME_CORRIGIDO
+          path: |
+            Dia_Zero_V5_HQ_Cinematografica_2min_FullHD.mp4
+            Dia_Zero_V5_HQ_Cinematografica_Celular.mp4
+            Dia_Zero_V5_Previa_30s.mp4
+            input/dia_zero_v5_storyboard_contact.jpg
+            input/v5_visual_manifest.json
+            input/v5_captions.json
+            input/v5_sound_cues.json
+            input/v5_sound_credits.json
+          retention-days: 7
