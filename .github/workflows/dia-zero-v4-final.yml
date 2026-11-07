@@ -1,0 +1,143 @@
+name: DIA ZERO V4 - filme com historia e som sincronizados
+on:
+  push:
+    branches: [dia-zero-v4-narrativa-coerente-20261107]
+    paths: [.github/workflows/dia-zero-v4-final.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  story:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          python -m pip install 'numpy<3' pillow opencv-python-headless requests beautifulsoup4 scipy soundfile
+      - name: Verify every shot is distinct and every effect belongs to its voice beat
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v4.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42386057461
+          name: DiaZero_V3_Captions_Timed
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output
+      - name: Render revised story in chronological order with nonoverlapping dialogue captions
+        run: python -u creative/dia_zero_v4/render_v4.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V4_Filme_60Tomadas_SemAudio
+          path: creative/dia_zero_v4/output/dia_zero_v4_coherent_silent.mp4
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V4_Plano_Visual
+          path: |
+            creative/dia_zero_v4/output/shot_manifest_v4.json
+            creative/dia_zero_v4/output/captions_synchronized_v4.json
+          retention-days: 7
+  sound:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install 'numpy<3' scipy soundfile requests beautifulsoup4 pillow opencv-python-headless
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42378375462
+          name: dia-zero-dialogue
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output/voice
+      - name: Mix licensed field recordings aligned frame by frame to actual shot plan
+        run: python -u creative/dia_zero_v4/audio_v4.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V4_Gravacoes_Ambientais_Estereo
+          path: creative/dia_zero_v4/output/dia_zero_v4_story_sound.wav
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZero_V4_Foley_Creditos
+          path: |
+            creative/dia_zero_v4/output/SFX_CREDITS_V4.json
+            creative/dia_zero_v4/output/sound_cues_v4.json
+          retention-days: 7
+  export:
+    needs: [story,sound]
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V4_Filme_60Tomadas_SemAudio
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V4_Gravacoes_Ambientais_Estereo
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V4_Foley_Creditos
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZero_V4_Plano_Visual
+          path: input
+      - name: Make final HQ apocalyptic film as Full HD and smartphone MP4
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/dia_zero_v4_coherent_silent.mp4 -i input/dia_zero_v4_story_sound.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4 -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 27 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V4_HQ_Celular.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4 -t 30 -c:v libx264 -preset veryfast -crf 24 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_V4_Previa_30s.mp4
+      - name: Verify 120sec timeline, story order and recorded effect alignment
+        run: |
+          python - <<'PY'
+          import json,subprocess,os
+          file='Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4'
+          d=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',file]))
+          assert 119.94<=float(d['format']['duration'])<=120.06
+          vid=next(x for x in d['streams'] if x['codec_type']=='video')
+          aud=next(x for x in d['streams'] if x['codec_type']=='audio')
+          assert (vid['width'],vid['height'],vid['r_frame_rate'])==(1080,1920,'24/1')
+          assert aud['codec_name']=='aac' and aud['channels']==2
+          shots=json.load(open('input/shot_manifest_v4.json'))
+          cues=json.load(open('input/captions_synchronized_v4.json'))
+          sounds=json.load(open('input/sound_cues_v4.json'))
+          credits=json.load(open('input/SFX_CREDITS_V4.json'))
+          assert len(shots)==60 and len(set(s['panel_source'] for s in shots))==60
+          assert all(x['end_frame']==y['start_frame'] for x,y in zip(shots,shots[1:]))
+          assert shots[-1]['end_frame']==2880
+          assert all(x['end']<=y['start'] for x,y in zip(cues,cues[1:]))
+          assert len(sounds)>=35 and len(credits)>=24
+          for key in ('glass','papers','alarm','splash','zombie','fire','keys','helicopter'):
+             assert key in credits, key
+          print('VALIDATED 120sec, 60 hand-curated cuts, stereo AAC,',len(cues),'narration cues,',len(sounds),'real grounded FX.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DIA_ZERO_V4_CORRIGIDO_FINAL_2MIN
+          path: |
+            Dia_Zero_V4_HQ_Historia_Coerente_1080p.mp4
+            Dia_Zero_V4_HQ_Celular.mp4
+            Dia_Zero_V4_Previa_30s.mp4
+            input/shot_manifest_v4.json
+            input/captions_synchronized_v4.json
+            input/sound_cues_v4.json
+            input/SFX_CREDITS_V4.json
+          retention-days: 7
