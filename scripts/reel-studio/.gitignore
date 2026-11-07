@@ -1,0 +1,8 @@
+/assets/
+/private/
+*.mp4
+*.mov
+*.wav
+*.mp3
+*.flac
+*.webm
