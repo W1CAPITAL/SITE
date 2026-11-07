@@ -1,0 +1,16 @@
+name: DIA ZERO V5 — teste de regressão antes da correção
+on:
+  push:
+    branches: [dia-zero-v5-sequencia-continuidadade-e-foley-20261107]
+    paths: [.github/workflows/dia-zero-v5-red.yml]
+permissions: {contents: read}
+jobs:
+  prove-regressions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install pillow numpy opencv-python-headless scipy soundfile requests beautifulsoup4
+      - name: Reproduce story-order and acoustic mismatches before fix
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v5.py -v
