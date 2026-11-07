@@ -1,0 +1,103 @@
+name: Dia Zero V2 - HQ dinamica e audio real
+on:
+  push:
+    branches: [dia-zero-hq-audio-movimento-v2-20261107]
+    paths: [.github/workflows/dia-zero-v2-final.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  visuals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          python -m pip install 'numpy<3' pillow opencv-python-headless requests beautifulsoup4 scipy soundfile
+      - name: Confirm V2 unit tests
+        run: PYTHONPATH=creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v4 -p test_v2.py -v
+      - name: Render 64 distinct shots for exactly 120 seconds
+        run: python -u creative/dia_zero_v4/render_video_v2.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZeroV2_Imagem_1080p
+          path: creative/dia_zero_v4/output/dia_zero_v2_silent.mp4
+          retention-days: 5
+  audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 27
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install 'numpy<3' scipy soundfile requests beautifulsoup4 pillow opencv-python-headless
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42378375462
+          name: dia-zero-dialogue
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v4/output/voice
+      - name: Mix real recorded licensed effects, master original good narration
+        run: python -u creative/dia_zero_v4/render_audio_v2.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZeroV2_AudioReal
+          path: creative/dia_zero_v4/output/dia_zero_v2_real_audio.wav
+          retention-days: 5
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZeroV2_FontesSonoras
+          path: creative/dia_zero_v4/output/sfx/SOURCES.json
+          retention-days: 5
+  export:
+    needs: [visuals,audio]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZeroV2_Imagem_1080p
+          path: input
+      - uses: actions/download-artifact@v4
+        with:
+          name: DiaZeroV2_AudioReal
+          path: input
+      - name: Export 1080p and 720p MP4 files with spatial real audio
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i input/dia_zero_v2_silent.mp4 -i input/dia_zero_v2_real_audio.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 224k -ar 48000 -ac 2 -t 120 -movflags +faststart Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4 -vf scale=720:1280 -c:v libx264 -preset veryfast -crf 27 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_18h_HQ_V2_Imersivo_Celular.mp4
+          ffmpeg -hide_banner -loglevel error -y -i Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4 -t 25 -c:v libx264 -preset veryfast -crf 25 -c:a aac -b:a 160k -movflags +faststart Dia_Zero_18h_HQ_V2_Previa_25s.mp4
+      - name: Verify duration, frames, audio and clear caption region
+        run: |
+          python - <<'PY'
+          import json,subprocess,os
+          f='Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4'
+          a=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',f]))
+          print('File',f,os.stat(f).st_size,'duration',a['format']['duration'])
+          assert 119.93<=float(a['format']['duration'])<=120.08
+          v=next(x for x in a['streams'] if x['codec_type']=='video')
+          u=next(x for x in a['streams'] if x['codec_type']=='audio')
+          assert v['width']==1080 and v['height']==1920 and v['r_frame_rate']=='24/1'
+          assert u['channels']==2 and u['codec_name']=='aac'
+          print('QA SUCCESS: 120s 24fps 1080x1920, stereo AAC')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DiaZeroV2_FILME_FINAL_2MIN
+          path: |
+            Dia_Zero_18h_HQ_V2_Imersivo_1080p.mp4
+            Dia_Zero_18h_HQ_V2_Imersivo_Celular.mp4
+            Dia_Zero_18h_HQ_V2_Previa_25s.mp4
+          retention-days: 5
