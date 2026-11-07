@@ -45,14 +45,14 @@ ASSET_QUERIES={
  "traffic":("traffic",["city traffic background ambience","urban ambient sound","road traffic sound"]),
  "alert":("notification",["notification alert","phone notification","message notification","notification"]),
  "electrical":("electricity",["electric buzz","electrical spark","electric crackle","power failure","electric"]),
- "collision":("car",["car crash","car crashing","car collision","crash"]),
+ "collision":("crash",["Truck crash with explosion"]),
  "siren":("siren",["police siren","ambulance siren","siren"]),
- "crowd":("crowd",["crowd panic","people screaming","crowd screaming","crowd of people","crowd"]),
- "stairs":("footsteps",["footsteps on stairs","walking up stairs","wooden stairs","running footsteps","stairs"]),
- "footsteps":("footsteps",["running footsteps","running on","running footsteps","fast footsteps","footsteps"]),
+ "crowd":("scream",["Rioting Crowd"]),
+ "stairs":("footsteps",["Footsteps in a tunnel loop"]),
+ "footsteps":("footsteps",["Crunchy road fast walking loop"]),
  "door":("door",["knocking on a door","door knock","knocking","door opening","door"]),
  "helicopter":("helicopter",["helicopter flying","helicopter rotor","flying helicopter","helicopter"]),
- "call":("phone",["cell phone ringing","phone ringing","phone vibration","telephone ring","phone"]),
+ "call":("phone",["Marimba ringtone"]),
  "metro":("subway",["subway train","subway","train station","metro"]),
  "heartbeat":("heartbeat",["heartbeat sound","slow heartbeat","heart beating","heartbeat"]),
 }
@@ -87,7 +87,7 @@ def catalogue(slug):
 def choose(title_list,needles):
     for needle in needles:
         for name,url in title_list:
-            if needle.lower() in name.lower():return name,url
+            if needle.strip().lower() == name.strip().lower():return name,url
     return None
 
 def get_sfx():
