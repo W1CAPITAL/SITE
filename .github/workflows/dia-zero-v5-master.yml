@@ -1,4 +1,4 @@
-name: DIA ZERO V5 — historia continua HQ e Foley sincronizado
+name: DIA ZERO V5 — final com historia e Foley auditados
 on:
   push:
     branches: [dia-zero-v5-sequencia-continuidadade-e-foley-20261107]
@@ -146,7 +146,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: DIA_ZERO_V5_HQ_FILME_CORRIGIDO
+          name: DIA_ZERO_V5_CORRIGIDO_AUDIO_E_IMAGENS
           path: |
             Dia_Zero_V5_HQ_Cinematografica_2min_FullHD.mp4
             Dia_Zero_V5_HQ_Cinematografica_Celular.mp4
