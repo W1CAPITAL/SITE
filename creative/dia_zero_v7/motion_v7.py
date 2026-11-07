@@ -279,6 +279,157 @@ def _rotor(img,sec):
         y=int(cy+span*.26*math.sin(angle))
         cv2.line(img,(cx,cy),(x,y),(30,42,54),max(1,w//600),cv2.LINE_AA)
 
+def _television(img,shot,sec):
+    """Real localized LCD/tube scanlines, moving noisy picture and presenter light."""
+    h,w=img.shape[:2]
+    x1=int(w*.17);x2=int(w*.81)
+    y1=int(h*.20);y2=int(h*.43)
+    if x2<=x1 or y2<=y1:return
+    overlay=np.zeros_like(img)
+    step=max(4,int(h*.024))
+    motion=int(sec*28)
+    for y in range(y1+motion%step,y2,step):
+        cv2.line(overlay,(x1+3,y),(x2-3,y),(105,136,164),1,cv2.LINE_AA)
+    # 3 independent moving rectangles inside TV represent broadcast/cutaway motion.
+    for i in range(3):
+        x=int(x1+((sec*32+i*37)%(x2-x1)))
+        y=int(y1+(i+1)*(y2-y1)/4)
+        cv2.rectangle(overlay,(x,y),(min(x2,x+max(2,w//28)),min(y2,y+max(2,h//65))),
+                      (119,166,182),-1)
+    alpha=.13+.11*(.5+.5*math.sin(sec*12.))
+    _draw_alpha(img,overlay,alpha)
+    if "static" in shot["visible"]:
+        rng=np.random.default_rng(42+int(sec*30))
+        for _ in range(max(25,w//3)):
+            xx=int(rng.integers(x1,x2));yy=int(rng.integers(y1,y2))
+            img[yy,xx]=(220,222,219)
+
+def _elevator(img,shot,sec):
+    """The elevator's indicators blink and the door seam opens/shuts locally."""
+    h,w=img.shape[:2]
+    cy=int(h*.35);cx=int(w*.54)
+    gap=int((.5+.5*math.sin(sec*2.7))*w*.056)
+    layer=np.zeros_like(img)
+    cv2.rectangle(layer,(cx-gap,cy-int(h*.22)),(cx+gap,cy+int(h*.32)),
+                  (21,32,47),-1)
+    _draw_alpha(img,layer,.25)
+    cv2.line(img,(cx-gap,cy-int(h*.21)),(cx-gap,cy+int(h*.28)),
+             (70,80,94),max(1,w//300),cv2.LINE_AA)
+    cv2.line(img,(cx+gap,cy-int(h*.21)),(cx+gap,cy+int(h*.28)),
+             (70,80,94),max(1,w//300),cv2.LINE_AA)
+    # One small elevator indicator toggles red and amber, not entire image.
+    color=(16,54,227) if int(sec*3)%2 else (13,148,220)
+    cv2.circle(img,(cx+int(w*.10),cy-int(h*.10)),max(3,w//47),color,-1,cv2.LINE_AA)
+
+def _running_figure(img,shot,sec):
+    """Puppet the LOWER-BODY region independently of background and add footfalls.
+    Not a moving camera: only clothing/legs/shadows translate a few pixels.
+    """
+    h,w=img.shape[:2]
+    if h<80 or w<60:return
+    x1=int(w*.25);x2=int(w*.75)
+    y1=int(h*.47);y2=int(h*.90)
+    src=img[y1:y2,x1:x2].copy()
+    hh,ww=src.shape[:2]
+    offset=math.sin(sec*2*math.pi*2.3)*max(2,int(h*.009))
+    mat=np.float32([[1,0,math.cos(sec*8.7)*w*.006],[0,1,offset]])
+    moved=cv2.warpAffine(src,mat,(ww,hh),flags=cv2.INTER_LINEAR,
+                        borderMode=cv2.BORDER_REFLECT_101)
+    mask=np.zeros((hh,ww),np.float32)
+    cv2.ellipse(mask,(ww//2,hh//2),(max(8,int(ww*.40)),max(8,int(hh*.44))),
+                0,0,360,1.,-1)
+    mask=cv2.GaussianBlur(mask,(0,0),max(2,w*.016))[:,:,None]*.76
+    img[y1:y2,x1:x2]=(src*(1-mask)+moved*mask).astype(np.uint8)
+    # Separate moving footstep shadow / dust at floor, staggered between strides.
+    xc=int(w*(.43+.10*math.sin(sec*13.5)))
+    yc=int(h*.91)
+    rad=int((.8+.2*math.cos(sec*11))*w*.09)
+    sh=np.zeros_like(img)
+    cv2.ellipse(sh,(xc,yc),(max(6,rad),max(2,rad//5)),
+                0,0,360,(13,18,28),-1,cv2.LINE_AA)
+    _draw_alpha(img,sh,.16)
+
+def _door_object(img,shot,sec):
+    """A door edge pivots, handle and corridor shadows move as actual props."""
+    h,w=img.shape[:2]
+    phase=min(1.,max(0.,sec/1.2))
+    pivotx=int(w*.64);y0=int(h*.18);y1=int(h*.80)
+    angle=math.sin(phase*math.pi*.83)
+    depth=max(3,int(w*.08*angle))
+    shade=np.zeros_like(img)
+    doorpoly=np.array([[pivotx,y0],[pivotx+depth,y0+int(h*.04)],
+                       [pivotx+depth,y1-int(h*.05)],[pivotx,y1]],np.int32)
+    cv2.fillConvexPoly(shade,doorpoly,(18,26,39),cv2.LINE_AA)
+    _draw_alpha(img,shade,.30)
+    cv2.line(img,(pivotx+depth,y0),(pivotx+depth,y1),(75,82,99),1,cv2.LINE_AA)
+    knob=(int(pivotx+depth-2),int(h*.59))
+    cv2.circle(img,knob,max(2,w//90),(130,153,190),-1,cv2.LINE_AA)
+
+def _knocking_door(img,shot,sec):
+    _door_object(img,shot,sec*.35)
+    h,w=img.shape[:2]
+    cx=int(w*.67);cy=int(h*.54)
+    for i in range(3):
+        t=((sec+i*.27)%1.)/1.
+        radius=max(3,int(w*(.02+.11*t)))
+        color=(92+int(42*(1-t)),94+int(38*(1-t)),110+int(35*(1-t)))
+        cv2.ellipse(img,(cx,cy),(radius,max(2,radius//2)),0,205,330,color,1,cv2.LINE_AA)
+
+def _keys_lock(img,shot,sec):
+    h,w=img.shape[:2]
+    cx=int(w*.51);cy=int(h*.59)
+    angle=-.4+min(1.,sec/.9)*1.3
+    dx=int(math.cos(angle)*w*.12);dy=int(math.sin(angle)*h*.04)
+    cv2.line(img,(cx,cy),(cx+dx,cy+dy),(168,188,195),max(2,w//280),cv2.LINE_AA)
+    cv2.circle(img,(cx+dx,cy+dy),max(2,w//105),(60,86,114),1,cv2.LINE_AA)
+
+def _breath(img,shot,sec):
+    h,w=img.shape[:2]
+    cx=int(w*.52);cy=int(h*.47)
+    rx=max(7,int(w*.24));ry=max(7,int(h*.25))
+    canvas=np.zeros_like(img)
+    intensity=.3+.7*abs(math.sin(sec*2.6))
+    cv2.ellipse(canvas,(cx,cy),(rx,ry),0,0,360,(22,38,61),-1,cv2.LINE_AA)
+    canvas=cv2.GaussianBlur(canvas,(0,0),max(2,int(w*.025)))
+    _draw_alpha(img,canvas,.07+.17*intensity)
+    # A shadow in the hallway is displaced independently of hero/camera.
+    bar=np.zeros_like(img)
+    shift=int(math.sin(sec*2.8)*w*.085)
+    cv2.ellipse(bar,(max(0,min(w-1,int(w*.76+shift))),int(h*.67)),
+                (max(8,int(w*.11)),max(9,int(h*.21))),0,0,360,(15,23,32),-1)
+    _draw_alpha(img,bar,.16)
+
+def _floor_creak(img,shot,sec):
+    h,w=img.shape[:2]
+    layer=np.zeros_like(img)
+    # A visible shadow advances across floorboards; not a global darkening filter.
+    phase=min(1.,sec/1.5)
+    y0=int(h*(.80-.14*phase))
+    extent=int(w*(.13+.16*phase))
+    cx=int(w*.57)
+    pts=np.array([[cx-extent,y0],[cx+extent,y0],
+                   [cx+int(extent*.35),min(h-1,int(h*.96))],
+                   [cx-int(extent*.62),min(h-1,int(h*.96))]],np.int32)
+    cv2.fillConvexPoly(layer,pts,(13,24,33),cv2.LINE_AA)
+    _draw_alpha(img,layer,.15)
+
+def _clock_hands(img,sec):
+    h,w=img.shape[:2]
+    cx=int(w*.38);cy=int(h*.31)
+    rr=max(5,int(w*.095))
+    angle=-math.pi/2+sec*.14
+    cv2.line(img,(cx,cy),(int(cx+rr*math.cos(angle)),int(cy+rr*math.sin(angle))),
+             (28,39,52),max(1,w//240),cv2.LINE_AA)
+    cv2.circle(img,(cx,cy),max(1,w//260),(161,173,184),-1,cv2.LINE_AA)
+
+def _bag_swing(img,sec):
+    h,w=img.shape[:2]
+    cx=int(w*(.54+.025*math.sin(sec*6)));cy=int(h*.69)
+    rx=max(7,int(w*.11));ry=max(10,int(h*.105))
+    layer=np.zeros_like(img)
+    cv2.ellipse(layer,(cx,cy),(rx,ry),0,0,360,(24,34,45),-1,cv2.LINE_AA)
+    _draw_alpha(img,layer,.14)
+
 def physical_effects(frame,shot,sec):
     """Every effect animates an object/prop or region, never the camera."""
     out=frame.copy()
@@ -294,6 +445,17 @@ def physical_effects(frame,shot,sec):
     if "traffic" in acts or "horn" in acts:_cars(out,shot,sec)
     if shot["beat"] in (2,8,13) or "boom" in acts:_clouds(out,shot,sec)
     if "helicopter" in acts:_rotor(out,sec)
+    # Local articulated/set-object movement on shots that previously stayed static.
+    if "tv" in acts or "static" in acts:_television(out,shot,sec)
+    if "elevator" in acts:_elevator(out,shot,sec)
+    if "footsteps" in acts or "stairs" in acts:_running_figure(out,shot,sec)
+    if "door" in acts or "gate" in acts or "metal" in acts:_door_object(out,shot,sec)
+    if "knock" in acts:_knocking_door(out,shot,sec)
+    if "keys" in acts:_keys_lock(out,shot,sec)
+    if "heartbeat" in acts or "breath" in acts:_breath(out,shot,sec)
+    if "floor" in acts:_floor_creak(out,shot,sec)
+    if "clock" in acts:_clock_hands(out,sec)
+    if "bag" in acts:_bag_swing(out,sec)
     return out
 
 def _cover_crop(panel,size):
