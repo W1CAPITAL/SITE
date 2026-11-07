@@ -135,7 +135,7 @@ def localized_motion(frame,shot,local,seconds):
         o=np.zeros_like(frame)
         cx=int((.25+.4*progress)*W)
         cv2.ellipse(o,(cx,int(H*.60)),(int(W*.13),int(H*.20)),0,0,360,(188,188,207),-1)
-        frame=cv2.addWeighted(frame,.97,cv2.GaussianBlur(o,(0,0),85),.03,0)
+        frame=cv2.addWeighted(frame,.97,cv2.GaussianBlur(o,(0,0),26),.03,0)
     return frame
 
 def render():
