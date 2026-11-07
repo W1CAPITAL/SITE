@@ -1,5 +1,5 @@
 'use strict';
-const G1='https://github.com/W1CAPITAL',G2='https://github.com/W2CAPITAL',CV='assets/Curriculo_Davi_Alves_Figueredo.pdf',EM='mailto:davialves.figueredo@gmail.com',WA='https://wa.me/5513991199349';
+const G1='https://github.com/W1CAPITAL',G2='https://github.com/W2CAPITAL',CV='assets/Curriculo_Davi_Alves_Figueredo.pdf',EM='mailto:davialves.figueredo@gmail.com',FORM_EMAIL='mailto:corporacaow1capital@gmail.com',WA='https://wa.me/5513991199349';
 const projectData=[
 {name:'LexisPredict',ref:'W1CAPITAL/LexisPredict',group:'LEGAL TECH',initial:'LP',description:'Plataforma de operações jurídicas com processos, atendimento, relatórios, evidências e ferramentas de inteligência.',stack:['TypeScript','Next.js','Supabase']},
 {name:'PredictLM',ref:'W2CAPITAL/PredictLm',group:'INTELIGÊNCIA ARTIFICIAL',initial:'AI',description:'Projeto de assistente de IA com experiências de chat e fluxos especializados, incluindo aplicações jurídicas.',stack:['Next.js','React','TypeScript']},
@@ -89,7 +89,7 @@ function render(focus=false){
   e.preventDefault();if(!form.reportValidity())return;
   const fd=new FormData(form),subject=String(fd.get('subject')||'Contato profissional');
   const body=`Olá, Davi.\n\nNome: ${fd.get('name')}\nE-mail: ${fd.get('email')}\n\n${fd.get('message')}`;
-  location.href=EM+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  location.href=FORM_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   const feedback=document.getElementById('form-feedback');if(feedback)feedback.textContent='E-mail preparado para revisão no seu aplicativo. Se ele não abrir, use o endereço de e-mail ao lado.';
  });
  reveal();if(focus)app.focus({preventScroll:true});

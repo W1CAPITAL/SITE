@@ -81,7 +81,7 @@ test('email form encodes the complete message and blocks invalid submissions',()
  valid=true;submit({preventDefault(){prevented++}});
  assert.equal(prevented,2);
  const url=new URL(loc.href);
- assert.equal(url.protocol,'mailto:');assert.equal(url.pathname,'davialves.figueredo@gmail.com');
+ assert.equal(url.protocol,'mailto:');assert.equal(url.pathname,'corporacaow1capital@gmail.com');
  assert.equal(url.searchParams.get('subject'),data.subject);
  for(const value of [data.name,data.email,data.message])assert.ok(url.searchParams.get('body').includes(value));
  assert.match(feedback.textContent,/revisão/);
