@@ -46,7 +46,7 @@ test('localhost-only VoiceStudio with one speech request, no paid fallbacks',asy
  assert.equal(wav.byteLength,5);assert.equal(count,1);
 });
 function ff(...args){const r=spawnSync('ffmpeg',['-hide_banner','-loglevel','error',...args],{encoding:'utf8'});
- if(r.status!==0)throw Error(r.stderr||'ffmpeg failed');}
+ if(r.error)throw r.error;if(r.status!==0)throw Error('ffmpeg exit '+r.status+': '+(r.stderr||r.stdout||'unknown error'));}
 test('actual smoke: MP4 vertical has visible captions, audio, footage and correct duration',async()=>{
  const dir=await mkdtemp(path.join(tmpdir(),'w1-reel-smoke-'));
  try{
