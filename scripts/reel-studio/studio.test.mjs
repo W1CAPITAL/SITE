@@ -4,7 +4,7 @@ import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {validatePlan,makeAss,parseDuration,parseOrigin,requestVoice,categorizeGenjutsu,render,probe} from './studio.mjs';
+import {validatePlan,makeAss,parseDuration,parseOrigin,requestVoice,listVoices,categorizeGenjutsu,render,probe} from './studio.mjs';
 
 function plan(){
  return {version:1,title:'W1 real-site smoke',resolution:'1080x1920',fps:30,shots:[
@@ -21,6 +21,22 @@ test('validates real-footage proof, initial hook and audio rights',()=>{
   p=>p.shots[1].duration=9]){
   const data=plan();mutate(data);assert.throws(()=>validatePlan(data));
  }
+});
+test('a dedicated foley / sound-effects track needs rights and safe volume',()=>{
+ const p=plan();
+ p.audio.effects='assets/foley.wav';
+ assert.throws(()=>validatePlan(p));
+ p.audio.effectsRights='licensed';p.audio.effectsGain=.2;
+ assert.equal(validatePlan(p).audio.effectsGain,.2);
+ p.audio.effectsGain=3;assert.throws(()=>validatePlan(p));
+});
+test('VoiceStudio lists actual local voice profiles rather than guessing IDs',async()=>{
+ const voices=await listVoices({base:'http://127.0.0.1:8000',fetcher:async(url)=>{
+  assert.equal(url,'http://127.0.0.1:8000/v1/audio/voices');
+  return Response.json({voices:[{voice_id:'nova',type:'openai_alias',name:'Nova'},
+   {voice_id:'br_jovem',type:'profile',name:'Voz brasileira',language:'pt-BR'}]});
+ }});
+ assert.equal(voices.length,1);assert.equal(voices[0].id,'br_jovem');
 });
 test('Genjutsu must have whole-clip visual approval; CGI requires disclaimer',()=>{
  const p=plan(),s=p.shots[1];s.kind='generated';s.provider='abdullayevziyodulla/open-genjutsu';
@@ -55,8 +71,10 @@ test('actual smoke: MP4 vertical has visible captions, audio, footage and correc
     '-c:v','libx264','-preset','ultrafast','-y',path.join(assets,i+'.mp4'));
   ff('-f','lavfi','-i','sine=frequency=440:sample_rate=48000:duration=10.4','-y',path.join(assets,'voz.wav'));
   ff('-f','lavfi','-i','sine=frequency=300:sample_rate=48000:duration=3','-y',path.join(assets,'trilha.wav'));
+  ff('-f','lavfi','-i','sine=frequency=800:sample_rate=48000:duration=3','-y',path.join(assets,'foley.wav'));
   const src=path.join(dir,'plan.json'),out=path.join(dir,'render.mp4');
-  await writeFile(src,JSON.stringify(plan()));
+  const p=plan();p.audio.effects='assets/foley.wav';p.audio.effectsRights='owned';p.audio.effectsGain=.15;
+  await writeFile(src,JSON.stringify(p));
   const result=await render(src,out,{width:360,height:640,preset:'ultrafast'});
   const media=await probe(out);
   assert.equal(result.ok,true);assert.ok(Math.abs(media.duration-10.4)<.3);
