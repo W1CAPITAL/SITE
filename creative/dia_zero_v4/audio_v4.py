@@ -78,20 +78,18 @@ SFX_EVENTS=[
  (10,.20,"zombie",.062,-.38),
  (10,1.85,"wetsteps",.072,.05),
  (10,4.5,"wind",.031,.32),  # exposed alley wind rather than trailer whoosh
- (10,5.55,"stairs",.035,-.27),
  (11,1.9,"helicopter",.14,-.55),
- (11,4.7,"wetsteps",.031,.15),
  (12,.20,"phone",.095,-.13), # caller ID at 90.2 sec
  (12,3.7,"static",.025,.13), # almost silent bad connection; NO robotic voice
  (13,1.8,"metro",.072,-.21), # closed station in frame
  (13,5.0,"electric",.044,.0),# distant power grid dies
  (14,.30,"stairs",.075,-.13),
- (14,2.7,"keys",.095,.24),  # apartment key/lock close-up
+ (14,4.05,"keys",.095,.24),  # apartment key/lock close-up
  (14,4.5,"knock",.095,.58), # figure behind door
  (14,6.45,"door",.026,.36), # door shifts as she speaks
  (15,.22,"phone",.125,-.19),# final contradictory message
  (15,3.25,"heartbeat",.037,.0),
- (15,5.60,"door",.029,.36), # ominous door movement only
+ (15,5.95,"door",.029,.36), # ominous door movement only
 ]
 # Five physical soundspaces; no random panning jumps, no endless artificial tones.
 BEDS=[
