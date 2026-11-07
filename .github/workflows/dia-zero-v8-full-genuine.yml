@@ -1,0 +1,104 @@
+name: DIA ZERO V8 - filme 120s com 32 animacoes genuinas Wan2.2
+on:
+  push:
+    branches: [dia-zero-v8-animacao-generativa-continuidade-20261107]
+    paths: [.github/workflows/dia-zero-v8-full-genuine.yml]
+  workflow_dispatch:
+permissions: {contents: read, actions: read}
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install 'numpy<3' pillow opencv-python-headless scipy soundfile requests beautifulsoup4
+      - name: Verify 32 video shot prompts and physical location boundaries
+        run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v8 -p 'test_v8*.py' -v
+      - name: Create 32 exact continuity images from original illustrated HQ
+        run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -u creative/dia_zero_v8/prepare_frames_v8.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: V8_32_Original_Continuity_Frames
+          path: creative/dia_zero_v8/input
+          retention-days: 7
+  generate:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        batch: [0,1,2,3]
+    env:
+      V8_BATCH_INDEX: ${{ matrix.batch }}
+      V8_BATCH_COUNT: "4"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install pillow requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: V8_32_Original_Continuity_Frames
+          path: creative/dia_zero_v8/input
+      - name: Real temporal GPU generation of eight unique scenes — no fake slides
+        run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -u creative/dia_zero_v8/generate_v8_full.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: V8_Generative_Clips_Batch_${{ matrix.batch }}
+          path: creative/dia_zero_v8/generated/
+          if-no-files-found: warn
+          retention-days: 7
+  assemble:
+    needs: [prepare,generate]
+    if: always() && needs.prepare.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libass9 fonts-dejavu-core
+          python -m pip install pillow opencv-python-headless 'numpy<3'
+      - uses: actions/download-artifact@v4
+        with:
+          name: V8_32_Original_Continuity_Frames
+          path: creative/dia_zero_v8/input
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: V8_Generative_Clips_Batch_*
+          merge-multiple: true
+          path: creative/dia_zero_v8/generated
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395772257
+          name: V5_FINAL_Story_59_Tomadas
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395092680
+          name: DiaZero_V5_Stereo_Foley
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - name: Refuse static slide fallback — export only if 32 REAL clips succeeded
+        run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -u creative/dia_zero_v8/assemble_v8.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DIA_ZERO_V8_120S_REAL_TEMPORAL_ANIMATED_OR_HONEST_DIAGNOSIS
+          path: creative/dia_zero_v8/final/
+          if-no-files-found: warn
+          retention-days: 7
