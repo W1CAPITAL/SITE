@@ -74,6 +74,7 @@
   <link rel="stylesheet" href="./sales/refined.css?v=20261104-ops1-nav2">
   <script src="./sales/config.js"></script>
   <script type="module" src="./sales/app.js"></script>
+  <script type="module" src="./sales/motion-experience.mjs?v=20261108-cinematic1"></script>
   <script defer src="./sales/premium.js"></script>
    <script src="./sales/visual-gallery.js?v=20261104-gallery1" type="module"></script>
   <script src="./sales/interactive-demo.mjs?v=20261104-tabs1" type="module"></script>
@@ -117,6 +118,7 @@
 </head>
 <body class="w1-premium">
   <a class="skip" href="#conteudo">Ir para o conteúdo principal</a>
+  <div class="w1-motion-progress" data-motion-progress aria-hidden="true"></div>
 
   <header class="top" id="inicio">
     <div class="top-inner">
@@ -201,16 +203,16 @@
     </section>
     <section class="hero section" aria-labelledby="hero-heading">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> INTELIGÊNCIA OPERACIONAL E TECNOLOGIA</p>
-        <h1 id="hero-heading">Estratégia, tecnologia e clareza para <em>decisões melhores.</em></h1>
-        <p>A W1 Capital desenvolve soluções digitais para organizar processos, informações e equipes. Da gestão jurídica à automação e à criação de sites para pequenos negócios, cada solução começa pelo que sua operação realmente precisa.</p>
-        <div class="hero-actions">
+        <p data-motion-hero class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> INTELIGÊNCIA OPERACIONAL E TECNOLOGIA</p>
+        <h1 data-motion-hero id="hero-heading">Estratégia, tecnologia e clareza para <em>decisões melhores.</em></h1>
+        <p data-motion-hero>A W1 Capital desenvolve soluções digitais para organizar processos, informações e equipes. Da gestão jurídica à automação e à criação de sites para pequenos negócios, cada solução começa pelo que sua operação realmente precisa.</p>
+        <div data-motion-hero class="hero-actions">
           <a class="btn primary" href="#solucoes">Conheça nossas soluções <span aria-hidden="true">↗</span></a>
           <a class="btn secondary" href="#atalhos">Ver todas as páginas <span aria-hidden="true">↗</span></a>
           <a class="btn secondary" href="./videos/">Assistir ao comercial <span aria-hidden="true">↗</span></a>
           <a class="btn secondary" href="https://wa.me/5513991199349?text=Ol%C3%A1%2C%20W1%20Capital%21%20Quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer">Fale com um especialista <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="hero-proof" aria-label="Como é o primeiro contato">
+        <div data-motion-hero class="hero-proof" aria-label="Como é o primeiro contato">
           <span><b aria-hidden="true">✓</b> Demonstração guiada</span>
           <span><b aria-hidden="true">✓</b> Sem compromisso</span>
           <span><b aria-hidden="true">✓</b> Atendimento humano</span>
@@ -242,14 +244,14 @@
           <a class="discover-all" href="./explorar/">Explorar todas as páginas <span aria-hidden="true">↗</span></a>
         </div>
         <div class="discover-grid">
-          <a class="discover-card featured" href="./lexispredict/"><span class="discover-tag">01 · SOFTWARE JURÍDICO</span><strong>LexisPredict · CRM</strong><small>Recursos, demonstração, planos e acesso ao produto.</small><span class="discover-link">Conhecer o CRM ↗</span></a>
-          <a class="discover-card featured" href="./sites/"><span class="discover-tag">02 · CRIAÇÃO DE SITES</span><strong>Seu negócio na internet</strong><small>Sites institucionais, landing pages e catálogos para empresas de qualquer setor.</small><span class="discover-link">Solicitar orçamento ↗</span></a>
-          <a class="discover-card featured" href="./operacao/#piloto"><span class="discover-tag">02 · SERVIÇO OPERACIONAL</span><strong>Piloto de apoio à carteira</strong><small>Organização de processos e retornos, com escopo e supervisão definidos.</small><span class="discover-link">Ver o piloto pago ↗</span></a>
-          <a class="discover-card" href="./diagnostico/"><span class="discover-tag">GRATUITO · INTERATIVO</span><strong>Diagnóstico em 2 minutos</strong><small>Seis perguntas e recomendações no navegador.</small><span class="discover-link">Iniciar ↗</span></a>
-          <a class="discover-card" href="./guia/"><span class="discover-tag">GRATUITO · PRÁTICO</span><strong>Checklist jurídico</strong><small>Sete práticas para acompanhar a carteira.</small><span class="discover-link">Ler guia ↗</span></a>
-          <a class="discover-card" href="./exemplo-relatorio/"><span class="discover-tag">EXEMPLO · FICTÍCIO</span><strong>Modelo de relatório</strong><small>Uma amostra de registro, pendências e retornos.</small><span class="discover-link">Ver exemplo ↗</span></a>
-          <a class="discover-card" href="./assets/w1-carrossel-operacao.pdf" target="_blank" rel="noopener noreferrer"><span class="discover-tag">PDF · APRESENTAÇÃO</span><strong>Material comercial</strong><small>Cinco páginas explicando o apoio operacional.</small><span class="discover-link">Abrir PDF ↗</span></a>
-          <a class="discover-card" href="./parcerias/"><span class="discover-tag">COLABORAÇÃO</span><strong>Parcerias W1 Capital</strong><small>Para profissionais de Legal Ops e consultorias.</small><span class="discover-link">Explorar parcerias ↗</span></a>
+          <a data-motion-reveal class="discover-card featured" href="./lexispredict/"><span class="discover-tag">01 · SOFTWARE JURÍDICO</span><strong>LexisPredict · CRM</strong><small>Recursos, demonstração, planos e acesso ao produto.</small><span class="discover-link">Conhecer o CRM ↗</span></a>
+          <a data-motion-reveal class="discover-card featured" href="./sites/"><span class="discover-tag">02 · CRIAÇÃO DE SITES</span><strong>Seu negócio na internet</strong><small>Sites institucionais, landing pages e catálogos para empresas de qualquer setor.</small><span class="discover-link">Solicitar orçamento ↗</span></a>
+          <a data-motion-reveal class="discover-card featured" href="./operacao/#piloto"><span class="discover-tag">02 · SERVIÇO OPERACIONAL</span><strong>Piloto de apoio à carteira</strong><small>Organização de processos e retornos, com escopo e supervisão definidos.</small><span class="discover-link">Ver o piloto pago ↗</span></a>
+          <a data-motion-reveal class="discover-card" href="./diagnostico/"><span class="discover-tag">GRATUITO · INTERATIVO</span><strong>Diagnóstico em 2 minutos</strong><small>Seis perguntas e recomendações no navegador.</small><span class="discover-link">Iniciar ↗</span></a>
+          <a data-motion-reveal class="discover-card" href="./guia/"><span class="discover-tag">GRATUITO · PRÁTICO</span><strong>Checklist jurídico</strong><small>Sete práticas para acompanhar a carteira.</small><span class="discover-link">Ler guia ↗</span></a>
+          <a data-motion-reveal class="discover-card" href="./exemplo-relatorio/"><span class="discover-tag">EXEMPLO · FICTÍCIO</span><strong>Modelo de relatório</strong><small>Uma amostra de registro, pendências e retornos.</small><span class="discover-link">Ver exemplo ↗</span></a>
+          <a data-motion-reveal class="discover-card" href="./assets/w1-carrossel-operacao.pdf" target="_blank" rel="noopener noreferrer"><span class="discover-tag">PDF · APRESENTAÇÃO</span><strong>Material comercial</strong><small>Cinco páginas explicando o apoio operacional.</small><span class="discover-link">Abrir PDF ↗</span></a>
+          <a data-motion-reveal class="discover-card" href="./parcerias/"><span class="discover-tag">COLABORAÇÃO</span><strong>Parcerias W1 Capital</strong><small>Para profissionais de Legal Ops e consultorias.</small><span class="discover-link">Explorar parcerias ↗</span></a>
         </div>
         <div class="discover-foot"><span>Precisa de uma conversa direta? Há horários de demonstração após as 18h30.</span>
           <a href="https://calendly.com/daviconcentrix/apoio-a-carteira-processual-w1-capital" target="_blank" rel="noopener noreferrer">Agendar apoio à carteira ↗</a>
@@ -279,9 +281,9 @@
         <p>Simples de entender, útil para quem precisa executar.</p>
       </div>
       <div class="impact-grid">
-        <article class="impact-card"><span class="impact-num">01</span><h3>Processos</h3><p>Informações que a equipe consegue encontrar e acompanhar.</p></article>
-        <article class="impact-card"><span class="impact-num">02</span><h3>Equipe</h3><p>Atividades, responsáveis e próximos passos com mais contexto.</p></article>
-        <article class="impact-card"><span class="impact-num">03</span><h3>Decisões</h3><p>Dados e prioridades reunidos para orientar o trabalho.</p></article>
+        <article data-motion-reveal class="impact-card"><span class="impact-num">01</span><h3>Processos</h3><p>Informações que a equipe consegue encontrar e acompanhar.</p></article>
+        <article data-motion-reveal class="impact-card"><span class="impact-num">02</span><h3>Equipe</h3><p>Atividades, responsáveis e próximos passos com mais contexto.</p></article>
+        <article data-motion-reveal class="impact-card"><span class="impact-num">03</span><h3>Decisões</h3><p>Dados e prioridades reunidos para orientar o trabalho.</p></article>
       </div>
     </section>
 
@@ -393,7 +395,7 @@
        <h2 id="portfolio-service-heading">Precisa de ajuda com a <em>carteira processual?</em></h2>
        <p>Além do CRM, a W1 Capital oferece avaliação de apoio administrativo a escritórios: organização de registros, tarefas, acompanhamentos e preparação de retornos aos clientes, sob orientação do advogado responsável.</p>
        <a href="./operacao/#piloto" class="portfolio-service-cta">Conhecer o piloto de apoio à carteira ↗</a></div>
-       <div class="portfolio-service-side"><strong>Software ou serviço.</strong><span>Você escolhe o que precisa.</span><small>Conversa de 15 minutos · horários preferenciais após as 18h</small><small>Atua com gestão jurídica? <a href="./parcerias/" style="color:#f6d9e3;text-decoration:underline;text-underline-offset:4px">Conheça nossa proposta de parcerias ↗</a></small></div>
+       <div data-motion-reveal class="portfolio-service-side"><strong>Software ou serviço.</strong><span>Você escolhe o que precisa.</span><small>Conversa de 15 minutos · horários preferenciais após as 18h</small><small>Atua com gestão jurídica? <a href="./parcerias/" style="color:#f6d9e3;text-decoration:underline;text-underline-offset:4px">Conheça nossa proposta de parcerias ↗</a></small></div>
       </div></section>
     <section class="organic-resource" aria-labelledby="organic-resource-heading">
       <div class="organic-resource-content">
@@ -401,7 +403,7 @@
         <h2 id="organic-resource-heading">7 passos para uma operação jurídica <em>mais organizada.</em></h2>
         <p>Um checklist gratuito de processos, tarefas, responsáveis, retornos e relatórios. Sem cadastro obrigatório e sem dados reais de clientes.</p>
         <a href="./guia/" class="organic-resource-link">Checklist gratuito <span aria-hidden="true">↗</span></a><p class="organic-resource-alt">Prefere algo interativo? <a href="./diagnostico/">Faça o diagnóstico gratuito de 2 minutos →</a></p></div>
-        <a href="./guia/" class="organic-resource-preview" aria-label="Abrir checklist gratuito de organização jurídica"><span>GUIA PRÁTICO</span><strong>Seu escritório está organizado ou apenas apagando incêndios?</strong><small>07 orientações para aplicar na rotina</small></a>
+        <a data-motion-reveal href="./guia/" class="organic-resource-preview" aria-label="Abrir checklist gratuito de organização jurídica"><span>GUIA PRÁTICO</span><strong>Seu escritório está organizado ou apenas apagando incêndios?</strong><small>07 orientações para aplicar na rotina</small></a>
       </div>
     </section>
 
