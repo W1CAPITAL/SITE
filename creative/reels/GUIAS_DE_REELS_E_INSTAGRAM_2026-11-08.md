@@ -123,3 +123,8 @@ O vídeo anterior criado para a W1 tinha cabeça/corpo da robozinha em formas 2D
 8. **Verificação:** assistir a todos os 30 segundos, conferir frames de emenda aos 10s e 20s, sincronismo de fala e ação, ortografia, clipping, fluidez, áudio real em pt-BR, leitura no celular e identidade W1. Registrar o que não estiver concluído antes de chamar de final.
 
 **Regra de aprovação:** o próximo vídeo só deve ser classificado como `pronto para publicar` quando atender à referência 3D/atuação/iluminação **e** tiver voz e revisão final concluídas. O vídeo de 10s enviado é um **benchmark criativo**, não autorização para copiá-lo quadro a quadro, nem prova de que um renderizador 3D já está instalado no projeto.
+
+
+## 7. Catálogo consolidado do Drive e novos sistemas de produção
+
+O inventário da pasta de referências enviada em 08/11/2026 (76 itens: 49 MP4, 25 PNG e dois PDFs duplicados), o método de carrosséis (10 estruturas e 20 tipos de gancho) e os sete sistemas de Matheus Tilli foram registrados no [guia operacional de referências e sistemas](BIBLIOTECA_REFERENCIAS_DRIVE_E_7_SISTEMAS_2026-11-08.md). Este arquivo complementar também especifica critérios de **aprovação/reprovação** para Reels, diretrizes de áudio natural, movimento 3D real e distinção entre referência, implementação e resultado confirmado. Preservar a aba Projetos e o AI Lab existente. A listagem da pasta está verificada, mas não presumir uma auditoria quadro a quadro de todos os vídeos.
