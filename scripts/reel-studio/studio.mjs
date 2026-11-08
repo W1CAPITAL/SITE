@@ -14,6 +14,16 @@ export const GENJUTSU=Object.freeze({
  'Anil-matcha/open-genjutsu':'muapi-motion'
 });
 export const categorizeGenjutsu=name=>GENJUTSU[name]||null;
+export const VIDEO_IMPORTS=Object.freeze({
+ 'hypit-ai/hypit':'hypit-svml-render',
+ 'webportalim/MotionSmith-AI-Pro-Text-to-Motion-for-Sequencer':'unreal-sequencer-export'
+});
+export const categorizeVideoImport=name=>VIDEO_IMPORTS[name]||null;
+const APPROVED_SOURCE_TOOLS=new Set([
+ 'hypit-ai/hypit',
+ 'Anil-matcha/AI-Youtube-Shorts-Generator',
+ 'webportalim/MotionSmith-AI-Pro-Text-to-Motion-for-Sequencer'
+]);
 function check(ok,msg){if(!ok)throw Error(msg);}
 const finite=n=>typeof n==='number'&&Number.isFinite(n);
 const rights=['owned','licensed','consented'];
@@ -32,11 +42,12 @@ export function validatePlan(p){
   check(i!==0||s.duration<=2,'Gancho deve ocorrer em até 2 s');
   check(i!==p.shots.length-1||s.duration<=3,'CTA deve durar até 3 s');
   check(typeof s.caption==='string'&&s.caption.length>=3&&s.caption.length<=110,'Legenda breve obrigatória');
+  if(s.sourceTool)check(APPROVED_SOURCE_TOOLS.has(s.sourceTool),'Ferramenta de origem desconhecida; não execute automaticamente');
   if(s.kind==='generated'){
    check(s.role!=='proof','Cena gerada não comprova funcionalidade');
    check(/ilustrativ[ao]|ficcional|simula[çc][ãa]o/i.test(s.caption),'Trecho gerado precisa ser identificado como ilustrativo');
-   check(s.provider==='open-higgsfield'||Boolean(categorizeGenjutsu(s.provider)),'Indique de qual gerador veio o vídeo');
-   if(categorizeGenjutsu(s.provider))check(s.fullClipReviewed===true,'Revise TODO o vídeo Genjutsu antes da edição');
+   check(s.provider==='open-higgsfield'||Boolean(categorizeGenjutsu(s.provider))||Boolean(categorizeVideoImport(s.provider)),'Indique de qual gerador veio o vídeo');
+   if(categorizeGenjutsu(s.provider)||categorizeVideoImport(s.provider))check(s.fullClipReviewed===true,'Revise TODO o clipe gerado antes da edição');
   }
   check(!s.framing||['blurred','cover'].includes(s.framing),'Framing inválido');
   duration+=s.duration;
