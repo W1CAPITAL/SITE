@@ -4,7 +4,7 @@ import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {validatePlan,makeAss,parseDuration,parseOrigin,requestVoice,listVoices,categorizeGenjutsu,render,probe} from './studio.mjs';
+import {validatePlan,makeAss,parseDuration,parseOrigin,requestVoice,listVoices,categorizeGenjutsu,categorizeVideoImport,render,probe} from './studio.mjs';
 
 function plan(){
  return {version:1,title:'W1 real-site smoke',resolution:'1080x1920',fps:30,shots:[
@@ -81,4 +81,25 @@ test('actual smoke: MP4 vertical has visible captions, audio, footage and correc
   assert.ok(media.streams.some(s=>s.codec_type==='video'&&s.width===360&&s.height===640));
   assert.ok(media.streams.some(s=>s.codec_type==='audio'));
  }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('Hypit and MotionSmith exports are manual clips that require approval and attribution',()=>{
+ assert.equal(categorizeVideoImport('hypit-ai/hypit'),'hypit-svml-render');
+ assert.equal(categorizeVideoImport('webportalim/MotionSmith-AI-Pro-Text-to-Motion-for-Sequencer'),'unreal-sequencer-export');
+ assert.equal(categorizeVideoImport('motionsmith-mcp'),null);
+ for(const provider of ['hypit-ai/hypit','webportalim/MotionSmith-AI-Pro-Text-to-Motion-for-Sequencer']){
+   const p=plan(),shot=p.shots[1];shot.kind='generated';shot.provider=provider;
+   assert.throws(()=>validatePlan(p));
+   shot.caption='Cena ilustrativa criada com autorização';
+   assert.throws(()=>validatePlan(p),/Revise TODO/);
+   shot.fullClipReviewed=true;
+   assert.equal(validatePlan(p).shots[1].provider,provider);
+ }
+});
+
+test('Shorts can be the source of authorized real clips, never proof of AI generation',()=>{
+ const p=plan();p.shots[1].sourceTool='Anil-matcha/AI-Youtube-Shorts-Generator';
+ assert.equal(validatePlan(p).shots[1].kind,'real');
+ p.shots[1].sourceTool='https://evil.example/script';
+ assert.throws(()=>validatePlan(p),/origem desconhecida/);
 });

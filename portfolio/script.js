@@ -6,6 +6,7 @@ const projectData=[
 {name:'SheetsPredict',ref:'W2CAPITAL/SheetsPredict',group:'PRODUTIVIDADE',initial:'SP',description:'Cockpit operacional conectado ao Google Sheets com recursos de CRM, integrações e organização de fluxos jurídicos.',stack:['JavaScript','Google Sheets','Integrações']},
 {name:'WA.Auto',ref:'W2CAPITAL/Wa.Auto',group:'AUTOMAÇÃO',initial:'WA',description:'Projeto de automação de comunicações e filas de revisão e envio por WhatsApp, com importação de planilhas.',stack:['JavaScript','WhatsApp','Node.js']},
 {name:'W1 Capital — Site',ref:'W1CAPITAL/SITE',group:'WEB & NEGÓCIOS',initial:'W1',description:'Site institucional e comercial desenvolvido com HTML, CSS e JavaScript, com páginas de serviços e demonstrações.',stack:['HTML','CSS','JavaScript']},
+{name:'W1 Reel Studio',ref:'W1CAPITAL/SITE',link:'https://github.com/W1CAPITAL/SITE/tree/main/scripts/reel-studio',group:'PRODUÇÃO AUDIOVISUAL',initial:'RS',description:'Editor autoral de vídeos verticais em Node.js/FFmpeg, com legendas, voz e mixagem. Ferramentas externas podem fornecer clipes aprovados.',stack:['Node.js','FFmpeg','Reels']},
 {name:'Leadcheck',ref:'W1CAPITAL/Leadcheck',group:'ANÁLISE & CAPTAÇÃO',initial:'LC',description:'Aplicação para captação e organização de oportunidades em análise de financiamentos, com consultas à base pública do Bacen.',stack:['React','Vite','API Bacen']},
 {name:'Consulte Suas Falhas',ref:'W2CAPITAL/Consulte-Suas-Falhas',group:'AUDITORIA',initial:'CS',description:'Aplicação de auditoria documental e processual com dashboards, filtros e visualização de informações em HTML.',stack:['JavaScript','Cloudflare Workers','D1']},
 {name:'LEADCHECKIN',ref:'W2CAPITAL/LEADCHECKIN',group:'CRM & PROSPECÇÃO',initial:'LI',description:'Projeto de prospecção baseado em fontes públicas, com tratamento de resultados e integração operacional com CRM.',stack:['TypeScript','CRM','Supabase']},
@@ -20,6 +21,7 @@ const projectImages={
  'SheetsPredict':'projeto-centro-operacional.webp',
  'WA.Auto':'projeto-automacoes.webp',
  'W1 Capital — Site':'projeto-w1capital.webp',
+ 'W1 Reel Studio':'projeto-automacoes.webp',
  'Leadcheck':'projeto-centro-operacional.webp',
  'Consulte Suas Falhas':'projeto-propostas.webp',
  'LEADCHECKIN':'projeto-centro-operacional.webp',
@@ -48,7 +50,7 @@ function heading(n,label,title,lead){return `<section class="page-intro"><span c
 function sectionHeading(label,title,lead=''){return `<div class="section-heading" data-reveal><div><span class="label">${label}</span><h2>${title}</h2></div>${lead?`<p>${lead}</p>`:''}</div>`}
 function closing(title='Vamos construir o próximo capítulo?',lead='Oportunidades profissionais, projetos e boas conexões.'){return `<section class="cta-band"><div class="container cta-inner" data-reveal><div><h2>${title}</h2><p>${lead}</p></div>${button('?tab=contato','Entrar em contato','outline')}</div></section>`}
 function selected(p,theme){return `<article class="selected-card" data-reveal><a class="project-cover ${theme}" href="?tab=projetos" aria-label="Conhecer ${p.name}">${projectImage(p)}<span class="cover-corner">${icon('arrow')}</span><span class="project-symbol">${p.name}</span><small>${p.group} · ${p.stack[0]}</small></a><div class="selected-info"><div><span class="label">${p.ref}</span><h3>${p.name}</h3><p>${p.description}</p></div>${textLink('?tab=projetos','Explorar')}</div></article>`}
-function projectCard(p){return `<article class="project-card" data-reveal><div class="project-card-photo">${projectImage(p)}</div><div class="project-top"><span class="project-initial" aria-hidden="true">${p.initial}</span><span class="label">${p.group}</span></div><h3>${p.name}</h3><p>${p.description}</p>${tags(p.stack)}${textLink('https://github.com/'+p.ref,'Ver repositório',true)}</article>`}
+function projectCard(p){return `<article class="project-card" data-reveal><div class="project-card-photo">${projectImage(p)}</div><div class="project-top"><span class="project-initial" aria-hidden="true">${p.initial}</span><span class="label">${p.group}</span></div><h3>${p.name}</h3><p>${p.description}</p>${tags(p.stack)}${textLink(p.link||'https://github.com/'+p.ref,'Ver repositório',true)}</article>`}
 const career=[
 {company:'GET Assessoria Financeira',role:'Analista de Processos Jurídicos',context:'Posição atual · Operações jurídicas',description:'Acompanhamento de demandas processuais, comunicação de andamentos aos clientes, registro de retornos, conferência de contratos e documentos, organização da carteira e relatórios operacionais.',skills:['Legal Ops','Gestão documental','Controle de retornos']},
 {company:'Concentrix · Produto Claro',role:'Auxiliar de Backoffice',context:'Backoffice · Telecomunicações',description:'Apoio administrativo e operacional, análise e tratamento de solicitações, conferência de informações e acompanhamento de demandas e fluxos internos.',skills:['Backoffice','Análise de solicitações','Controle de informações']},

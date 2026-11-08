@@ -3,11 +3,13 @@ on:
   pull_request:
     paths:
       - 'scripts/reel-studio/**'
+      - 'scripts/creative-lab/**'
       - '.github/workflows/w1-reel-studio.yml'
   push:
     branches: [main]
     paths:
       - 'scripts/reel-studio/**'
+      - 'scripts/creative-lab/**'
       - '.github/workflows/w1-reel-studio.yml'
 permissions:
   contents: read
@@ -26,6 +28,11 @@ jobs:
           sudo apt-get install -y ffmpeg
           ffmpeg -hide_banner -encoders | grep libx264
           ffmpeg -hide_banner -filters | grep ' ass '
+      - name: Validate private-worker catalog and bootstrap syntax
+        run: |
+          bash -n scripts/creative-lab/install-private.sh
+          node --check scripts/creative-lab/registry.mjs
+          node --test scripts/creative-lab/registry.test.mjs
       - name: Check JS syntax
         run: node --check scripts/reel-studio/studio.mjs
       - name: Test data validation, licensing, voice API and FFmpeg render
