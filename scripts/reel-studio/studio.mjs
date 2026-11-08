@@ -76,16 +76,39 @@ export function makeAss(subtitles,duration){
  return head+subtitles.map(x=>{check(finite(x.start)&&finite(x.end)&&x.start>=0&&x.end>x.start&&x.end<=duration+.05,'Tempos de legenda inválidos');return 'Dialogue: 0,'+parseDuration(x.start)+','+parseDuration(x.end)+',Main,,0,0,0,,'+assEscape(x.text);}).join('\n')+'\n';
 }
 export function parseOrigin(s){const u=new URL(s);check(u.protocol==='http:'&&['127.0.0.1','localhost','[::1]'].includes(u.hostname)&&u.pathname==='/'&&!u.username&&!u.password&&!u.search&&!u.hash,'VoiceStudio exige localhost; não exponha uma API de voz pública');return u.origin;}
-export async function requestVoice({base,text,voice,fetcher=fetch}){
+/**
+ * VoiceStudio 3900: POST /profiles accepts a local, consented WAV sample.
+ * Source stays private; this function only returns the created profile ID.
+ */
+export async function cloneVoiceProfile({base,name,reference,refText='',consentConfirmed=false,apiKey='',fetcher=fetch}){
+ const host=parseOrigin(base);
+ check(consentConfirmed===true,'Confirme consentimento para reutilizar a referência de voz');
+ check(typeof name==='string'&&name.trim().length>=3&&name.length<=100,'Nome do perfil inválido');
+ check(reference instanceof Uint8Array||reference instanceof ArrayBuffer,'Referência de voz inválida');
+ const bytes=Buffer.from(reference);
+ check(bytes.length>=1000&&bytes.length<=30_000_000&&bytes.toString('ascii',0,4)==='RIFF'&&bytes.toString('ascii',8,12)==='WAVE','Envie uma referência WAV válida');
+ check(typeof refText==='string'&&refText.length<=1500,'Transcrição da referência muito longa');
+ const body=new FormData();
+ body.append('name',name.trim());body.append('kind','clone');body.append('language','pt-BR');
+ if(refText.trim())body.append('ref_text',refText.trim());
+ body.append('ref_audio',new Blob([bytes],{type:'audio/wav'}),'reference.wav');
+ const headers=apiKey?{authorization:'Bearer '+apiKey}:{};
+ const res=await fetcher(host+'/profiles',{method:'POST',body,headers,redirect:'error',signal:AbortSignal.timeout(120000)});
+ check(res.ok,'VoiceStudio não criou perfil, HTTP '+res.status);
+ const data=await res.json();
+ check(typeof data.id==='string'&&data.id.length>=3,'VoiceStudio retornou perfil inválido');
+ return {id:data.id,name:String(data.name||name.trim())};
+}
+export async function requestVoice({base,text,voice,apiKey='',fetcher=fetch}){
  const host=parseOrigin(base);check(typeof text==='string'&&text.length>=4&&text.length<=1500,'Roteiro de voz inválido');check(typeof voice==='string'&&/^[\p{L}0-9_-]{2,100}$/u.test(voice),'Voz inválida');
- const r=await fetcher(host+'/v1/audio/speech',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:'tts-1',input:text,voice,response_format:'wav',speed:1,language:'pt',instructions:'Português brasileiro natural, expressivo, com pausas humanas; sem entonação robótica.'}),redirect:'error',signal:AbortSignal.timeout(120000)});
+ const r=await fetcher(host+'/v1/audio/speech',{method:'POST',headers:{'content-type':'application/json',...(apiKey?{authorization:'Bearer '+apiKey}:{})},body:JSON.stringify({model:'tts-1',input:text,voice,response_format:'wav',speed:1,language:'pt',instructions:'Português brasileiro natural, expressivo, com pausas humanas; sem entonação robótica.'}),redirect:'error',signal:AbortSignal.timeout(120000)});
  check(r.ok,'VoiceStudio HTTP '+r.status+'; confirme modelo/voz pt-BR instalada');
  check(/audio\/(wav|x-wav|wave|vnd.wave)|application\/octet-stream/i.test(r.headers.get('content-type')||''),'VoiceStudio não retornou WAV');
  const buf=await r.arrayBuffer();check(buf.byteLength>=4&&buf.byteLength<=35_000_000,'Narração inválida');return buf;
 }
-export async function listVoices({base,fetcher=fetch}){
+export async function listVoices({base,apiKey='',fetcher=fetch}){
  const host=parseOrigin(base);
- const r=await fetcher(host+'/v1/audio/voices',{method:'GET',redirect:'error',signal:AbortSignal.timeout(12000)});
+ const r=await fetcher(host+'/v1/audio/voices',{method:'GET',headers:apiKey?{authorization:'Bearer '+apiKey}:{},redirect:'error',signal:AbortSignal.timeout(12000)});
  check(r.ok,'VoiceStudio não respondeu à consulta de vozes');
  const data=await r.json();
  const items=Array.isArray(data.voices)?data.voices:[];
@@ -139,8 +162,20 @@ export async function cli(argv){
  if(action==='doctor'){const f=await exec('ffmpeg',['-version']),p=await exec('ffprobe',['-version']);return {ffmpeg:f.split('\n')[0],ffprobe:p.split('\n')[0],genjutsuModes:GENJUTSU};}
  if(action==='validate'){const root=path.dirname(path.resolve(rest[0])),p=validatePlan(JSON.parse(await readFile(rest[0],'utf8')));await inputChecks(root,p);return{ok:true,shots:p.shots.length,duration:p.duration};}
  if(action==='render')return render(rest[0],rest[1]);
- if(action==='voices')return listVoices({base:process.env.VOICESTUDIO_BASE_URL||'http://127.0.0.1:8000'});
- if(action==='voice'){const [script,voice,file]=rest;const b=await requestVoice({base:process.env.VOICESTUDIO_BASE_URL||'http://127.0.0.1:8000',text:await readFile(script,'utf8'),voice});await writeFile(file,Buffer.from(b));return{ok:true,file,bytes:b.byteLength};}
- throw Error('Uso: node studio.mjs doctor | voices | validate plan.json | voice roteiro.txt VOZ out.wav | render plan.json out.mp4');
+ if(action==='voices')return listVoices({base:process.env.VOICESTUDIO_BASE_URL||'http://127.0.0.1:3900',apiKey:process.env.OMNIVOICE_API_KEY||''});
+ if(action==='clone'){
+  const [file,name,transcriptFile]=rest;
+  check(file&&name,'Uso: clone reference.wav NomeDaVoz [transcript.txt]');
+  const profile=await cloneVoiceProfile({
+    base:process.env.VOICESTUDIO_BASE_URL||'http://127.0.0.1:3900',
+    name,reference:await readFile(file),
+    refText:transcriptFile?await readFile(transcriptFile,'utf8'):'',
+    consentConfirmed:process.env.VOICE_REFERENCE_CONSENT==='yes',
+    apiKey:process.env.OMNIVOICE_API_KEY||''
+  });
+  return {ok:true,...profile};
+ }
+ if(action==='voice'){const [script,voice,file]=rest;const b=await requestVoice({base:process.env.VOICESTUDIO_BASE_URL||'http://127.0.0.1:3900',text:await readFile(script,'utf8'),voice,apiKey:process.env.OMNIVOICE_API_KEY||''});await writeFile(file,Buffer.from(b));return{ok:true,file,bytes:b.byteLength};}
+ throw Error('Uso: node studio.mjs doctor | voices | clone referencia.wav VOZ [transcricao.txt] | voice roteiro.txt VOZ out.wav | validate plan.json | render plan.json out.mp4');
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===path.resolve(process.argv[1]))cli(process.argv.slice(2)).then(x=>console.log(JSON.stringify(x,null,2))).catch(e=>{console.error(e.message);process.exitCode=1});
