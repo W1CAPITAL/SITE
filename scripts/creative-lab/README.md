@@ -73,3 +73,16 @@ O guia autoral consolidado inclui também as referências de carrosséis, o víd
 - [Reels em JavaScript 9:16, padrões editoriais e avaliação](../../creative/reels/GUIAS_DE_REELS_E_INSTAGRAM_2026-11-08.md#5-padrão-permanente--reels-em-javascript-916-08112026)
 
 As peças e gravações de referência do usuário **não** são copiadas para o GitHub público. Gerar vídeo comercial só com mídias/vozes/trilhas autorizadas.
+
+
+## Conhecimento criativo permanente — 08/11/2026
+
+O repertório da pasta de referências do Drive e os PDFs educativos foram incorporados como **método e política de qualidade**. Não foram copiados vídeos, prints, vozes nem dados pessoais de terceiros para o repositório. **Regras documentadas não significam serviço externo ativado.**
+
+- [Repertório analisado, escopo das fontes e decisões](../../creative/knowledge/REPERTORIO_DRIVE_W1_2026-11-08.md)
+- [Reels W1 V2 — benchmark 3D, áudio e aprovação](../../creative/reels/PADRAO_QUALIDADE_W1_V2.md)
+- [Carrosséis W1 — arquitetura, ganchos, medição e QA](../../creative/carrosseis/PLAYBOOK_W1.md)
+- [Sete sistemas adaptados à operação W1](../../creative/knowledge/SETE_SISTEMAS_W1.md)
+- [Política estruturada de produção para agentes e scripts](./creative-policy.w1.json)
+
+**Aplicação obrigatória para novas peças**: consultar o playbook de formato, provar o que é real versus simulado, validar voz natural, direitos autorais e funcionamento, e preservar a **aba Projetos** (`/portfolio/?tab=projetos`) e a estrutura do AI Lab/Reel Studio já existente. A série da robozinha requer 3D articulado comparável ao benchmark Gemini; deslocar um PNG não é suficiente.
