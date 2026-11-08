@@ -1,0 +1,16 @@
+name: DIA ZERO V9 - localizar modelo GPU alternativo para cenas perdidas
+on:
+  push:
+    branches: [dia-zero-v9-filme-completo-voz-off-sem-labios-20261107]
+    paths: [.github/workflows/dia-zero-v9-backup-space-probe.yml]
+permissions: {contents: read}
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install requests
+      - run: python -u creative/dia_zero_v8/probe_alt_spaces_v9.py
