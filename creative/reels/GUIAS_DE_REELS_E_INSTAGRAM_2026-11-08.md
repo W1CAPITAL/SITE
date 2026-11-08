@@ -47,3 +47,49 @@ Pág. 4: registrar perfis em `instagram-accounts.md`; relatórios de pesquisa `r
 Em 08/11/2026, o curta V9 de 32 tomadas temporais geradas com Wan 2.2 foi recuperado do artefato GitHub Actions `42433023979` (ZIP `DIA_ZERO_V9_120s_Video_Gerado_32_Cenas.zip`); o MP4 base possuía 120,000s, 2880 frames a 24fps, 720×1280, H.264 + AAC. A abertura de 30s já tinha uma cópia com boca estabilizada e, nesta retomada, foi corrigida adicionalmente a boca no **telefonema de 93,75–97,50s**, preservando expressões e o áudio original. A montagem entregue é `DIA_ZERO_V9_COMPLETO_2MIN_ANIMADO_BOCA_CORRIGIDA.mp4`; a montagem combina vídeo temporal gerado, não slides da V6/V7.
 
 **Limitação:** estabilidade da boca foi corrigida nos trechos identificados, mas não se deve afirmar precisão de lip-sync em todas as tomadas sem assistir integralmente. Encerramento real do vídeo confirmado por decodificação, 120s e 2880 frames.
+
+## 5. Padrão permanente — REELS EM JAVASCRIPT 9:16 (08/11/2026)
+
+**Decisão do proprietário:** o formato de produção padrão dos Reels W1 Capital / LexisPredict é criar as cenas **em JavaScript** no quadro **vertical 9:16** e exportar para MP4. Isso complementa, sem substituir, o AI Lab e o Reel Studio já existentes; manter a aba **Projetos** em `/portfolio/?tab=projetos`.
+
+### Especificação de produção
+
+- Composição 1080 × 1920 px; 30 fps como referência. Escala 720 × 1280 é aceitável para insumos, mas o master preferido é 1080 × 1920. H.264 + AAC em MP4.
+- Criar cenas com JavaScript + HTML/CSS/SVG/Canvas (ou Remotion, **se a dependência estiver realmente instalada**), usando texto grande, gráficos, imagens, capturas reais, personagens e movimento. JavaScript é o **motor da animação**, não um substituto da direção criativa.
+- Ter uma linha de tempo em segundos/quadros; animações e transições dependem do tempo de cena, não do desempenho do aparelho. Para exportação reproduzível, renderizar quadros sequenciais no navegador/renderer autorizado e compor som no FFmpeg, ou encaminhar clipes reais ao `scripts/reel-studio/studio.mjs`. **Não presumir um renderizador de navegador instalado no servidor.**
+- Gancho claro nos 0–2/3 s; cada sequência deve revelar informação, prova visual ou mudança narrativa. Evitar slides estáticos, excesso de texto, movimento lento ou cortes aleatórios. Uma ação/movimento legível por ideia principal.
+- Legendas com boa hierarquia visual e sincronizadas com a fala. Testar posições no Instagram: preservar margens de segurança para barra superior, legenda/CTA e botões sobrepostos, sem depender de valores universais de interface.
+- Priorizar voz pt-BR natural **ou gravação humana**; não publicar locução robótica. Música e Foley apenas com autorização/licença, mixados sob a voz sem colagens de memes e sem picos de volume.
+- Separar sempre **demonstração real** de interface/projeto W1 de **cena ilustrativa** gerada por IA. Não usar dados reais de clientes sem base legal e autorização.
+- Revisão obrigatória de: (1) gancho e payoff, (2) ortografia, (3) contraste e leitura em tela pequena, (4) movimentos e cortes, (5) vídeo completo sem congelamentos, (6) voz e trilha, (7) sincronismo de legendas, (8) CTA, (9) marca W1, (10) direitos de uso.
+- Preservar estética de marca W1: **vinho, prata e marfim** como base, com cor de acento quando a ideia pedir. Não copiar a aparência de influenciadores ou reproduzir imagens de terceiros sem licença.
+
+### Referência audiovisual fornecida neste pedido
+
+O vídeo enviado em 08/11/2026 (`75120.mp4`, **referência privada — não adicionar o arquivo ao repositório público**) tem cerca de **35,26 s**, 720 × 1280, 30 fps, vídeo H.264 e áudio AAC. Os quadros observados apresentam paleta laranja/preto/creme, títulos amplos, personagem geométrico/pixelado, cartões gráficos, cronômetro e UI animada. Aproveitar **dinâmica de narrativa e composição**, adaptando para os serviços e identidade da W1; não copiar os elementos como se fossem originais.
+
+### Método dos carrosséis mostrado nas capturas
+
+- Capa de alto contraste e título enorme: começar pela curiosidade/problema real do público, não por apresentação institucional genérica.
+- Alternar texto curto com **prints reais**, interfaces, esquemas, ilustração e visualização de resultado. Não fazer um carrossel inteiro de parágrafos.
+- Sequência editorial com personalidade: **gancho → problema → contraste/exemplo → prova/solução → benefício → CTA**.
+- Música do catálogo do Instagram pode apoiar a experiência, mas não é requisito técnico para um carrossel ter desempenho e **não garante alcance**.
+- Mostrar projetos reais da aba **Projetos**: W1 Capital, LexisPredict, demos e automações apenas na medida em que cada recurso estiver comprovadamente funcional. Não apresentar mockups como resultados de clientes.
+- Usar referências visuais como aprendizado, não copiar layout, identidade, fotografias ou textos de terceiros.
+
+### Famílias de skills citadas nas imagens (a avaliar, não instaladas automaticamente)
+
+As capturas mencionam **42 fontes**; apenas os itens abaixo ficaram legíveis nas imagens recebidas. A lista é um **catálogo de pesquisa**: a existência do nome na imagem **não comprova licença, URL oficial, disponibilidade ou instalação**. Conferir a fonte de cada skill antes de integrar ao ambiente.
+
+| Grupo | Nomes visíveis nas imagens |
+| --- | --- |
+| Camada 1 · Frontend e UI (01–10) | `frontend-design`, `impeccable`, `taste-skill`, `make-interfaces-better`, `color-expert`, `design-tokens-skill`, `design-system-governance`, `brandkit`, `format-storybook`, `mobile-app-design` |
+| Camada 2 · Imagem, gráficos e vídeo (11–18) | `canvas-design`, `algorithmic-art`, `p5js-hermes`, `shader-dev`, `animate-skill`, `css-animation-skill`, `wiggle-claude-skill`, `remotion-best-practices` |
+| Camada 5 · Comportamento e conteúdo (29–36) | `design-brief`, `design-consultation`, `ux-writing-skill`, `content-strategy`, `copywriting-skill`, `product-position`, `user-research-cookiy`, `software-ux-research` |
+| Camada 6 · Confiança e avaliação (37–42) | `plan-design-review`, `design-review-garrytan`, `design-debt-audit`, `design-impact-reporting`, `cloudflare-web-perf`, `dark-pattern-audit` |
+
+**Não inferir os itens 19–28:** as capturas recebidas não incluem as camadas intermediárias. Nenhuma dessas 32 skills é declarada instalada só por aparecer aqui.
+
+### Aplicação prática
+
+O fluxo de criação permanente é: **ideia do marketing → roteiro com cenas temporizadas → composição em JavaScript 9:16 → capturas/ilustrações autorizadas → renderização de quadros ou clipes → edição e mixagem com Reel Studio → inspeção do MP4 final → publicação somente após revisão/autorização**. Manter os projetos acessíveis em `/portfolio/?tab=projetos` e registrar as peças da W1 dentro da operação criativa já existente.
