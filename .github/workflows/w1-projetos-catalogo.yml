@@ -1,0 +1,19 @@
+name: W1 Projetos catalog checks
+on:
+  pull_request:
+    paths: ['projetos/**','.github/workflows/w1-projetos-catalogo.yml']
+  push:
+    branches: [main,feat/w1-projetos-reels-20261108]
+    paths: ['projetos/**','.github/workflows/w1-projetos-catalogo.yml']
+permissions:
+  contents: read
+jobs:
+  test-projects:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify projects HTML and plans
+        run: node --test projetos/*.test.mjs
