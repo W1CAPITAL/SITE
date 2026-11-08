@@ -63,3 +63,13 @@ node --test portfolio/site.test.mjs
 ```
 
 Nenhum comando do catálogo executa geração paga, conecta MCP externo, publica vídeo ou acessa dados jurídicos. O registro é utilizável como ponto de partida persistente; **não equivale a instalar dependências em um servidor que não esteja provisionado**.
+
+## Padrão criativo permanente dos Reels
+
+A W1 produz os Reels com **composição de cenas em JavaScript no formato vertical 9:16** (master recomendado: **1080×1920**, 30 fps), finalização em MP4 H.264/AAC e revisão integral de som/legendas. O laboratório criativo existente e a aba **Projetos** devem continuar presentes: este padrão **não cria uma nova aba nem duplica o AI Lab**.
+
+O guia autoral consolidado inclui também as referências de carrosséis, o vídeo de motion graphics fornecido pelo proprietário em 08/11/2026 e o catálogo das skills de design a investigar:
+
+- [Reels em JavaScript 9:16, padrões editoriais e avaliação](../../creative/reels/GUIAS_DE_REELS_E_INSTAGRAM_2026-11-08.md#5-padrão-permanente--reels-em-javascript-916-08112026)
+
+As peças e gravações de referência do usuário **não** são copiadas para o GitHub público. Gerar vídeo comercial só com mídias/vozes/trilhas autorizadas.
