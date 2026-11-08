@@ -36,4 +36,4 @@ jobs:
       - name: Check JS syntax
         run: node --check scripts/reel-studio/studio.mjs
       - name: Test data validation, licensing, voice API and FFmpeg render
-        run: node --test scripts/reel-studio/studio.test.mjs
+        run: node --test scripts/reel-studio/*.test.mjs
