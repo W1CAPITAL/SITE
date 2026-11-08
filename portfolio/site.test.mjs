@@ -32,6 +32,11 @@ test('education is visible and appropriately qualified',()=>{
  const v=render('formacao').html;
  for(const x of ['UNICID','Em andamento','Técnico em Secretariado','Segurança Patrimonial','Cate SP'])assert.ok(v.includes(x),x);
 });
+test('AI Lab appears as an authored W1 project, not as a third-party repo',()=>{
+ const v=render('projetos').html;
+ assert.match(v,/W1 AI Lab/);
+ assert.match(v,/github\.com\/W1CAPITAL\/SITE\/tree\/main\/projetos/);
+});
 test('projects have original W1CAPITAL and W2CAPITAL GitHub destinations',()=>{
  const v=render('projetos').html;
  assert.ok((v.match(/https:\/\/github\.com\/(W1CAPITAL|W2CAPITAL)\/[A-Za-z0-9_.-]+/g)||[]).length>=11);
