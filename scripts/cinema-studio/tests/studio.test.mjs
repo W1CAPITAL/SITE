@@ -14,7 +14,7 @@ test('original videos play in chronological order, exactly ten seconds each',()=
 });
 test('source voices muted; dubbed voice on a separate 30s track',()=>{
  assert.equal((html.match(/<video[^>]+muted/g)||[]).length,3);
- assert.match(html,/voice_track_master\.wav#t=0,30/);
+ assert.match(html,/mixed_audio_30s\.wav#t=0,30/);
 });
 test('all native editor CLIs declared',()=>{
  for(const n of ['openfilm','hyperframes','remotion','@remotion/cli'])assert.ok(pkg.dependencies[n]);
