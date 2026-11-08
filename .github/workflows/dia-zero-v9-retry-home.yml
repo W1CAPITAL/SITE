@@ -1,0 +1,44 @@
+name: DIA ZERO V9 — recuperar cena do apartamento com GPU
+on:
+  push:
+    branches: [dia-zero-v9-filme-completo-voz-off-sem-labios-20261107]
+    paths: [.github/workflows/dia-zero-v9-retry-home.yml]
+  workflow_dispatch:
+permissions: {contents: read, actions: read}
+jobs:
+  reanimate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    env:
+      V9_BEAT: "14"
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install requests pillow
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42420217220
+          name: V8_32_Original_Continuity_Frames
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - name: Reanimate missing apartment scenes using real generative frames
+        run: |
+          for attempt in 1 2 3; do
+            if PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -u creative/dia_zero_v8/generate_missing_v9.py; then
+              exit 0
+            fi
+            if test "$attempt" -lt 3; then sleep 35; fi
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: V9_Beat_14_Recovery
+          path: creative/dia_zero_v8/generated/
+          if-no-files-found: warn
+          retention-days: 7
