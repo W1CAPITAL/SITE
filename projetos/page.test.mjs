@@ -17,3 +17,11 @@ test('O gerador nunca publica automaticamente nem solicita API key no front-end'
  assert.doesNotMatch(js,/api.?key|localStorage|sessionStorage/i);
  assert.match(js,/buildPlan/);
 });
+
+test('Acervo registra ambos os Reels sem anunciar dublagem ou publicação inexistentes',async()=>{
+ const html=await readFile(new URL('index.html',import.meta.url),'utf8');
+ for(const marker of ['id="reels-acervo"','Reels de automação','VoiceStudio · referência audiovisual','Dublagem em preparação','Acervo privado','Voz Davi']){
+   assert.ok(html.includes(marker),'Falta registro: '+marker);
+ }
+ assert.doesNotMatch(html,/src="[^"]*sandbox:|src="[^"]*\/mnt\/data/);
+});
