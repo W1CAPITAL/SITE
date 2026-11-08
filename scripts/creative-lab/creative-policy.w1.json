@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0",
+  "last_reviewed": "2026-11-08",
+  "scope": [
+    "W1 Capital",
+    "LexisPredict",
+    "AI Lab",
+    "Reel Studio",
+    "Portfolio Projetos"
+  ],
+  "intent": "Produzir conteúdo de alto nível e vender serviços reais, sem promessas ou integrações inventadas.",
+  "repositories": {
+    "main": "W1CAPITAL/SITE",
+    "preserve_projects_tab": "/portfolio/?tab=projetos",
+    "preserve_existing_ai_lab": true
+  },
+  "profiles": {
+    "reels_vertical": {
+      "width": 1080,
+      "height": 1920,
+      "ratio": "9:16",
+      "fps": 30,
+      "video_codec": "h264",
+      "audio_codec": "aac"
+    },
+    "carrossel": {
+      "width": 1080,
+      "height": 1350,
+      "ratio": "4:5",
+      "slides_recommended": [
+        6,
+        8
+      ],
+      "slides_max": 10
+    }
+  },
+  "brand": {
+    "institutional": [
+      "vinho",
+      "prata",
+      "marfim"
+    ],
+    "robot_campaign": {
+      "background": "#FFF4E7",
+      "ink": "#101010",
+      "accent": "#FF641D"
+    },
+    "use_existing_official_logo_only": true
+  },
+  "media": {
+    "character_3d_required_for_robot_series": true,
+    "benchmark": "clipe Gemini original aprovado pelo usuário, referência privada 08/11/2026",
+    "forbid_2d_still_cutout_as_3d": true,
+    "techniques": [
+      "3d-character-rig-and-performance",
+      "physically-plausible-lighting",
+      "contact-shadows",
+      "camera-motivated-composition",
+      "story-driven-motion",
+      "timed-javascript-overlays",
+      "UI-state-transitions",
+      "microinteractions",
+      "natural-pt-br-voice",
+      "event-synced-foley",
+      "one-licensed-track"
+    ],
+    "no_voice_final_status": "preview_only",
+    "do_not_automatically_upload_external_references": true
+  },
+  "content": {
+    "truth_labels": [
+      "REAL",
+      "PROTOTIPO",
+      "SIMULACAO"
+    ],
+    "hooks_first_seconds": 3,
+    "story_sequence": [
+      "gancho",
+      "contexto",
+      "conflito/problema",
+      "demonstração",
+      "benefício",
+      "CTA proporcional"
+    ],
+    "carousel_structure_count": 10,
+    "carousel_hook_examples_in_playbook": 12,
+    "avoid": [
+      "tiny-text-cover",
+      "banner-like-reel",
+      "static-slides",
+      "robotic-narration",
+      "mixed-meme-audio",
+      "invented-metrics",
+      "unlicensed-branded-assets",
+      "false-direct-automation"
+    ]
+  },
+  "quality_gates": [
+    "narrativa",
+    "identidade",
+    "3D_atuacao_se_aplicavel",
+    "movimento_UI",
+    "legibilidade",
+    "audio_natural",
+    "veracidade_direitos",
+    "entrega_revisada"
+  ],
+  "quality_gate_values": [
+    "PASSOU",
+    "AJUSTAR",
+    "FALHOU"
+  ],
+  "release_rule": "Apenas PRONTO_PARA_PUBLICAR quando todos os gates aplicáveis estão PASSOU; caso contrário RASCUNHO ou REPROVADO.",
+  "operating_systems": [
+    "carrosseis",
+    "segundo_cerebro",
+    "criador_site",
+    "maquina_anuncio",
+    "assistente_operacional",
+    "video_imovel",
+    "whatsapp_oficial"
+  ],
+  "statuses_note": "Catálogo/metodologia documentados; não implica instalações, credenciais, automações ativas, publicação ou serviço pago.",
+  "source_audit": {
+    "folder_items": 76,
+    "videos": 49,
+    "images": 25,
+    "duplicate_folder_pdfs": 2,
+    "video_frame_samples_inspected": 15,
+    "images_inspected": 25,
+    "videos_metadata_only": 34,
+    "additional_user_pdf": "7-sistemas-com-o-claude-matheus-tilli.pdf",
+    "privacy": "Não publicar vídeos, prints, informações pessoais ou URLs privadas da pasta no repo público."
+  },
+  "docs": [
+    "creative/knowledge/REPERTORIO_DRIVE_W1_2026-11-08.md",
+    "creative/reels/PADRAO_QUALIDADE_W1_V2.md",
+    "creative/carrosseis/PLAYBOOK_W1.md",
+    "creative/knowledge/SETE_SISTEMAS_W1.md"
+  ],
+  "automation": {
+    "do_not_publish_without_approval": true,
+    "do_not_claim_instagram_dm_automation_without_verified_connection": true,
+    "do_not_duplicate_scheduled_tasks": true
+  }
+}
