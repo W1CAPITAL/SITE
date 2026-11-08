@@ -75,6 +75,7 @@ Revisamos os materiais enviados sobre autenticação Supabase, Claude SEO, Scrap
 - [SEO técnico e GEO: auditoria offline](docs/SEO-WORKFLOW.md) · código em [sales/seo/audit.mjs](sales/seo/audit.mjs)
 - [Plano de autenticação e RLS para um CRM comercial privado](docs/AUTH-ROADMAP.md)
 - [Produção de vídeo, narração e reuniões com consentimento](docs/MEDIA-ROADMAP.md)
+- [Guia permanente: Reels JavaScript 9:16, carrosséis, referências e critérios de revisão](creative/reels/GUIAS_DE_REELS_E_INSTAGRAM_2026-11-08.md)
 - [Prévia leve do vídeo W1 (não é MP4)](sales/media/spot-preview.html)
 - [Resumo manual de reuniões, sem gravação ou IA](sales/operations/meeting-notes.html)
 - [Pesquisa manual de empresas via Fichário](sales/prospecting/README.md)
