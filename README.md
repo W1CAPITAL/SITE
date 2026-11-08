@@ -119,3 +119,14 @@ O repositório é público, mas a hospedagem comercial não foi conectada. **Nã
 O site institucional e a landing `/lexispredict/` usam estilos finais leves em `sales/conversion.css` e `lexispredict/conversion.css`. Direção: vinho profundo + prata + branco quente, coral só para botões de ação, formas esculturais simples em CSS, grandes áreas de respiro e benefícios que podem ser lidos rapidamente. Hero com dois caminhos diretos (**demonstração LexisPredict** e **conversa no WhatsApp**). Planos do LexisPredict mais fáceis de comparar sem prometer assinaturas automáticas. Tudo sem carregar bibliotecas, fontes, imagens externas nem rastreamento.
 
 Executar `node --test sales/conversion-redesign.test.mjs` junto à suíte do GitHub para validar os CTAs oficiais, semântica, design responsivo, redução de movimento, URLs e preservação dos módulos anteriores. A alteração visual não inclui sistema de checkout nem captura automática de leads.
+
+
+## Projetos e AI Lab (08/11/2026)
+
+A rota [`/projetos/`](projetos/index.html) reúne os projetos próprios da W1 Capital, demonstrações, inventário dos motores externos e uma ferramenta **local ao navegador** para gerar roteiros-base de reels (5 cenas) e carrosséis (6 slides), com opção de copiar/baixar TXT. Ela não aciona modelos pagos nem publica posts.
+
+- [Integração e requisitos reais dos motores](scripts/ai-lab/README.md): Open-Higgsfield, Genjutsu, Reel Studio, Hypit, AI YouTube Shorts Generator, MotionSmith Pro V2 e endpoint MCP ainda não validado.
+- [Referências visuais dos carrosséis e reels](creative/reels/REFERENCIAS_VISUAIS_CARROSSEIS_2026-11-08.md): capa forte, prints reais, imagens, música licenciada, narrativa própria e verificação de resultados.
+- [Testes](projetos/plan-core.test.mjs) e [testes de navegação](projetos/page.test.mjs) executados no CI.
+
+O portfólio pessoal continua com a aba **Projetos** existente (`/portfolio/?tab=projetos`); não se apropriar de autoria de repositórios externos. A instalação de modelos de vídeo em hospedagem estática não é possível; mantenha geração em infraestrutura apropriada e privada.
