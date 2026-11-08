@@ -93,3 +93,33 @@ As capturas mencionam **42 fontes**; apenas os itens abaixo ficaram legíveis na
 ### Aplicação prática
 
 O fluxo de criação permanente é: **ideia do marketing → roteiro com cenas temporizadas → composição em JavaScript 9:16 → capturas/ilustrações autorizadas → renderização de quadros ou clipes → edição e mixagem com Reel Studio → inspeção do MP4 final → publicação somente após revisão/autorização**. Manter os projetos acessíveis em `/portfolio/?tab=projetos` e registrar as peças da W1 dentro da operação criativa já existente.
+
+
+## 6. Novo padrão mínimo de acabamento — referência Gemini 3D (08/11/2026)
+
+O proprietário enviou um vídeo de referência privado `75344.mp4` e declarou que este é o **nível de qualidade exigido** para o Reels educativo da robozinha W1. Não subir o arquivo original nem quadros do vídeo a um repositório público sem autorização expressa.
+
+### Evidência inspecionada
+
+- Vídeo de aproximadamente **10,03 segundos**, **720×1280**, **24 fps**, MP4 H.264 com AAC estéreo, fundo creme, personagem robótica preta com detalhes laranja.
+- A personagem tem **volume tridimensional perceptível**, corpo e cabeça consistentes, materiais foscos com highlights controlados, contorno suave, iluminação quente e sombras coerentes no chão.
+- O telefone e as notificações têm **perspectiva, camadas, profundidade, sombras**, sensação de objeto físico; a câmera alterna enquadramento mais aberto com close e acompanha a ação, em vez de manter um layout tipográfico estático.
+- A robozinha **olha, reage, gesticula e segura um cartão**; seu olhar e postura acompanham o objeto da cena. A carta/notificação e o bloco preto/laranja fazem parte da ação dramática, não são apenas overlays.
+- O texto grande e legível `E SE DESSE PRA AUTOMATIZAR?` só aparece quando a narrativa pede. Sem UI excessiva, barras decorativas persistentes ou cards genéricos dominando a cena.
+
+### Gap reconhecido no Reels JavaScript anterior
+
+O vídeo anterior criado para a W1 tinha cabeça/corpo da robozinha em formas 2D simples, telas de interface esquemáticas, pouca variação de enquadramento e texto em posições fixas. Tinha composição 9:16 e renderização em código, mas **não** alcançava a profundidade, o timing de atuação da personagem e o acabamento da referência. Também faltou voz feminina pt-BR natural (serviço de voz bloqueado por plano). **Não considerar aquele MP4 o padrão de qualidade aprovado para publicar.**
+
+### Requisitos para a próxima implementação
+
+1. **Não confundir JavaScript com animação 2D:** usar uma cena 3D real quando o conceito exigir, com WebGL/Three.js ou renderização de modelos e assets 3D licenciados, controlados em JavaScript. Se o ambiente não suportar, renderizar a cena 3D num worker e compor em JavaScript/FFmpeg. Não alegar qualidade 3D apenas por sombras CSS, gradientes ou desenhos vetoriais.
+2. **Personagem persistente e rigada:** um único modelo e materiais compartilhados entre cenas, com articulações definidas (pescoço, ombros, cotovelos, punhos), olhos animados e gestos naturais. Sem mudar proporções entre cortes.
+3. **Atuação e direção de câmera:** coreografia por beats; antecipação, reação, pausa curta e consequência física. Enquadramentos aberto, médio e close motivados pela história, DOF/sombras sutis e câmera móvel sem tremedeira.
+4. **Objetos 3D que interagem:** celular inclinado, notificações com profundidade, cartão segurado de verdade pelas duas mãos, bloco/mesa com contato físico e oclusão coerente. Manter o dispositivo e a mão no mesmo lugar em emendas entre capítulos.
+5. **Luz e acabamento:** iluminação de estúdio quente, contraste consistente, antialiasing, sombras de contato, materiais PBR ou aparência fisicamente coerente, renderização fluida. Não deixar visual de PowerPoint/banners/infográfico animado.
+6. **Design sonoro:** voz feminina adulta-jovem em pt-BR natural e estável em todos os capítulos; efeitos discretos acionados por eventos visíveis; sem música em cada clipe; trilha unificada opcional no master. Se não houver serviço de voz adequado, marcar o vídeo como **prévia sem locução**, não como versão final pronta.
+7. **Conteúdo honesto:** cena de comentários e Direct é **simulação conceitual**, nunca uma conexão de Instagram confirmada. `Comente W1` não promete envio automático até a automação estar operacional e testada.
+8. **Verificação:** assistir a todos os 30 segundos, conferir frames de emenda aos 10s e 20s, sincronismo de fala e ação, ortografia, clipping, fluidez, áudio real em pt-BR, leitura no celular e identidade W1. Registrar o que não estiver concluído antes de chamar de final.
+
+**Regra de aprovação:** o próximo vídeo só deve ser classificado como `pronto para publicar` quando atender à referência 3D/atuação/iluminação **e** tiver voz e revisão final concluídas. O vídeo de 10s enviado é um **benchmark criativo**, não autorização para copiá-lo quadro a quadro, nem prova de que um renderizador 3D já está instalado no projeto.
