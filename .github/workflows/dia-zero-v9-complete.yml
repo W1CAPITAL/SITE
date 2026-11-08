@@ -1,0 +1,103 @@
+name: DIA ZERO V9 — complete os 120s de animacao gerativa e boca estavel
+on:
+  push:
+    branches: [dia-zero-v9-filme-completo-voz-off-sem-labios-20261107]
+    paths: [.github/workflows/dia-zero-v9-complete.yml]
+  workflow_dispatch:
+permissions: {contents: read, actions: read}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -m unittest discover -s creative/dia_zero_v8 -p test_v9_motion.py -v
+  generate:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        beat: [4,5,6,7,8,9,10,11,12,13,14,15]
+    env:
+      V9_BEAT: ${{ matrix.beat }}
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install requests pillow
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42420217220
+          name: V8_32_Original_Continuity_Frames
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - name: Generate two distinct fully temporal Wan2.2 clips with CLOSED mouths for offscreen narration
+        run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -u creative/dia_zero_v8/generate_missing_v9.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: V9_Beat_${{ matrix.beat }}_Video
+          path: creative/dia_zero_v8/generated/
+          if-no-files-found: warn
+          retention-days: 7
+  assembly:
+    needs: [verify,generate]
+    if: always() && needs.verify.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core libass9
+          python -m pip install pillow 'numpy<3' opencv-python-headless
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42420217220
+          pattern: V8_Generative_Clips_Batch_*
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/generated
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: V9_Beat_*_Video
+          merge-multiple: true
+          path: creative/dia_zero_v8/generated
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42420217220
+          name: V8_32_Original_Continuity_Frames
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395772257
+          name: V5_FINAL_Story_59_Tomadas
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 42395092680
+          name: DiaZero_V5_Stereo_Foley
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: creative/dia_zero_v8/input
+      - name: Assemble only 32 real 3.75 second AI video clips, never still fallback
+        run: PYTHONPATH=creative/dia_zero_v8:creative/dia_zero_v4 python -u creative/dia_zero_v8/assemble_v9.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DIA_ZERO_V9_2MIN_VIDEOS_REAIS_OU_DIAGNOSTICO
+          path: creative/dia_zero_v8/final_v9/
+          if-no-files-found: warn
+          retention-days: 7
