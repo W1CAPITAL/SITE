@@ -44,7 +44,7 @@ test("resource hub routes, titles and bookings all resolve",()=>{
  assert.match(hub,/href="\.\.\/"/);
  assert.match(hub,/<h1\b/);
  assert.match(hub,/name="description"/);
- assert.match(hub,/rel="canonical" href="https:\/\/w1-capital\.onrender\.com\/explorar\/"/);
+ assert.match(hub,/rel="canonical" href="https:\/\/w1-capital-sales\.pages\.dev\/explorar\/"/);
  for(const route of htmlDirs){
   const target=route==="explorar/"?"explorar/index.html":route+"index.html";
   assert.ok(existsSync(join(root,target)),target+" does not exist");
@@ -64,7 +64,7 @@ test("all standalone public pages contain a link back to the directory",()=>{
  }
 });
 test("site map includes directory and homepage keeps one original stylesheet",()=>{
- assert.match(read("sitemap.xml"),/<loc>https:\/\/w1-capital\.onrender\.com\/explorar\/<\/loc>/);
+ assert.match(read("sitemap.xml"),/<loc>https:\/\/w1-capital-sales\.pages\.dev\/explorar\/<\/loc>/);
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
  assert.equal(styles.length,1);
  assert.match(styles[0],/^\.\/sales\/refined\.css\?v=/);
