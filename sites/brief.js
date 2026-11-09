@@ -17,18 +17,58 @@ function prepareBrief(){
     email:"mailto:"+SALES_EMAIL+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body)};
 }
 
+function showPrepared(brief,channel){
+  const preview=document.getElementById("site-prepared");
+  if(!preview)return null;
+  preview.hidden=false;
+  preview.value=(channel==="whatsapp"
+    ? "Mensagem para WhatsApp:"
+    : "Para: "+SALES_EMAIL+"\nAssunto: "+brief.subject)+"\n\n"+brief.body;
+  return preview;
+}
+
+function selectPrepared(preview){
+  if(!preview)return;
+  preview.focus();
+  preview.select();
+}
+
 function openPrepared(channel){
-  const brief=prepareBrief();if(!brief)return;
+  const brief=prepareBrief();
+  if(!brief)return;
+  const preview=showPrepared(brief,channel);
   if(channel==="copy"){
-    const copy=globalThis.navigator?.clipboard?.writeText;
-    if(!copy){status.textContent="A cópia automática não está disponível neste navegador; utilize WhatsApp ou e-mail.";return;}
-    copy.call(globalThis.navigator.clipboard,brief.body).then(()=>{status.textContent="Briefing copiado. Você decide onde enviar.";}).catch(()=>{status.textContent="Não foi possível copiar. Utilize WhatsApp ou e-mail.";});
+    const clipboard=globalThis.navigator?.clipboard;
+    if(typeof clipboard?.writeText!=="function"){
+      selectPrepared(preview);
+      status.textContent="Mensagem selecionada. Copie o texto abaixo para enviar pelo canal de sua preferência.";
+      return;
+    }
+    clipboard.writeText(brief.body).then(()=>{
+      status.textContent="Briefing copiado. Você decide onde enviar.";
+    }).catch(()=>{
+      selectPrepared(preview);
+      status.textContent="Não foi possível copiar automaticamente. Selecione e copie o texto abaixo.";
+    });
     return;
   }
-  const url=channel==="whatsapp"?brief.whatsapp:brief.email;
-  const opened=window.open(url,"_blank","noopener,noreferrer");
-  status.textContent=channel==="whatsapp"?"WhatsApp preparado. Confira a mensagem e confirme o envio por lá.":"Rascunho de e-mail preparado. Confira e confirme o envio no seu aplicativo.";
+  if(channel==="email"){
+    // Use same-tab mailto navigation. Opening mailto in a new popup can be blocked.
+    status.textContent="Rascunho preparado. Confira e confirme o envio no aplicativo de e-mail. Se ele não abrir, copie o texto abaixo.";
+    window.location.href=brief.email;
+    return;
+  }
+  const opened=window.open(brief.whatsapp,"_blank","noopener,noreferrer");
+  status.textContent=opened
+    ? "Mensagem preparada para o WhatsApp. Confira e confirme o envio na conversa."
+    : "Se o WhatsApp não abrir, copie o texto abaixo e envie manualmente. Nada foi enviado pelo site.";
 }
+
+form?.addEventListener("submit",event=>{
+  // Enter must not trigger a GET request with visitor details in the URL.
+  event.preventDefault();
+  openPrepared("email");
+});
 
 document.getElementById("site-whatsapp")?.addEventListener("click",()=>openPrepared("whatsapp"));
 document.getElementById("site-email")?.addEventListener("click",()=>openPrepared("email"));
