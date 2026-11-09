@@ -8,17 +8,17 @@ import {selectChangedUrls,createIndexNowPayload,KEY,BASE_URL} from "./indexnow.m
 const root=join(dirname(fileURLToPath(import.meta.url)),"../..");
 const read=p=>readFileSync(join(root,p),"utf8");
 const urls=[
- "https://w1-capital.onrender.com/",
- "https://w1-capital.onrender.com/lexispredict/",
- "https://w1-capital.onrender.com/operacao/",
- "https://w1-capital.onrender.com/guia/",
- "https://w1-capital.onrender.com/diagnostico/",
- "https://w1-capital.onrender.com/parcerias/",
- "https://w1-capital.onrender.com/explorar/",
- "https://w1-capital.onrender.com/exemplo-relatorio/"
+ "https://w1-capital-sales.pages.dev/",
+ "https://w1-capital-sales.pages.dev/lexispredict/",
+ "https://w1-capital-sales.pages.dev/operacao/",
+ "https://w1-capital-sales.pages.dev/guia/",
+ "https://w1-capital-sales.pages.dev/diagnostico/",
+ "https://w1-capital-sales.pages.dev/parcerias/",
+ "https://w1-capital-sales.pages.dev/explorar/",
+ "https://w1-capital-sales.pages.dev/exemplo-relatorio/"
 ];
 test("notify only public changed pages and deduplicate results",()=>{
- assert.deepEqual(selectChangedUrls(["operacao/index.html","operacao/index.html","sales/core.js",".github/workflows/w1-sales.yml"],urls),["https://w1-capital.onrender.com/operacao/"]);
+ assert.deepEqual(selectChangedUrls(["operacao/index.html","operacao/index.html","sales/core.js",".github/workflows/w1-sales.yml"],urls),["https://w1-capital-sales.pages.dev/operacao/"]);
  assert.deepEqual(selectChangedUrls(["index.html","lexispredict/index.html"],urls),[urls[0],urls[1]]);
  assert.deepEqual(selectChangedUrls(["sales/prospecting/workspace.js"],urls),[]);
 });
@@ -27,11 +27,11 @@ test("initial ownership-key deployment notifies all public sitemap URLs",()=>{
  assert.deepEqual(selectChangedUrls(["sitemap.xml"],urls),urls);
 });
 test("will not notify external or admin URLs even if maliciously supplied",()=>{
- const all=[...urls,"https://evil.example/","https://w1-capital.onrender.com/sales/operations/"];
+ const all=[...urls,"https://evil.example/","https://w1-capital-sales.pages.dev/sales/operations/"];
  const selected=selectChangedUrls(["sitemap.xml"],all);
  assert.deepEqual(selected,urls);
  const payload=createIndexNowPayload(selected);
- assert.equal(payload.host,"w1-capital.onrender.com");
+ assert.equal(payload.host,"w1-capital-sales.pages.dev");
  assert.equal(payload.key,KEY);
  assert.deepEqual(payload.urlList,urls);
  assert.equal(payload.keyLocation,BASE_URL+"/"+KEY+".txt");
