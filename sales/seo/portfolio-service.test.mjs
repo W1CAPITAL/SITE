@@ -29,7 +29,7 @@ test("homepage and product offer both SaaS and operational service without confl
  assert.match(lp,/href="\.\.\/operacao\/"/);
  assert.match(home,/apoio operacional|carteira processual/i);
  assert.match(lp,/apoio operacional|carteira processual/i);
- assert.match(read("sitemap.xml"),/https:\/\/w1-capital\.onrender\.com\/operacao\//);
+ assert.match(read("sitemap.xml"),/https:\/\/w1-capital-sales\.pages\.dev\/operacao\//);
  const robots=read("robots.txt");
  assert.ok(!robots.includes("Disallow: /operacao/"));
 });
@@ -50,7 +50,7 @@ test("page includes clear next step and accessible core structure",()=>{
  const html=read("operacao/index.html");
  assert.match(html,/href="#escopo"/);
  assert.match(html,/href="#como-funciona"/);
- assert.match(html,/rel="canonical" href="https:\/\/w1-capital\.onrender\.com\/operacao\/"/);
+ assert.match(html,/rel="canonical" href="https:\/\/w1-capital-sales\.pages\.dev\/operacao\/"/);
  assert.match(html,/target="_blank" rel="noopener noreferrer"/);
  assert.match(html,/name="description"/);
  assert.match(html,/@media\(max-width:7/);
