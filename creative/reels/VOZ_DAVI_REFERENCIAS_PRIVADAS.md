@@ -48,3 +48,13 @@ A geração com **ChatterboxMultilingualTTS** foi **executada de verdade** no Gi
 O titular ouviu o primeiro MP4 clonado e confirmou que **a voz funcionou**, mas pediu uma **interpretação mais animada e interessante para Reels**, sem exagero, memes, voz robótica ou tom de locutor publicitário. Priorizar ritmo natural, sorriso discreto na voz, curiosidade no gancho, intenção no meio e entusiasmo moderado na chamada final. Manter timbre da amostra privada autorizada de Davi. Evitar compressão pesada ou pitch artificial e preservar inteligibilidade.
 
 **Proposta técnica v2 no worker privado:** Chatterbox Multilingual pt-BR com `exaggeration` moderado (0.55–0.70, variável por capítulo), `cfg_weight` 0.34–0.44, sementes determinísticas e texto original. As falas serão avaliadas em prévia sem efeitos para isolar a voz. **Não anunciar a nova versão como entregue antes de validar o MP4 e o WAV gerados.**
+
+
+### Segunda interpretação gerada — 09/11/2026
+
+- Motor: **Chatterbox Multilingual** em workflow privado do GitHub `W1CAPITAL/teste`, run `42605999590`, conclusão **success**. Referência: mesma voz autorizada de cerca de nove segundos do titular.
+- Melhorias: arco de expressividade controlada (`exaggeration` de **0,55 a 0,70**, `cfg_weight` de **0,34 a 0,44**, com maior energia na abertura e no CTA). Mesmas sete falas.
+- Engenharia de voz: a terceira fala originalmente precisou de aceleração de 1,239x para caber na cena; no master revisado, a frase foi desacelerada em 10% e a fala seguinte atrasada 0,56 segundo para recuperar naturalidade, sem alterar o roteiro ou os quadros.
+- Master em revisão: `/Central W1 Capital - ChatGPT/Materiais de vídeo/W1_VoiceStudio_PREVIA_VOZ_DAVI_ANIMADA_41s.mp4` (40,933 segundos, H.264 720×1280 30 fps, AAC). **Apenas a nova narração**, sem trilha antiga, para avaliar voz sem os sons repetitivos de fundo.
+- Versão de voz isolada: `/Central W1 Capital - ChatGPT/Materiais de vídeo/W1_VOZ_DAVI_NARRACAO_MAIS_ANIMADA_41s.mp3`; WAV privado em `Referencias privadas de voz`.
+- Testes: sete janelas de fala com energia audível, normalização, duração exata e decodificação FFmpeg íntegra. **Aprovação subjetiva do timbre, pronúncia e animação vocal ainda depende da audição do titular.** Não confundir prévia com publicação final completa de trilha/efeitos e revisão visual.
