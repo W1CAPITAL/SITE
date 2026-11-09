@@ -1,0 +1,43 @@
+name: W1 live Cloudflare smoke check
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/w1-live-smoke.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Verify public pages, scripts, images and search files
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://w1-capital-sales.pages.dev"
+          paths=("/" "/lexispredict/" "/sites/" "/projetos/" "/sites/demo-cafe/" "/sites/demo-autentica/" "/sites/demo-bezerra-menezes/" "/sites/brief.js" "/lexispredict/vendas.js" "/sales/app.js" "/assets/w1-symbol.svg" "/robots.txt" "/sitemap.xml")
+          failed=0
+          for path in "${paths[@]}"; do
+            tmp=$(mktemp)
+            code=$(curl --retry 3 --retry-delay 2 --retry-all-errors --location --silent --show-error --max-time 22 --output "$tmp" --write-out '%{http_code}' "$BASE$path") || code="000"
+            bytes=$(wc -c < "$tmp")
+            echo "$path => HTTP $code, $bytes bytes"
+            if [ "$code" != "200" ] || [ "$bytes" -lt 10 ]; then
+              echo "::error::Failed live smoke check for $path (HTTP $code)"
+              failed=1
+            fi
+            if [ "$path" = "/" ] && ! grep -q "W1 Capital" "$tmp"; then
+              echo "::error::Homepage is not the W1 Capital website"
+              failed=1
+            fi
+            if [ "$path" = "/sites/" ] && ! grep -q "site-briefing" "$tmp"; then
+              echo "::error::Website creation form missing"
+              failed=1
+            fi
+            rm -f "$tmp"
+          done
+          exit "$failed"
