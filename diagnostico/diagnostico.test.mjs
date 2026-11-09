@@ -46,7 +46,7 @@ test("web page is accessible, server-free, and discoverable",()=>{
  assert.match(s,/type="radio"/);
  assert.match(s,/type="submit"/);
  assert.match(s,/aria-live="polite"/);
- assert.match(s,/href="https:\/\/w1-capital\.onrender\.com\/diagnostico\/"/);
+ assert.match(s,/href="https:\/\/w1-capital-sales\.pages\.dev\/diagnostico\/"/);
  assert.match(s,/diagnostico\.mjs/);
  assert.match(j,/addEventListener\("submit"/);
  assert.match(j,/reportValidity|checkValidity/);
@@ -55,5 +55,5 @@ test("web page is accessible, server-free, and discoverable",()=>{
  assert.match(read("../index.html"),/href="\.\/diagnostico\/"/);
  assert.match(read("../lexispredict/index.html"),/href="\.\.\/diagnostico\/"/);
  assert.match(read("../guia/index.html"),/href="\.\.\/diagnostico\/"/);
- assert.match(read("../sitemap.xml"),/https:\/\/w1-capital\.onrender\.com\/diagnostico\//);
+ assert.match(read("../sitemap.xml"),/https:\/\/w1-capital-sales\.pages\.dev\/diagnostico\//);
 });
