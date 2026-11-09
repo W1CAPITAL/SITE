@@ -15,7 +15,7 @@ test("free educational guide is accessible, useful and clearly separate from the
  assert.match(s,/LexisPredict/);
  assert.match(s,/dados fictícios|sem dados pessoais reais/i);
  assert.match(s,/data-wa-conversion/);
- assert.match(s,/https:\/\/w1-capital\.onrender\.com\/guia\//);
+ assert.match(s,/https:\/\/w1-capital-sales\.pages\.dev\/guia\//);
  assert.match(s,/<button[^>]+data-print/i);
  assert.doesNotMatch(s,/algum cliente já|98% de êxito|resultado garantido|depoimentos de clientes/i);
 });
@@ -34,11 +34,11 @@ test("social source is explicitly whitelisted, not tracked or collected",()=>{
 });
 test("public SEO entry points include the three actual consumer-facing pages, not internal tools",()=>{
  const robots=read("robots.txt"),xml=read("sitemap.xml");
- assert.match(robots,/Sitemap: https:\/\/w1-capital\.onrender\.com\/sitemap\.xml/);
+ assert.match(robots,/Sitemap: https:\/\/w1-capital-sales\.pages\.dev\/sitemap\.xml/);
  assert.match(robots,/Disallow: \/sales\/prospecting\//);
  assert.match(robots,/Disallow: \/sales\/operations\//);
  assert.doesNotMatch(robots,/^Disallow: \/sales\/$/m,"Do not block CSS and JS assets from search robots");
- for(const uri of ["https://w1-capital.onrender.com/","https://w1-capital.onrender.com/lexispredict/","https://w1-capital.onrender.com/guia/","https://w1-capital.onrender.com/diagnostico/"]){
+ for(const uri of ["https://w1-capital-sales.pages.dev/","https://w1-capital-sales.pages.dev/lexispredict/","https://w1-capital-sales.pages.dev/guia/","https://w1-capital-sales.pages.dev/diagnostico/"]){
   assert.ok(xml.includes("<loc>"+uri+"</loc>"),uri+" omitted");
  }
  assert.doesNotMatch(xml,/\/sales\/|example\.com|localhost|<lastmod>2027/i);
