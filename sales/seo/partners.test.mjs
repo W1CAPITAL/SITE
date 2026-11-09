@@ -31,6 +31,6 @@ test("partner page offers real qualified bookable follow-up and discloses scope"
 test("partners can discover opportunity organically",()=>{
  assert.match(read("index.html"),/href="\.\/parcerias\/"/);
  assert.match(read("operacao/index.html"),/href="\.\.\/parcerias\/"/);
- assert.match(read("sitemap.xml"),/<loc>https:\/\/w1-capital\.onrender\.com\/parcerias\/<\/loc>/);
- assert.match(read("parcerias/index.html"),/rel="canonical" href="https:\/\/w1-capital\.onrender\.com\/parcerias\/"/);
+ assert.match(read("sitemap.xml"),/<loc>https:\/\/w1-capital-sales\.pages\.dev\/parcerias\/<\/loc>/);
+ assert.match(read("parcerias/index.html"),/rel="canonical" href="https:\/\/w1-capital-sales\.pages\.dev\/parcerias\/"/);
 });
