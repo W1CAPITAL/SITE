@@ -27,3 +27,17 @@ O pacote foi inspecionado, gerado com amostras originais e possui manifesto de i
 
 ## Memória e continuidade
 Este arquivo é o registro durável, versionado, para todos os fluxos da W1 Capital, Reel Studio, AI Lab e aba Projetos. Ele **não é** um botão que altera o resumo de Memória do ChatGPT; o usuário pode revisar esse resumo em **Configurações → Personalização → Memória → Gerenciar**. Referências brutas ficam apenas no acervo privado e não nos documentos GitHub.
+
+
+## Atualização de produção verificada — 09/11/2026
+
+A geração com **ChatterboxMultilingualTTS** foi **executada de verdade** no GitHub Actions de um repositório privado da W1 (run `42602144199`, status success) usando a amostra vocal autorizada de aproximadamente 9 segundos, sem disponibilizar os áudios de referência publicamente.
+
+- Narração em português brasileiro: **sete trechos produzidos**, com fala ativa e sincronização de 40,933 segundos.
+- MP4 final: `/Central W1 Capital - ChatGPT/Materiais de vídeo/W1_VoiceStudio_FINAL_VOZ_DAVI_41s.mp4`.
+- Faixa gerada e mantida em pasta privada: `/Central W1 Capital - ChatGPT/Materiais de vídeo/Referencias privadas de voz/W1_Voz_Davi_Clonada_41s_Privada.wav`.
+- QA: decodificação FFmpeg íntegra; vídeo 720×1280, 30 fps H.264 com áudio AAC estéreo; duração exata de 40,933 segundos; pico de áudio -1,4 dB e nível médio -17,9 dB; hash dos frames/vídeo idêntico ao vídeo com contraste corrigido (as imagens foram preservadas).
+- **Estado:** dublagem via voice cloning concluída e validada tecnicamente. A semelhança perceptiva exata do timbre/prosódia ainda deve ser confirmada pelo próprio titular ouvindo o arquivo, antes de publicar. Não confundir QA técnico com aprovação de interpretação vocal.
+- Original de referência (9s) não foi incorporado como gravação bruta no vídeo nem publicado no repositório SITE; só a voz sintetizada está presente no master de 41 segundos. O material de síntese está em repositório GitHub **privado** da W1, nunca no site público.
+
+**Esta atualização substitui o estado “sem voz clonada” apenas para o novo arquivo `W1_VoiceStudio_FINAL_VOZ_DAVI_41s.mp4`.** Arquivos anteriores com nomes diferentes permanecem históricos e sem clonagem.
