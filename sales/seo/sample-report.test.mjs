@@ -36,6 +36,6 @@ test("sales funnel exposes sample from operational page, with booking and organi
  assert.match(html,/href="\.\.\/operacao\/"/);
  assert.match(html,/https:\/\/calendly\.com\/daviconcentrix\/apoio-a-carteira-processual-w1-capital/);
  assert.match(html,/target="_blank" rel="noopener noreferrer"/);
- assert.match(site,/<loc>https:\/\/w1-capital\.onrender\.com\/exemplo-relatorio\/<\/loc>/);
- assert.match(html,/rel="canonical" href="https:\/\/w1-capital\.onrender\.com\/exemplo-relatorio\/"/);
+ assert.match(site,/<loc>https:\/\/w1-capital-sales\.pages\.dev\/exemplo-relatorio\/<\/loc>/);
+ assert.match(html,/rel="canonical" href="https:\/\/w1-capital-sales\.pages\.dev\/exemplo-relatorio\/"/);
 });
