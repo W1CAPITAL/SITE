@@ -41,3 +41,10 @@ A geração com **ChatterboxMultilingualTTS** foi **executada de verdade** no Gi
 - Original de referência (9s) não foi incorporado como gravação bruta no vídeo nem publicado no repositório SITE; só a voz sintetizada está presente no master de 41 segundos. O material de síntese está em repositório GitHub **privado** da W1, nunca no site público.
 
 **Esta atualização substitui o estado “sem voz clonada” apenas para o novo arquivo `W1_VoiceStudio_FINAL_VOZ_DAVI_41s.mp4`.** Arquivos anteriores com nomes diferentes permanecem históricos e sem clonagem.
+
+
+## Direção vocal exigida — revisão 09/11/2026
+
+O titular ouviu o primeiro MP4 clonado e confirmou que **a voz funcionou**, mas pediu uma **interpretação mais animada e interessante para Reels**, sem exagero, memes, voz robótica ou tom de locutor publicitário. Priorizar ritmo natural, sorriso discreto na voz, curiosidade no gancho, intenção no meio e entusiasmo moderado na chamada final. Manter timbre da amostra privada autorizada de Davi. Evitar compressão pesada ou pitch artificial e preservar inteligibilidade.
+
+**Proposta técnica v2 no worker privado:** Chatterbox Multilingual pt-BR com `exaggeration` moderado (0.55–0.70, variável por capítulo), `cfg_weight` 0.34–0.44, sementes determinísticas e texto original. As falas serão avaliadas em prévia sem efeitos para isolar a voz. **Não anunciar a nova versão como entregue antes de validar o MP4 e o WAV gerados.**
