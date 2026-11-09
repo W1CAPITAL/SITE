@@ -11,8 +11,8 @@ const page=readFileSync(resolve(root,"index.html"),"utf8");
 test("SEO audit passes substantive static checks for W1 homepage",()=>{
   const items=auditHtml(page);
   assert.deepEqual(items.filter(x=>x.severity==="error"),[]);
-  assert.ok(!items.some(x=>x.code==="CANONICAL"&&x.severity==="pending"),"Verified Render domain has a canonical now");
-  assert.match(page,/<link rel="canonical" href="https:\/\/w1-capital\.onrender\.com\/">/);
+  assert.ok(!items.some(x=>x.code==="CANONICAL"&&x.severity==="pending"),"Active Cloudflare domain has a canonical");
+  assert.match(page,/<link rel="canonical" href="https:\/\/w1-capital-sales\.pages\.dev\/">/);
   assert.ok(page.includes('type="application/ld+json"'));
 });
 test("audit catches missing headings, invalid structured data and bad anchors",()=>{
