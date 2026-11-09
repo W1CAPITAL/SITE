@@ -38,3 +38,21 @@ A geração com **ChatterboxMultilingualTTS** foi **executada de verdade** no Gi
 - Original de referência (9s) não foi incorporado como gravação bruta no vídeo nem publicado no repositório SITE; só a voz sintetizada está presente no master de 41 segundos. O material de síntese está em repositório GitHub **privado** da W1, nunca no site público.
 
 **Esta atualização substitui o estado “sem voz clonada” apenas para o novo arquivo `W1_VoiceStudio_FINAL_VOZ_DAVI_41s.mp4`.** Arquivos anteriores com nomes diferentes permanecem históricos e sem clonagem.
+
+
+### Correção de roteiro, locução e legendas — 09/11/2026
+
+**Motivo:** o titular identificou monotonia vocal e frases na tela desconexas do que a voz narrava. O roteiro anterior começava com conteúdo genérico de IA quando o vídeo mostrava “Clonaram a ElevenLabs”, “Um dev sozinho”, “Roda direto”, “Dubla vídeos”, “14 motores”, “Essa narração” e “Comenta VOICE”.
+
+**Entrega corrigida no acervo privado da W1**:
+- Master: `/Central W1 Capital - ChatGPT/Materiais de vídeo/W1_VoiceStudio_VOZ_DAVI_MAIS_VIVA_LEGENDAS_CORRETAS_41s.mp4`.
+- Voz isolada: `W1_VOZ_DAVI_MAIS_VIVA_NARRACAO_41s.mp3`.
+- Legendas: `W1_VoiceStudio_VOZ_DAVI_LEGENDAS_CORRETAS_41s.srt` (21 cartões com texto literalmente correspondente ao roteiro gerado).
+- Pacote: `W1_VoiceStudio_VOZ_DAVI_CORRIGIDA_LEGENDAS_41s.zip`.
+- Voz criada com Chatterbox Multilingual a partir da mesma amostra autorizada de ~9s, com maior expressividade configurada (0.78 a 0.98), gancho interrogativo e CTA curto. Geração dos **sete trechos brutos** via workflow **privado** `W1CAPITAL/teste`, run `42610856175`. O workflow de composição terminou com falha porque um teste de duração estava restritivo; os **sete WAVs** foram recuperados por artifact privado e alinhados localmente de maneira segura, sem cortar palavras.
+- Ritmo de cada segmento: 1.000, 1.025, 1.115, 1.000, 1.000, 1.000 e 1.158x (FFmpeg atempo preserva o tom). A faixa anterior do vídeo NÃO foi reutilizada, nem música/efeitos.
+- Visual: manteve material da W1; adicionou legendas legíveis em 21 intervalos que acompanham as sete cenas e corrigiu a afirmação incorreta de que a narração foi gerada “nessa ferramenta” para “modelo aberto / voz clonada”.
+- QA: MP4 **40,933 s**, **720×1280**, **30 fps**, **H.264/AAC**, 1228 quadros, decodificação completa sem erro; faixa média -19,9 dB e pico -3,6 dB; script no relatório idêntico ao texto integral das legendas; hash SHA-256 `23556197dfe0da78931e06bbec043be62f4590bdd7f4c18b937676feaf5758a5`.
+- **Audição subjetiva da expressividade**: ainda a cargo do titular; QA técnico e maior exagero vocal configurado não provam sozinho que a voz lhe agradará.
+
+Regra para próximos Reels: **roteiro vem dos quadros e movimentos aprovados**, não o contrário; cada bloco de fala deve ter conexão observável com a arte e legenda exatamente correspondente; gerar artefatos brutos na infraestrutura privada e não perder clips quando validação de timing falhar.
