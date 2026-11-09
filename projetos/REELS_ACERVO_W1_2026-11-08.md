@@ -19,3 +19,8 @@ Acervo privado persistente no ChatGPT: `/Central W1 Capital - ChatGPT/Materiais 
 ## Verificações
 - Testes estáticos em `projetos/page.test.mjs` exigem ambos os cartões e impedem links locais falsos.
 - A atualização não altera a aba Projetos do portfólio pessoal; preserva suas sete abas.
+
+## Referências vocais confirmadas (09/11/2026)
+O titular confirmou, em primeira pessoa, que a referência limpa de cerca de **9 segundos** e as duas gravações adicionais `PTT-20261108-WA0004.zip` e `PTT-20261108-WA0005.zip` são sua própria voz. Os três arquivos foram convertidos/conferidos e preservados no acervo privado da W1, em `Materiais de vídeo/Referencias privadas de voz`. Consulte [política de voz/proveniência](../creative/reels/VOZ_DAVI_REFERENCIAS_PRIVADAS.md) para fontes, estados e cuidados de uso.
+
+O Reels `W1_VoiceStudio_Contraste_41s_NAO_DUBLADO.mp4` mantém o visual de 41 s com contraste corrigido e trilha, **não contém clonagem de voz gerada**. Não listar o item como narrado pelo titular nem pronto para publicação antes de produzir e escutar a nova narração. O vínculo da referência no acervo não é evidência de sua presença no vídeo.
