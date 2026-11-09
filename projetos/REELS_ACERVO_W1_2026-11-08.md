@@ -24,3 +24,17 @@ Acervo privado persistente no ChatGPT: `/Central W1 Capital - ChatGPT/Materiais 
 O titular confirmou, em primeira pessoa, que a referência limpa de cerca de **9 segundos** e as duas gravações adicionais `PTT-20261108-WA0004.zip` e `PTT-20261108-WA0005.zip` são sua própria voz. Os três arquivos foram convertidos/conferidos e preservados no acervo privado da W1, em `Materiais de vídeo/Referencias privadas de voz`. Consulte [política de voz/proveniência](../creative/reels/VOZ_DAVI_REFERENCIAS_PRIVADAS.md) para fontes, estados e cuidados de uso.
 
 O Reels `W1_VoiceStudio_Contraste_41s_NAO_DUBLADO.mp4` mantém o visual de 41 s com contraste corrigido e trilha, **não contém clonagem de voz gerada**. Não listar o item como narrado pelo titular nem pronto para publicação antes de produzir e escutar a nova narração. O vínculo da referência no acervo não é evidência de sua presença no vídeo.
+
+
+## Atualização de produção verificada — 09/11/2026
+
+A geração com **ChatterboxMultilingualTTS** foi **executada de verdade** no GitHub Actions de um repositório privado da W1 (run `42602144199`, status success) usando a amostra vocal autorizada de aproximadamente 9 segundos, sem disponibilizar os áudios de referência publicamente.
+
+- Narração em português brasileiro: **sete trechos produzidos**, com fala ativa e sincronização de 40,933 segundos.
+- MP4 final: `/Central W1 Capital - ChatGPT/Materiais de vídeo/W1_VoiceStudio_FINAL_VOZ_DAVI_41s.mp4`.
+- Faixa gerada e mantida em pasta privada: `/Central W1 Capital - ChatGPT/Materiais de vídeo/Referencias privadas de voz/W1_Voz_Davi_Clonada_41s_Privada.wav`.
+- QA: decodificação FFmpeg íntegra; vídeo 720×1280, 30 fps H.264 com áudio AAC estéreo; duração exata de 40,933 segundos; pico de áudio -1,4 dB e nível médio -17,9 dB; hash dos frames/vídeo idêntico ao vídeo com contraste corrigido (as imagens foram preservadas).
+- **Estado:** dublagem via voice cloning concluída e validada tecnicamente. A semelhança perceptiva exata do timbre/prosódia ainda deve ser confirmada pelo próprio titular ouvindo o arquivo, antes de publicar. Não confundir QA técnico com aprovação de interpretação vocal.
+- Original de referência (9s) não foi incorporado como gravação bruta no vídeo nem publicado no repositório SITE; só a voz sintetizada está presente no master de 41 segundos. O material de síntese está em repositório GitHub **privado** da W1, nunca no site público.
+
+**Esta atualização substitui o estado “sem voz clonada” apenas para o novo arquivo `W1_VoiceStudio_FINAL_VOZ_DAVI_41s.mp4`.** Arquivos anteriores com nomes diferentes permanecem históricos e sem clonagem.
