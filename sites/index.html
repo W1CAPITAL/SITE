@@ -98,7 +98,7 @@ input:focus,textarea:focus,select:focus{outline:2px solid #ba6485;outline-offset
 .form-actions{display:flex;flex-wrap:wrap;gap:9px}
 .form-actions button{border:0;border-radius:10px;background:#581a39;color:white;padding:13px 16px;font-size:13px;font-weight:800;cursor:pointer}
 .form-actions button.alt{background:#f1e2e8;color:#4d2036}
-.form-output{font-size:12px;min-height:20px;margin-top:15px;color:#5d3046}
+.form-output{font-size:12px;min-height:20px;margin-top:15px;color:#5d3046}.brief-preview{margin-top:14px;background:#fffafc;resize:vertical;font-size:13px;line-height:1.6}.brief-preview[hidden]{display:none}
 .note{font-size:12px;color:#75636d;margin:10px 0 0}
 footer{background:#240b1a;color:#f1d9e2;padding:30px 24px;font-size:13px}
 .footer-inner{max-width:1180px;margin:auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between}
@@ -172,7 +172,7 @@ footer a{color:#fff}
 </section>
 <section class="quote" id="orcamento" aria-labelledby="orcamento-titulo"><div class="section quote-layout">
 <div class="section-title"><span class="label">05 / CONTE SOBRE SUA IDEIA</span><h2 id="orcamento-titulo">Um primeiro passo para colocar seu negócio <em>na internet.</em></h2><p>Preencha um briefing rápido. O formulário prepara uma mensagem no WhatsApp ou no e-mail, para você revisar e enviar quando quiser. Se preferir explicar sua ideia ao vivo, <a href="https://calendly.com/daviconcentrix/orcamento-de-site-w1-capital" target="_blank" rel="noopener noreferrer">agende uma conversa gratuita de 15 minutos</a>.</p><p class="quote-details">Os valores e o prazo dependem do projeto. Domínio, hospedagem, produção de conteúdo e integrações são definidos na proposta. Não há cobrança ou contratação automática.</p></div>
-<form class="form" id="site-briefing"><h3>Seu projeto começa aqui</h3><p>Leva pouco tempo e não exige documentos nem dados dos seus clientes.</p>
+<form class="form" id="site-briefing" method="post" action="mailto:corporacaow1capital@gmail.com" enctype="text/plain"><h3>Seu projeto começa aqui</h3><p>Leva pouco tempo e não exige documentos nem dados dos seus clientes.</p>
 <div class="fields"><div class="field"><label for="contact-name">Seu nome</label><input id="contact-name" name="contactName" autocomplete="name" maxlength="90" required placeholder="Como podemos chamar você?"></div>
 <div class="field"><label for="business-name">Nome do negócio</label><input id="business-name" name="business" maxlength="110" required placeholder="Sua marca ou empresa"></div>
 <div class="field"><label for="business-sector">Ramo de atuação</label><input id="business-sector" name="sector" maxlength="85" required placeholder="Ex.: cafeteria, serviços, loja"></div>
@@ -180,6 +180,7 @@ footer a{color:#fff}
 <div class="field full"><label for="site-goal">O que você deseja com o site?</label><textarea id="site-goal" name="goal" required minlength="10" maxlength="600" placeholder="Conte brevemente o que sua empresa precisa divulgar e como gostaria de receber contatos."></textarea></div></div>
 <div class="consent"><input id="consent" type="checkbox" name="consent" required><label for="consent">Autorizo a utilização das informações deste briefing exclusivamente para responder ao meu pedido de orçamento. Entendo que o envio será confirmado por mim no WhatsApp ou e-mail.</label></div>
 <div class="form-actions"><button type="button" id="site-whatsapp">Preparar no WhatsApp ↗</button><button type="button" class="alt" id="site-email">Preparar no e-mail ↗</button><button type="button" class="alt" id="site-copy">Copiar briefing</button></div>
+<textarea id="site-prepared" class="brief-preview" readonly hidden rows="8" aria-label="Mensagem de contato preparada para copiar"></textarea>
 <p class="form-output" id="site-status" role="status" aria-live="polite"></p>
 <p class="note">Não há contratação automática. Ao abrir WhatsApp ou e-mail, a mensagem fica preparada para sua conferência; a W1 só recebe após o envio. Nenhum briefing é armazenado neste site.</p>
 </form></div></section>
