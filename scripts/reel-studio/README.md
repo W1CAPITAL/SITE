@@ -39,3 +39,9 @@ O editor fornece normalização de loudness, ducking da música por sidechain e 
 ## Segurança e licença
 
 O código W1 é próprio; projetos externos são serviços independentes, com licenças preservadas. Proteja instâncias locais e tokens. Uso de rostos/vozes exige autorização. Nunca aceite custos de geração, HD ou reenvios incertos automaticamente. GitHub contém somente o código de montagem, não modelos generativos executáveis neste chat.
+
+## Referência de voz oficial da W1 (09/11/2026)
+
+O titular confirmou que a amostra limpa de **9,07 s** usada anteriormente para clonagem e as gravações adicionais de **4,5 s e 9,4 s** são de sua própria voz. Elas estão apenas no acervo privado da W1, em `Materiais de vídeo/Referencias privadas de voz`. Nunca publicá-las no GitHub.
+
+**Leia antes de renderizar**: [proveniência e critérios de aprovação da voz](../../creative/reels/VOZ_DAVI_REFERENCIAS_PRIVADAS.md). O último Reels VoiceStudio com contraste corrigido permanece **SEM VOZ CLONADA**. Ter amostra salva ou um adaptador VoiceStudio no código **não confirma** uma narração criada ou misturada ao MP4. É obrigatório gerar fala com um motor efetivamente executado, inserir na timeline, escutar o resultado e validar.
