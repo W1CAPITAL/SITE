@@ -3,7 +3,7 @@ import {fileURLToPath} from "node:url";
 import {dirname,join} from "node:path";
 
 export const KEY="04419ef1947dc3671fc73417dced60f5";
-export const BASE_URL="https://w1-capital.onrender.com";
+export const BASE_URL="https://w1-capital-sales.pages.dev";
 const paths=new Map([
  ["index.html","/"],
  ["lexispredict/index.html","/lexispredict/"],
