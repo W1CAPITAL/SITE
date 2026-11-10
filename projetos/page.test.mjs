@@ -25,3 +25,16 @@ test('Acervo registra ambos os Reels sem anunciar dublagem ou publicação inexi
  }
  assert.doesNotMatch(html,/src="[^"]*sandbox:|src="[^"]*\/mnt\/data/);
 });
+
+test('A aba Projetos apresenta o kit ProjectW1SC e o instalador em página própria',async()=>{
+ const html=await readFile(new URL('index.html',import.meta.url),'utf8');
+ assert.match(html,/ProjectW1SC · CRM/);
+ assert.match(html,/\.\/projectw1sc\//);
+ const kit=await readFile(new URL('projectw1sc/index.html',import.meta.url),'utf8');
+ for(const term of ['Instalação assistida','Supabase','Vercel','GitHub','MCP','NotebookLM','id="copy-prompt"','projectw1sc-prompt.mjs'])
+  assert.ok(kit.includes(term),'Ausente: '+term);
+ const module=await readFile(new URL('projectw1sc/projectw1sc-prompt.mjs',import.meta.url),'utf8');
+ for(const term of ['ProjectW1SC/Automation','Não copie clientes','Supabase','Vercel','GitHub','RLS','nove abas'])
+  assert.ok(module.includes(term),'Ausente no prompt: '+term);
+ assert.doesNotMatch(module,/sb_secret_|service_role\s*=|[0-9]{11}/i,'Sem credenciais ou dados privados');
+});

@@ -131,3 +131,10 @@ A rota [`/projetos/`](projetos/index.html) reúne os projetos próprios da W1 Ca
 - [Testes](projetos/plan-core.test.mjs) e [testes de navegação](projetos/page.test.mjs) executados no CI.
 
 O portfólio pessoal continua com a aba **Projetos** existente (`/portfolio/?tab=projetos`); não se apropriar de autoria de repositórios externos. A instalação de modelos de vídeo em hospedagem estática não é possível; mantenha geração em infraestrutura apropriada e privada.
+
+
+### ProjectW1SC — instalação assistida e treinamento (10/11/2026)
+
+A seção [Projetos](projetos/index.html) inclui um cartão do **ProjectW1SC**, com uma [página dedicada](projetos/projectw1sc/index.html), [prompt mestre copiável](projetos/projectw1sc/projectw1sc-prompt.mjs) e [guia técnico de 30 módulos](projetos/projectw1sc/GUIA_COMPLETO.md). O conteúdo cobre instalação independente do CRM, GitHub, Supabase, Auth, RLS, Storage, Vercel, nove abas, testes, MCP, plugins, skills e desenvolvimento com IA.
+
+Os PDFs completos e os registros operacionais ficam no **acervo privado da W1 Capital**, não nesta página pública. O prompt descreve a automação que um agente deve executar quando autorizado; não cria contas nem implanta serviços simplesmente por ter sido copiado. A nova instalação deve usar banco vazio, usuário próprio e nenhuma credencial ou dado da operação original.
