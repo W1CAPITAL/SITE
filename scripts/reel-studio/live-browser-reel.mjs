@@ -9,18 +9,20 @@ import {spawnSync} from 'node:child_process';
 
 export const FPS=24;
 export const SCENES=[
- {url:'/sites/',seconds:1.35,start:0.015,end:.10,caption:'UM SITE BONITO BASTA?',kind:'w1'},
- {url:'/sites/',seconds:1.65,start:.15,end:.31,caption:'E SE O CONTATO NÃO APARECER?',kind:'w1'},
- {url:'/sites/demo-autentica/',seconds:1.95,start:0,end:.20,caption:'IDENTIDADE QUE FAZ SENTIDO.',kind:'concept'},
- {url:'/sites/demo-autentica/solucoes/',seconds:1.70,start:.02,end:.27,caption:'INFORMAÇÃO SEM COMPLICAÇÃO.',kind:'concept'},
- {url:'/sites/demo-bezerra-menezes/',seconds:1.90,start:.02,end:.22,caption:'CADA PROJETO, UMA DIREÇÃO.',kind:'concept'},
- {url:'/sites/',seconds:1.65,start:.40,end:.63,caption:'UM CAMINHO ATÉ VOCÊ.',kind:'w1'},
- {url:'/sites/',seconds:1.85,start:.77,end:.93,caption:'ENVIE SITE NO DIRECT.',kind:'cta'}
+ {url:'/portfolio/',seconds:1.45,start:0,end:.07,caption:'QUANTAS ABAS ATÉ A RESPOSTA?',kind:'founder'},
+ {url:'/lexispredict/',seconds:1.55,start:0,end:.11,caption:'DOCUMENTOS. PROCESSOS. PRAZOS.',kind:'product'},
+ {url:'/lexispredict/',seconds:1.55,start:.14,end:.36,caption:'TODO DIA, UM DESAFIO.',kind:'product'},
+ {url:'/sites/',seconds:1.60,start:.02,end:.24,caption:'NÃO É SOBRE MAIS UMA FERRAMENTA.',kind:'w1'},
+ {url:'/sites/demo-autentica/',seconds:1.85,start:.01,end:.24,caption:'É SOBRE PROJETAR MELHOR.',kind:'concept'},
+ {url:'/lexispredict/',seconds:1.75,start:.39,end:.59,caption:'CONHEÇA O LEXISPREDICT.',kind:'product'},
+ {url:'/lexispredict/',seconds:1.65,start:.61,end:.79,caption:'TECNOLOGIA PARA A ROTINA JURÍDICA.',kind:'product'},
+ {url:'/portfolio/',seconds:1.55,start:.12,end:.39,caption:'DESENVOLVIDO PELA W1 CAPITAL.',kind:'w1'},
+ {url:'/lexispredict/',seconds:1.60,start:.78,end:.94,caption:'MANDE LEXIS NO DIRECT.',kind:'cta'}
 ];
 export function validateScenes(scenes=SCENES){
  if(scenes.length<5||scenes.length>10)throw Error('Storyboard precisa de 5 a 10 cenas');
  const total=scenes.reduce((a,s)=>{
-   if(!s.url.startsWith('/sites/')||s.url.includes('..')||!Number.isFinite(s.seconds)||s.seconds<1||s.seconds>3
+   if(!['/portfolio/','/lexispredict/','/sites/','/sites/demo-autentica/'].includes(s.url)||s.url.includes('..')||!Number.isFinite(s.seconds)||s.seconds<1||s.seconds>3
     ||s.start<0||s.end>1||s.end<=s.start||s.caption.length>39)throw Error('Cena inválida');
    return a+s.seconds;
  },0);
@@ -40,7 +42,7 @@ function generateSound(seconds,file,cutTimes){
  output.write('fmt ',12);output.writeUInt32LE(16,16);output.writeUInt16LE(1,20);output.writeUInt16LE(2,22);
  output.writeUInt32LE(sr,24);output.writeUInt32LE(sr*4,28);output.writeUInt16LE(4,32);output.writeUInt16LE(16,34);
  output.write('data',36);output.writeUInt32LE(n*4,40);
- const BPM=116,beat=60/BPM;let low=0,random=2463534242;
+ const BPM=123,beat=60/BPM;let low=0,random=2463534242;
  const noise=()=>{random^=random<<13;random^=random>>>17;random^=random<<5;return ((random>>>0)/4294967295)*2-1};
  for(let i=0;i<n;i++){
    const t=i/sr,period=t%beat;
@@ -60,12 +62,14 @@ function generateSound(seconds,file,cutTimes){
 const escapeHtml=v=>String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function overlayHTML(scene){
  return '<div id="w1-film-overlay" style="pointer-events:none;position:fixed;inset:0;z-index:2147483600;font-family:system-ui,-apple-system,Arial,sans-serif;color:white">'+
+ (scene.kind==='founder'?'<div style="position:absolute;inset:-10px;background:linear-gradient(180deg,#120d18aa,#120d1888 55%,#120d18cc),url(/portfolio/assets/hero-davi.webp) 50% 31%/cover no-repeat"></div>':'')+
  '<div style="position:absolute;inset:57% 0 0;background:linear-gradient(0deg,rgba(16,9,18,.84),rgba(16,9,18,0));"></div>'+
  '<div style="position:absolute;top:38px;left:27px;font-size:11px;font-weight:700;letter-spacing:.18em;text-shadow:0 2px 12px #000b">W1  /  CAPITAL</div>'+
- (scene.kind==='concept'?'<div style="position:absolute;top:38px;right:27px;font-size:9px;font-weight:700;letter-spacing:.08em;text-shadow:0 2px 12px #000b">CONCEITO VISUAL</div>':'')+
+ (scene.kind==='concept'?'<div style="position:absolute;top:38px;right:27px;font-size:9px;font-weight:700;letter-spacing:.08em;text-shadow:0 2px 12px #000b">SITE DEMONSTRATIVO</div>':'')+
+ (scene.kind==='product'?'<div style="position:absolute;top:38px;right:27px;font-size:9px;font-weight:700;letter-spacing:.08em;text-shadow:0 2px 12px #000b">PÁGINA INSTITUCIONAL</div>':'')+
  '<div id="w1-film-caption" style="position:absolute;bottom:205px;left:25px;right:53px;font-size:29px;font-weight:780;letter-spacing:-.05em;line-height:1.04;text-shadow:0 2px 12px #0008;white-space:normal;overflow-wrap:break-word">'+escapeHtml(scene.caption)+'</div>'+
  '<div style="position:absolute;left:25px;bottom:186px;width:36px;height:3px;border-radius:5px;background:#f0a3c0"></div>'+
- '<div style="position:absolute;bottom:158px;left:25px;font-size:10px;font-weight:600;letter-spacing:.055em;opacity:.9">'+(scene.kind==='cta'?'W1 CAPITAL  ·  CRIAÇÃO DE SITES':'DESENVOLVIMENTO DIGITAL  ·  W1')+'</div>'+
+ '<div style="position:absolute;bottom:158px;left:25px;font-size:10px;font-weight:600;letter-spacing:.055em;opacity:.9">'+(scene.kind==='cta'?'@w1solucoescapital  ·  DIRECT: LEXIS':'W1 CAPITAL  ·  LEXISPREDICT')+'</div>'+
  '</div>';
 }
 export async function capture({base='http://127.0.0.1:8765',dest=OUTPUT}={}){
@@ -111,9 +115,9 @@ export async function capture({base='http://127.0.0.1:8765',dest=OUTPUT}={}){
    '-map','[v]','-map','[a]','-c:v','libx264','-preset','veryfast','-crf','19','-r','30',
    '-c:a','aac','-b:a','192k','-ar','48000','-movflags','+faststart','-t',String(time),output]);
  await copyFile(path.join(frames,'00000.png'),path.join(dest,'cover.png'));
- await writeFile(path.join(dest,'provenance.json'),JSON.stringify({title:'W1 Capital — Por que o cliente desiste do seu site?',
+ await writeFile(path.join(dest,'provenance.json'),JSON.stringify({title:'W1 Capital — LexisPredict: quantas abas ate a resposta?',
   frameCount:frameNo,duration:time,source:'W1CAPITAL/SITE branch main, Chromium real local HTML',
-  examples:'Public concept pages, not official client websites',scenes:SCENES,voice:'none; deliberately no synthetic TTS',
+  examples:'Captured original W1 public pages; no Lexis app login, workflows or results are shown; demonstration site flagged',scenes:SCENES,voice:'none; deliberately no synthetic TTS',
   soundtrack:'Original programmatic licensed by author: minimal restrained pulse, no third-party recording'},null,2));
  console.log(JSON.stringify({file:output,seconds:time,frames:frameNo}));
  return {file:output,duration:time,frames:frameNo};

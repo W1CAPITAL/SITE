@@ -23,6 +23,8 @@ jobs:
           sudo apt-get install -y ffmpeg
           npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.64.1
           npx playwright install chromium --with-deps
+      - name: Validate the existing W1 Open-Higgsfield bridge without external API
+        run: node --test scripts/higgsfield/render.test.mjs
       - name: Verify script and storyboard
         run: |
           node --check scripts/reel-studio/live-browser-reel.mjs
@@ -35,6 +37,26 @@ jobs:
           curl -fsS http://127.0.0.1:8765/sites/ > /dev/null
       - name: Film and render original MP4
         run: node scripts/reel-studio/live-browser-reel.mjs
+      - name: Run upstream Genjutsu local preprocessing (no paid generation)
+        run: |
+          git clone --depth=1 https://github.com/sirioberati/Genjustsu-Open-Source-Workflow.git /tmp/w1-genjutsu
+          python3 -m venv /tmp/w1-genjutsu-venv
+          /tmp/w1-genjutsu-venv/bin/pip install --quiet 'gradio_client==2.7.2' 'av==17.0.0' 'numpy==2.4.3' 'Pillow==12.1.1' 'requests==2.32.5'
+          PYTHONPATH=/tmp/w1-genjutsu /tmp/w1-genjutsu-venv/bin/python - <<'PY'
+          from pipeline import normalize
+          import json
+          result=normalize('out/w1-reel-real-sites/w1-reel-sites-REAL.mp4','out/w1-reel-real-sites/genjutsu-offline-prepared.mp4')
+          assert result['frames'] > 100 and result['duration'] > 8
+          with open('out/w1-reel-real-sites/genjutsu-normalize.json','w') as f:
+              json.dump(result,f,indent=2)
+          print('Genjutsu offline normalize passed:', result)
+          PY
+      - name: Retrieve original LexisPredict onboarding video from W1 GitHub
+        run: |
+          curl --fail --location --retry 2 --max-time 100 \
+            https://raw.githubusercontent.com/W1CAPITAL/LexisPredict/main/public/Onboarding_LexisPredict.mp4 \
+            --output out/w1-reel-real-sites/Lexis_Onboarding_Source.mp4
+          ffprobe -v error -show_entries stream=codec_name,width,height -show_entries format=duration -of json out/w1-reel-real-sites/Lexis_Onboarding_Source.mp4
       - name: Probe exported video and audio
         run: |
           ffprobe -v error -show_entries stream=codec_name,width,height -show_entries format=duration -of json out/w1-reel-real-sites/w1-reel-sites-REAL.mp4
@@ -48,5 +70,8 @@ jobs:
             out/w1-reel-real-sites/w1-reel-sites-REAL.mp4
             out/w1-reel-real-sites/cover.png
             out/w1-reel-real-sites/provenance.json
+            out/w1-reel-real-sites/genjutsu-normalize.json
+            out/w1-reel-real-sites/genjutsu-offline-prepared.mp4
+            out/w1-reel-real-sites/Lexis_Onboarding_Source.mp4
           retention-days: 7
           if-no-files-found: error
