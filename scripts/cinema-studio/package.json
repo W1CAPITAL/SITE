@@ -1,0 +1,16 @@
+{
+  "name": "w1-cinema-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "W1 Capital local video editing toolchain",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "bash scripts/smoke-tools.sh"
+  },
+  "dependencies": {
+    "@remotion/cli": "latest",
+    "remotion": "latest",
+    "hyperframes": "latest",
+    "openfilm": "latest"
+  }
+}

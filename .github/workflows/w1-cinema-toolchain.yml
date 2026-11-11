@@ -1,0 +1,79 @@
+name: 'W1 Cinema - OpenFilm, Remotion, HyperFrames, Whisper, yt-dlp'
+on:
+  push:
+    branches:
+      - feat/openfilm-studio-w1-20261108
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  editor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install FFmpeg on lean GitHub runners
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq -y ffmpeg
+      - name: Check versions and native FFmpeg encoders
+        run: |
+          node --version
+          python --version
+          ffmpeg -hide_banner -encoders | grep libx264
+          ffmpeg -hide_banner -version | head -1
+      - name: Install OpenFilm, HyperFrames, Remotion, Whisper and yt-dlp
+        working-directory: scripts/cinema-studio
+        run: |
+          npm install --no-audit --no-fund
+          python -m pip install -r requirements.txt
+      - name: Test W1 timeline and exact tool command smoke checks
+        working-directory: scripts/cinema-studio
+        run: |
+          npm test
+          bash scripts/smoke-tools.sh
+      - name: Actual tiny-model Whisper CPU inference test
+        working-directory: scripts/cinema-studio
+        run: |
+          python - <<'PY'
+          from faster_whisper import WhisperModel
+          model=WhisperModel('tiny',device='cpu',compute_type='int8')
+          segments,info=model.transcribe('report/ffmpeg-test.mp4',beam_size=1)
+          print('Whisper inference complete:',list(segments))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: W1_Studio_Editor_Smoke_Test
+          path: scripts/cinema-studio/report/
+          retention-days: 3
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Clone complete original upstream code without user media
+        run: |
+          bash scripts/cinema-studio/scripts/fetch-upstreams.sh
+          test -f scripts/cinema-studio/upstream/openfilm/pnpm-lock.yaml
+          test -f scripts/cinema-studio/upstream/open-higgsfield/README.md
+          test -d scripts/cinema-studio/upstream/voicestudio/backend
+          test -f scripts/cinema-studio/upstream/genjutsu-workflow/pipeline.py
+      - name: Install original OpenFilm source and test its package
+        working-directory: scripts/cinema-studio/upstream/openfilm
+        run: |
+          corepack enable
+          pnpm --version
+          pnpm install --frozen-lockfile
+          pnpm --filter openfilm test
+      - name: Validate existing W1 Open-Higgsfield bridge tests
+        run: node --test scripts/higgsfield/render.test.mjs
