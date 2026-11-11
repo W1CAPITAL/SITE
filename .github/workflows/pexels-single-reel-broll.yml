@@ -1,0 +1,28 @@
+name: W1 Public Stock B-Roll Probe
+on:
+  pull_request:
+    paths:
+      - .github/workflows/pexels-single-reel-broll.yml
+permissions:
+  contents: read
+jobs:
+  obtain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download one original licensed Pexels video clip for short-form production
+        run: |
+          set -e
+          mkdir -p licensed-stock
+          curl -fL --retry 2 --connect-timeout 12 --max-time 100 -A 'Mozilla/5.0' -o licensed-stock/pexels-5495890.mp4 'https://www.pexels.com/download/video/5495890/'
+          file licensed-stock/pexels-5495890.mp4
+          curl -fL --retry 2 --connect-timeout 12 --max-time 90 -A 'Mozilla/5.0' -o licensed-stock/pexels-4991860.mp4 'https://www.pexels.com/download/video/4991860/'
+          curl -fL --retry 2 --connect-timeout 12 --max-time 90 -A 'Mozilla/5.0' -o licensed-stock/pexels-5076641.mp4 'https://www.pexels.com/download/video/5076641/'
+          ls -lh licensed-stock/*.mp4
+          test $(stat -c %s licensed-stock/pexels-5495890.mp4) -gt 100000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: w1-licensed-pexels-5495890
+          path: licensed-stock/*.mp4
+          retention-days: 3
