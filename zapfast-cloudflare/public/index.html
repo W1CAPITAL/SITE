@@ -16,17 +16,34 @@ button.flat{background:transparent;border:0;color:#bda7b5;text-decoration:underl
 .overlay{position:fixed;inset:0;background:#060409de;z-index:20;display:grid;place-items:center;padding:16px;backdrop-filter:blur(7px)}.modal{position:relative;width:min(430px,100%);padding:29px;border:1px solid #684860;border-radius:19px;background:#241c28;text-align:center;box-shadow:0 32px 100px #000a}.modal p{line-height:1.6;color:#beaebc}.modal input{background:#18131d;padding:13px;border:1px solid #6b4c64;border-radius:10px;color:white;display:block;width:100%;margin:15px 0}.modal .primary{width:100%}.error{color:#ff9fa9!important}.x{position:absolute;right:14px;top:8px;font-size:24px;background:none;border:0;color:#d5c5d0}
 #qr{display:grid;place-items:center;width:258px;height:258px;background:#fff;border-radius:12px;padding:12px;margin:19px auto;color:#30202c}#qr img{width:100%;height:100%;object-fit:contain}.feedback{font-size:12px;color:#d7b5c6}
 #toast{position:fixed;right:20px;bottom:20px;background:#58364e;color:white;padding:12px 16px;border:1px solid #b46e98;border-radius:10px;display:none;z-index:99}
+#agentPanel{position:fixed;right:18px;top:18px;bottom:18px;width:min(510px,calc(100vw - 36px));z-index:15;background:#211a25;border:1px solid #6c4a62;border-radius:16px;box-shadow:0 18px 75px #000b;display:flex;flex-direction:column;overflow:hidden}
+#agentPanel header{height:auto;min-height:66px;flex:none}.agentBody{overflow:auto;padding:18px;display:grid;gap:16px}.agentBody p{color:#c9b8c8;line-height:1.5;margin:5px 0}.agentBox{padding:14px;border:1px solid #62455b;border-radius:12px;background:#2b2230;display:grid;gap:10px}.agentBox input,.agentBox textarea{width:100%;padding:10px;border:1px solid #6a5065;border-radius:9px;color:#fff;background:#1a1520}.agentBox button{border:1px solid #a46b89;padding:9px;border-radius:8px;background:#4a3044;color:#fff;text-align:left}.agentBox button:hover{background:#663d59}.agentRow{border-top:1px solid #554052;padding:11px 0;display:grid;gap:6px}.agentRow small{color:#baa8b9}.agentTag{font-size:11px;color:#e3bdd0}.legalWarning{border-left:3px solid #b47191;padding:9px 12px;color:#d9cbd9;background:#4b304138}
 #back{display:none}@media(max-width:700px){main{display:block}.sidebar,.right{width:100%;height:100dvh}.right{display:none}main.open .sidebar{display:none}main.open .right{display:flex}#back{display:inline-block}#messages{padding:14px}.bubble{max-width:89%}}
 </style></head><body>
 <main id="shell">
-<aside class="sidebar"><header><span class="logo">Z</span><div class="brand"><strong>ZapFast Web</strong><small>WhatsApp dentro da Cloudflare</small></div></header><div class="state"><span id="dot" class="dot"></span><span id="connection">Verificando</span><button id="reconnect" class="flat" style="margin-left:auto">Reconectar</button><button id="logout" class="flat push">Sair</button></div><div class="search"><button class="primary" id="newChat" style="width:100%;margin-bottom:12px">+ Nova conversa</button><input id="search" placeholder="Pesquisar conversas" autocomplete="off" aria-label="Pesquisar conversas"></div><div id="chats"><div class="notice">Vincule seu WhatsApp para carregar as conversas.</div></div></aside>
+<aside class="sidebar"><header><span class="logo">Z</span><div class="brand"><strong>ZapFast Web</strong><small>WhatsApp dentro da Cloudflare</small></div></header><div class="state"><span id="dot" class="dot"></span><span id="connection">Verificando</span><button id="reconnect" class="flat" style="margin-left:auto">Reconectar</button><button id="logout" class="flat push">Sair</button></div><div class="search"><button class="primary" id="agentToggle" style="width:100%;margin-bottom:10px;background:#633c58;border-color:#926581">Atendimento jurídico · LexisPredict</button><button class="primary" id="newChat" style="width:100%;margin-bottom:12px">+ Nova conversa</button><input id="search" placeholder="Pesquisar conversas" autocomplete="off" aria-label="Pesquisar conversas"></div><div id="chats"><div class="notice">Vincule seu WhatsApp para carregar as conversas.</div></div></aside>
 <section class="right"><header><button class="round" id="back" title="Voltar">‹</button><div class="heading"><strong id="title">Minhas mensagens</strong><small id="subtitle">ZapFast na nuvem</small></div><button class="round" id="older" title="Solicitar 100 mensagens anteriores" hidden>Mais antigas</button><button class="round" id="refresh" title="Atualizar">↻</button></header><div id="messages"><div class="intro"><span class="logo">Z</span><h1>Seu WhatsApp, dentro do site.</h1><p>Conecte pelo QR Code no celular. Não é necessário instalar nada no computador ou deixar outro aparelho ligado.</p><button class="primary" id="start">Vincular WhatsApp</button></div></div><form id="compose" hidden><input id="message" maxlength="4096" placeholder="Digite uma mensagem..." autocomplete="off"><button class="primary" id="sendButton" disabled>Enviar</button></form></section>
 </main>
+<section id="agentPanel" hidden aria-label="Central de atendimento jurídico">
+<header><span class="logo" style="font-size:17px">LP</span><div class="heading"><strong>Central jurídica</strong><small>Agentes · LexisPredict · Revisão e autorização</small></div><button class="round" id="agentClose">Fechar</button></header>
+<div class="agentBody">
+ <div class="legalWarning">Somente mensagens privadas recebidas sobre processos de clientes confirmados. Outros contatos precisam de autorização humana. Sem envios em massa.</div>
+ <div class="agentBox"><strong>Status dos agentes</strong><p id="agentStatus">Carregando configuração...</p><button id="agentRefresh">Atualizar fila</button></div>
+ <div class="agentBox"><strong>Fila de atendimento e conferência</strong><p class="small">Mensagens não autorizadas e situações judiciais sensíveis ficam aguardando revisão.</p><div id="agentQueue"><p>Ainda não há registros carregados.</p></div></div>
+ <div class="agentBox"><strong>Autorizar contato após verificação de identidade</strong><p id="agentSelected" class="small">Selecione uma mensagem da fila para vincular a um processo.</p>
+ <input id="agentCaseSearch" placeholder="Pesquisar cliente no LexisPredict" autocomplete="off" aria-label="Nome do cliente">
+ <button id="agentFind">Pesquisar processos</button><div id="agentResults"></div>
+ <label for="agentEvidence">Como você confirmou a identidade e a autorização?</label>
+ <textarea id="agentEvidence" rows="3" placeholder="Descreva a comprovação da identidade, sem copiar documentos sensíveis para esta anotação."></textarea>
+ <button class="primary" id="agentApprove" disabled>Confirmar autorização do contato</button><p id="agentFeedback" class="small"></p>
+ </div>
+ <p class="small">A autorização não envia mensagens antigas. O envio automático permanece desligado até a integração com o banco ser configurada e os testes de conexão serem aprovados.</p>
+</div></section>
 <div class="overlay" id="loginOverlay"><div class="modal"><div class="logo" style="margin:auto">Z</div><h2>Entrar no ZapFast</h2><p>Digite sua senha de acesso para proteger as mensagens da sua conta.</p><form id="login"><input id="password" type="password" placeholder="Senha do painel" autocomplete="current-password" required><button class="primary">Entrar</button></form><p id="loginError" class="error"></p><p class="small"><a href="https://dash.cloudflare.com/e2cf08a1a538c291362a5e1939976906/workers/services/view/zapfast-cloudflare-web/production" target="_blank" rel="noopener noreferrer" style="color:#eab9d0">Configurar senha na Cloudflare pessoal</a></p></div></div>
 <div class="overlay" id="pairOverlay" hidden><div class="modal"><button id="close" class="x">×</button><h2>Vincular WhatsApp</h2><p>No WhatsApp do celular, abra <b>Aparelhos conectados → Conectar aparelho</b> e aponte a câmera para o QR abaixo.</p><div id="qr">Preparando QR...</div><p id="qrStatus" class="feedback">Conectando...</p><button class="primary" id="retry">Tentar novamente</button></div></div>
 <div id="toast" role="status"></div>
 <script type="module">
-const $=id=>document.getElementById(id),s={chats:[],selected:null,authenticated:false,loading:false,online:false};
+const $=id=>document.getElementById(id),s={chats:[],selected:null,authenticated:false,loading:false,online:false,agentSelected:null,agentCase:null};
 const titles={stopped:'Desconectado — vincule seu WhatsApp',connecting:'Conectando... aguarde',waiting_for_qr:'Aguardando leitura do QR',connected:'Conectado',closed:'Reconectando...',logged_out:'Sessão encerrada — novo QR necessário'};
 function notify(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',4000)}
 async function request(path,method='GET',body){
@@ -77,6 +94,60 @@ function showQr(st){
 }
 async function start(){$('pairOverlay').hidden=false;$('qr').textContent='Preparando QR...';try{showQr(await request('/connect','POST'))}catch(e){notify(e.message)}}
 $('newChat').onclick=async()=>{if(!s.online){notify('Conecte o WhatsApp antes de iniciar uma conversa');return}const phone=prompt('Digite o telefone com DDD (ou + e código do país):');if(phone===null)return;const digits=phone.replace(/\D/g,'');let e164=digits;if(!phone.trim().startsWith('+')&&/^\d{10,11}$/.test(digits)&&!digits.startsWith('55'))e164='55'+digits;if(!/^\+?[\d\s().-]+$/.test(phone.trim())||!(/^[1-9]\d{9,14}$/.test(e164))||/^0+$/.test(digits)){notify('Número de telefone inválido');return}const jid=e164+'@s.whatsapp.net';const chat=s.chats.find(c=>c.jid===jid)||{jid,name:'+'+e164,preview:'Nova conversa',last_at:0};if(!s.chats.some(c=>c.jid===jid))s.chats.unshift(chat);await choose(chat);$('message').focus()};
+
+function agentEl(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=String(text);return e}
+async function loadAgent(){
+ try{
+   const st=await request('/agent/status');
+   $('agentStatus').textContent=st.configured
+    ? (st.mode==='review_only'?'Ligado ao LexisPredict · Rascunhos e revisão humana. Envio automático desativado.':'Modo automático autorizado · Somente contatos verificados e limites do Lexis.')
+    : 'Conexão com o banco ainda não configurada. Defina LEXIS_SUPABASE_SERVICE_ROLE_KEY como Secret no Worker da conta pessoal.';
+   $('agentQueue').replaceChildren();
+   if(!st.configured)return;
+   const items=(await request('/agent/queue')).items||[];
+   if(!items.length){$('agentQueue').append(agentEl('p','small','Sem mensagens na fila do agente.'));return}
+   for(const item of items){
+     const card=agentEl('div','agentRow');
+     card.append(agentEl('strong',null,item.jid.split('@')[0]),
+       agentEl('span','agentTag',item.status+' · '+item.category),
+       agentEl('small',item.message_excerpt||'(sem texto)'),
+       agentEl('small','Motivo: '+(item.reason||'aguardando análise')));
+     if(item.draft)card.append(agentEl('small',null,'Rascunho: '+item.draft));
+     if(item.status==='needs_authorization'){
+       const btn=agentEl('button',null,'Verificar e autorizar contato');
+       btn.onclick=()=>{s.agentSelected=item;s.agentCase=null;$('agentSelected').textContent='Contato selecionado: '+item.jid+' — confira a identidade antes de autorizar.';$('agentApprove').disabled=true;$('agentResults').replaceChildren();$('agentCaseSearch').focus()};
+       card.append(btn)
+     }
+     $('agentQueue').append(card)
+   }
+ }catch(error){$('agentStatus').textContent=error.message}
+}
+$('agentToggle').onclick=()=>{$('agentPanel').hidden=false;loadAgent()};
+$('agentClose').onclick=()=>$('agentPanel').hidden=true;
+$('agentRefresh').onclick=loadAgent;
+$('agentFind').onclick=async()=>{
+  const q=$('agentCaseSearch').value.trim();$('agentResults').replaceChildren();
+  if(q.length<3){$('agentFeedback').textContent='Digite ao menos três letras do nome.';return}
+  try{
+    const matches=(await request('/agent/search?q='+encodeURIComponent(q))).cases||[];
+    if(!matches.length)$('agentResults').append(agentEl('p','small','Nenhum processo encontrado.'));
+    for(const c of matches){
+      const b=agentEl('button',null,(c.cliente||'Cliente')+' · '+(c.protocolo_ref||'processo '+c.id));
+      b.onclick=()=>{s.agentCase=c;$('agentFeedback').textContent='Processo selecionado: '+(c.cliente||c.id);$('agentApprove').disabled=!s.agentSelected};
+      $('agentResults').append(b)
+    }
+  }catch(error){$('agentFeedback').textContent=error.message}
+};
+$('agentApprove').onclick=async()=>{
+ if(!s.agentSelected||!s.agentCase)return;
+ const evidence=$('agentEvidence').value.trim();
+ if(evidence.length<10){$('agentFeedback').textContent='Registre como a identidade e a autorização foram conferidas.';return}
+ const b=$('agentApprove');b.disabled=true;
+ try{
+   const res=await request('/agent/approve','POST',{jid:s.agentSelected.jid,processo_id:s.agentCase.id,evidence});
+   $('agentFeedback').textContent=res.notice||'Autorização registrada';s.agentSelected=null;s.agentCase=null;$('agentSelected').textContent='Selecione outro contato.';$('agentEvidence').value='';await loadAgent()
+ }catch(error){$('agentFeedback').textContent=error.message}finally{b.disabled=!s.agentSelected||!s.agentCase}
+};
 $('start').onclick=start;$('retry').onclick=start;$('reconnect').onclick=start;
 $('older').onclick=async()=>{if(!s.selected||!s.online)return;const b=$('older');b.disabled=true;try{const res=await request('/history','POST',{jid:s.selected});notify(res.notice||'Solicitação de histórico enviada')}catch(err){notify(err.message)}finally{b.disabled=!s.online}};$('close').onclick=()=>$('pairOverlay').hidden=true;$('refresh').onclick=refresh;$('search').oninput=drawChats;$('back').onclick=()=>$('shell').classList.remove('open');
 $('login').onsubmit=async e=>{e.preventDefault();const button=$('login').querySelector('button');if(button.disabled)return;button.disabled=true;$('loginError').textContent='';try{await request('/login','POST',{password:$('password').value});$('password').value='';s.authenticated=true;$('loginOverlay').hidden=true;await refresh()}catch(err){$('loginError').textContent=err.message}finally{button.disabled=false}};
