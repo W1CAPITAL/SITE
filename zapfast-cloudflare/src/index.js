@@ -5,6 +5,7 @@ import wasm from './bridge.wasm';
 import qrcode from 'qrcode-generator';
 
 import { validJid, textMessage, timestamp } from './format.js';
+import { getAdminConfigError } from './admin-config.js';
 
 const authStore = storage => {
   const k=(ns,key) => 'auth:'+ns+':'+key;
@@ -148,7 +149,8 @@ export default {
   async fetch(request,env){
     const url=new URL(request.url);
     if(!url.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
-    if(!env.ADMIN_PASSWORD||env.ADMIN_PASSWORD.length<20)return jsonError('Configure a senha do administrador',503);
+    const configError=getAdminConfigError(env.ADMIN_PASSWORD);
+    if(configError)return jsonError(configError,503);
     if(url.pathname==='/api/login'&&request.method==='POST'){
       if(request.headers.get('origin')!==url.origin)return jsonError('Origem inválida',403);
       const body=await request.json().catch(()=>null);
