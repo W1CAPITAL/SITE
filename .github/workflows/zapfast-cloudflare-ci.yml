@@ -1,0 +1,32 @@
+name: ZapFast Cloudflare - build and tests
+on:
+  push:
+    branches: [zapfast-cloudflare-worker]
+    paths:
+      - 'zapfast-cloudflare/**'
+      - '.github/workflows/zapfast-cloudflare-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: zapfast-cloudflare
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependências
+        run: npm install --no-audit --no-fund
+      - name: Validar JavaScript
+        run: node --check src/index.js && node --check src/format.js && node --check scripts/copy-wasm.mjs
+      - name: Rodar testes
+        run: npm test
+      - name: Compilar para Cloudflare sem publicar
+        run: node scripts/copy-wasm.mjs && npx wrangler deploy --dry-run --outdir build
