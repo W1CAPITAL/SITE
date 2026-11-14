@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#17131b"><title>ZapFast Web</title>
+<style>
+:root{font:14px Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#101015;color:#eee}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}[hidden]{display:none!important}
+main{height:100dvh;display:grid;grid-template-columns:minmax(270px,340px) minmax(0,1fr);background:#16131a}.sidebar{background:#211b25;border-right:1px solid #43303e;display:flex;flex-direction:column;min-height:0}
+header{height:72px;display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid #382a36}.logo{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:#943f67;color:white;font-size:24px;font-weight:bold}.brand strong{font-size:19px}.brand small{display:block;color:#b49da9;font-size:11px;padding-top:3px}
+.small{font-size:12px;color:#aa9eaf}.state{padding:12px 18px;display:flex;gap:9px;align-items:center;border-bottom:1px solid #382a36}.dot{width:9px;height:9px;background:#f3b461;border-radius:50%}.dot.ok{background:#57dca6}.push{margin-left:auto}
+button.flat{background:transparent;border:0;color:#bda7b5;text-decoration:underline}.search{padding:13px}.search input{width:100%;border:1px solid #514051;background:#2b2330;color:white;border-radius:10px;padding:11px;outline:none}
+#chats{overflow:auto;flex:1}.chat{width:100%;text-align:left;background:transparent;border:0;border-left:3px solid transparent;color:#eee;padding:14px 13px;display:flex;gap:12px;align-items:center}.chat:hover,.chat.on{background:#362939}.chat.on{border-left-color:#c76594}
+.avatar{width:43px;height:43px;flex:none;background:#634057;border-radius:50%;display:grid;place-items:center;color:#efc8da;font-size:19px}.chat .details{min-width:0;flex:1}.chat strong,.chat small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat small{padding-top:6px;color:#ad9dab;font-size:11px}.chat time{font-size:10px;color:#a99baa}.notice{padding:23px 18px;text-align:center;line-height:1.6;color:#9d90a0}
+.right{display:flex;flex-direction:column;min-width:0;min-height:0}.right header{background:#201a23}.heading strong{display:block}.heading small{display:block;margin-top:3px}.heading{flex:1}.round{border:1px solid #5e4255;border-radius:10px;color:#eac1d3;background:#3a2938;padding:7px 10px}
+#messages{flex:1;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:22px min(5vw,60px);background:radial-gradient(circle at 70% 0,#512b4429,transparent 60%),#15121a}.intro{max-width:440px;margin:auto;text-align:center;color:#ad9bab;line-height:1.7}.intro h1{color:#f2e6ed;line-height:1.2}.intro .logo{margin:0 auto;width:65px;height:65px;font-size:32px}
+.bubble{align-self:flex-start;max-width:75%;white-space:pre-wrap;overflow-wrap:anywhere;padding:11px 15px;background:#302635;border:1px solid #493748;border-radius:13px 13px 13px 3px;line-height:1.4}.bubble.me{align-self:flex-end;background:#5e3450;border-color:#805069;border-radius:13px 13px 3px 13px}.bubble time{display:block;text-align:right;font-size:10px;color:#c7b4c0;padding-top:5px}
+#compose{display:flex;gap:9px;padding:14px 18px;background:#201a23;border-top:1px solid #3b2b3b}#compose input{min-width:0;flex:1;background:#2a2230;border:1px solid #554052;border-radius:10px;padding:13px;color:white;outline:none}
+.primary{background:#a44672;border:1px solid #c95e91;color:#fff;padding:12px 18px;border-radius:11px;font-weight:600}.primary:hover{background:#bb4e83}.primary:disabled{opacity:.5}
+.overlay{position:fixed;inset:0;background:#060409de;z-index:20;display:grid;place-items:center;padding:16px;backdrop-filter:blur(7px)}.modal{position:relative;width:min(430px,100%);padding:29px;border:1px solid #684860;border-radius:19px;background:#241c28;text-align:center;box-shadow:0 32px 100px #000a}.modal p{line-height:1.6;color:#beaebc}.modal input{background:#18131d;padding:13px;border:1px solid #6b4c64;border-radius:10px;color:white;display:block;width:100%;margin:15px 0}.modal .primary{width:100%}.error{color:#ff9fa9!important}.x{position:absolute;right:14px;top:8px;font-size:24px;background:none;border:0;color:#d5c5d0}
+#qr{display:grid;place-items:center;width:258px;height:258px;background:#fff;border-radius:12px;padding:12px;margin:19px auto;color:#30202c}#qr img{width:100%;height:100%;object-fit:contain}.feedback{font-size:12px;color:#d7b5c6}
+#toast{position:fixed;right:20px;bottom:20px;background:#58364e;color:white;padding:12px 16px;border:1px solid #b46e98;border-radius:10px;display:none;z-index:99}
+#back{display:none}@media(max-width:700px){main{display:block}.sidebar,.right{width:100%;height:100dvh}.right{display:none}main.open .sidebar{display:none}main.open .right{display:flex}#back{display:inline-block}#messages{padding:14px}.bubble{max-width:89%}}
+</style></head><body>
+<main id="shell">
+<aside class="sidebar"><header><span class="logo">Z</span><div class="brand"><strong>ZapFast Web</strong><small>WhatsApp dentro da Cloudflare</small></div></header><div class="state"><span id="dot" class="dot"></span><span id="connection">Verificando</span><button id="logout" class="flat push">Sair</button></div><div class="search"><input id="search" placeholder="Pesquisar conversas" autocomplete="off" aria-label="Pesquisar conversas"></div><div id="chats"><div class="notice">Vincule seu WhatsApp para carregar as conversas.</div></div></aside>
+<section class="right"><header><button class="round" id="back" title="Voltar">‹</button><div class="heading"><strong id="title">Minhas mensagens</strong><small id="subtitle">ZapFast na nuvem</small></div><button class="round" id="refresh" title="Atualizar">↻</button></header><div id="messages"><div class="intro"><span class="logo">Z</span><h1>Seu WhatsApp, dentro do site.</h1><p>Conecte pelo QR Code no celular. Não é necessário instalar nada no computador ou deixar outro aparelho ligado.</p><button class="primary" id="start">Vincular WhatsApp</button></div></div><form id="compose" hidden><input id="message" maxlength="4096" placeholder="Digite uma mensagem..." autocomplete="off"><button class="primary">Enviar</button></form></section>
+</main>
+<div class="overlay" id="loginOverlay"><div class="modal"><div class="logo" style="margin:auto">Z</div><h2>Entrar no ZapFast</h2><p>Digite sua senha de acesso para proteger as mensagens da sua conta.</p><form id="login"><input id="password" type="password" placeholder="Senha do painel" autocomplete="current-password" required><button class="primary">Entrar</button></form><p id="loginError" class="error"></p></div></div>
+<div class="overlay" id="pairOverlay" hidden><div class="modal"><button id="close" class="x">×</button><h2>Vincular WhatsApp</h2><p>No WhatsApp do celular, abra <b>Aparelhos conectados → Conectar aparelho</b> e aponte a câmera para o QR abaixo.</p><div id="qr">Preparando QR...</div><p id="qrStatus" class="feedback">Conectando...</p><button class="primary" id="retry">Tentar novamente</button></div></div>
+<div id="toast" role="status"></div>
+<script type="module">
+const $=id=>document.getElementById(id),s={chats:[],selected:null,authenticated:false,loading:false,online:false};
+const titles={stopped:'Desconectado',connecting:'Conectando',waiting_for_qr:'Aguardando QR',connected:'Conectado',closed:'Reconectando',logged_out:'Sessão encerrada'};
+function notify(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',4000)}
+async function request(path,method='GET',body){
+ const r=await fetch('/api'+path,{method,credentials:'same-origin',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});
+ const d=await r.json().catch(()=>({}));
+ if(!r.ok){if(r.status===401&&path!=='/login'){s.authenticated=false;$('loginOverlay').hidden=false}throw Error(d.error||'Erro '+r.status)}return d;
+}
+const short=jid=>(jid||'').split('@')[0],name=c=>c?.name||short(c?.jid)||'Contato',tm=n=>n?new Date(n*1000).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'';
+function drawChats(){
+ const host=$('chats');host.replaceChildren();const q=$('search').value.toLowerCase();
+ const found=s.chats.filter(c=>name(c).toLowerCase().includes(q)||short(c.jid).includes(q));
+ if(!found.length){const d=document.createElement('div');d.className='notice';d.textContent=s.online?'Aguardando sincronização das conversas...':'Conecte sua conta para visualizar as mensagens.';host.append(d);return}
+ for(const c of found){
+  const b=document.createElement('button');b.className='chat'+(c.jid===s.selected?' on':'');
+  const a=document.createElement('span');a.className='avatar';a.textContent=name(c).charAt(0).toUpperCase();
+  const d=document.createElement('span');d.className='details';const st=document.createElement('strong');st.textContent=name(c);const sm=document.createElement('small');sm.textContent=c.preview||short(c.jid);d.append(st,sm);
+  const t=document.createElement('time');t.textContent=tm(c.last_at);b.append(a,d,t);
+  b.onclick=()=>choose(c);host.append(b);
+ }
+}
+async function choose(c){s.selected=c.jid;$('title').textContent=name(c);$('subtitle').textContent=short(c.jid);$('compose').hidden=false;$('shell').classList.add('open');drawChats();await loadMessages()}
+async function loadMessages(){
+ if(!s.selected)return;const jid=s.selected;const {messages=[]}=await request('/messages?jid='+encodeURIComponent(jid));
+ if(jid!==s.selected)return;const host=$('messages'),nearBottom=host.scrollHeight-host.scrollTop-host.clientHeight<130;host.replaceChildren();
+ if(!messages.length){const p=document.createElement('div');p.className='notice';p.textContent='Nenhuma mensagem de texto sincronizada.';host.append(p);return}
+ for(const m of messages){const b=document.createElement('div');b.className='bubble'+(m.from_me?' me':'');const p=document.createElement('span');p.textContent=m.text;const t=document.createElement('time');t.textContent=tm(m.at);b.append(p,t);host.append(b)}
+ if(nearBottom)host.scrollTop=host.scrollHeight;
+}
+async function refresh(){
+ if(!s.authenticated||s.loading)return;s.loading=true;
+ try {
+  const st=await request('/status');s.online=st.state==='connected';$('connection').textContent=titles[st.state]||st.state;$('dot').className='dot'+(s.online?' ok':'');
+  if(!$('pairOverlay').hidden)showQr(st);
+  if(s.online){$('pairOverlay').hidden=true;const r=await request('/chats');s.chats=r.chats||[];drawChats();if(s.selected)await loadMessages()}
+ }catch(e){if(s.authenticated)notify(e.message)}finally{s.loading=false}
+}
+function showQr(st){
+ $('qrStatus').textContent=titles[st.state]||'Aguardando...';
+ if(st.qrSvg){const img=document.createElement('img');img.alt='Código QR de vinculação';img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(st.qrSvg);$('qr').replaceChildren(img)}
+ if(st.state==='connected'){$('pairOverlay').hidden=true;notify('WhatsApp conectado')}
+}
+async function start(){$('pairOverlay').hidden=false;$('qr').textContent='Preparando QR...';try{showQr(await request('/connect','POST'))}catch(e){notify(e.message)}}
+$('start').onclick=start;$('retry').onclick=start;$('close').onclick=()=>$('pairOverlay').hidden=true;$('refresh').onclick=refresh;$('search').oninput=drawChats;$('back').onclick=()=>$('shell').classList.remove('open');
+$('login').onsubmit=async e=>{e.preventDefault();$('loginError').textContent='';try{await request('/login','POST',{password:$('password').value});$('password').value='';s.authenticated=true;$('loginOverlay').hidden=true;await refresh()}catch(err){$('loginError').textContent=err.message}};
+$('compose').onsubmit=async e=>{e.preventDefault();const text=$('message').value.trim();if(!text||!s.selected)return;const b=$('compose').querySelector('button');b.disabled=true;try{await request('/send','POST',{jid:s.selected,text});$('message').value='';await loadMessages()}catch(err){notify(err.message)}finally{b.disabled=false}};
+$('logout').onclick=async()=>{try{await request('/logout','POST')}catch{}s.authenticated=false;s.chats=[];s.selected=null;$('loginOverlay').hidden=false;$('pairOverlay').hidden=true};
+(async()=>{try{await request('/status');s.authenticated=true;$('loginOverlay').hidden=true;await refresh()}catch{$('loginOverlay').hidden=false}})();
+setInterval(refresh,5000);
+</script>
+</body></html>
