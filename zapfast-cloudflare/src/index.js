@@ -7,6 +7,7 @@ import qrcode from 'qrcode-generator';
 import { validJid, textMessage, timestamp } from './format.js';
 import { getAdminConfigError } from './admin-config.js';
 import { normalizeHistory, persistHistoryBatch } from './history-store.js';
+import { historyRequestAnchor } from './history-anchor.js';
 
 const authStore = storage => {
   const k=(ns,key) => 'auth:'+ns+':'+key;
@@ -51,7 +52,25 @@ export class WaSession extends DurableObject {
       if(path==='/api/messages' && req.method==='GET'){
         const jid=url.searchParams.get('jid');
         if(!validJid(jid))return Response.json({error:'Conversa inválida'},{status:400});
-        return Response.json({messages:[...this.ctx.storage.sql.exec('SELECT * FROM messages WHERE jid=? ORDER BY at DESC LIMIT 150',jid)].reverse()});
+        return Response.json({messages:[...this.ctx.storage.sql.exec('SELECT jid,id,text,at,from_me FROM messages WHERE jid=? ORDER BY at DESC LIMIT 150',jid)].reverse()});
+      }
+      if(path==='/api/history' && req.method==='POST'){
+        const body=await req.json().catch(()=>null),jid=body?.jid;
+        if(!validJid(jid))return Response.json({error:'Conversa inválida'},{status:400});
+        if(this.state.state!=='connected'||!this.socket)return Response.json({error:'WhatsApp desconectado. Reconecte antes de buscar mensagens anteriores.'},{status:409});
+        const oldest=[...this.ctx.storage.sql.exec('SELECT id,at,from_me FROM messages WHERE jid=? ORDER BY at ASC LIMIT 1',jid)][0];
+        const anchor=historyRequestAnchor(jid,oldest);
+        if(!anchor)return Response.json({error:'Ainda não há mensagens sincronizadas para usar como ponto de partida. Aguarde a sincronização inicial pelo WhatsApp.'},{status:422});
+        const key='history:requested:'+jid;
+        const previous=Number(await this.ctx.storage.get(key)||0);
+        if(Date.now()-previous<90000)return Response.json({error:'Solicitação de histórico em andamento. Aguarde a sincronização.'},{status:429});
+        await this.ctx.storage.put(key,Date.now());
+        const sock=this.socket;
+        this.ctx.waitUntil(Promise.resolve().then(()=>sock.fetchMessageHistory(100,anchor.key,anchor.timestamp)).catch(async error=>{
+          this.reportDataFailure('history-request',error);
+          await this.ctx.storage.delete(key);
+        }));
+        return Response.json({ok:true,notice:'Pedido de histórico enviado ao WhatsApp. A entrega depende da sincronização do aparelho.'},{status:202});
       }
       if(path==='/api/send' && req.method==='POST'){
         const data=await req.json().catch(()=>null);
@@ -199,7 +218,7 @@ export default {
     if(!await authenticated(request,env.ADMIN_PASSWORD))return jsonError('Acesso não autorizado',401);
     if(request.method!=='GET'&&request.headers.get('origin')!==url.origin)return jsonError('Origem inválida',403);
     if(url.pathname==='/api/logout'&&request.method==='POST')return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Set-Cookie':'zf_session=; Secure; HttpOnly; SameSite=Strict; Path=/; Max-Age=0'}});
-    if(!['/api/status','/api/connect','/api/chats','/api/messages','/api/send'].includes(url.pathname))return jsonError('Rota inválida',404);
+    if(!['/api/status','/api/connect','/api/chats','/api/messages','/api/history','/api/send'].includes(url.pathname))return jsonError('Rota inválida',404);
     const obj=env.WA.get(env.WA.idFromName('one-whatsapp'));
     return obj.fetch(new Request('https://internal'+url.pathname+url.search,request));
   }
