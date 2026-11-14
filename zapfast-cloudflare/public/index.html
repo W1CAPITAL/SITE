@@ -123,6 +123,10 @@ async function loadAgent(){
        agentEl('small',item.message_excerpt||'(sem texto)'),
        agentEl('small','Motivo: '+(item.reason||'aguardando análise')));
      if(item.draft)card.append(agentEl('small',null,'Rascunho: '+item.draft));
+     const counts=item.context_counts;
+     if(counts && typeof counts==='object'){
+       card.append(agentEl('small',null,'Contexto interno consultado: '+(counts.notes||0)+' observações; '+(counts.audit||0)+' atendimentos/edições; '+(counts.hermes||0)+' revisões Hermes; '+(counts.activities||0)+' atividades CRM; '+(counts.officialChecks||0)+' verificações de fontes. Esse material não é enviado automaticamente ao cliente.'));
+     }
      if(item.status==='needs_authorization'){
        const btn=agentEl('button',null,'Verificar e autorizar contato');
        btn.onclick=()=>{s.agentSelected=item;s.agentCase=null;$('agentSelected').textContent='Contato selecionado: '+item.jid+' — confira a identidade antes de autorizar.';$('agentApprove').disabled=true;$('agentResults').replaceChildren();$('agentCaseSearch').focus()};
