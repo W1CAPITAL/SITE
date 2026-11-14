@@ -8,7 +8,7 @@
     "deploy": "node scripts/copy-wasm.mjs && wrangler deploy"
   },
   "dependencies": {
-    "@oxidezap/baileyrs": "0.3.8",
+    "@oxidezap/baileyrs": "0.3.15",
     "qrcode-generator": "1.5.2"
   },
   "devDependencies": {
