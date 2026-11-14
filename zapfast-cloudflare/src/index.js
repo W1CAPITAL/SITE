@@ -9,6 +9,8 @@ import { getAdminConfigError } from './admin-config.js';
 import { normalizeHistory, persistHistoryBatch } from './history-store.js';
 import { historyRequestAnchor } from './history-anchor.js';
 import { shouldRecover, wakeAfter } from './reconnect-policy.js';
+import { LexisAgentDb, lexisAgentConfigured } from './lexis-agent-db.js';
+import { evaluateInboundLegalMessage } from './legal-agent.js';
 
 const authStore = storage => {
   const k=(ns,key) => 'auth:'+ns+':'+key;
@@ -49,6 +51,8 @@ export class WaSession extends DurableObject {
         if(!this.socket && this.state.state==='stopped')await this.connect(true);
         return this.statusResponse();
       }
+      if(path==='/api/agent/status' && req.method==='GET')return Response.json({configured:lexisAgentConfigured(this.env),mode:this.env.ZAPFAST_AGENT_AUTOSEND==='true'?'inbound_approved_auto':'review_only',tenant:'LexisPredict',safe_limits:'10/dia, intervalo >=20min, dias úteis 9h-17h',rules:['Somente mensagens privadas recebidas','Contato autorizado e processo da empresa','Somente fontes oficiais recentes','Outras perguntas seguem para revisão','Sem campanhas ou mensagens em massa']});
+      if(path.startsWith('/api/agent/'))return this.agentRequest(req,url);
       if(path==='/api/chats' && req.method==='GET')return Response.json({chats:[...this.ctx.storage.sql.exec('SELECT * FROM chats ORDER BY last_at DESC LIMIT 400')]});
       if(path==='/api/messages' && req.method==='GET'){
         const jid=url.searchParams.get('jid');
@@ -128,6 +132,21 @@ export class WaSession extends DurableObject {
     socket.ev.on('messages.upsert',e=>{
       try { this.saveRows(normalizeHistory(e.messages)); }
       catch(error) { this.reportDataFailure('live-messages',error); }
+      if(e?.type!=='notify' || !lexisAgentConfigured(this.env))return;
+      for(const message of e.messages||[]){
+        const received=timestamp(message?.messageTimestamp)*1000;
+        // Never auto-answer old messages replayed after reconnect or history import.
+        if(message?.key?.fromMe || Math.abs(Date.now()-received)>5*60*1000)continue;
+        this.agentSequence=(this.agentSequence||Promise.resolve()).then(async()=>{
+          const jid=message?.key?.remoteJid;
+          const previous=jid?[...this.ctx.storage.sql.exec('SELECT MAX(at) AS at FROM messages WHERE jid=? AND from_me=1',jid)][0]?.at:null;
+          const humanRecentlyAnswered=Number(previous)>0 && Date.now()-Number(previous)*1000<24*60*60*1000;
+          const db=new LexisAgentDb(this.env);
+          return evaluateInboundLegalMessage({message,db,socket:this.state.state==='connected'?this.socket:null,
+            autoSend:this.env.ZAPFAST_AGENT_AUTOSEND==='true',contactRecentlyAnswered:humanRecentlyAnswered});
+        }).catch(error=>this.reportDataFailure('agent-inbound',error));
+        this.ctx.waitUntil(this.agentSequence);
+      }
     });
     socket.ev.on('messaging-history.set',e=>{
       // Import in bounded durable chunks; a large history must not block the socket.
@@ -152,6 +171,24 @@ export class WaSession extends DurableObject {
     this.ctx.storage.sql.exec('INSERT INTO chats(jid,name,last_at) VALUES(?,?,?) ON CONFLICT(jid) DO UPDATE SET name=CASE WHEN excluded.name!="" THEN excluded.name ELSE chats.name END,last_at=MAX(chats.last_at,excluded.last_at)',jid,name,at);
   }
 
+  async agentRequest(req,url){
+    if(!lexisAgentConfigured(this.env))return Response.json({error:'Agente sem conexão autorizada ao banco do LexisPredict. Configure LEXIS_SUPABASE_SERVICE_ROLE_KEY como Secret de produção; nenhuma mensagem será enviada enquanto estiver ausente.'},{status:503});
+    const db=new LexisAgentDb(this.env),path=url.pathname;
+    try{
+      if(path==='/api/agent/queue'&&req.method==='GET')return Response.json({items:await db.listQueue()});
+      if(path==='/api/agent/search'&&req.method==='GET')return Response.json({cases:await db.searchCases(url.searchParams.get('q')||'')});
+      if(path==='/api/agent/approve'&&req.method==='POST'){
+        const body=await req.json().catch(()=>null);
+        if(!body||typeof body.jid!=='string'||!Number.isSafeInteger(Number(body.processo_id)))return Response.json({error:'Dados incompletos'},{status:400});
+        await db.approveContact(body.jid,Number(body.processo_id),body.evidence);
+        return Response.json({ok:true,notice:'Contato autorizado para futuras mensagens processuais, mediante comprovação registrada. Não foi enviada mensagem.'});
+      }
+      return Response.json({error:'Rota desconhecida'},{status:404});
+    }catch(error){
+      this.reportDataFailure('agent-api',error);
+      return Response.json({error:'Não foi possível consultar o cadastro ou registrar a autorização no LexisPredict.'},{status:503});
+    }
+  }
   reportDataFailure(area,error){
     // Never log message bodies, identifiers or credentials.
     console.error('zapfast-storage',area,error?.name||'Error',error?.code||'');
@@ -239,7 +276,7 @@ export default {
     if(!await authenticated(request,env.ADMIN_PASSWORD))return jsonError('Acesso não autorizado',401);
     if(request.method!=='GET'&&request.headers.get('origin')!==url.origin)return jsonError('Origem inválida',403);
     if(url.pathname==='/api/logout'&&request.method==='POST')return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Set-Cookie':'zf_session=; Secure; HttpOnly; SameSite=Strict; Path=/; Max-Age=0'}});
-    if(!['/api/status','/api/connect','/api/chats','/api/messages','/api/history','/api/send'].includes(url.pathname))return jsonError('Rota inválida',404);
+    if(!['/api/status','/api/connect','/api/chats','/api/messages','/api/history','/api/send','/api/agent/status','/api/agent/queue','/api/agent/search','/api/agent/approve'].includes(url.pathname))return jsonError('Rota inválida',404);
     const obj=env.WA.get(env.WA.idFromName('one-whatsapp'));
     return obj.fetch(new Request('https://internal'+url.pathname+url.search,request));
   }
