@@ -53,8 +53,8 @@ export class LexisAgentDb {
     if(!p||p.empresa_id!==this.empresaId)throw Error('wrong_tenant');
     if(!Number.isSafeInteger(Number(p.id))||Number(p.id)<1)throw Error('invalid_process');
     const reference=String(p.protocolo_ref||'').trim();
-    const validReference=/^[0-9.\\-]{20,35}$/.test(reference)&&reference.replace(/\\D/g,'').length===20;
-    const cnj=reference.replace(/\\D/g,'');
+    const validReference=/^[0-9.-]{20,35}$/.test(reference)&&reference.replace(/[^0-9]/g,'').length===20;
+    const cnj=reference.replace(/[^0-9]/g,'');
     const requests=[
       ['hermes',this.call('hermes_return_reviews',{select:'empresa_id,processo_id,checked_at,djen_ok,datajud_ok,highlights',
         empresa_id:'eq.'+this.empresaId,processo_id:'eq.'+p.id,order:'checked_at.desc',limit:'12'})],
