@@ -1,3 +1,4 @@
+import { compileCaseEvidence } from './case-evidence.js';
 const PROJECT_URL='https://segjskjlbeydlljnefai.supabase.co';
 export const MAIN_COMPANY='d37fd4bb-1c71-4dca-b97e-292355918d39';
 
@@ -43,13 +44,60 @@ export class LexisAgentDb {
   }
   async getCase(caseId){
     const rows=await this.call('processos',{
-      select:'id,empresa_id,cliente,protocolo_ref,status,datajud_last_ok,datajud_consultado_em,datajud_ultimo_movimento,datajud_ultimo_nome,djen_last_ok,djen_consultado_em,djen_ultima_data,djen_ultimo_resumo',
+      select:'id,empresa_id,cliente,protocolo_ref,status,observacoes,dados,updated_at,ultimo_retorno,proximo_retorno,datajud_last_ok,datajud_consultado_em,datajud_ultimo_movimento,datajud_ultimo_nome,djen_last_ok,djen_consultado_em,djen_ultima_data,djen_ultimo_resumo',
       id:'eq.'+caseId,empresa_id:'eq.'+this.empresaId,limit:'1'
     });
     return rows?.[0]||null;
   }
+  async getCaseEvidence(p){
+    if(!p||p.empresa_id!==this.empresaId)throw Error('wrong_tenant');
+    if(!Number.isSafeInteger(Number(p.id))||Number(p.id)<1)throw Error('invalid_process');
+    const reference=String(p.protocolo_ref||'').trim();
+    const validReference=/^[0-9.\\-]{20,35}$/.test(reference)&&reference.replace(/\\D/g,'').length===20;
+    const cnj=reference.replace(/\\D/g,'');
+    const requests=[
+      ['hermes',this.call('hermes_return_reviews',{select:'empresa_id,processo_id,checked_at,djen_ok,datajud_ok,highlights',
+        empresa_id:'eq.'+this.empresaId,processo_id:'eq.'+p.id,order:'checked_at.desc',limit:'12'})],
+      ['facts',this.call('crm_agent_facts',{select:'empresa_id,subject_type,subject_id,field,value,evidence_kind,created_at',
+        empresa_id:'eq.'+this.empresaId,subject_id:'eq.'+p.id,limit:'15'})],
+      ['tasks',this.call('crm_agent_tasks',{select:'empresa_id,subject_type,subject_id,status,payload,due_at',
+        empresa_id:'eq.'+this.empresaId,subject_id:'eq.'+p.id,limit:'15'})]
+    ];
+    if(validReference){
+      requests.push(['audits',this.call('auditoria_logs_app',{
+        select:'empresa_id,protocolo_ref,action,detalhes,created_at',empresa_id:'eq.'+this.empresaId,
+        protocolo_ref:'eq.'+reference,
+        action:'in.(atendimento,edicao,whatsapp_atendimento_registrado,atendimento_whatsapp,atendimento_processual_whatsapp,priorizacao_apos_resposta_cliente)',
+        order:'created_at.desc',limit:'30'})]);
+      requests.push(['snapshots',this.call('crm_judicial_snapshots',{
+        select:'empresa_id,process_number,source,checked_at,found',
+        empresa_id:'eq.'+this.empresaId,process_number:'in.('+reference+','+cnj+')',
+        order:'checked_at.desc',limit:'12'})]);
+      requests.push(['businesses',this.call('crm_negocios',{
+        select:'id,empresa_id,protocolo_cnj,observacao,updated_at',
+        empresa_id:'eq.'+this.empresaId,protocolo_cnj:'in.('+reference+','+cnj+')',limit:'8'})]);
+    }
+    const results=await Promise.allSettled(requests.map(async([key,promise])=>[key,await promise]));
+    const evidence={missingSources:[]};
+    for(let i=0;i<results.length;i++){
+      const outcome=results[i];
+      if(outcome.status==='fulfilled')evidence[outcome.value[0]]=outcome.value[1]||[];
+      else evidence.missingSources.push(requests[i][0]);
+    }
+    evidence.businessIds=(evidence.businesses||[]).map(x=>x.id).filter(x=>/^[0-9a-f-]{36}$/.test(String(x)));
+    if(evidence.businessIds.length){
+      try {
+        evidence.activities=await this.call('crm_atividades',{
+          select:'empresa_id,negocio_id,titulo,corpo,created_at',
+          empresa_id:'eq.'+this.empresaId,
+          negocio_id:'in.('+evidence.businessIds.join(',')+')',order:'created_at.desc',limit:'30'});
+      }catch{evidence.missingSources.push('crm_atividades')}
+    }
+    // No client name, fuzzy phone match or cross-company join is permitted.
+    return compileCaseEvidence(p,evidence);
+  }
   async listQueue(){
-    return await this.call('zapfast_agent_inbox',{select:'id,jid,message_excerpt,category,status,reason,received_at,processo_id,source_type,source_at,draft,sent_at',empresa_id:'eq.'+this.empresaId,order:'received_at.desc',limit:'60'});
+    return await this.call('zapfast_agent_inbox',{select:'id,jid,message_excerpt,category,status,reason,received_at,processo_id,source_type,source_at,draft,sent_at,context_snapshot',empresa_id:'eq.'+this.empresaId,order:'received_at.desc',limit:'60'});
   }
   async searchCases(term){
     const clean=String(term||'').replace(/[^\p{L}\p{N}\s.-]/gu,'').trim().slice(0,60);
