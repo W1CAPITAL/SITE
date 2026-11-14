@@ -6,6 +6,7 @@ import qrcode from 'qrcode-generator';
 
 import { validJid, textMessage, timestamp } from './format.js';
 import { getAdminConfigError } from './admin-config.js';
+import { normalizeHistory, persistHistoryBatch } from './history-store.js';
 
 const authStore = storage => {
   const k=(ns,key) => 'auth:'+ns+':'+key;
@@ -97,16 +98,21 @@ export class WaSession extends DurableObject {
         }else{this.state={state:'closed',error:'Conexão interrompida'};this.retryAfter=Date.now()+30000;}
       }
     });
-    socket.ev.on('messages.upsert',e=>{for(const m of e.messages||[])this.importMessage(m);});
-    socket.ev.on('messaging-history.set',e=>{
-      for(const c of e.contacts||[])this.saveContact(c);
-      for(const c of e.chats||[])this.saveChat(c);
-      for(const m of e.messages||[])this.importMessage(m);
+
+    socket.ev.on('messages.upsert',e=>{
+      try { this.saveRows(normalizeHistory(e.messages)); }
+      catch(error) { this.reportDataFailure('live-messages',error); }
     });
-    socket.ev.on('contacts.upsert',list=>{for(const c of list)this.saveContact(c);});
-    socket.ev.on('contacts.update',list=>{for(const c of list)this.saveContact(c);});
-    socket.ev.on('chats.upsert',list=>{for(const c of list)this.saveChat(c);});
-    socket.ev.on('chats.update',list=>{for(const c of list)this.saveChat(c);});
+    socket.ev.on('messaging-history.set',e=>{
+      // Import in bounded durable chunks; a large history must not block the socket.
+      this.ctx.waitUntil(this.enqueueHistory(e).catch(error=>this.reportDataFailure('history',error)));
+    });
+    for (const type of ['contacts.upsert','contacts.update']) {
+      socket.ev.on(type,list=>this.safeImport(list,c=>this.saveContact(c),'contacts'));
+    }
+    for (const type of ['chats.upsert','chats.update']) {
+      socket.ev.on(type,list=>this.safeImport(list,c=>this.saveChat(c),'chats'));
+    }
   }
   saveContact(c){
     const jid=c?.id;if(!validJid(jid))return;
@@ -119,14 +125,45 @@ export class WaSession extends DurableObject {
     const at=c.conversationTimestamp?timestamp(c.conversationTimestamp):0;
     this.ctx.storage.sql.exec('INSERT INTO chats(jid,name,last_at) VALUES(?,?,?) ON CONFLICT(jid) DO UPDATE SET name=CASE WHEN excluded.name!="" THEN excluded.name ELSE chats.name END,last_at=MAX(chats.last_at,excluded.last_at)',jid,name,at);
   }
-  importMessage(m){
-    const jid=m?.key?.remoteJid,id=m?.key?.id;
-    if(!validJid(jid)||typeof id!=='string'||!id||id.length>180)return;
-    this.saveMessage({jid,id,text:textMessage(m),at:timestamp(m.messageTimestamp),from_me:m.key.fromMe?1:0});
+
+  reportDataFailure(area,error){
+    // Never log message bodies, identifiers or credentials.
+    console.error('zapfast-storage',area,error?.name||'Error',error?.code||'');
   }
-  saveMessage(m){
-    this.ctx.storage.sql.exec('INSERT OR IGNORE INTO messages(jid,id,text,at,from_me) VALUES(?,?,?,?,?)',m.jid,m.id,m.text,m.at,m.from_me);
-    this.ctx.storage.sql.exec('INSERT INTO chats(jid,last_at,preview) VALUES(?,?,?) ON CONFLICT(jid) DO UPDATE SET last_at=MAX(chats.last_at,excluded.last_at),preview=CASE WHEN excluded.last_at>=chats.last_at THEN excluded.preview ELSE chats.preview END',m.jid,m.at,m.text.slice(0,150));
+  safeImport(items,process,area){
+    for(const item of Array.isArray(items)?items:[]){
+      try{process(item)}catch(error){this.reportDataFailure(area,error);}
+    }
+  }
+  saveRows(rows){
+    if(rows.length)persistHistoryBatch(this.ctx.storage.sql,rows);
+  }
+  saveMessage(m){this.saveRows([m]);}
+  async enqueueHistory(event){
+    this.safeImport(event?.contacts,c=>this.saveContact(c),'history-contacts');
+    this.safeImport(event?.chats,c=>this.saveChat(c),'history-chats');
+    const rows=normalizeHistory(event?.messages);
+    if(!rows.length)return;
+    // SQLite writes are moved to DO alarms, so the event handling remains responsive.
+    for(let i=0;i<rows.length;i+=25) {
+      await this.ctx.storage.put('history:pending:'+crypto.randomUUID(),rows.slice(i,i+25));
+    }
+    await this.ctx.storage.setAlarm(Date.now()+1000);
+  }
+  async alarm(){
+    const batch=await this.ctx.storage.list({prefix:'history:pending:',limit:5});
+    for(const [key,rows] of batch){
+      try{
+        this.saveRows(rows);
+        await this.ctx.storage.delete(key);
+      }catch(error){
+        this.reportDataFailure('history-alarm',error);
+        await this.ctx.storage.setAlarm(Date.now()+30000);
+        return;
+      }
+    }
+    const remaining=await this.ctx.storage.list({prefix:'history:pending:',limit:1});
+    if(remaining.size)await this.ctx.storage.setAlarm(Date.now()+1000);
   }
   async clearAuth(){
     for(const key of (await this.ctx.storage.list({prefix:'auth:'})).keys())await this.ctx.storage.delete(key);
