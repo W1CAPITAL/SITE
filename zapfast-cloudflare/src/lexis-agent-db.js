@@ -99,7 +99,7 @@ export class LexisAgentDb {
     return compileCaseEvidence(p,evidence);
   }
   async listQueue(){
-    return await this.call('zapfast_agent_inbox',{select:'id,jid,message_excerpt,category,status,reason,received_at,processo_id,source_type,source_at,draft,sent_at,context_snapshot',empresa_id:'eq.'+this.empresaId,order:'received_at.desc',limit:'60'});
+    return await this.call('zapfast_agent_inbox',{select:'id,jid,message_excerpt,category,status,reason,received_at,processo_id,source_type,source_at,draft,sent_at,context_counts:context_snapshot->counts',empresa_id:'eq.'+this.empresaId,order:'received_at.desc',limit:'60'});
   }
   async searchCases(term){
     const clean=String(term||'').replace(/[^\p{L}\p{N}\s.-]/gu,'').trim().slice(0,60);
