@@ -5,7 +5,7 @@ const sensitiveWords=/\b(honor[aá]rios|contrato|boleto|cobran[cç]a|pagamento|s
 export function assessInbound({jid,id,text,fromMe}){
   if(fromMe||!directJid.test(jid||'')||typeof id!=='string'||!id||id.length>180)return {kind:'ignore',reason:'outside_private_inbound'};
   if(typeof text!=='string'||!text.trim()||text.length>4096||text==='Mensagem de mídia ou outro conteúdo')return {kind:'ignore',reason:'not_plain_text'};
-  const normalized=text.trim().slice(0,4096);
+  const normalized=text.trim().slice(0,4096).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   if(sensitiveWords.test(normalized))return {kind:'human',reason:'sensitive_or_administrative'};
   if(!legalWords.test(normalized))return {kind:'ignore',reason:'not_about_process'};
   return {kind:'process',reason:'legal_status_question'};
