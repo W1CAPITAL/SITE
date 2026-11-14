@@ -8,6 +8,7 @@ import { validJid, textMessage, timestamp } from './format.js';
 import { getAdminConfigError } from './admin-config.js';
 import { normalizeHistory, persistHistoryBatch } from './history-store.js';
 import { historyRequestAnchor } from './history-anchor.js';
+import { shouldRecover, wakeAfter } from './reconnect-policy.js';
 
 const authStore = storage => {
   const k=(ns,key) => 'auth:'+ns+':'+key;
@@ -40,7 +41,7 @@ export class WaSession extends DurableObject {
     const url=new URL(req.url), path=url.pathname;
     try {
       if(path==='/api/status' && req.method==='GET'){
-        if(!this.socket && Date.now()>=this.retryAfter && this.state.state!=='logged_out')await this.connect(false);
+        if(shouldRecover({socket:this.socket,state:this.state.state,now:Date.now(),retryAfter:this.retryAfter}))await this.connect(false);
         return this.statusResponse();
       }
       if(path==='/api/connect' && req.method==='POST'){
@@ -106,7 +107,10 @@ export class WaSession extends DurableObject {
     this.socket=socket;this.retryAfter=0;
     socket.ev.on('connection.update',({connection,qr,lastDisconnect})=>{
       if(qr)this.state={state:'waiting_for_qr',qr};
-      else if(connection==='open'){this.state={state:'connected'};this.retryAfter=0;}
+      else if(connection==='open'){
+        this.state={state:'connected'};this.retryAfter=0;
+        this.ctx.waitUntil(this.ensureAlarm(60000).catch(error=>this.reportDataFailure('maintenance-schedule',error)));
+      }
       else if(connection==='connecting')this.state={state:'connecting'};
       else if(connection==='close'){
         this.socket=undefined;
@@ -114,7 +118,10 @@ export class WaSession extends DurableObject {
         if(code===401){
           this.state={state:'logged_out'};
           void this.clearAuth().catch(()=>{this.state={state:'closed',error:'Não foi possível limpar sessão'};});
-        }else{this.state={state:'closed',error:'Conexão interrompida'};this.retryAfter=Date.now()+30000;}
+        }else{
+          this.state={state:'closed',error:'Conexão interrompida'};this.retryAfter=Date.now()+30000;
+          this.ctx.waitUntil(this.ensureAlarm(30000).catch(error=>this.reportDataFailure('reconnect-schedule',error)));
+        }
       }
     });
 
@@ -167,7 +174,12 @@ export class WaSession extends DurableObject {
     for(let i=0;i<rows.length;i+=25) {
       await this.ctx.storage.put('history:pending:'+crypto.randomUUID(),rows.slice(i,i+25));
     }
-    await this.ctx.storage.setAlarm(Date.now()+1000);
+    await this.ensureAlarm(1000);
+  }
+  async ensureAlarm(delay){
+    const next=Date.now()+delay;
+    const existing=await this.ctx.storage.getAlarm();
+    if(existing===null||existing>next)await this.ctx.storage.setAlarm(next);
   }
   async alarm(){
     const batch=await this.ctx.storage.list({prefix:'history:pending:',limit:5});
@@ -177,12 +189,21 @@ export class WaSession extends DurableObject {
         await this.ctx.storage.delete(key);
       }catch(error){
         this.reportDataFailure('history-alarm',error);
-        await this.ctx.storage.setAlarm(Date.now()+30000);
+        await this.ensureAlarm(30000);
         return;
       }
     }
     const remaining=await this.ctx.storage.list({prefix:'history:pending:',limit:1});
-    if(remaining.size)await this.ctx.storage.setAlarm(Date.now()+1000);
+    if(remaining.size) {
+      await this.ensureAlarm(wakeAfter(true));
+      return;
+    }
+    if(shouldRecover({socket:this.socket,state:this.state.state,now:Date.now(),retryAfter:this.retryAfter})) {
+      await this.connect(false);
+    }
+    // A session is not guaranteed to remain alive forever in the Free plan.
+    // Alarms provide best-effort recovery without a local computer.
+    if(this.state.state!=='stopped' && this.state.state!=='logged_out')await this.ensureAlarm(wakeAfter(false));
   }
   async clearAuth(){
     for(const key of (await this.ctx.storage.list({prefix:'auth:'})).keys())await this.ctx.storage.delete(key);
