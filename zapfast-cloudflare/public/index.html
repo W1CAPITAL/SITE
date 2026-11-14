@@ -22,7 +22,7 @@ button.flat{background:transparent;border:0;color:#bda7b5;text-decoration:underl
 </style></head><body>
 <main id="shell">
 <aside class="sidebar"><header><span class="logo">Z</span><div class="brand"><strong>ZapFast Web</strong><small>WhatsApp dentro da Cloudflare</small></div></header><div class="state"><span id="dot" class="dot"></span><span id="connection">Verificando</span><button id="reconnect" class="flat" style="margin-left:auto">Reconectar</button><button id="logout" class="flat push">Sair</button></div><div class="search"><button class="primary" id="agentToggle" style="width:100%;margin-bottom:10px;background:#633c58;border-color:#926581">Atendimento jurídico · LexisPredict</button><button class="primary" id="newChat" style="width:100%;margin-bottom:12px">+ Nova conversa</button><input id="search" placeholder="Pesquisar conversas" autocomplete="off" aria-label="Pesquisar conversas"></div><div id="chats"><div class="notice">Vincule seu WhatsApp para carregar as conversas.</div></div></aside>
-<section class="right"><header><button class="round" id="back" title="Voltar">‹</button><div class="heading"><strong id="title">Minhas mensagens</strong><small id="subtitle">ZapFast na nuvem</small></div><button class="round" id="older" title="Solicitar 100 mensagens anteriores" hidden>Mais antigas</button><button class="round" id="refresh" title="Atualizar">↻</button></header><div id="messages"><div class="intro"><span class="logo">Z</span><h1>Seu WhatsApp, dentro do site.</h1><p>Conecte pelo QR Code no celular. Não é necessário instalar nada no computador ou deixar outro aparelho ligado.</p><button class="primary" id="start">Vincular WhatsApp</button></div></div><form id="compose" hidden><input id="message" maxlength="4096" placeholder="Digite uma mensagem..." autocomplete="off"><button class="primary" id="sendButton" disabled>Enviar</button></form></section>
+<section class="right"><header><button class="round" id="back" title="Voltar">‹</button><div class="heading"><strong id="title">Minhas mensagens</strong><small id="subtitle">ZapFast na nuvem</small></div><button class="round" id="older" title="Histórico antigo pausado para preservar o plano gratuito" hidden disabled>Histórico antigo pausado</button><button class="round" id="refresh" title="Atualizar">↻</button></header><div id="messages"><div class="intro"><span class="logo">Z</span><h1>Seu WhatsApp, dentro do site.</h1><p>Conecte pelo QR Code no celular. Não é necessário instalar nada no computador ou deixar outro aparelho ligado.</p><button class="primary" id="start">Vincular WhatsApp</button></div></div><form id="compose" hidden><input id="message" maxlength="4096" placeholder="Digite uma mensagem..." autocomplete="off"><button class="primary" id="sendButton" disabled>Enviar</button></form></section>
 </main>
 <section id="agentPanel" hidden aria-label="Central de atendimento jurídico">
 <header><span class="logo" style="font-size:17px">LP</span><div class="heading"><strong>Central jurídica</strong><small>Agentes · LexisPredict · Revisão e autorização</small></div><button class="round" id="agentClose">Fechar</button></header>
@@ -43,8 +43,8 @@ button.flat{background:transparent;border:0;color:#bda7b5;text-decoration:underl
 <div class="overlay" id="pairOverlay" hidden><div class="modal"><button id="close" class="x">×</button><h2>Vincular WhatsApp</h2><p>No WhatsApp do celular, abra <b>Aparelhos conectados → Conectar aparelho</b> e aponte a câmera para o QR abaixo.</p><div id="qr">Preparando QR...</div><p id="qrStatus" class="feedback">Conectando...</p><button class="primary" id="retry">Tentar novamente</button></div></div>
 <div id="toast" role="status"></div>
 <script type="module">
-const $=id=>document.getElementById(id),s={chats:[],selected:null,authenticated:false,loading:false,online:false,agentSelected:null,agentCase:null};
-const titles={stopped:'Desconectado — vincule seu WhatsApp',connecting:'Conectando... aguarde',waiting_for_qr:'Aguardando leitura do QR',connected:'Conectado',closed:'Reconectando...',logged_out:'Sessão encerrada — novo QR necessário'};
+const $=id=>document.getElementById(id),s={chats:[],selected:null,authenticated:false,loading:false,online:false,agentSelected:null,agentCase:null,quotaUntil:0};
+const titles={stopped:'Desconectado — vincule seu WhatsApp',connecting:'Conectando... aguarde',waiting_for_qr:'Aguardando leitura do QR',connected:'Conectado',closed:'Reconectando...',logged_out:'Sessão encerrada — novo QR necessário',quota_exceeded:'Limite gratuito de gravações atingido'};
 function notify(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',4000)}
 async function request(path,method='GET',body){
  const r=await fetch('/api'+path,{method,credentials:'same-origin',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});
@@ -64,7 +64,7 @@ function drawChats(){
   b.onclick=()=>choose(c);host.append(b);
  }
 }
-async function choose(c){s.selected=c.jid;$('title').textContent=name(c);$('subtitle').textContent=short(c.jid);$('compose').hidden=false;$('sendButton').disabled=!s.online;$('older').hidden=false;$('older').disabled=!s.online;$('shell').classList.add('open');drawChats();await loadMessages()}
+async function choose(c){s.selected=c.jid;$('title').textContent=name(c);$('subtitle').textContent=short(c.jid);$('compose').hidden=false;$('sendButton').disabled=!s.online;$('older').hidden=false;$('older').disabled=true;$('shell').classList.add('open');drawChats();await loadMessages()}
 async function loadMessages(){
  if(!s.selected)return;const jid=s.selected;const host=$('messages');
  try {
@@ -76,9 +76,19 @@ async function loadMessages(){
  }catch(err){if(jid!==s.selected)return;host.replaceChildren();const d=document.createElement('div');d.className='notice';d.textContent='Não foi possível ler as mensagens armazenadas: '+err.message;host.append(d)}
 }
 async function refresh(){
- if(!s.authenticated||s.loading||document.hidden)return;s.loading=true;
+ if(!s.authenticated||s.loading||document.hidden||Date.now()<s.quotaUntil)return;s.loading=true;
  try {
   const st=await request('/status');s.online=st.state==='connected';$('connection').textContent=titles[st.state]||st.state;$('dot').className='dot'+(s.online?' ok':'');
+  if(st.state==='quota_exceeded'){
+    const restored=st.resetAt?Date.parse(st.resetAt):Date.now()+3600000;
+    s.quotaUntil=Number.isFinite(restored)?restored:Date.now()+3600000;
+    $('reconnect').disabled=true;$('sendButton').disabled=true;$('older').disabled=true;
+    $('qrStatus').textContent=st.error||'Armazenamento temporariamente indisponível';
+    $('subtitle').textContent='Limite gratuito de gravações da Cloudflare atingido; sessão preservada.';
+    const host=$('chats');if(!s.chats.length){host.replaceChildren();const info=document.createElement('div');info.className='notice';info.textContent='A Cloudflare bloqueou novas gravações até a renovação diária (00:00 UTC). Não tente reconectar repetidamente. As mensagens salvas não foram apagadas.';host.append(info)}
+    return;
+  }
+  $('reconnect').disabled=false;
   $('sendButton').disabled=!s.online;$('older').disabled=!s.online;
   $('reconnect').hidden=s.online;
   if(!$('pairOverlay').hidden)showQr(st);
@@ -92,7 +102,7 @@ function showQr(st){
  if(st.qrSvg){const img=document.createElement('img');img.alt='Código QR de vinculação';img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(st.qrSvg);$('qr').replaceChildren(img)}
  if(st.state==='connected'){$('pairOverlay').hidden=true;notify('WhatsApp conectado')}
 }
-async function start(){$('pairOverlay').hidden=false;$('qr').textContent='Preparando QR...';try{showQr(await request('/connect','POST'))}catch(e){notify(e.message)}}
+async function start(){if(Date.now()<s.quotaUntil){notify('Limite gratuito de gravações atingido. Aguarde a renovação às 00:00 UTC.');return}$('pairOverlay').hidden=false;$('qr').textContent='Preparando QR...';try{showQr(await request('/connect','POST'))}catch(e){notify(e.message)}}
 $('newChat').onclick=async()=>{if(!s.online){notify('Conecte o WhatsApp antes de iniciar uma conversa');return}const phone=prompt('Digite o telefone com DDD (ou + e código do país):');if(phone===null)return;const digits=phone.replace(/\D/g,'');let e164=digits;if(!phone.trim().startsWith('+')&&/^\d{10,11}$/.test(digits)&&!digits.startsWith('55'))e164='55'+digits;if(!/^\+?[\d\s().-]+$/.test(phone.trim())||!(/^[1-9]\d{9,14}$/.test(e164))||/^0+$/.test(digits)){notify('Número de telefone inválido');return}const jid=e164+'@s.whatsapp.net';const chat=s.chats.find(c=>c.jid===jid)||{jid,name:'+'+e164,preview:'Nova conversa',last_at:0};if(!s.chats.some(c=>c.jid===jid))s.chats.unshift(chat);await choose(chat);$('message').focus()};
 
 function agentEl(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=String(text);return e}
@@ -149,11 +159,11 @@ $('agentApprove').onclick=async()=>{
  }catch(error){$('agentFeedback').textContent=error.message}finally{b.disabled=!s.agentSelected||!s.agentCase}
 };
 $('start').onclick=start;$('retry').onclick=start;$('reconnect').onclick=start;
-$('older').onclick=async()=>{if(!s.selected||!s.online)return;const b=$('older');b.disabled=true;try{const res=await request('/history','POST',{jid:s.selected});notify(res.notice||'Solicitação de histórico enviada')}catch(err){notify(err.message)}finally{b.disabled=!s.online}};$('close').onclick=()=>$('pairOverlay').hidden=true;$('refresh').onclick=refresh;$('search').oninput=drawChats;$('back').onclick=()=>$('shell').classList.remove('open');
+$('older').onclick=()=>notify('Histórico antigo pausado para preservar o limite gratuito. As mensagens já armazenadas foram preservadas.');$('close').onclick=()=>$('pairOverlay').hidden=true;$('refresh').onclick=refresh;$('search').oninput=drawChats;$('back').onclick=()=>$('shell').classList.remove('open');
 $('login').onsubmit=async e=>{e.preventDefault();const button=$('login').querySelector('button');if(button.disabled)return;button.disabled=true;$('loginError').textContent='';try{await request('/login','POST',{password:$('password').value});$('password').value='';s.authenticated=true;$('loginOverlay').hidden=true;await refresh()}catch(err){$('loginError').textContent=err.message}finally{button.disabled=false}};
 $('compose').onsubmit=async e=>{e.preventDefault();const text=$('message').value.trim();if(!text||!s.selected)return;if(!s.online){notify('WhatsApp desconectado. Clique em Reconectar e aguarde o estado Conectado.');return}const b=$('sendButton');b.disabled=true;try{await request('/send','POST',{jid:s.selected,text});$('message').value='';await loadMessages()}catch(err){if(/desconectado|Reconectando|Conectando/i.test(err.message)){s.online=false;await refresh()}notify(err.message)}finally{b.disabled=!s.online}};
 $('logout').onclick=async()=>{try{await request('/logout','POST')}catch{}s.authenticated=false;s.chats=[];s.selected=null;$('loginOverlay').hidden=false;$('pairOverlay').hidden=true};
 (async()=>{try{await request('/status');s.authenticated=true;$('loginOverlay').hidden=true;await refresh()}catch(err){$('loginOverlay').hidden=false;if(err.message.includes('ADMIN_PASSWORD'))$('loginError').textContent=err.message}})();
-setInterval(refresh,5000);
+setInterval(refresh,15000);
 </script>
 </body></html>
