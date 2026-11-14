@@ -19,7 +19,7 @@ button.flat{background:transparent;border:0;color:#bda7b5;text-decoration:underl
 #back{display:none}@media(max-width:700px){main{display:block}.sidebar,.right{width:100%;height:100dvh}.right{display:none}main.open .sidebar{display:none}main.open .right{display:flex}#back{display:inline-block}#messages{padding:14px}.bubble{max-width:89%}}
 </style></head><body>
 <main id="shell">
-<aside class="sidebar"><header><span class="logo">Z</span><div class="brand"><strong>ZapFast Web</strong><small>WhatsApp dentro da Cloudflare</small></div></header><div class="state"><span id="dot" class="dot"></span><span id="connection">Verificando</span><button id="logout" class="flat push">Sair</button></div><div class="search"><input id="search" placeholder="Pesquisar conversas" autocomplete="off" aria-label="Pesquisar conversas"></div><div id="chats"><div class="notice">Vincule seu WhatsApp para carregar as conversas.</div></div></aside>
+<aside class="sidebar"><header><span class="logo">Z</span><div class="brand"><strong>ZapFast Web</strong><small>WhatsApp dentro da Cloudflare</small></div></header><div class="state"><span id="dot" class="dot"></span><span id="connection">Verificando</span><button id="logout" class="flat push">Sair</button></div><div class="search"><button class="primary" id="newChat" style="width:100%;margin-bottom:12px">+ Nova conversa</button><input id="search" placeholder="Pesquisar conversas" autocomplete="off" aria-label="Pesquisar conversas"></div><div id="chats"><div class="notice">Vincule seu WhatsApp para carregar as conversas.</div></div></aside>
 <section class="right"><header><button class="round" id="back" title="Voltar">‹</button><div class="heading"><strong id="title">Minhas mensagens</strong><small id="subtitle">ZapFast na nuvem</small></div><button class="round" id="refresh" title="Atualizar">↻</button></header><div id="messages"><div class="intro"><span class="logo">Z</span><h1>Seu WhatsApp, dentro do site.</h1><p>Conecte pelo QR Code no celular. Não é necessário instalar nada no computador ou deixar outro aparelho ligado.</p><button class="primary" id="start">Vincular WhatsApp</button></div></div><form id="compose" hidden><input id="message" maxlength="4096" placeholder="Digite uma mensagem..." autocomplete="off"><button class="primary">Enviar</button></form></section>
 </main>
 <div class="overlay" id="loginOverlay"><div class="modal"><div class="logo" style="margin:auto">Z</div><h2>Entrar no ZapFast</h2><p>Digite sua senha de acesso para proteger as mensagens da sua conta.</p><form id="login"><input id="password" type="password" placeholder="Senha do painel" autocomplete="current-password" required><button class="primary">Entrar</button></form><p id="loginError" class="error"></p></div></div>
@@ -56,11 +56,11 @@ async function loadMessages(){
  if(nearBottom)host.scrollTop=host.scrollHeight;
 }
 async function refresh(){
- if(!s.authenticated||s.loading)return;s.loading=true;
+ if(!s.authenticated||s.loading||document.hidden)return;s.loading=true;
  try {
   const st=await request('/status');s.online=st.state==='connected';$('connection').textContent=titles[st.state]||st.state;$('dot').className='dot'+(s.online?' ok':'');
   if(!$('pairOverlay').hidden)showQr(st);
-  if(s.online){$('pairOverlay').hidden=true;const r=await request('/chats');s.chats=r.chats||[];drawChats();if(s.selected)await loadMessages()}
+  if(s.online){$('pairOverlay').hidden=true;const r=await request('/chats');const cached=s.chats.filter(c=>c.last_at===0&&!r.chats?.some(n=>n.jid===c.jid));s.chats=[...(r.chats||[]),...cached];drawChats();if(s.selected)await loadMessages()}
  }catch(e){if(s.authenticated)notify(e.message)}finally{s.loading=false}
 }
 function showQr(st){
@@ -69,6 +69,7 @@ function showQr(st){
  if(st.state==='connected'){$('pairOverlay').hidden=true;notify('WhatsApp conectado')}
 }
 async function start(){$('pairOverlay').hidden=false;$('qr').textContent='Preparando QR...';try{showQr(await request('/connect','POST'))}catch(e){notify(e.message)}}
+$('newChat').onclick=async()=>{if(!s.online){notify('Conecte o WhatsApp antes de iniciar uma conversa');return}const phone=prompt('Digite o telefone com DDD (ou + e código do país):');if(phone===null)return;const digits=phone.replace(/\D/g,'');let e164=digits;if(!phone.trim().startsWith('+')&&/^\d{10,11}$/.test(digits)&&!digits.startsWith('55'))e164='55'+digits;if(!/^\+?[\d\s().-]+$/.test(phone.trim())||!(/^[1-9]\d{9,14}$/.test(e164))||/^0+$/.test(digits)){notify('Número de telefone inválido');return}const jid=e164+'@s.whatsapp.net';const chat=s.chats.find(c=>c.jid===jid)||{jid,name:'+'+e164,preview:'Nova conversa',last_at:0};if(!s.chats.some(c=>c.jid===jid))s.chats.unshift(chat);await choose(chat);$('message').focus()};
 $('start').onclick=start;$('retry').onclick=start;$('close').onclick=()=>$('pairOverlay').hidden=true;$('refresh').onclick=refresh;$('search').oninput=drawChats;$('back').onclick=()=>$('shell').classList.remove('open');
 $('login').onsubmit=async e=>{e.preventDefault();$('loginError').textContent='';try{await request('/login','POST',{password:$('password').value});$('password').value='';s.authenticated=true;$('loginOverlay').hidden=true;await refresh()}catch(err){$('loginError').textContent=err.message}};
 $('compose').onsubmit=async e=>{e.preventDefault();const text=$('message').value.trim();if(!text||!s.selected)return;const b=$('compose').querySelector('button');b.disabled=true;try{await request('/send','POST',{jid:s.selected,text});$('message').value='';await loadMessages()}catch(err){notify(err.message)}finally{b.disabled=false}};
