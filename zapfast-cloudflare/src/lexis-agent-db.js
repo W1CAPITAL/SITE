@@ -93,6 +93,8 @@ export class LexisAgentDb {
           negocio_id:'in.('+evidence.businessIds.join(',')+')',order:'created_at.desc',limit:'30'});
       }catch{evidence.missingSources.push('crm_atividades')}
     }
+    evidence.agentFacts=evidence.facts||[];
+    evidence.agentTasks=evidence.tasks||[];
     // No client name, fuzzy phone match or cross-company join is permitted.
     return compileCaseEvidence(p,evidence);
   }
