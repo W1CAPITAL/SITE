@@ -1,0 +1,17 @@
+{
+  "name": "zapfast-cloudflare-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "deploy": "node scripts/copy-wasm.mjs && wrangler deploy"
+  },
+  "dependencies": {
+    "@oxidezap/baileyrs": "0.3.8",
+    "qrcode-generator": "1.5.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4.136.3"
+  }
+}
