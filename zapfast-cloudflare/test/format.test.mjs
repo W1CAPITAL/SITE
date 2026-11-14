@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validJid, textMessage, timestamp } from '../src/format.js';
+import { validJid, textMessage, timestamp, phoneToJid } from '../src/format.js';
 
 test('aceita identificadores válidos de contato e grupo', () => {
   assert.equal(validJid('5511999990000@s.whatsapp.net'), true);
@@ -28,4 +28,16 @@ test('restringe mensagens longas e preserva a data de histórico', () => {
   assert.equal(textMessage({message:{conversation:'x'.repeat(9000)}}).length,4096);
   assert.equal(timestamp(1690000000),1690000000);
   assert.equal(timestamp('1690000000'),1690000000);
+});
+
+
+test('permite abrir conversa por telefone brasileiro ou internacional', () => {
+  assert.equal(phoneToJid('(11) 99999-1234'), '5511999991234@s.whatsapp.net');
+  assert.equal(phoneToJid('+55 11 99999-1234'), '5511999991234@s.whatsapp.net');
+  assert.equal(phoneToJid('+1 415 555 2671'), '14155552671@s.whatsapp.net');
+});
+test('rejeita número de telefone inválido ou payload não numérico', () => {
+  for (const value of ['javascript:alert(1)', '123', '', null, '11999991234@lid', '00000000000']) {
+    assert.equal(phoneToJid(value), null);
+  }
 });
