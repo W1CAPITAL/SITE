@@ -18,10 +18,23 @@ export async function evaluateInboundLegalMessage({message,db,socket,now=new Dat
   if(authorized.length!==1||authorized[0].approved!==true)return set('needs_authorization','contato_sem_autorizacao_unica');
   const caseRow=await db.getCase(authorized[0].processo_id);
   if(!caseRow||Number(caseRow.id)!==Number(authorized[0].processo_id))return set('human_review','processo_nao_corresponde_ao_cadastro');
-  if(gate.kind==='human')return set('human_review','assunto_sensivel_ou_administrativo',{processo_id:caseRow.id});
+  // Observations, CRM activities and attendance logs are fetched ONLY AFTER
+  // the phone has a unique approved link to this process and tenant.
+  let contextSnapshot=null;
+  try {
+    if(typeof db.getCaseEvidence==='function')contextSnapshot=await db.getCaseEvidence(caseRow);
+  }catch{
+    return set('human_review','contexto_interno_indisponivel',{processo_id:caseRow.id});
+  }
+  const ctxFields=contextSnapshot?{context_snapshot:contextSnapshot}:{};
+  if(contextSnapshot?.incompleteSources?.length){
+    return set('human_review','fontes_internas_incompletas',{processo_id:caseRow.id,...ctxFields});
+  }
+  if(gate.kind==='human')return set('human_review','assunto_sensivel_ou_administrativo',{processo_id:caseRow.id,...ctxFields});
   const reply=buildProcessReply(caseRow,now);
-  if(!reply.ok)return set('human_review',reply.reason,{processo_id:caseRow.id});
+  if(!reply.ok)return set('human_review',reply.reason,{processo_id:caseRow.id,...ctxFields});
   await db.patchInbox(inbox.id,{status:'draft',reason:'status_oficial_conferido',processo_id:caseRow.id,
+    ...ctxFields,
     source_type:reply.source,source_at:caseRow.datajud_consultado_em,draft:reply.text,updated_at:now.toISOString()});
   if(!autoSend)return {status:'draft',reason:'aguarda_ativacao_e_revisao'};
   if(contactRecentlyAnswered)return {status:'draft',reason:'funcionario_ja_respondeu_recentemente'};
