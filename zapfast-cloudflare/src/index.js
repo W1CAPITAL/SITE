@@ -11,6 +11,7 @@ import { historyRequestAnchor } from './history-anchor.js';
 import { shouldRecover, wakeAfter } from './reconnect-policy.js';
 import { LexisAgentDb, lexisAgentConfigured } from './lexis-agent-db.js';
 import { evaluateInboundLegalMessage } from './legal-agent.js';
+import { isDurableWriteQuotaError, quotaRetrySeconds, quotaResponse } from './quota-policy.js';
 
 const authStore = storage => {
   const k=(ns,key) => 'auth:'+ns+':'+key;
@@ -43,12 +44,11 @@ export class WaSession extends DurableObject {
     const url=new URL(req.url), path=url.pathname;
     try {
       if(path==='/api/status' && req.method==='GET'){
-        if(shouldRecover({socket:this.socket,state:this.state.state,now:Date.now(),retryAfter:this.retryAfter}))await this.connect(false);
+        // Status checks must never start WhatsApp or spend SQLite writes.
         return this.statusResponse();
       }
       if(path==='/api/connect' && req.method==='POST'){
         await this.connect(true);
-        if(!this.socket && this.state.state==='stopped')await this.connect(true);
         return this.statusResponse();
       }
       if(path==='/api/agent/status' && req.method==='GET')return Response.json({configured:lexisAgentConfigured(this.env),mode:this.env.ZAPFAST_AGENT_AUTOSEND==='true'?'inbound_approved_auto':'review_only',tenant:'LexisPredict',safe_limits:'10/dia, intervalo >=20min, dias úteis 9h-17h',rules:['Somente mensagens privadas recebidas','Contato autorizado e processo da empresa','Somente fontes oficiais recentes','Outras perguntas seguem para revisão','Sem campanhas ou mensagens em massa']});
@@ -59,23 +59,8 @@ export class WaSession extends DurableObject {
         if(!validJid(jid))return Response.json({error:'Conversa inválida'},{status:400});
         return Response.json({messages:[...this.ctx.storage.sql.exec('SELECT jid,id,text,at,from_me FROM messages WHERE jid=? ORDER BY at DESC LIMIT 150',jid)].reverse()});
       }
-      if(path==='/api/history' && req.method==='POST'){
-        const body=await req.json().catch(()=>null),jid=body?.jid;
-        if(!validJid(jid))return Response.json({error:'Conversa inválida'},{status:400});
-        if(this.state.state!=='connected'||!this.socket)return Response.json({error:'WhatsApp desconectado. Reconecte antes de buscar mensagens anteriores.'},{status:409});
-        const oldest=[...this.ctx.storage.sql.exec('SELECT id,at,from_me FROM messages WHERE jid=? ORDER BY at ASC LIMIT 1',jid)][0];
-        const anchor=historyRequestAnchor(jid,oldest);
-        if(!anchor)return Response.json({error:'Ainda não há mensagens sincronizadas para usar como ponto de partida. Aguarde a sincronização inicial pelo WhatsApp.'},{status:422});
-        const key='history:requested:'+jid;
-        const previous=Number(await this.ctx.storage.get(key)||0);
-        if(Date.now()-previous<90000)return Response.json({error:'Solicitação de histórico em andamento. Aguarde a sincronização.'},{status:429});
-        await this.ctx.storage.put(key,Date.now());
-        const sock=this.socket;
-        this.ctx.waitUntil(Promise.resolve().then(()=>sock.fetchMessageHistory(100,anchor.key,anchor.timestamp)).catch(async error=>{
-          this.reportDataFailure('history-request',error);
-          await this.ctx.storage.delete(key);
-        }));
-        return Response.json({ok:true,notice:'Pedido de histórico enviado ao WhatsApp. A entrega depende da sincronização do aparelho.'},{status:202});
+      if(path==='/api/history' && req.method==='POST') {
+        return Response.json({error:'A sincronização de histórico antigo foi pausada para não esgotar novamente o limite gratuito de gravações. As mensagens já guardadas foram preservadas.'},{status:422});
       }
       if(path==='/api/send' && req.method==='POST'){
         const data=await req.json().catch(()=>null);
@@ -113,7 +98,7 @@ export class WaSession extends DurableObject {
       if(qr)this.state={state:'waiting_for_qr',qr};
       else if(connection==='open'){
         this.state={state:'connected'};this.retryAfter=0;
-        this.ctx.waitUntil(this.ensureAlarm(60000).catch(error=>this.reportDataFailure('maintenance-schedule',error)));
+        // No recurring alarms: each alarm writes a SQLite row in the Free plan.
       }
       else if(connection==='connecting')this.state={state:'connecting'};
       else if(connection==='close'){
@@ -124,14 +109,17 @@ export class WaSession extends DurableObject {
           void this.clearAuth().catch(()=>{this.state={state:'closed',error:'Não foi possível limpar sessão'};});
         }else{
           this.state={state:'closed',error:'Conexão interrompida'};this.retryAfter=Date.now()+30000;
-          this.ctx.waitUntil(this.ensureAlarm(30000).catch(error=>this.reportDataFailure('reconnect-schedule',error)));
+          // Require explicit reconnect while running on the Free plan.
         }
       }
     });
 
     socket.ev.on('messages.upsert',e=>{
-      try { this.saveRows(normalizeHistory(e.messages)); }
-      catch(error) { this.reportDataFailure('live-messages',error); }
+      // Avoid importing huge WhatsApp history as repeated message upserts.
+      if(e?.type==='notify'){
+        try { this.saveRows(normalizeHistory(e.messages).slice(-20)); }
+        catch(error) { this.reportDataFailure('live-messages',error); }
+      }
       if(e?.type!=='notify' || !lexisAgentConfigured(this.env))return;
       for(const message of e.messages||[]){
         const received=timestamp(message?.messageTimestamp)*1000;
@@ -149,8 +137,13 @@ export class WaSession extends DurableObject {
       }
     });
     socket.ev.on('messaging-history.set',e=>{
-      // Import in bounded durable chunks; a large history must not block the socket.
-      this.ctx.waitUntil(this.enqueueHistory(e).catch(error=>this.reportDataFailure('history',error)));
+      // Keep only a small initial sample. Do not enqueue thousands of old
+      // messages: a prior sync exhausted the Cloudflare Free daily write quota.
+      try {
+        this.safeImport((e.contacts||[]).slice(0,30),c=>this.saveContact(c),'initial-contacts');
+        this.safeImport((e.chats||[]).slice(0,30),c=>this.saveChat(c),'initial-chats');
+        this.saveRows(normalizeHistory(e.messages).slice(-50));
+      }catch(error){this.reportDataFailure('limited-history',error);}
     });
     for (const type of ['contacts.upsert','contacts.update']) {
       socket.ev.on(type,list=>this.safeImport(list,c=>this.saveContact(c),'contacts'));
@@ -194,12 +187,18 @@ export class WaSession extends DurableObject {
     console.error('zapfast-storage',area,error?.name||'Error',error?.code||'');
   }
   safeImport(items,process,area){
-    for(const item of Array.isArray(items)?items:[]){
-      try{process(item)}catch(error){this.reportDataFailure(area,error);}
+    // Cumulative per-isolate budget for contact/chat metadata. History is
+    // never allowed to consume the free-tier daily write allowance in bulk.
+    const allowed=Math.max(0,120-(this.metadataWrites||0));
+    for(const item of (Array.isArray(items)?items:[]).slice(0,Math.min(allowed,40))){
+      try {process(item);this.metadataWrites=(this.metadataWrites||0)+1;}
+      catch(error){this.reportDataFailure(area,error);break;}
     }
   }
   saveRows(rows){
-    if(rows.length)persistHistoryBatch(this.ctx.storage.sql,rows);
+    const allowed=Math.max(0,300-(this.messageWrites||0));
+    const subset=rows.slice(0,allowed);
+    if(subset.length){persistHistoryBatch(this.ctx.storage.sql,subset);this.messageWrites=(this.messageWrites||0)+subset.length;}
   }
   saveMessage(m){this.saveRows([m]);}
   async enqueueHistory(event){
@@ -219,28 +218,8 @@ export class WaSession extends DurableObject {
     if(existing===null||existing>next)await this.ctx.storage.setAlarm(next);
   }
   async alarm(){
-    const batch=await this.ctx.storage.list({prefix:'history:pending:',limit:5});
-    for(const [key,rows] of batch){
-      try{
-        this.saveRows(rows);
-        await this.ctx.storage.delete(key);
-      }catch(error){
-        this.reportDataFailure('history-alarm',error);
-        await this.ensureAlarm(30000);
-        return;
-      }
-    }
-    const remaining=await this.ctx.storage.list({prefix:'history:pending:',limit:1});
-    if(remaining.size) {
-      await this.ensureAlarm(wakeAfter(true));
-      return;
-    }
-    if(shouldRecover({socket:this.socket,state:this.state.state,now:Date.now(),retryAfter:this.retryAfter})) {
-      await this.connect(false);
-    }
-    // A session is not guaranteed to remain alive forever in the Free plan.
-    // Alarms provide best-effort recovery without a local computer.
-    if(this.state.state!=='stopped' && this.state.state!=='logged_out')await this.ensureAlarm(wakeAfter(false));
+    // Intentionally no recurring writes. Previously queued history is
+    // preserved in storage, not deleted or drained automatically.
   }
   async clearAuth(){
     for(const key of (await this.ctx.storage.list({prefix:'auth:'})).keys())await this.ctx.storage.delete(key);
@@ -259,6 +238,7 @@ async function authenticated(req,secret){
   return await sign(until,secret)===sig;
 }
 const jsonError=(error,status)=>Response.json({error},{status});
+let storageQuotaBlockedUntil=0;
 export default {
   async fetch(request,env){
     const url=new URL(request.url);
@@ -277,7 +257,23 @@ export default {
     if(request.method!=='GET'&&request.headers.get('origin')!==url.origin)return jsonError('Origem inválida',403);
     if(url.pathname==='/api/logout'&&request.method==='POST')return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Set-Cookie':'zf_session=; Secure; HttpOnly; SameSite=Strict; Path=/; Max-Age=0'}});
     if(!['/api/status','/api/connect','/api/chats','/api/messages','/api/history','/api/send','/api/agent/status','/api/agent/queue','/api/agent/search','/api/agent/approve'].includes(url.pathname))return jsonError('Rota inválida',404);
-    const obj=env.WA.get(env.WA.idFromName('one-whatsapp'));
-    return obj.fetch(new Request('https://internal'+url.pathname+url.search,request));
+    if(url.pathname==='/api/agent/status'){
+      return Response.json({configured:lexisAgentConfigured(env),mode:env.ZAPFAST_AGENT_AUTOSEND==='true'?'inbound_approved_auto':'review_only',
+        tenant:'LexisPredict',safe_limits:'10/dia, intervalo >=20min, dias úteis 9h-17h',
+        rules:['Somente mensagens privadas recebidas','Contato autorizado e processo da empresa','Sem campanhas ou mensagens em massa']});
+    }
+    if(Date.now()<storageQuotaBlockedUntil)return quotaResponse(url.pathname);
+    try {
+      const obj=env.WA.get(env.WA.idFromName('one-whatsapp'));
+      return await obj.fetch(new Request('https://internal'+url.pathname+url.search,request));
+    }catch(error){
+      if(isDurableWriteQuotaError(error)){
+        storageQuotaBlockedUntil=Date.now()+quotaRetrySeconds()*1000;
+        console.warn('zapfast-quota-blocked','durable-objects-free-rows');
+        return quotaResponse(url.pathname);
+      }
+      console.error('zapfast-runtime',error?.name||'Error');
+      return jsonError('Falha na sessão do WhatsApp. Nenhum envio foi confirmado.',503);
+    }
   }
 };
