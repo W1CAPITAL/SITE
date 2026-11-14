@@ -33,3 +33,27 @@ test('does not auto reply to unrelated or sensitive messages',async()=>{
   assert.equal((await evaluateInboundLegalMessage({message:message('bom dia'),db:x.db})).status,'ignored');
   assert.equal((await evaluateInboundLegalMessage({message:message('Quero cobrar honorários do processo'),db:x.db})).status,'human_review');
 });
+
+
+test('internal observations are saved as private review context, never copied into WhatsApp draft',async()=>{
+  const x=fake({auth:[{processo_id:42,approved:true}]});
+  x.db.getCaseEvidence=async()=>({
+    notes:[{source:'processos.observacoes',classification:'internal_unverified',text:'NOTA INTERNA CONFIDENCIAL'}],
+    incompleteSources:[],counts:{notes:1,audit:0,hermes:0,officialChecks:0,activities:0}
+  });
+  const r=await evaluateInboundLegalMessage({message:message('Qual o andamento do meu processo?'),db:x.db,
+    now:new Date('2026-11-14T15:00:00Z'),autoSend:false});
+  assert.equal(r.status,'draft');
+  const draft=x.updates.at(-1);
+  assert.equal(draft.context_snapshot.notes[0].text,'NOTA INTERNA CONFIDENCIAL');
+  assert.ok(!draft.draft.includes('NOTA INTERNA CONFIDENCIAL'));
+});
+test('unavailable historical source escalates to human review rather than silently proceeding',async()=>{
+  const x=fake({auth:[{processo_id:42,approved:true}]});
+  x.db.getCaseEvidence=async()=>({notes:[],incompleteSources:['audits'],counts:{notes:0}});
+  let sent=false;
+  const r=await evaluateInboundLegalMessage({message:message('Qual o andamento do meu processo?'),db:x.db,
+    socket:{sendMessage:async()=>{sent=true;}},now:new Date('2026-11-16T14:10:00Z'),autoSend:true});
+  assert.equal(r.status,'human_review');
+  assert.equal(sent,false);
+});
