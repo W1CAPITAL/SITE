@@ -29,7 +29,16 @@ button.flat{background:transparent;border:0;color:#bda7b5;text-decoration:underl
 <div class="agentBody">
  <div class="legalWarning">Somente mensagens privadas recebidas sobre processos de clientes confirmados. Outros contatos precisam de autorização humana. Sem envios em massa.</div>
  <div class="agentBox"><strong>Status dos agentes</strong><p id="agentStatus">Carregando configuração...</p><button id="agentRefresh">Atualizar fila</button></div>
+ <div class="agentBox"><strong>OpenBot · Agentes do escritório</strong><p class="small">Funções inspiradas no OpenBot, adaptadas à Cloudflare gratuita. Não é o servidor completo do OpenBot. Nenhum agente pode enviar mensagens sozinho.</p><div id="openbotRoster"></div></div>
  <div class="agentBox"><strong>Fila de atendimento e conferência</strong><p class="small">Mensagens não autorizadas e situações judiciais sensíveis ficam aguardando revisão.</p><div id="agentQueue"><p>Ainda não há registros carregados.</p></div></div>
+ <div class="agentBox"><strong>OpenBot · Aprovação humana por mensagem</strong>
+ <p id="openbotSelected" class="small">Selecione uma mensagem da fila para conferir.</p>
+ <input id="openbotReviewer" placeholder="Nome do responsável que revisou" maxlength="100" autocomplete="off">
+ <textarea id="openbotNote" rows="2" placeholder="Motivo da aprovação ou rejeição (obrigatório)" maxlength="600"></textarea>
+ <button id="openbotAllow" disabled>Aprovar este rascunho para uso manual</button>
+ <button id="openbotDeny" disabled>Rejeitar este atendimento</button>
+ <p id="openbotFeedback" class="small"></p>
+ <p class="small">Aprovar não envia pelo WhatsApp. A decisão vale somente para esta mensagem e fica registrada no Supabase.</p></div>
  <div class="agentBox"><strong>Autorizar contato após verificação de identidade</strong><p id="agentSelected" class="small">Selecione uma mensagem da fila para vincular a um processo.</p>
  <input id="agentCaseSearch" placeholder="Pesquisar cliente no LexisPredict" autocomplete="off" aria-label="Nome do cliente">
  <button id="agentFind">Pesquisar processos</button><div id="agentResults"></div>
@@ -43,7 +52,7 @@ button.flat{background:transparent;border:0;color:#bda7b5;text-decoration:underl
 <div class="overlay" id="pairOverlay" hidden><div class="modal"><button id="close" class="x">×</button><h2>Vincular WhatsApp</h2><p>No WhatsApp do celular, abra <b>Aparelhos conectados → Conectar aparelho</b> e aponte a câmera para o QR abaixo.</p><div id="qr">Preparando QR...</div><p id="qrStatus" class="feedback">Conectando...</p><button class="primary" id="retry">Tentar novamente</button></div></div>
 <div id="toast" role="status"></div>
 <script type="module">
-const $=id=>document.getElementById(id),s={chats:[],selected:null,authenticated:false,loading:false,online:false,agentSelected:null,agentCase:null,quotaUntil:0};
+const $=id=>document.getElementById(id),s={chats:[],selected:null,authenticated:false,loading:false,online:false,agentSelected:null,agentCase:null,openbotItem:null,quotaUntil:0};
 const titles={stopped:'Desconectado — vincule seu WhatsApp',connecting:'Conectando... aguarde',waiting_for_qr:'Aguardando leitura do QR',connected:'Conectado',closed:'Reconectando...',logged_out:'Sessão encerrada — novo QR necessário',quota_exceeded:'Limite gratuito de gravações atingido'};
 function notify(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',4000)}
 async function request(path,method='GET',body){
@@ -112,9 +121,22 @@ async function loadAgent(){
    $('agentStatus').textContent=st.configured
     ? (st.mode==='review_only'?'Ligado ao LexisPredict · Rascunhos e revisão humana. Envio automático desativado.':'Modo automático autorizado · Somente contatos verificados e limites do Lexis.')
     : 'Conexão com o banco ainda não configurada. Defina LEXIS_SUPABASE_SERVICE_ROLE_KEY como Secret no Worker da conta pessoal.';
+   const roster=$('openbotRoster');roster.replaceChildren();
+   for(const agent of st.openbot?.agents||[]){
+     const r=agentEl('div','agentRow');
+     r.append(agentEl('strong',null,agent.title),
+       agentEl('small',null,agent.responsibility),
+       agentEl('span','agentTag','Revisão · sem permissão de envio automático'));
+     roster.append(r);
+   }
    $('agentQueue').replaceChildren();
    if(!st.configured)return;
-   const items=(await request('/agent/queue')).items||[];
+   const [queue,reviewsResponse]=await Promise.all([
+      request('/agent/queue'),
+      request('/agent/openbot/reviews')
+   ]);
+   const items=queue.items||[];
+   const reviewMap=new Map((reviewsResponse.reviews||[]).map(r=>[r.inbox_id,r]));
    if(!items.length){$('agentQueue').append(agentEl('p','small','Sem mensagens na fila do agente.'));return}
    for(const item of items){
      const card=agentEl('div','agentRow');
@@ -123,6 +145,19 @@ async function loadAgent(){
        agentEl('small',item.message_excerpt||'(sem texto)'),
        agentEl('small','Motivo: '+(item.reason||'aguardando análise')));
      if(item.draft)card.append(agentEl('small',null,'Rascunho: '+item.draft));
+     const decision=reviewMap.get(item.id);
+     if(decision){
+       card.append(agentEl('small','agentTag','Revisão: '+(decision.decision==='approved_for_manual_use'?'Aprovado para uso manual':'Rejeitado')+' · '+decision.reviewer));
+       if(decision.decision==='approved_for_manual_use'&&item.draft){
+         const copy=agentEl('button',null,'Copiar rascunho aprovado');
+         copy.onclick=async()=>{try{await navigator.clipboard.writeText(item.draft);notify('Rascunho copiado; nenhum envio foi realizado.')}catch{notify('Não foi possível copiar o rascunho')}};
+         card.append(copy);
+       }
+     }else if(['draft','human_review','needs_authorization'].includes(item.status)){
+       const btn=agentEl('button',null,'Revisar com OpenBot');
+       btn.onclick=()=>{s.openbotItem=item;$('openbotSelected').textContent='Selecionado: '+item.jid.split('@')[0]+' · '+item.status+' · processo '+(item.processo_id||'não vinculado');$('openbotAllow').disabled=item.status!=='draft';$('openbotDeny').disabled=false;$('openbotFeedback').textContent='';$('openbotReviewer').focus()};
+       card.append(btn);
+     }
      const counts=item.context_counts;
      if(counts && typeof counts==='object'){
        card.append(agentEl('small',null,'Contexto interno consultado: '+(counts.notes||0)+' observações; '+(counts.audit||0)+' atendimentos/edições; '+(counts.hermes||0)+' revisões Hermes; '+(counts.activities||0)+' atividades CRM; '+(counts.officialChecks||0)+' verificações de fontes. Esse material não é enviado automaticamente ao cliente.'));
@@ -139,6 +174,21 @@ async function loadAgent(){
 $('agentToggle').onclick=()=>{$('agentPanel').hidden=false;loadAgent()};
 $('agentClose').onclick=()=>$('agentPanel').hidden=true;
 $('agentRefresh').onclick=loadAgent;
+async function decideOpenBot(decision){
+ const item=s.openbotItem;if(!item)return;
+ const reviewer=$('openbotReviewer').value.trim(),note=$('openbotNote').value.trim();
+ if(!reviewer||!note){$('openbotFeedback').textContent='Informe seu nome e o motivo da decisão.';return}
+ const allow=$('openbotAllow'),deny=$('openbotDeny');allow.disabled=deny.disabled=true;
+ try{
+   const res=await request('/agent/openbot/review','POST',{inbox_id:item.id,decision,reviewer,note});
+   $('openbotFeedback').textContent=res.notice||'Revisão registrada';
+   s.openbotItem=null;$('openbotSelected').textContent='Selecione outra mensagem da fila.';
+   $('openbotNote').value='';await loadAgent();
+ }catch(err){$('openbotFeedback').textContent='Não foi possível registrar: '+err.message}
+ finally{allow.disabled=deny.disabled=true}
+}
+$('openbotAllow').onclick=()=>decideOpenBot('allow_once');
+$('openbotDeny').onclick=()=>decideOpenBot('deny');
 $('agentFind').onclick=async()=>{
   const q=$('agentCaseSearch').value.trim();$('agentResults').replaceChildren();
   if(q.length<3){$('agentFeedback').textContent='Digite ao menos três letras do nome.';return}
