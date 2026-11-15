@@ -175,7 +175,7 @@ export class WaSession extends DurableObject {
         const body=await req.json().catch(()=>null);
         if(!body||typeof body!=='object')return Response.json({error:'Revisão inválida'},{status:400});
         const result=await db.reviewOpenBotDraft({inboxId:body.inbox_id,decision:body.decision,reviewer:body.reviewer,note:body.note});
-        return Response.json(result,{status:result.ok?200:409});
+        return Response.json(result.ok?result:{...result,error:result.reason||'Revisão não autorizada'},{status:result.ok?200:409});
       }
       if(path==='/api/agent/search'&&req.method==='GET')return Response.json({cases:await db.searchCases(url.searchParams.get('q')||'')});
       if(path==='/api/agent/approve'&&req.method==='POST'){
