@@ -1,4 +1,5 @@
 import { compileCaseEvidence } from './case-evidence.js';
+import { assessDraftDecision } from './openbot-governance.js';
 const PROJECT_URL='https://segjskjlbeydlljnefai.supabase.co';
 export const MAIN_COMPANY='d37fd4bb-1c71-4dca-b97e-292355918d39';
 
@@ -117,6 +118,37 @@ export class LexisAgentDb {
         authorized_by:'Operador autenticado do ZapFast',
         authorized_at:new Date().toISOString(),authorization_evidence:evidence.trim().slice(0,300)}
     });
+  }
+  async listOpenBotReviews(){
+    return this.call('zapfast_openbot_reviews',{
+      select:'id,inbox_id,decision,reviewer,created_at',
+      empresa_id:'eq.'+this.empresaId,order:'created_at.desc',limit:'60'
+    });
+  }
+  async reviewOpenBotDraft({inboxId,decision,reviewer,note,now=new Date()}){
+    const id=String(inboxId||'');
+    if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))
+      return {ok:false,reason:'invalid_inbox_id'};
+    if(!['allow_once','deny'].includes(decision))return {ok:false,reason:'unsupported_approval_scope'};
+    const rows=await this.call('zapfast_agent_inbox',{
+      select:'id,empresa_id,jid,processo_id,status,source_type,source_at,reason,draft',
+      id:'eq.'+id,empresa_id:'eq.'+this.empresaId,limit:'1'
+    });
+    const item=rows?.[0];
+    if(!item||item.empresa_id!==this.empresaId)return {ok:false,reason:'not_found_in_tenant'};
+    const authorizations=decision==='allow_once'?await this.authorizations(item.jid):[];
+    const result=assessDraftDecision({item,authorizations,decision,reviewer,note,now});
+    if(!result.allowed)return {ok:false,reason:result.reason};
+    const record={empresa_id:this.empresaId,inbox_id:id,processo_id:item.processo_id||null,
+      jid:item.jid,decision:result.status,reviewer:reviewer.trim(),review_note:note.trim(),
+      action_scope:'single_message',triggers_whatsapp_send:false};
+    const saved=await this.call('zapfast_openbot_reviews',{
+      on_conflict:'empresa_id,inbox_id'
+    },{method:'POST',prefer:'resolution=ignore-duplicates,return=representation',body:record});
+    if(!saved?.length)return {ok:false,reason:'already_reviewed'};
+    return {ok:true,decision:result.status,notice:result.status==='rejected'?
+      'Revisão rejeitada. Nenhuma mensagem foi enviada.':
+      'Rascunho aprovado somente para uso manual. Nenhuma mensagem foi enviada.'};
   }
   async getSafety(){
     const rows=await this.call('wa_outbound_safety_limits',{select:'paused,min_gap_minutes,daily_limit,business_start_hour,business_end_hour,weekdays_only,cooldown_until',empresa_id:'eq.'+this.empresaId,limit:'1'});
