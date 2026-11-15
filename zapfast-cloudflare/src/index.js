@@ -12,6 +12,7 @@ import { shouldRecover, wakeAfter } from './reconnect-policy.js';
 import { LexisAgentDb, lexisAgentConfigured } from './lexis-agent-db.js';
 import { evaluateInboundLegalMessage } from './legal-agent.js';
 import { isDurableWriteQuotaError, quotaRetrySeconds, quotaResponse } from './quota-policy.js';
+import { OPENBOT_ROLES } from './openbot-governance.js';
 
 const authStore = storage => {
   const k=(ns,key) => 'auth:'+ns+':'+key;
@@ -51,7 +52,7 @@ export class WaSession extends DurableObject {
         await this.connect(true);
         return this.statusResponse();
       }
-      if(path==='/api/agent/status' && req.method==='GET')return Response.json({configured:lexisAgentConfigured(this.env),mode:this.env.ZAPFAST_AGENT_AUTOSEND==='true'?'inbound_approved_auto':'review_only',tenant:'LexisPredict',safe_limits:'10/dia, intervalo >=20min, dias úteis 9h-17h',rules:['Somente mensagens privadas recebidas','Contato autorizado e processo da empresa','Somente fontes oficiais recentes','Outras perguntas seguem para revisão','Sem campanhas ou mensagens em massa']});
+      if(path==='/api/agent/status' && req.method==='GET')return Response.json({configured:lexisAgentConfigured(this.env),mode:this.env.ZAPFAST_AGENT_AUTOSEND==='true'?'inbound_approved_auto':'review_only',tenant:'LexisPredict',openbot:{mode:'local_governance_adaptation',source:'CopilotKit/OpenBot',fullOpenBotRunning:false,agents:OPENBOT_ROLES,approvalScope:'one_inbound_message'},safe_limits:'10/dia, intervalo >=20min, dias úteis 9h-17h',rules:['Somente mensagens privadas recebidas','Contato autorizado e processo da empresa','Somente fontes oficiais recentes','Outras perguntas seguem para revisão','Sem campanhas ou mensagens em massa']});
       if(path.startsWith('/api/agent/'))return this.agentRequest(req,url);
       if(path==='/api/chats' && req.method==='GET')return Response.json({chats:[...this.ctx.storage.sql.exec('SELECT * FROM chats ORDER BY last_at DESC LIMIT 400')]});
       if(path==='/api/messages' && req.method==='GET'){
@@ -169,6 +170,13 @@ export class WaSession extends DurableObject {
     const db=new LexisAgentDb(this.env),path=url.pathname;
     try{
       if(path==='/api/agent/queue'&&req.method==='GET')return Response.json({items:await db.listQueue()});
+      if(path==='/api/agent/openbot/reviews'&&req.method==='GET')return Response.json({reviews:await db.listOpenBotReviews()});
+      if(path==='/api/agent/openbot/review'&&req.method==='POST'){
+        const body=await req.json().catch(()=>null);
+        if(!body||typeof body!=='object')return Response.json({error:'Revisão inválida'},{status:400});
+        const result=await db.reviewOpenBotDraft({inboxId:body.inbox_id,decision:body.decision,reviewer:body.reviewer,note:body.note});
+        return Response.json(result,{status:result.ok?200:409});
+      }
       if(path==='/api/agent/search'&&req.method==='GET')return Response.json({cases:await db.searchCases(url.searchParams.get('q')||'')});
       if(path==='/api/agent/approve'&&req.method==='POST'){
         const body=await req.json().catch(()=>null);
@@ -256,10 +264,10 @@ export default {
     if(!await authenticated(request,env.ADMIN_PASSWORD))return jsonError('Acesso não autorizado',401);
     if(request.method!=='GET'&&request.headers.get('origin')!==url.origin)return jsonError('Origem inválida',403);
     if(url.pathname==='/api/logout'&&request.method==='POST')return new Response(JSON.stringify({ok:true}),{headers:{'Content-Type':'application/json','Set-Cookie':'zf_session=; Secure; HttpOnly; SameSite=Strict; Path=/; Max-Age=0'}});
-    if(!['/api/status','/api/connect','/api/chats','/api/messages','/api/history','/api/send','/api/agent/status','/api/agent/queue','/api/agent/search','/api/agent/approve'].includes(url.pathname))return jsonError('Rota inválida',404);
+    if(!['/api/status','/api/connect','/api/chats','/api/messages','/api/history','/api/send','/api/agent/status','/api/agent/queue','/api/agent/search','/api/agent/approve','/api/agent/openbot/reviews','/api/agent/openbot/review'].includes(url.pathname))return jsonError('Rota inválida',404);
     if(url.pathname==='/api/agent/status'){
       return Response.json({configured:lexisAgentConfigured(env),mode:env.ZAPFAST_AGENT_AUTOSEND==='true'?'inbound_approved_auto':'review_only',
-        tenant:'LexisPredict',safe_limits:'10/dia, intervalo >=20min, dias úteis 9h-17h',
+        tenant:'LexisPredict',openbot:{mode:'local_governance_adaptation',source:'CopilotKit/OpenBot',fullOpenBotRunning:false,agents:OPENBOT_ROLES,approvalScope:'one_inbound_message'},safe_limits:'10/dia, intervalo >=20min, dias úteis 9h-17h',
         rules:['Somente mensagens privadas recebidas','Contato autorizado e processo da empresa','Sem campanhas ou mensagens em massa']});
     }
     if(Date.now()<storageQuotaBlockedUntil)return quotaResponse(url.pathname);
