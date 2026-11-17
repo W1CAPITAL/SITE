@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "zapfast-mcp",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "WA",
+        "class_name": "WaSession",
+        "script_name": "zapfast-cloudflare-web"
+      },
+      {
+        "name": "GUARD",
+        "class_name": "McpDeliveryGuard"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["McpDeliveryGuard"]
+    }
+  ],
+  "vars": {
+    "ZAPFAST_MCP_SEND_ENABLED": "false"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true,
+      "persist": true
+    }
+  }
+}
