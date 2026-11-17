@@ -7,6 +7,10 @@ export class McpDeliveryGuard extends DurableObject {
     this.store = new DeliveryStore(ctx.storage);
   }
 
+  async alarm() {
+    await this.store.cleanupExpired(Date.now());
+  }
+
   async fetch(request) {
     const url = new URL(request.url);
     try {
