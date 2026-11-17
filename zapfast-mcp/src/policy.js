@@ -81,7 +81,7 @@ export const TOOL_DEFINITIONS = Object.freeze([
   },
   {
     name: 'zapfast_send_approved',
-    description: 'ENVIA uma única vez o rascunho previamente preparado. Só chame depois de mostrar o texto integral ao operador e receber aprovação humana no OpenMausBot. Exige o texto idêntico e a frase ENVIAR_MENSAGEM_APROVADA. Não confirma entrega ou leitura. Não repita se o resultado for incerto.',
+    description: 'ENVIA uma única vez o rascunho previamente preparado. Só chame depois de mostrar o texto integral ao operador e receber aprovação humana no OpenMausBot (a frase de confirmação não substitui a aprovação da interface). Exige o texto idêntico e a frase ENVIAR_MENSAGEM_APROVADA. Não confirma entrega ou leitura. Não repita se o resultado for incerto. O MCP atual do INFINITUM é somente leitura; solicite registro manual do atendimento no CRM.',
     inputSchema: objectSchema({
       draft_id: { type: 'string', format: 'uuid', description: 'ID devolvido por zapfast_draft_reply.' },
       confirm_text: { type: 'string', minLength: 1, maxLength: 4096, description: 'Texto integral exatamente igual ao rascunho aprovado.' },
