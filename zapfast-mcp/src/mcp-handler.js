@@ -10,11 +10,11 @@ const DEFAULT_PROTOCOL_VERSION = '2025-03-26';
 const SUPPORTED_PROTOCOL_VERSIONS = new Set(['2025-03-26', '2025-06-18', '2025-11-25']);
 const INSTRUCTIONS = [
   'Este servidor controla somente a sessão WhatsApp já conectada ao ZapFast (sessão única atual). Não cria QR Code nem conecta outro número.',
-  'Use o MCP do INFINITUM separadamente para identificar o cliente, consultar o processo, ler atendimentos anteriores e registrar o atendimento após uma resposta enviada. Não afirme que o atendimento foi registrado sem confirmação do CRM.',
+  'Use o MCP do INFINITUM separadamente para identificar o cliente, consultar o processo e ler o histórico. A instalação atual do MCP do INFINITUM é somente leitura e não oferece registro de atendimento; não afirme que registrou. Até existir uma ação de atendimento aprovada, o operador deve registrar manualmente no CRM.',
   'Antes de responder, leia o histórico da conversa e consulte o cadastro/processo no INFINITUM. Não identifique clientes apenas pelo nome exibido no WhatsApp.',
   'Não responda em grupos. Não envie mensagens em massa. Não envie nada sem aprovação humana explícita no OpenMausBot.',
   'Para enviar: prepare o texto com zapfast_draft_reply, mostre o texto integral ao operador, aguarde a aprovação humana e só então chame zapfast_send_approved com o mesmo texto e a frase exigida.',
-  'Se o envio retornar resultado incerto, não tente novamente. Peça ao operador para conferir a conversa no WhatsApp.',
+  'Se o envio retornar resultado incerto, não tente novamente. Peça ao operador para conferir a conversa no WhatsApp. Depois de um envio aceito, solicite o registro manual do atendimento no CRM enquanto o MCP do INFINITUM não oferecer essa ação.',
   'A troca de número e a limpeza do histórico permanecem na interface do ZapFast; não tente desconectar a sessão por este servidor.',
 ].join(' ');
 
