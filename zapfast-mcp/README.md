@@ -19,7 +19,7 @@ O envio começa desativado (`ZAPFAST_MCP_SEND_ENABLED=false`). O envio incerto n
 - Nunca coloque o token no GitHub, no código, na URL, em logs ou no Supabase.
 - A sessão atual é única (`one-whatsapp`). Este Worker não implementa multiempresa/múltiplos números.
 - O histórico existente continua sob responsabilidade do Worker ZapFast/Supabase; o novo Worker armazena somente rascunhos temporários e recibos de envio para impedir duplicidade.
-- Depois do envio confirmado pelo transporte, o agente deve registrar o atendimento no MCP separado do INFINITUM. O retorno do WhatsApp não prova entrega ou leitura.
+- O MCP atual do INFINITUM é somente leitura: ele pesquisa clientes/processos e propõe edições, mas não grava atendimentos. Até existir uma ação de atendimento com aprovação, o operador deve registrar manualmente o atendimento no CRM. Não use `crm_propose_edit` como substituto de uma atividade de atendimento.\n- O retorno do WhatsApp não prova entrega ou leitura.
 
 ## Endpoint
 
