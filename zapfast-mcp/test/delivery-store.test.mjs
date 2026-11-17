@@ -8,6 +8,8 @@ class FakeStorage {
   async put(key,value){this.data.set(key,structuredClone(value));}
   async delete(key){return this.data.delete(key);}
   async list({prefix='' }={}){return new Map([...this.data].filter(([k])=>k.startsWith(prefix)));}
+  async setAlarm(when){this.alarmAt=when;}
+  async deleteAlarm(){this.alarmAt=null;}
   async transaction(callback){
     const snapshot=new Map([...this.data].map(([k,v])=>[k,structuredClone(v)]));
     const tx={
@@ -55,4 +57,38 @@ test('sent and uncertain outcomes permanently block a second send',async()=>{
     await assert.rejects(()=>store.reserve({id:base.id,confirmText:base.text,now:base.now+3}),/draft_not_pending_or_text_mismatch/);
     assert.equal((await store.getDelivery(base.id)).status,outcome);
   }
+});
+
+
+test('removes expired pending draft payloads while keeping no false delivery receipt',async()=>{
+  const storage=new FakeStorage(),store=new DeliveryStore(storage);
+  await store.createDraft(base);
+  await store.cleanupExpired(base.now+600_001);
+  assert.equal(await storage.get('draft:'+base.id),undefined);
+  assert.equal(await store.getDelivery(base.id),null);
+});
+
+test('turns an expired reserved draft into an uncertain receipt and removes its text',async()=>{
+  const storage=new FakeStorage(),store=new DeliveryStore(storage);
+  await store.createDraft(base);
+  await store.reserve({id:base.id,confirmText:base.text,now:base.now+1});
+  await store.cleanupExpired(base.now+600_001);
+  assert.equal(await storage.get('draft:'+base.id),undefined);
+  assert.equal((await store.getDelivery(base.id)).status,'uncertain');
+});
+
+test('keeps sent delivery receipts and schedules the earliest remaining draft expiry',async()=>{
+  const storage=new FakeStorage(),store=new DeliveryStore(storage);
+  const second={...base,id:'223e4567-e89b-12d3-a456-426614174000',now:base.now+1000};
+  await store.createDraft(base);
+  await store.createDraft(second);
+  assert.equal(storage.alarmAt,base.now+600_000);
+  await store.reserve({id:base.id,confirmText:base.text,now:base.now+1});
+  await store.finish({id:base.id,status:'sent',now:base.now+2});
+  assert.equal((await store.getDelivery(base.id)).status,'sent');
+  assert.equal(storage.alarmAt,second.now+600_000);
+  await store.cleanupExpired(second.now+600_001);
+  assert.equal((await store.getDelivery(base.id)).status,'sent');
+  assert.equal(await storage.get('draft:'+second.id),undefined);
+  assert.equal(storage.alarmAt,null);
 });
