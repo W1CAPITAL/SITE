@@ -2,6 +2,16 @@
 
 Site institucional e comercial premium da W1 Capital em HTML, CSS e JavaScript nativos. Sem frameworks, bibliotecas de animação, Ollama ou API paga de IA.
 
+<!-- W1_DISTRIBUICAO_INICIO -->
+## Distribuição e acesso
+
+Este repositório é distribuído como projeto web/serviço e não possui executável Windows publicado em GitHub Releases. A instalação de aplicativos desktop W1 acontece pela [Central de Aplicativos](https://github.com/W1CAPITAL/Central-de-Apps), que mantém os programas compatíveis em seu próprio catálogo.
+
+[Releases disponíveis](https://github.com/W1CAPITAL/Central-de-Apps/releases) · [Catálogo do ecossistema](https://github.com/W1CAPITAL/Central-de-Apps/blob/main/docs/ECOSSISTEMA-W1.md) · [Central de Aplicativos W1 — Windows x64, prévia v0.1.48](https://github.com/W1CAPITAL/Central-de-Apps/releases/download/preview-v0.1.48/W1-Central-de-Apps-Setup-0.1.48-x64.exe)
+
+**Nota de distribuição:** os arquivos indicados são pré-releases de teste. Consulte as assinaturas, os hashes e a publicação mais recente antes da instalação; versões de teste não entram automaticamente no canal de atualização assinada.
+<!-- W1_DISTRIBUICAO_FIM -->
+
 ## Nova oferta comercial: criação de sites para pequenos negócios (05/11/2026)
 
 A W1 Capital também oferece **sites institucionais, landing pages e catálogos digitais** para negócios de setores diversos, não apenas escritórios jurídicos. Página: [Criação de sites](/sites/). O briefing prepara mensagem para WhatsApp ou e-mail, após validação e consentimento do visitante; não há salvamento no Supabase nem envio automático pela W1. Valores, hospedagem, domínio, recursos adicionais e prazos dependem de proposta aprovada. Não há portfólio de clientes fictícios. Site da própria W1 é exemplo de trabalho publicado.
